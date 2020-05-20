@@ -1,0 +1,60 @@
+{{- if .Values.admin.create }}
+{{- if not (lookup "storage.loft.sh/v1" "User" "" .Values.admin.name) }}
+apiVersion: storage.loft.sh/v1
+kind: User
+metadata:
+  name: {{ .Values.admin.name }}
+  annotations:
+    helm.sh/resource-policy: keep
+    helm.sh/hook: pre-install
+spec:
+  username: {{ .Values.admin.username }}
+  groups: ["system:masters"]
+  subject: loft-admin
+  {{- if ne .Values.admin.password "" }}
+  passwordRef:
+    secretName: loft-user-secret-admin
+    secretNamespace: {{ .Release.Namespace }}
+    key: password
+  {{- else }}
+  accessKeysRef:
+    secretName: {{ .Values.admin.accessKeySecret }}
+    secretNamespace: {{ .Release.Namespace }}
+    key: accesskeys
+  {{- end }}
+---
+{{- end }}
+{{- if or .Values.admin.resetPassword (not (lookup "storage.loft.sh/v1" "User" "" .Values.admin.name)) }}
+{{- if .Values.admin.password }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: loft-user-secret-admin
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/resource-policy: keep
+    {{- if .Values.admin.resetPassword }}
+    helm.sh/hook: pre-install,pre-upgrade
+    {{- else }}
+    helm.sh/hook: pre-install
+    {{- end }}
+data:
+  password: {{ .Values.admin.password | sha256sum | b64enc }}
+{{- else }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.admin.accessKeySecret }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/resource-policy: keep
+    {{- if .Values.admin.resetPassword }}
+    helm.sh/hook: pre-install,pre-upgrade
+    {{- else }}
+    helm.sh/hook: pre-install
+    {{- end }}
+data:
+  accesskeys: {{ printf "[{\"name\":\"reset-password\",\"key\":\"%s\"}]" (include "loft.admin.accessKey" .) | b64enc }}
+{{- end }}
+{{- end }}
+{{- end }}

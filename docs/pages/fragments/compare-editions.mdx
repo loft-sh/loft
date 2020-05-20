@@ -1,0 +1,22 @@
+You can either install and run DevSpace Cloud yourself (on-premise) **or** you can sign up for the SaaS (Software-as-a-Service) edition of DevSpace Cloud. In both cases, you will need to create a Kubernetes cluster for your team and connect it to DevSpace Cloud.
+
+||SaaS Edition|On-Premise Edition|
+| --: | :--: | :--: |
+|**DevSpace Cloud**|runs on <u>**our**</u> servers|runs on **your** servers|
+|**Connected Clusters**|runs on **your** servers|runs on **your** servers|
+|**Comparison to CI/CD**|DevSpace Cloud SaaS is like using a hosted CI/CD system (e.g. GitHub Action) to deploy to your own Kubernetes clusters|DevSpace Cloud On-Premise is like hosting your own CI/CD system (e.g. Jenkins) to deploy to your own Kubernetes clusters|
+
+- **DevSpace Cloud** = Software that manages your connected clusters (consists of: Admin UI, API Server, Database)
+- **Connected Clusters** = Kubernetes clusters that you connect to DevSpace Cloud (will be used to create namespaces)
+
+:::note Example
+This is what happens when you run `devspace create space my-namespace`:
+
+1. The CLI will send a request to the API server of **DevSpace Cloud**.
+2. DevSpace Cloud will then create a namespace called `my-namespace` inside one of your **Connected Clusters**.
+3. DevSpace Cloud will return a service account token as a response to the API request.
+4. The CLI will configure a new kube-context using this service account token.
+5. You can use this kube-context to access the new namespace and deploy an application.
+
+If you connect multiple clusters, the CLI will always ask you which one to use for creating the namespace.
+:::

@@ -1,0 +1,39 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    { label: 'CLI', value: 'cli', },
+    { label: 'UI', value: 'ui', },
+  ]
+}>
+<TabItem value="cli">
+
+To create an isolated namespace inside any of your connect clusters, run:
+```bash
+devspace create space [space-name]
+```
+
+<figure class="frame">
+  <video controls loop autoplay="true">
+    <source src="/cloud/img/devspace-create-space.mp4" type="video/mp4" />
+  </video>
+  <figcaption>DevSpace Cloud - Create Space via CLI</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="ui">
+
+<figure class="frame">
+  <img src="/cloud/img/ui-create-space.gif" alt="Create Space" />
+  <figcaption>DevSpace Cloud UI - Create Space</figcaption>
+</figure>
+
+To use a Space that you created via the UI, you need to connect it to your local machine:
+```bash
+devspace use space [optional:space-name]
+```
+
+</TabItem>
+</Tabs>

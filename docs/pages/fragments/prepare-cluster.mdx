@@ -1,0 +1,57 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Highlight from '@site/src/components/Highlight/Highlight';
+
+<Tabs
+  defaultValue="gke"
+  values={[
+    { label: 'GKE (Google Cloud)', value: 'gke', },
+    { label: 'Localhost (minikube)', value: 'localhost', },
+    { label: 'Others (EKS, AKS,...)', value: 'other', },
+  ]
+}>
+<TabItem value="gke">
+
+The kube-context of a GKE cluster will by default **not** have cluster-admin role. Run the following command to get your google email address and to make your user cluster admin:
+```bash
+# GKE: make yourself admin
+GKE_USER=$(gcloud config get-value account)
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $GKE_USER
+```
+
+:::note Verify Admin Access
+To connect a cluster, you need admin access to the cluster. If running all the following commands return `yes`, you are most likely admin:
+```bash
+kubectl auth can-i "*" "*" --all-namespaces
+kubectl auth can-i "*" namespace
+kubectl auth can-i "*" clusterrole
+kubectl auth can-i "*" crd
+kubectl auth can-i get node
+```
+:::
+
+</TabItem>
+<TabItem value="localhost">
+
+Most localhost clusters (e.g. Docker Kubernetes, Minikube) use private IP addresses.
+
+</TabItem>
+<TabItem value="other">
+
+:::note Verify Admin Access
+To connect a cluster, you need admin access to the cluster. If running all the following commands return `yes`, you are most likely admin:
+```bash
+kubectl auth can-i "*" "*" --all-namespaces
+kubectl auth can-i "*" namespace
+kubectl auth can-i "*" clusterrole
+kubectl auth can-i "*" crd
+kubectl auth can-i get node
+```
+:::
+
+</TabItem>
+</Tabs>
+
+:::note Public API Server
+<Highlight backgroundColor="#3333dd">SaaS edition</Highlight> If you are using the SaaS edition of DevSpace Cloud, the API server of the cluster you want to connect must be available on a public IP address (or domain).
+:::

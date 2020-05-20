@@ -1,0 +1,87 @@
+import Step from '@site/src/components/Step/Step';
+
+:::tip Separate Cluster for DevSpace Cloud
+Although it is possible to install DevSpace Cloud to a Kubernetes cluster and then connect the same cluster to DevSpace Cloud, it is recommended to use a separate Kubernetes cluster just for DevSpace Cloud.
+:::
+
+<br />
+
+**Requirements**  
+To install DevSpace Cloud On-Premise, you need:
+- kubectl
+- Helm v3
+- a Kubernetes cluster
+- a kube-context with admin access to this cluster
+
+<br />
+<Step>1</Step>
+
+Create namespace `devspace-cloud`
+
+```bash
+kubectl create namespace devspace-cloud
+```
+
+<br />
+<Step>2</Step>
+
+Install DevSpace Cloud via Helm v3 into namespace `devspace-cloud`
+
+```bash
+helm install devspace-cloud devspace-cloud --repo https://charts.devspace.sh/ \
+  --namespace devspace-cloud \
+  --set database.password=[DEFINE_PASSWORD_HERE] \
+  --set ingress.enabled=true \
+  --set ingress.tls.enabled=true \
+  --set ingress.domains={devspace.my-domain.tld} \  # do NOT remove { and }
+  --wait
+```
+
+:::warning Database Password
+Please replace `[DEFINE_PASSWORD_HERE]` with a secure password for your database. Make sure to remember or store this password securely.
+:::
+
+:::info Installation
+Installing DevSpace Cloud requires Helm v3 and may take up to 10 minutes.
+:::
+
+<br />
+<Step>3</Step>
+
+Configure DNS for Domain
+
+Create a [DNS A record](https://support.dnsimple.com/articles/a-record/) pointing to the IP of the load balancer that is created when installing DevSpace Cloud. You can retrieve the `EXTERNAL-IP` address of this load balancer using this command:
+
+```bash
+kubectl -n devspace-cloud get service devspace-cloud-nginx-ingress-controller
+```
+
+:::note
+If the `EXTERNAL-IP` of this service remains `pending` for a long time, make sure your Kubernetes cluster supports services of type `LoadBalancer` or manually reconfigure this service.
+:::
+
+<br />
+<Step>4</Step>
+
+Add DevSpace Cloud instance as provider
+
+```bash
+devspace use provider [devspace.my-domain.tld]
+```
+
+:::info SSL Certificate
+If you configured `ingress.tls.enabled=true`, you may first have to wait until the SSL certificate is provisioned by cert-manager and letsencrypt. You can check the status using this command:
+```bash
+kubectl -n devspace-cloud get certificate
+```
+:::
+
+<br />
+<Step>5</Step>
+
+Create admin account and login
+
+```bash
+devspace login
+```
+

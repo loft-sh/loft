@@ -1,0 +1,62 @@
+# Default values for loft.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image: loftsh/loft
+
+admin:
+  create: true
+  username: admin
+  name: admin
+  password: "" # leave empty to generate password reset link
+  resetPassword: false
+  accessKeySecret: loft-user-accesskey-admin
+
+ingress:
+  enabled: true
+  name: loft-ingress
+  host: loft.mydomain.tld
+  path: /
+  tls:
+    enabled: true
+    secret: tls-loft
+    clusterIssuer: some-cluster-issuer
+
+service:
+  type: ClusterIP
+  manager:
+    port: 80
+    targetPort: 8080
+
+replicaCount: 1
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 50m
+
+certManager:
+  certificate:
+    create: true
+    caSecret: ca-cert
+    serverSecret: server-cert
+    clientSecret: client-cert
+  issuer:
+    create: true
+
+apiService:
+  enabled: true
+
+serviceAccount:
+  name: loft
+  create: true
+  clusterRole: cluster-admin
+
+nameOverride: ""
+fullnameOverride: ""
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

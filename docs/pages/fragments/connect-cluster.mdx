@@ -1,0 +1,23 @@
+import Highlight from '@site/src/components/Highlight/Highlight';
+
+Connect a new Kubernetes cluster to DevSpace Cloud using:
+```bash
+devspace connect cluster
+```
+
+DevSpace will ask you to choose the kube-context of the cluster you want to connect as shown in this screencast:
+
+<figure class="frame">
+  <video controls loop autoplay="true">
+    <source src="/cloud/img/devspace-connect-cluster.mp4" type="video/mp4" />
+  </video>
+  <figcaption>DevSpace Cloud - Connect Cluster via CLI</figcaption>
+</figure>
+
+:::note Encryption Key
+<Highlight backgroundColor="#3333dd">SaaS edition</Highlight> When connecting your first cluster to the SaaS edition of DevSpace Cloud, you need to define an encryption key. You should remember this key and treat it like a password for your cluster.
+:::
+
+:::note Ingress Controller Network
+  Choose LoadBalancer for all public clouds and whenever your Kubernetes cluster allows to create services that are defined with `spec.type: LoadBalancer`.
+:::

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "loft.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "loft.fullname" . }}
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "loft.fullname" . }}
+        release: {{ .Release.Name }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: {{ template "loft.serviceAccountName" . }}
+      containers:
+      - image: "{{ .Values.image }}"
+        name: manager
+        # - name: PROXY_HOST
+        #  value: 0.0.0.0
+        # - name: PROXY_PORT
+        #  value: 8443
+        # - name: PROXY_TLS_CERT
+        #  value: /tmp/proxy-cert/tls.crt
+        # - name: PROXY_TLS_KEY
+        #  value: /tmp/proxy-cert/tls.key
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
