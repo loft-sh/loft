@@ -2,7 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-image: loftsh/loft
+# Default value is: loftsh/loft:{{ .Chart.Version }}
+# image: loftsh/loft
 
 admin:
   create: true
@@ -22,6 +23,18 @@ ingress:
     secret: tls-loft
     clusterIssuer: some-cluster-issuer
 
+certs:
+  issuer:
+    create: true
+    name: loft-letsencrypt-issuer
+    secret: loft-letsencrypt-credentials
+    server: https://acme-v02.api.letsencrypt.org/directory
+    httpResolver:
+      enabled: true
+      ingressClass: nginx
+    resolvers: []
+    
+
 service:
   type: ClusterIP
   manager:
@@ -34,15 +47,6 @@ resources:
   requests:
     memory: 128Mi
     cpu: 50m
-
-certManager:
-  certificate:
-    create: true
-    caSecret: ca-cert
-    serverSecret: server-cert
-    clientSecret: client-cert
-  issuer:
-    create: true
 
 apiService:
   enabled: true

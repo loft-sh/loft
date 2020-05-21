@@ -2,3 +2,62 @@
 title: Clusters & Cluster Apps
 sidebar_label: 2. Clusters & Apps
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Step from '@site/src/components/Step/Step';
+
+Now that your loft instance is running, you are ready to connect your first cluster and prepare it for the use by your engineers.
+
+## Connect Cluster
+In the loft UI, navigate to "Clusters" and click the "Connect Cluster" button. Connecting a cluster is the first step to making a cluster available to your engineers.
+
+<br />
+<Step>1</Step>
+
+### Cluster Name
+
+Enter a name for your cluster. This name must be a Kubernetes-compatible object name, i.e. only lowercase characters and dashes are allowed.
+
+Cluster names should tell engineers what this cluster is used for and where it runs, e.g. `gke-prod`, `eks-dev-us-west-1`
+
+
+<br />
+<Step>2</Step>
+
+### Cluster Connection
+
+The management cluster (the one that your loft instance is running in) is, by default, not available as connected cluster. However, if you are using the on-premise edition, you will see a button `Connect loft cluster` which will make the management cluster available as connected cluster.
+
+<Tabs
+  groupId="edition"
+  defaultValue="on-premise"
+  values={[
+    { label: 'Connect loft cluster (On-Premise only)', value: 'on-premise', },
+    { label: 'Connect a different cluster', value: 'saas', },
+  ]
+}>
+<TabItem value="on-premise">
+
+:::info On-Premise only
+Because we do **not** offer Kubernetes hosting (except for hosting your loft instance), you will **not** be able to connect the loft cluster when using the SaaS edition.
+:::
+
+</TabItem>
+<TabItem value="saas">
+
+### Cluster Connection
+
+</TabItem>
+</Tabs>
+
+<br />
+<Step>3</Step>
+
+### System Apps
+
+
+<br />
+<Step>4</Step>
+
+### Ready

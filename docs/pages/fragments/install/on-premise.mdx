@@ -1,6 +1,6 @@
-import Step from '@site/src/components/Step/Step';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Step from '@site/src/components/Step/Step';
 import InstallCreateNamespaceFragment from './create-namespace.mdx';
 import InstallHelmHintFragment from './helm-hint.mdx';
 import CreateAdminUserFragment from './create-admin-user.mdx';
@@ -78,7 +78,7 @@ If the `EXTERNAL-IP` of this service remains `pending` for a long time, make sur
 
 To use the loft UI and API via a domain or subdomain, you need to install cert-manager v0.12+ to your cluster. If you don't have cert-manager deployed yet, you can do this using the following command:
 ```bash
-helm install cert-manager jetstack/cert-manager --repo https://charts.jetstack.io \
+helm install cert-manager cert-manager --repo https://charts.jetstack.io \
   --set installCRDs=true \
   --namespace loft \        # Use a different namespace if you like to
   --wait
@@ -181,5 +181,3 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 
 </TabItem>
 </Tabs>
-
-[TODO: Troubleshooting]

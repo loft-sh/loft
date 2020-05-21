@@ -23,8 +23,10 @@ spec:
       terminationGracePeriodSeconds: 10
       serviceAccountName: {{ template "loft.serviceAccountName" . }}
       containers:
-      - image: "{{ .Values.image }}"
-        name: manager
+      - name: manager
+        {{- if .Values.image }}
+        image: "loftsh/loft:{{ .Chart.Version }}"
+        {{- end }}
         # - name: PROXY_HOST
         #  value: 0.0.0.0
         # - name: PROXY_PORT

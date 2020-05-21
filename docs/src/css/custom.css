@@ -13,14 +13,23 @@
 }
 
 h2, h3 {
-  margin-top: 2.4em !important;
+  margin-top: 2.4em;
+  line-height: 24px;
+}
+
+.step_src-components-Step- + h2,
+.step_src-components-Step- + h3,
+.step_src-components-Step- + h4,
+.step_src-components-Step- + h5 {
+  margin-top: 0;
+  display: inline-block;
 }
 
 :root {
-  --ifm-color-info: #077EEC !important;
-  --ifm-color-success: #3AAF00 !important;
-  --ifm-color-warning: #ED7200 !important;
-  --ifm-color-error: #C21B1B !important;
+  --ifm-color-info: #077EEC;
+  --ifm-color-success: #3AAF00;
+  --ifm-color-warning: #ED7200;
+  --ifm-color-error: #C21B1B;
 }
 
 .tabs__item {
