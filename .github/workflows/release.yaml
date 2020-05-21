@@ -23,7 +23,9 @@ jobs:
           RELEASE_VERSION=$(echo $GITHUB_REF | sed -nE 's!refs/tags/!!p')
           echo "::set-output name=release_version::$RELEASE_VERSION"
       - name: Compile binaries
-        run: ./hack/build-cli.sh loft "$RELEASE_VERSION" cmd/loftctl/main.go
+        run: |
+          chmod +x ./hack/build-cli.sh
+          ./hack/build-cli.sh loft "$RELEASE_VERSION" "cmd/loftctl/main.go"
         env:
           RELEASE_VERSION: ${{ steps.get_version.outputs.release_version }}
       - name: Publish
