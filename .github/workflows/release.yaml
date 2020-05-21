@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  publish-cli-and-image:
+  publish-cli:
     if: startsWith(github.ref, 'refs/tags/v') == true
     runs-on: macOS-latest
     steps:
@@ -33,6 +33,19 @@ jobs:
         with:
           pattern: "release/*"
           github-token: ${{ secrets.GITHUB_TOKEN }}
+  publish-image:
+    if: startsWith(github.ref, 'refs/tags/v') == true
+    needs: [publish-cli]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ secrets.LOFT_REPO }}
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+      - id: get_version
+        run: |
+          RELEASE_VERSION=$(echo $GITHUB_REF | sed -nE 's!refs/tags/!!p')
+          echo "::set-output name=release_version::$RELEASE_VERSION"
       - uses: jerray/publish-docker-action@v1.0.3
         with:
           auto_tag: true
@@ -49,7 +62,7 @@ jobs:
           build_args: RELEASE_VERSION=${{ steps.get_version.outputs.release_version }}
   publish-chart:
     if: startsWith(github.ref, 'refs/tags/v') == true
-    needs: [publish-cli-and-image]
+    needs: [publish-image]
     runs-on: ubuntu-18.04
     steps:
       - name: Check out code
