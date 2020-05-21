@@ -96,6 +96,7 @@ Cert Manager will automatically provision SSL certificates for your ingress host
 helm install loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
   --set admin.username=admin \              # Username for your (admin) user
+  --set certs.issuer.email=EMAIL \          # Your email address
   --set ingress.enabled=true \
   --set ingress.tls.enabled=true \
   --set ingress.host=loft.my-domain.tld \   # CHANGE TO YOUR DOMAIN

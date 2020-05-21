@@ -41,6 +41,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: ${{ secrets.LOFT_REPO }}
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
       - id: get_version
         run: |
           RELEASE_VERSION=$(echo $GITHUB_REF | sed -nE 's!refs/tags/!!p')
