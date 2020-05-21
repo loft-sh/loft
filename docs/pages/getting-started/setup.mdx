@@ -1,7 +1,55 @@
 ---
-title: Setup
+title: "Setup: loft Management Cluster"
 sidebar_label: 1. Setup
 ---
 
-- choose SaaS vs on-premise
-- install via helm
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CompareEditionsFragment from '../fragments/compare-editions.mdx'
+import InstallOnPremiseFragment from '@site/pages/fragments/install/on-premise.mdx'
+
+## Choose: Hybrid SaaS vs On-Premise
+
+<CompareEditionsFragment/>
+
+<br/>
+
+<Tabs
+  groupId="edition"
+  defaultValue="on-premise"
+  values={[
+    { label: 'On-Premise Edition', value: 'on-premise', },
+    { label: 'Hybrid SaaS Edition', value: 'saas', },
+  ]
+}>
+<TabItem value="on-premise">
+
+:::note Why On-Premise?
+The on-premise edition of DevSpace Cloud is a good choice for:
+- larger companies with many users and different teams
+- teams that run Kubernetes within a (virtual) private cloud (without public IP)
+- teams that work behind a corporate firewall
+:::
+
+<InstallOnPremiseFragment/>
+
+</TabItem>
+<TabItem value="saas">
+
+:::note Why SaaS?
+The Hybrid SaaS Edition of loft is a good choice for:
+- teams that run Kubernetes clusters within a public cloud
+- teams that want to save the admin cost for maintaining and upgrading loft
+- teams with less experience regarding Kubernetes administration
+:::
+
+:::caution No Kubernetes Hosting
+loft does <u>**not**</u> offer Kubernetes hosting. Even with the SaaS edition, you need to connect your own clusters. See the table above for details between the Hybrid SaaS Edition and On-Premise Edition.
+:::
+
+COMING SOON
+
+TODO: beta sign up
+
+</TabItem>
+</Tabs>

@@ -11,3 +11,19 @@
   padding-top: 1.5em;
   border-top: 1px solid #e9e9e9;
 }
+
+h2, h3 {
+  margin-top: 2.4em !important;
+}
+
+:root {
+  --ifm-color-info: #077EEC !important;
+  --ifm-color-success: #3AAF00 !important;
+  --ifm-color-warning: #ED7200 !important;
+  --ifm-color-error: #C21B1B !important;
+}
+
+.tabs__item {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

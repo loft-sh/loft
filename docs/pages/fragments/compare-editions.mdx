@@ -1,22 +1,22 @@
-You can either install and run DevSpace Cloud yourself (on-premise) **or** you can sign up for the SaaS (Software-as-a-Service) edition of DevSpace Cloud. In both cases, you will need to create a Kubernetes cluster for your team and connect it to DevSpace Cloud.
+You can either install and run loft yourself (on-premise) **or** you can sign up for the hybrid SaaS (Software-as-a-Service) edition of loft. In both cases, you will need to create one or even multiple Kubernetes clusters for your team and connect it to loft.
 
-||SaaS Edition|On-Premise Edition|
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Hybrid SaaS Edition|On-Premise Edition|
 | --: | :--: | :--: |
-|**DevSpace Cloud**|runs on <u>**our**</u> servers|runs on **your** servers|
-|**Connected Clusters**|runs on **your** servers|runs on **your** servers|
-|**Comparison to CI/CD**|DevSpace Cloud SaaS is like using a hosted CI/CD system (e.g. GitHub Action) to deploy to your own Kubernetes clusters|DevSpace Cloud On-Premise is like hosting your own CI/CD system (e.g. Jenkins) to deploy to your own Kubernetes clusters|
+|**loft Cluster[^1]**|is <u>**hosted by us**</u> in GKE|is <u>**hosted by you**</u> in your cloud|
+|**Connected Clusters[^2]**|Kubernetes clusters in **your** cloud|Kubernetes clusters in **your** cloud|
+|**Comparison to CI/CD Systems**|loft Hybrid SaaS is like using a hosted CI/CD system (e.g. GitHub Actions) to deploy to your own Kubernetes clusters|loft On-Premise is like hosting your own CI/CD system (e.g. Jenkins) to deploy to your own Kubernetes clusters|
 
-- **DevSpace Cloud** = Software that manages your connected clusters (consists of: Admin UI, API Server, Database)
-- **Connected Clusters** = Kubernetes clusters that you connect to DevSpace Cloud (will be used to create namespaces)
+[^1] **loft Cluster** = Management cluster that manages your connected clusters (consists of: UI, Controllers, API)  
+[^2] **Connected Clusters** = Kubernetes clusters that you connect to loft (will be used to create namespaces)
 
 :::note Example
-This is what happens when you run `devspace create space my-namespace`:
+This is roughly what happens when you run `loft create space space-123 --cluster=gke-cluster-1`:
 
-1. The CLI will send a request to the API server of **DevSpace Cloud**.
-2. DevSpace Cloud will then create a namespace called `my-namespace` inside one of your **Connected Clusters**.
-3. DevSpace Cloud will return a service account token as a response to the API request.
+1. The CLI will create a `Space` resource with name `space-123` similar to a `kubectl create` command.
+2. The loft management cluster will receive this request and create a namespace called `space-123` inside the **connected cluster** `gke-cluster-1`.
+3. The loft management cluster will return a service account token with access permissions for this namespace.
 4. The CLI will configure a new kube-context using this service account token.
-5. You can use this kube-context to access the new namespace and deploy an application.
+5. You can now use this kube-context to access the new namespace and deploy an application.
 
-If you connect multiple clusters, the CLI will always ask you which one to use for creating the namespace.
+If you connect multiple clusters, the CLI will always ask you which one to use for creating a new space.
 :::

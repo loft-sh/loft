@@ -5,7 +5,7 @@ module.exports = {
   tagline: 'The tagline of my site',
   url: 'https://loft.sh',
   baseUrl: __webpack_public_path__,
-  favicon: '/img/favicon.png',
+  favicon: '/img/loft-favicon.png',
   organizationName: 'devspace-cloud', // Usually your GitHub org/user name.
   projectName: 'loft', // Usually your repo name.
   themeConfig: {
@@ -13,7 +13,7 @@ module.exports = {
     navbar: {
       logo: {
         alt: 'loft',
-        src: '/img/TODO.svg',
+        src: '/img/loft-logo.svg',
         href: 'https://loft.sh/',
         target: '_self',
       },

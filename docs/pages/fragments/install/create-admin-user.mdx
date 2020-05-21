@@ -1,0 +1,16 @@
+After deploying loft, the `helm install` command will print a terminal output similar to this one:
+
+```bash
+########## Set Admin Password ##########
+https:///invite?token=[RESET_PASSWORD_TOKEN]
+########################################
+```
+
+Copy the link from the terminal output and open it in the browser to configure your admin account.
+
+:::note
+If you lost the output of the `helm install` command, run the following command to view it again:
+```bash
+helm status -n loft loft
+```
+:::
