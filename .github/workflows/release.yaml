@@ -56,7 +56,7 @@ jobs:
         with:
           name: latest-commit
       - run: |
-          COMMIT_HASH=$(cat /tmp/commit-hash.txt)
+          COMMIT_HASH=$(cat latest-commit/commit-hash.txt)
           git reset --hard $COMMIT_HASH
       - uses: jerray/publish-docker-action@v1.0.3
         with:
