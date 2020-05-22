@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    branches:
+      - master
   release:
     types: [created]
 
@@ -34,7 +37,7 @@ jobs:
           pattern: "release/*"
           github-token: ${{ secrets.GITHUB_TOKEN }}
   publish-image:
-    if: startsWith(github.ref, 'refs/tags/v') == true
+#    if: startsWith(github.ref, 'refs/tags/v') == true
     needs: [publish-cli]
     runs-on: ubuntu-18.04
     steps:
@@ -42,26 +45,20 @@ jobs:
         with:
           repository: ${{ secrets.LOFT_REPO }}
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - id: get_version
-        run: |
-          RELEASE_VERSION=$(echo $GITHUB_REF | sed -nE 's!refs/tags/!!p')
-          echo "::set-output name=release_version::$RELEASE_VERSION"
       - uses: jerray/publish-docker-action@v1.0.3
         with:
           auto_tag: true
-          registry: loftsh/loft
+          repository: loftsh/loft
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          build_args: RELEASE_VERSION=${{ steps.get_version.outputs.release_version }}
       - uses: jerray/publish-docker-action@v1.0.3
         with:
           tags: latest
-          registry: loftsh/loft
+          repository: loftsh/loft
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          build_args: RELEASE_VERSION=${{ steps.get_version.outputs.release_version }}
   publish-chart:
-    if: startsWith(github.ref, 'refs/tags/v') == true
+#    if: startsWith(github.ref, 'refs/tags/v') == true
     needs: [publish-image]
     runs-on: ubuntu-18.04
     steps:
