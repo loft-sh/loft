@@ -27,7 +27,7 @@ certs:
   issuer:
     create: true
     name: loft-letsencrypt-issuer
-    secret: loft-letsencrypt-credentials
+    secretName: loft-letsencrypt-credentials
     server: https://acme-v02.api.letsencrypt.org/directory
     httpResolver:
       enabled: true

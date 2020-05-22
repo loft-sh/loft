@@ -25,6 +25,8 @@ spec:
       containers:
       - name: manager
         {{- if .Values.image }}
+        image: {{ .Values.image }}"
+        {{- else }}
         image: "loftsh/loft:{{ .Chart.Version }}"
         {{- end }}
         # - name: PROXY_HOST

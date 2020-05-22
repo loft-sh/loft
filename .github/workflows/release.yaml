@@ -1,15 +1,12 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - master
   release:
     types: [created]
 
 jobs:
   publish-cli:
-#    if: startsWith(github.ref, 'refs/tags/v') == true
+    if: startsWith(github.ref, 'refs/tags/v') == true
     runs-on: macOS-latest
     steps:
       - name: Set up Go 1.13
@@ -21,9 +18,9 @@ jobs:
         with:
           repository: ${{ secrets.LOFT_REPO }}
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - name: Save git commit hash
+      - name: Determine git commit hash
         run: git rev-parse HEAD >/tmp/commit-hash.txt
-      - name: Upload math result for job 1
+      - name: Save git commit hash
         uses: actions/upload-artifact@v1
         with:
           name: latest-commit
@@ -32,19 +29,19 @@ jobs:
         run: |
           RELEASE_VERSION=$(echo $GITHUB_REF | sed -nE 's!refs/tags/!!p')
           echo "::set-output name=release_version::$RELEASE_VERSION"
-#      - name: Compile binaries
-#        run: |
-#          chmod +x ./hack/build-cli.sh
-#          ./hack/build-cli.sh loft "$RELEASE_VERSION" "cmd/loftctl/main.go"
-#        env:
-#          RELEASE_VERSION: ${{ steps.get_version.outputs.release_version }}
+      - name: Compile binaries
+        run: |
+          chmod +x ./hack/build-cli.sh
+          ./hack/build-cli.sh loft "$RELEASE_VERSION" "cmd/loftctl/main.go"
+        env:
+          RELEASE_VERSION: ${{ steps.get_version.outputs.release_version }}
       - name: Publish
         uses: FabianKramm/release-asset-action@v1
         with:
           pattern: "release/*"
           github-token: ${{ secrets.GITHUB_TOKEN }}
   publish-image:
-#    if: startsWith(github.ref, 'refs/tags/v') == true
+    if: startsWith(github.ref, 'refs/tags/v') == true
     needs: [publish-cli]
     runs-on: ubuntu-18.04
     steps:
@@ -71,7 +68,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
   publish-chart:
-#    if: startsWith(github.ref, 'refs/tags/v') == true
+    if: startsWith(github.ref, 'refs/tags/v') == true
     needs: [publish-image]
     runs-on: ubuntu-18.04
     steps:
