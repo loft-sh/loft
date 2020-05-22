@@ -25,7 +25,7 @@ spec:
       containers:
       - name: manager
         {{- if .Values.image }}
-        image: {{ .Values.image }}"
+        image: "{{ .Values.image }}"
         {{- else }}
         image: "loftsh/loft:{{ .Chart.Version }}"
         {{- end }}
