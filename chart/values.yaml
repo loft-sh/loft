@@ -21,19 +21,7 @@ ingress:
   tls:
     enabled: true
     secret: tls-loft
-    clusterIssuer: some-cluster-issuer
-
-certs:
-  issuer:
-    create: true
-    name: loft-letsencrypt-issuer
-    secretName: loft-letsencrypt-credentials
-    server: https://acme-v02.api.letsencrypt.org/directory
-    httpResolver:
-      enabled: true
-      ingressClass: nginx
-    resolvers: []
-    
+    clusterIssuer: loft-letsencrypt-issuer
 
 service:
   type: ClusterIP
@@ -59,8 +47,17 @@ serviceAccount:
 nameOverride: ""
 fullnameOverride: ""
 
-nodeSelector: {}
+nginx-ingress:
+  enabled: true
 
-tolerations: []
-
-affinity: {}
+cert-manager:
+  enabled: true
+  issuer:
+    create: true
+    name: loft-letsencrypt-issuer
+    secretName: loft-letsencrypt-credentials
+    server: https://acme-v02.api.letsencrypt.org/directory
+    httpResolver:
+      enabled: true
+      ingressClass: nginx
+    resolvers: []
