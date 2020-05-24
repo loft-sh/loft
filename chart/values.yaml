@@ -21,7 +21,7 @@ ingress:
   tls:
     enabled: true
     secret: tls-loft
-    clusterIssuer: some-cluster-issuer
+    clusterIssuer: loft-letsencrypt-issuer
 
 certs:
   issuer:

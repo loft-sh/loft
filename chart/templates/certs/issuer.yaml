@@ -15,5 +15,8 @@ spec:
         ingress:
           class: {{ .Values.certs.issuer.httpResolver.ingressClass }}
     {{- end }}
-{{- toYaml .Values.certs.issuer.resolvers | indent 6 }}
+    {{- range .Values.certs.issuer.resolvers }}
+    - 
+{{ toYaml . | indent 6 }}
+    {{- end }}
 {{- end }}
