@@ -43,6 +43,17 @@ The management cluster (the one that your loft instance is running in) is, by de
 Because we do **not** offer Kubernetes hosting (except for hosting your loft instance), you will **not** be able to connect the loft cluster when using the SaaS edition.
 :::
 
+```bash
+# Add label: loft.sh/app: true
+kubectl get secrets --all-namespaces --no-headers=true -l 'owner=helm,name in (cert-manager, nginx-ingress)' -o custom-columns=":metadata.namespace, :metadata.name" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1app", "value": "true" }]' -n
+
+# Add annotation to nginx-ingress: loft.sh/url: https://kubernetes-charts.storage.googleapis.com
+kubectl get secrets --all-namespaces --no-headers=true -l 'owner=helm,name in (nginx-ingress)' -o custom-columns=":metadata.namespace, :metadata.name" | xargs -L 1 sh -c 'kubectl patch secret --type=json -p='\''[{"op": "add", "path": "/metadata/annotations/loft.sh~1url", "value": "https://kubernetes-charts.storage.googleapis.com" }]'\'' -n ${@} 2>/dev/null || kubectl patch secret --type=json -p='\''[{"op": "replace", "path": "/metadata/annotations", "value": {"loft.sh/url": "https://kubernetes-charts.storage.googleapis.com"} }]'\'' -n ${@}' "${0}"
+
+# Add annotation to cert-manager: loft.sh/url: https://kubernetes-charts.storage.googleapis.com
+kubectl get secrets --all-namespaces --no-headers=true -l 'owner=helm,name in (cert-manager)' -o custom-columns=":metadata.namespace, :metadata.name" | xargs -L 1 sh -c 'kubectl patch secret --type=json -p='\''[{"op": "add", "path": "/metadata/annotations/loft.sh~1url", "value": "https://charts.jetstack.io" }]'\'' -n ${@} 2>/dev/null || kubectl patch secret --type=json -p='\''[{"op": "replace", "path": "/metadata/annotations", "value": {"loft.sh/url": "https://charts.jetstack.io"} }]'\'' -n ${@}' "${0}"
+```
+
 </TabItem>
 <TabItem value="saas">
 

@@ -53,8 +53,8 @@ Choose this option if you want to deploy loft to a managed Kubernetes cluster su
 
 To use the loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you do not have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
-helm install nginx-ingress nginx-ingress --repo https://helm.nginx.com/stable \
-  --namespace loft \        # Use a different namespace if you like to
+helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storage.googleapis.com \
+  --namespace nginx-ingress \
   --wait
 ```
 
@@ -63,13 +63,12 @@ After the ingress controller has been deployed, [create a DNS recrod](https://su
 To get the IP address or hostname of the load balancer for your ingress controller, run the following command and look for the `EXTERNAL-IP`:
 
 ```bash
-kubectl -n loft get service nginx-ingress-nginx-ingress
+kubectl -n nginx-ingress get service nginx-ingress-controller
 ```
 
 :::note Pending External IP
 If the `EXTERNAL-IP` of this service remains `pending` for a long time, make sure your Kubernetes cluster supports services of type `LoadBalancer` or manually reconfigure this service.
 :::
-
 
 <br />
 <Step>3</Step>
@@ -80,7 +79,7 @@ To use the loft UI and API via a domain or subdomain, you need to install cert-m
 ```bash
 helm install cert-manager cert-manager --repo https://charts.jetstack.io \
   --set installCRDs=true \
-  --namespace loft \        # Use a different namespace if you like to
+  --namespace cert-manager \
   --wait
 ```
 
