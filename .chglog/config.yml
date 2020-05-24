@@ -1,0 +1,31 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/devspace-cloud/loft
+options:
+  commits:
+    filters:
+      Type:
+        - docs
+  commit_groups:
+    title_maps:
+      docs: 📝 Documentation
+  header:
+    pattern: "(?i)^(?:((?:docs)|)(?:(?:(?:[^):]*)\\()?([^)]*)\\)?)?:)?(.+)$"
+    pattern_maps:
+      - Type
+      - Scope
+      - Subject
+  merges:
+    pattern: "(?i)^Merges?(?: branch ')?(.+?)'?$"
+    pattern_maps:
+      - Source
+  reverts:
+    pattern: "(?i)^Reverts?(?: \")?(.+?)(?:\")?$"
+    pattern_maps:
+      - Header
+  notes:
+    keywords:
+      - BREAKING CHANGE
+      - "!"
