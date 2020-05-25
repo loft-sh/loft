@@ -29,6 +29,11 @@ spec:
         {{- else }}
         image: "loftsh/loft:{{ .Chart.Version }}"
         {{- end }}
+        {{- if not .Values.apiService.enabled }}
+        env:
+        - name: APISERVICE_DISABLED
+          value: "true"
+        {{- end }}
         # - name: PROXY_HOST
         #  value: 0.0.0.0
         # - name: PROXY_PORT
