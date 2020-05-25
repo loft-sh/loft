@@ -23,8 +23,6 @@ spec:
     key: accesskeys
   {{- end }}
 ---
-{{- end }}
-{{- if or .Values.admin.resetPassword (not (lookup "storage.loft.sh/v1" "User" "" .Values.admin.name)) }}
 {{- if .Values.admin.password }}
 apiVersion: v1
 kind: Secret

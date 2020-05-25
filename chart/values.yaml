@@ -10,7 +10,6 @@ admin:
   username: admin
   name: admin
   password: "" # leave empty to generate password reset link
-  resetPassword: false
   accessKeySecret: loft-user-accesskey-admin
 
 ingress:
@@ -57,9 +56,3 @@ certIssuer:
     enabled: true
     ingressClass: nginx
   resolvers: []
-
-cert-manager:
-  enabled: true
-
-nginx-ingress:
-  enabled: true
