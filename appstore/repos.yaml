@@ -1,0 +1,442 @@
+# This file contains the list of repositories including their unique short name
+# (like a namespace) and the base URL to their location.
+#
+# Every repo listed here MUST have a corresponding entry in the repos.yaml at
+# the root of this source repository with the exception of the Helm hosted ones.
+# The name and URL between both files must be the same.
+sync:
+  repos:
+    - name: devspace
+      url: https://charts.devspace.sh
+    # Helm hosted repositories
+    - name: stable
+      url: https://kubernetes-charts.storage.googleapis.com
+    - name: incubator
+      url: https://kubernetes-charts-incubator.storage.googleapis.com
+    - name: jfrog
+      url: https://charts.jfrog.io
+    - name: kremers
+      url: https://kremers.github.io
+    - name: linkerd2
+      url: https://helm.linkerd.io/stable
+    - name: linkerd2-edge
+      url: https://helm.linkerd.io/edge
+    - name: rimusz
+      url: https://charts.rimusz.net
+    - name: buildkite
+      url: https://buildkite.github.io/charts
+    - name: cloudposse
+      url: https://charts.cloudposse.com/incubator/
+    - name: keel
+      url: https://charts.keel.sh
+    - name: appscode
+      url: https://charts.appscode.com/stable/
+    - name: gitlab
+      url: https://charts.gitlab.io/
+    - name: bitnami
+      url: https://charts.bitnami.com/bitnami
+    - name: fluxcd
+      url: https://charts.fluxcd.io
+    - name: jetstack
+      url: https://charts.jetstack.io
+    - name: ibm-charts
+      url: https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
+    - name: infobloxopen
+      url: https://infobloxopen.github.io/cert-manager/
+    - name: kanister
+      url: https://charts.kanister.io/
+    - name: fikaworks
+      url: https://fikaworks.github.io/helm-charts
+    - name: flagger
+      url: https://flagger.app
+    - name: zammad
+      url: https://zammad.github.io
+    - name: agones
+      url: https://agones.dev/chart/stable
+    - name: banzaicloud-stable
+      url: https://kubernetes-charts.banzaicloud.com
+    - name: kiwigrid
+      url: https://kiwigrid.github.io
+    - name: elastic
+      url: https://helm.elastic.co
+    - name: openfaas
+      url: https://openfaas.github.io/faas-netes
+    - name: inlets
+      url: https://inlets.github.io/inlets-operator/
+    - name: odavid
+      url: https://odavid.github.io/k8s-helm-charts
+    - name: soluto
+      url: https://charts.soluto.io
+    - name: hephy
+      url: https://charts.teamhephy.com
+    - name: gabibbo97
+      url: https://gabibbo97.github.io/charts/
+    - name: presslabs
+      url: https://presslabs.github.io/charts
+    - name: eventstore
+      url: https://eventstore.github.io/EventStore.Charts
+    - name: pnnl-miscscripts
+      url: https://pnnl-miscscripts.github.io/charts
+    - name: ceph-csi
+      url: https://ceph.github.io/csi-charts
+    - name: fairwinds-stable
+      url: https://charts.fairwinds.com/stable
+    - name: yourls
+      url: https://charts.yourls.org
+    - name: hazelcast
+      url: https://hazelcast.github.io/charts/
+    - name: nginx
+      url: https://helm.nginx.com/stable
+    - name: nginx-edge
+      url: https://helm.nginx.com/edge
+    - name: citrix
+      url: https://citrix.github.io/citrix-helm-charts/
+    - name: zooz
+      url: https://zooz.github.io/helm/
+    - name: rancher-stable
+      url: https://releases.rancher.com/server-charts/stable
+    - name: loki
+      url: https://grafana.github.io/loki/charts
+    - name: microsoft
+      url: https://microsoft.github.io/charts/repo
+    - name: codecentric
+      url: https://codecentric.github.io/helm-charts
+    - name: okgolove
+      url: https://okgolove.github.io/helm-charts
+    - name: dhiatn
+      url: https://dhiatn.github.io/helm-kafka-topics-ui
+    - name: k8dash
+      url: https://herbrandson.github.io/k8dash/helm
+    - name: funkypenguin
+      url: https://funkypenguin.github.io/helm-charts
+    - name: mattermost
+      url: https://helm.mattermost.com
+    - name: emberstack
+      url: https://emberstack.github.io/helm-charts
+    # - name: APPUiO
+    # Switching to a lowercase name until https://github.com/helm/monocular/issues/626
+    # is fixed
+    - name: appuio
+      url: https://charts.appuio.ch
+    - name: gomods
+      url: https://athens.blob.core.windows.net/charts
+    - name: zentainer
+      url: https://charts.zentainer.app
+    - name: promitor
+      url: https://promitor.azurecr.io/helm/v1/repo
+    - name: kir4h
+      url: https://kir4h.github.io/charts
+    - name: hmdmph
+      url: https://hmdmph.github.io/helm-charts
+    - name: drgrove
+      url: https://drgrove.github.io/charts
+    - name: harbor
+      url: https://helm.goharbor.io
+    - name: appdynamics
+      url: https://appdynamics.github.io/appdynamics-charts
+    - name: billimek
+      url: https://billimek.com/billimek-charts/
+    - name: choerodon
+      url: https://openchart.choerodon.com.cn/choerodon/c7n
+    - name: kedacore
+      url: https://kedacore.github.io/charts
+    - name: seldon
+      url: https://storage.googleapis.com/seldon-charts
+    - name: gkarthiks
+      url: https://gkarthiks.github.io/helm-charts
+    - name: opsdroid
+      url: https://helm.opsdroid.dev/
+    - name: privatebin
+      url: https://privatebin.github.io/helm-chart/
+    - name: gresearch
+      url: https://g-research.github.io/charts/
+    - name: smallstep
+      url: https://smallstep.github.io/helm-charts/
+    - name: volcano
+      url: https://volcano-sh.github.io/charts/
+    - name: ory
+      url: https://k8s.ory.sh/helm/charts
+    - name: cetic
+      url: https://cetic.github.io/helm-charts
+    - name: qamatic
+      url: https://qamatic.github.io/charts
+    - name: sstarcher
+      url: https://shanestarcher.com/helm-charts/
+    - name: lifen
+      url: https://honestica.github.io/lifen-charts/
+    - name: owkin
+      url: https://owkin.github.io/charts
+    - name: simplyzee
+      url: https://charts.simplyzee.dev/
+    - name: mirusresearch
+      url: https://mirusresearch.github.io/charts/
+    - name: forseti-security
+      url: https://forseti-security-charts.storage.googleapis.com/release/
+    - name: hue
+      url: https://helm.gethue.com
+    - name: t3n
+      url: https://storage.googleapis.com/t3n-helm-charts
+    - name: kubedex
+      url: https://kubedex.github.io/charts
+    - name: snl-charts
+      url: https://snebel29.github.io/snl-charts
+    - name: crowdfox
+      url: https://crowdfoxgmbh.github.io/cfcharts
+    - name: architectminds
+      url: https://architectminds.github.io/helm-charts/
+    - name: uswitch
+      url: https://uswitch.github.io/kiam-helm-charts/charts/
+    - name: external-secrets
+      url: https://godaddy.github.io/kubernetes-external-secrets/
+    - name: pfisterer-knox
+      url: https://pfisterer.github.io/apache-knox-helm/
+    - name: aerospike
+      url: https://aerospike.github.io/aerospike-kubernetes-enterprise
+    - name: mogaal
+      url: https://mogaal.github.io/helm-charts/
+    - name: argo
+      url: https://argoproj.github.io/argo-helm
+    - name: honeydipper
+      url: https://raw.githubusercontent.com/honeydipper/honeydipper-charts/master/
+    - name: adwerx
+      url: https://adwerx.github.io/charts/
+    - name: hpe-storage
+      url: https://hpe-storage.github.io/co-deployments/
+    - name: squidex
+      url: https://squidex.github.io/squidex-docker/
+    - name: liwenhe
+      url: https://liwenhe1993.github.io/charts/
+    - name: yugabyte
+      url: https://charts.yugabyte.com
+    - name: crate
+      url: https://crate.github.io/helm-charts
+    - name: oxyno-zeta
+      url: https://oxyno-zeta.github.io/helm-charts/stable/
+    - name: dragonchain
+      url: https://dragonchain-charts.s3.amazonaws.com
+    - name: couchdb
+      url: https://apache.github.io/couchdb-helm/
+    - name: cryptlex
+      url: https://cryptlex.github.io/helm-charts/
+    - name: dask
+      url: https://helm.dask.org/
+    - name: substra
+      url: https://substrafoundation.github.io/charts/
+    - name: cloudwatch-agent
+      url: https://s2504s.github.io/charts/
+    - name: cloudbees
+      url: https://charts.cloudbees.com/public/cloudbees
+    - name: concourse
+      url: https://concourse-charts.storage.googleapis.com/
+    - name: tomkerkhove
+      url: https://tomkerkhove.azurecr.io/helm/v1/repo
+    - name: cgroschupp
+      url: https://cgroschupp.github.io/helm-charts/
+    - name: jenkins
+      url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+    - name: talend
+      url: https://talend.github.io/helm-charts-public/stable
+    - name: softonic
+      url: https://charts.softonic.io
+    - name: aws
+      url: https://aws.github.io/eks-charts
+    - name: kubeinvaders
+      url: https://lucky-sideburn.github.io/helm-charts/
+    - name: wso2
+      url: https://helm.wso2.com
+    - name: crossplane
+      url: https://charts.crossplane.io/master/
+    - name: lohmag
+      url: https://lohmag.github.io/helm-charts/
+    - name: cern
+      url: https://charts.cern.ch/cern/
+    - name: chubaofs
+      url: https://chubaofs.github.io/chubaofs-charts
+    - name: ruguodangshi
+      url: https://ruguodangshi.github.io
+    - name: mailu
+      url: https://mailu.github.io/helm-charts/
+    - name: gp42
+      url: https://ops42.org/helm-charts
+    - name: sumologic
+      url: https://sumologic.github.io/sumologic-kubernetes-collection
+    - name: inspur
+      url: https://inspur-iop.github.io/charts/
+    - name: backube
+      url: https://backube.github.io/helm-charts/
+    - name: k8s-land
+      url: https://charts.k8s.land
+    - name: chartsm
+      url: https://api.chartsm.com
+    - name: fold
+      url: https://charts.foldapp.com
+    - name: vmware-tanzu
+      url: https://vmware-tanzu.github.io/helm-charts/
+    - name: pangeo
+      url: https://pangeo-data.github.io/helm-chart/
+    - name: jaegertracing
+      url: https://jaegertracing.github.io/helm-charts
+    - name: riskfocus
+      url: https://riskfocus.github.io/helm-charts-public/
+    - name: flink-operator
+      url: https://googlecloudplatform.github.io/flink-on-k8s-operator/
+    - name: halkeye
+      url: https://halkeye.github.io/helm-charts/
+    - name: wavefront
+      url: https://wavefronthq.github.io/helm/
+    - name: eclipse-iot
+      url: https://www.eclipse.org/packages/charts/
+    - name: ntppool
+      url: https://charts.ntppool.org/
+    - name: pomerium
+      url: https://helm.pomerium.io
+    - name: http-folder
+      url: https://aureliengasser.github.io/charts
+    - name: kong
+      url: https://charts.konghq.com
+    - name: dynatrace
+      url: https://raw.githubusercontent.com/Dynatrace/helm-charts/master/repos/stable/
+    - name: mojo2600
+      url: https://mojo2600.github.io/pihole-kubernetes/
+    - name: purestorage
+      url: https://purestorage.github.io/helm-charts
+    - name: solace
+      url: https://solaceproducts.github.io/pubsubplus-kubernetes-quickstart/helm-charts
+    - name: code-chris
+      url: https://code-chris.github.io/helm-charts
+    - name: larribas
+      url: https://larribas.me/helm-charts
+    - name: ealenn
+      url: https://ealenn.github.io/charts
+    - name: oteemo
+      url: https://oteemo.github.io/charts/
+    - name: tietoevryfs
+      url: https://evryfs.github.io/helm-charts/
+    - name: dgraph
+      url: https://charts.dgraph.io
+    - name: cdi
+      url: http://raw.githubusercontent.com/woohhan/cdi-chart/master/
+    - name: quarks
+      url: https://cloudfoundry-incubator.github.io/quarks-helm/
+    - name: dniel
+      url: https://dniel.github.io/charts/
+    - name: cowboysysop
+      url: https://cowboysysop.github.io/charts/
+    - name: blazure
+      url: https://charts.blazure.com
+    - name: cleardata
+      url: https://helm.cleardata.com/
+    - name: meshery
+      url: https://meshery.io/charts/
+    - name: influxdata
+      url: https://helm.influxdata.com/
+    - name: eclipse-dirigible
+      url: https://dirigiblelabs.github.io/charts/
+    - name: microcks
+      url: https://microcks.io/helm
+    - name: enapter
+      url: https://enapter.github.io/charts/
+    - name: camptocamp
+      url: http://charts.camptocamp.com
+    - name: camel-k
+      url: https://apache.github.io/camel-k/charts/
+    - name: trickster
+      url: https://helm.tricksterproxy.io/
+    - name: gradiant
+      url: https://gradiant.github.io/charts/
+    - name: runix
+      url: https://helm.runix.net/
+    - name: jitterbit
+      url: https://jitterbit.github.io/charts/
+    - name: franzinc
+      url: https://franz.com/ftp/pub/helm/charts/
+    - name: prometheus-msteams
+      url: https://prometheus-msteams.github.io/helm-chart
+    - name: dandydeveloper
+      url: https://dandydeveloper.github.io/charts
+    - name: brannon
+      url: https://helm.brannon.online
+    - name: pcktdmp
+      url: https://pcktdmp.github.io/charts
+    - name: fluent
+      url: https://fluent.github.io/helm-charts
+    - name: ververica
+      url: https://charts.ververica.com/
+    - name: smueller18
+      url: https://smueller18.gitlab.io/helm-charts
+    - name: renovate
+      url: https://docs.renovatebot.com/helm-charts
+    - name: dacruz21
+      url: https://dacruz21.github.io/helm-charts
+    - name: kuberhealthy
+      url: https://comcast.github.io/kuberhealthy/helm-repos
+    - name: equinor-charts
+      url: https://equinor.github.io/helm-charts/charts/
+    - name: touk
+      url: https://helm-charts.touk.pl/public/
+    - name: codimd
+      url: https://helm.codimd.dev/
+    - name: carlosjgp
+      url: https://carlosjgp.github.io/open-charts/
+    - name: fyipe
+      url: https://fyipe.com/chart
+    - name: nats
+      url: https://nats-io.github.io/k8s/helm/charts/
+    - name: pndaproject
+      url: https://pndaproject.github.io/pnda-helm-chart/
+    - name: wyrihaximusnet
+      url: https://helm.wyrihaximus.net/
+    - name: tremolosecurity
+      url: https://nexus.tremolo.io/repository/helm/
+    - name: cronce
+      url: https://charts.cronce.io/
+    - name: verdaccio
+      url: https://charts.verdaccio.org/
+    - name: enix
+      url: https://charts.enix.io/
+    - name: mox
+      url: https://helm.mox.sh/
+    - name: saikatharryc
+      url: https://saikatharryc.github.io/helm/
+    - name: volantmq
+      url: https://volantmq.github.io/helm/
+    - name: ukfast
+      url: https://ukfast.github.io/helm-charts
+    - name: redash
+      url: https://getredash.github.io/contrib-helm-chart/
+    - name: emagtechlabs
+      url: https://emagtechlabs.github.io/helm-charts/
+    - name: gitkent
+      url: https://gitkent.github.io/helm-charts/
+    - name: logiqai
+      url: https://logiqai.github.io/helm-charts/
+    - name: couchbase
+      url: https://couchbase-partners.github.io/helm-charts/
+    - name: puppet
+      url: https://puppetlabs.github.io/puppetserver-helm-chart
+    - name: hokstack
+      url: https://charts.hokstack.io
+    - name: redsky
+      url: https://redskyops.dev/charts/
+    - name: honeycomb
+      url: https://honeycombio.github.io./helm-charts/
+    - name: azure-apim-gateway
+      url: https://azure.github.io/api-management-self-hosted-gateway/helm-charts/
+    - name: stardog
+      url: https://stardog-union.github.io/helm-charts/
+    - name: erpnext
+      url: https://helm.erpnext.com
+    - name: ladeit
+      url: https://ladeit.github.io/charts
+    - name: pozetron
+      url: https://www.pozetron.com/helm/
+    - name: sudermanjr
+      url: https://charts.sudermanjr.com
+    - name: cnieg
+      url: https://cnieg.github.io/helm-charts
+    - name: snyk
+      url: https://snyk.github.io/kubernetes-monitor/
+    - name: weblate
+      url: https://helm.weblate.org
+    - name: solr-operator
+      url: https://bloomberg.github.io/solr-operator/charts
