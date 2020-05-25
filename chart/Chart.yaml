@@ -1,6 +1,24 @@
 apiVersion: v2
 name: loft
-description: A multi tenancy solution for kubernetes
+description: Cluster And Namespace Management For Cloud-Native Teams
+home: https://loft.sh
+icon: https://static.devspace.cloud/loft/logo/loft-logo.svg
+sources:
+- https://github.com/devspace-cloud/loft
+keywords:
+- developer
+- development
+- sharing
+- share
+- multi-tenancy
+- tenancy
+- cluster
+- space
+- namespace
+maintainers:
+- name: DevSpace Technologies Inc.
+  email: info@devspace.cloud
+  url: https://twitter.com/DevSpace
 
 # A chart can be either an 'application' or a 'library' chart.
 #
