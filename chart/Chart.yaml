@@ -1,6 +1,6 @@
 apiVersion: v2
 name: loft
-description: Cluster And Namespace Management For Cloud-Native Teams
+description: Secure Cluster Sharing + Self-Service Namespace Provisioning
 home: https://loft.sh
 icon: https://static.devspace.cloud/loft/logo/loft-logo.svg
 sources:
