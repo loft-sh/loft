@@ -24,13 +24,15 @@ fi
 SECRETS=$(kubectl get secrets --all-namespaces --no-headers=true -l "owner=helm,name in ($1)" -o custom-columns=":metadata.namespace, :metadata.name")
 HELM_REGISTRY="$2"
 
-# Add label "loft.sh/app: true"
+echo 'Add label: "loft.sh/app": "true"'
 echo "$SECRETS" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1'$SYSTEM_APP_PREFIX'app", "value": "true" }]' -n
+echo ""
 
-# Add label "loft.sh/system-app: true"
 if [ "$3" = "true" ]; then
+  echo 'Add label: "loft.sh/system-app": "true"'
   echo "$SECRETS" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1system-app", "value": "true" }]' -n
+  echo ""
 fi
 
-# Add annotation "loft.sh/url: REPO_URL"
+echo 'Add annotation: "loft.sh/url": "'$2'"'
 echo "$SECRETS" | xargs -L 1 sh -c 'kubectl patch secret --type=json -p='\''[{"op": "add", "path": "/metadata/annotations/loft.sh~1url", "value": "'$HELM_REGISTRY'" }]'\'' -n ${@} 2>/dev/null || kubectl patch secret --type=json -p='\''[{"op": "replace", "path": "/metadata/annotations", "value": {"loft.sh/url": "'$HELM_REGISTRY'"} }]'\'' -n ${@}' "${0}"
