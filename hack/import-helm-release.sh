@@ -17,20 +17,21 @@ if [ "$1" = "" ] || [ "$2" = "" ]; then
   echo 'curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "nginx-ingress" "https://kubernetes-charts.storage.googleapis.com"'
   echo ""
   echo 'Example 3:'
-  echo 'curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.devspace.sh" true'
+  echo 'curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.devspace.sh" true false'
   exit 1
 fi
 
 SECRETS=$(kubectl get secrets --all-namespaces --no-headers=true -l "owner=helm,name in ($1)" -o custom-columns=":metadata.namespace, :metadata.name")
-HELM_REGISTRY="$2"
+HELM_REGISTRY=${2:-"https://kubernetes-charts.storage.googleapis.com"}
+APP_LABEL_VALUE=${3:-"true"}
 
-echo 'Add label: "loft.sh/app": "true"'
-echo "$SECRETS" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1'$SYSTEM_APP_PREFIX'app", "value": "true" }]' -n
+echo 'Add label: "loft.sh/app": "'$APP_LABEL_VALUE'"'
+echo "$SECRETS" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1'$SYSTEM_APP_PREFIX'app", "value": "'$APP_LABEL_VALUE'" }]' -n
 echo ""
 
-if [ "$3" = "true" ]; then
-  echo 'Add label: "loft.sh/system-app": "true"'
-  echo "$SECRETS" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1system-app", "value": "true" }]' -n
+if [ "$4" != "" ]; then
+  echo 'Add label: "loft.sh/system-app": "'$4'"'
+  echo "$SECRETS" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1system-app", "value": "'$4'" }]' -n
   echo ""
 fi
 
