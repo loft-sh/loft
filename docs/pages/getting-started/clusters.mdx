@@ -1,74 +1,166 @@
 ---
-title: Clusters & Cluster Apps
-sidebar_label: 2. Clusters & Apps
+title: Connecting Clusters
+sidebar_label: 2. Clusters
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import Step from '@site/src/components/Step/Step';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Step from '@site/src/components/Step/Step'
+import Highlight from '@site/src/components/Highlight/Highlight'
+import CreateKubeConfigFragment from '../fragments/connect-cluster/kube-config.mdx'
+import ChooseClusterNameFragment from '../fragments/connect-cluster/name.mdx'
 
-Now that your loft instance is running, you are ready to connect your first cluster and prepare it for the use by your engineers.
-
-## Connect Cluster
-In the loft UI, navigate to "Clusters" and click the "Connect Cluster" button. Connecting a cluster is the first step to making a cluster available to your engineers.
-
-<br />
-<Step>1</Step>
-
-### Cluster Name
-
-Enter a name for your cluster. This name must be a Kubernetes-compatible object name, i.e. only lowercase characters and dashes are allowed.
-
-Cluster names should tell engineers what this cluster is used for and where it runs, e.g. `gke-prod`, `eks-dev-us-west-1`
-
-
-<br />
-<Step>2</Step>
-
-### Cluster Connection
-
-The management cluster (the one that your loft instance is running in) is, by default, not available as connected cluster. However, if you are using the on-premise edition, you will see a button `Connect loft cluster` which will make the management cluster available as connected cluster.
+Now that your loft instance is running, you are ready to connect your first cluster and prepare it for the use by your engineers. Connecting a cluster is the first step to making a cluster available to your engineers.
 
 <Tabs
-  groupId="edition"
-  defaultValue="on-premise"
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
   values={[
-    { label: 'Connect loft cluster (On-Premise only)', value: 'on-premise', },
-    { label: 'Connect a different cluster', value: 'saas', },
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
   ]
 }>
-<TabItem value="on-premise">
+<TabItem value="ui">
 
-:::info On-Premise only
-Because we do **not** offer Kubernetes hosting (except for hosting your loft instance), you will **not** be able to connect the loft cluster when using the SaaS edition.
-:::
+In the loft UI, navigate to "Clusters" and click the <Highlight>Connect Cluster</Highlight> button.
 
-```bash
-# Add label: loft.sh/app: true
-kubectl get secrets --all-namespaces --no-headers=true -l 'owner=helm,name in (cert-manager, nginx-ingress)' -o custom-columns=":metadata.namespace, :metadata.name" | xargs -L 1 kubectl patch secret --type=json -p='[{"op": "add", "path": "/metadata/labels/loft.sh~1app", "value": "true" }]' -n
+<Tabs
+  groupId="connect-cluster"
+  defaultValue="other"
+  values={[
+    { label: 'Loft Cluster', value: 'loft', },
+    { label: 'Other Cluster', value: 'other', },
+  ]
+}>
+<TabItem value="loft">
 
-# Add annotation to nginx-ingress: loft.sh/url: https://kubernetes-charts.storage.googleapis.com
-kubectl get secrets --all-namespaces --no-headers=true -l 'owner=helm,name in (nginx-ingress)' -o custom-columns=":metadata.namespace, :metadata.name" | xargs -L 1 sh -c 'kubectl patch secret --type=json -p='\''[{"op": "add", "path": "/metadata/annotations/loft.sh~1url", "value": "https://kubernetes-charts.storage.googleapis.com" }]'\'' -n ${@} 2>/dev/null || kubectl patch secret --type=json -p='\''[{"op": "replace", "path": "/metadata/annotations", "value": {"loft.sh/url": "https://kubernetes-charts.storage.googleapis.com"} }]'\'' -n ${@}' "${0}"
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/connect-cluster-loft.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Connect Loft Cluster</figcaption>
+</figure>
 
-# Add annotation to cert-manager: loft.sh/url: https://kubernetes-charts.storage.googleapis.com
-kubectl get secrets --all-namespaces --no-headers=true -l 'owner=helm,name in (cert-manager)' -o custom-columns=":metadata.namespace, :metadata.name" | xargs -L 1 sh -c 'kubectl patch secret --type=json -p='\''[{"op": "add", "path": "/metadata/annotations/loft.sh~1url", "value": "https://charts.jetstack.io" }]'\'' -n ${@} 2>/dev/null || kubectl patch secret --type=json -p='\''[{"op": "replace", "path": "/metadata/annotations", "value": {"loft.sh/url": "https://charts.jetstack.io"} }]'\'' -n ${@}' "${0}"
+<Step>1</Step>
+
+#### Define Cluster Name
+
+<ChooseClusterNameFragment/>
+
+<br/>
+<Step>2</Step>
+
+#### Connect loft cluster
+
+To make the management cluster (where loft is running in) available to engineers, you also need to connect it. Because loft already has access to this cluster, you will see a special button <Highlight>Connect loft cluster</Highlight> which will let you connect the management cluster with a single click.
+
+</TabItem>
+<TabItem value="other">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/connect-cluster.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Connect Cluster</figcaption>
+</figure>
+
+<Step>1</Step>
+
+#### Define Cluster Name
+
+<ChooseClusterNameFragment/>
+
+
+<br/>
+<Step>2</Step>
+
+#### Generate Kube-Config
+
+<CreateKubeConfigFragment/>
+
+
+<br/>
+<Step>3</Step>
+
+#### Enter Kube-Config &amp; Connect
+Enter the kube-config into the textarea and click the <Highlight>Connect</Highlight> button.
+
+
+</TabItem>
+</Tabs>
+
+
+</TabItem>
+<TabItem value="kubectl">
+
+loft is designed as a Kubernetes extension and provides Custom Resource Definitions for everything, so you can also connect a cluster using `kubectl`. The UI of loft also uses kubectl under the hood, not just to connect clusters but also for anything else you can configure with the UI.
+
+<Tabs
+  groupId="connect-cluster"
+  defaultValue="other"
+  values={[
+    { label: 'Loft Cluster', value: 'loft', },
+    { label: 'Other Cluster', value: 'other', },
+  ]
+}>
+<TabItem value="loft">
+
+<Step>1</Step>
+
+#### Create File: cluster.yaml
+
+```yaml {7}
+apiVersion: management.loft.sh/v1
+kind: Cluster
+metadata:
+  name: loft-cluster
+spec:
+  config: {}
+  local: true
 ```
 
 </TabItem>
-<TabItem value="saas">
+<TabItem value="other">
 
-### Cluster Connection
+<Step>1</Step>
+
+#### Create File: cluster.yaml
+
+```yaml {7}
+apiVersion: management.loft.sh/v1
+kind: Cluster
+metadata:
+  name: some-cluster
+spec:
+  config: 
+    PASTE_KUBE_CONFIG_HERE
+```
+
+:::note Generate Kube-Config
+
+<CreateKubeConfigFragment/>
+
+:::
 
 </TabItem>
 </Tabs>
 
 <br />
-<Step>3</Step>
+<Step>2</Step>
 
-### System Apps
+#### Create Cluster Object
 
+```bash
+# IMPORTANT: Run this command inside the loft management cluster
+kubectl apply -f cluster.yaml
+```
 
-<br />
-<Step>4</Step>
+:::note Cluster Status
+After creating the cluster resource, the loft controller will detect the new cluster and initialize it, i.e. it will install the kiosk helm chart into the cluster. To check if the cluster has been initialized, run:
+```bash
+kubectl get cluster -o custom-columns=NAME:metadata.name,PHASE:status.phase
+```
+:::
 
-### Ready
+</TabItem>
+</Tabs>

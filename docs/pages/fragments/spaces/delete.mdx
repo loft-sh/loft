@@ -1,0 +1,45 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import NoContextCleanupFragment from './no-context-cleanup.mdx'
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'CLI', value: 'cli', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/spaces/delete-space.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Delete Space</figcaption>
+</figure>
+
+<NoContextCleanupFragment/>
+
+</TabItem>
+<TabItem value="cli">
+
+To delete a space using the [loft CLI](#TODO), run:
+```bash
+loft delete space [SPACE_NAME]
+```
+Running this command will also remove the corresponding kube-context from the local `~/.kube/config` file.
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete a space using `kubectl`:
+```bash
+kubectl delete space [SPACE_NAME]
+```
+
+<NoContextCleanupFragment/>
+
+</TabItem>
+</Tabs>

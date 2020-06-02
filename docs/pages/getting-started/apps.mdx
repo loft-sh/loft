@@ -1,0 +1,67 @@
+---
+title: Apps
+sidebar_label: 3. Apps
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Step from '@site/src/components/Step/Step'
+import Highlight from '@site/src/components/Highlight/Highlight'
+
+Apps are Helm charts that you can install into a connected cluster.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/apps.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Cluster Overview: Apps</figcaption>
+</figure>
+
+## System Apps
+System apps are Helm charts which are installed into the cluster by loft during the cluster initialization process, i.e. right after connecting the cluster. These apps are managed and upgraded by loft. You cannot delete or upgrade them manually because this would impact loft's ability to manage the cluster. Currently, only kiosk is a system app.
+
+## App Store
+Because loft is connected to [Helm Hub](https://hub.helm.sh), you can install over 1,200 Helm charts with just a few clicks. 
+
+**Recommended Apps:** After connecting a cluster, loft suggests a few popular apps from Helm Hub which you can see in the "Cluster" tab. Click on one to configure and install it. Currently the following apps are recommended:
+- **nginx-ingress:** allows cluster users to make their applications available on (sub-) domains via ingresses
+- **cert-manager:** allows engineers to create certificates, e.g. to enable SSL for their ingresses
+- **cert-issuer:** tells cert-manager to use [Let's Encrypt](https://letsencrypt.org/) for generating valid certificates
+
+**Other Apps:** To install other apps, click on "Explore other apps" and use the searchable select to find charts.
+
+
+## Apps Tab
+Besides the "Cluster" tab showing all installed and recommended charts, you can also view the details of your apps in the "Apps" tab.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/apps-tab.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Cluster: Apps Tab</figcaption>
+</figure>
+
+
+## Import Apps
+By default, loft only shows Helm charts which have the label `loft.sh/app: true`. This label needs to be set on the secrets that Helm creates for a respective release. Additionally, there is the label `loft.sh/system-app: true` and the annotation `loft.sh/url: REPO_URL` to provide additional details about the app.
+
+Sometimes, it can be useful to "import" an already existing Helm chart by adding the missing labels and annotations. This has the advantage that you can view and manage the Helm release using the loft UI. Using the helper script [`import-helm-release`](https://github.com/devspace-cloud/loft/blob/master/hack/import-helm-release.sh) you can import Helm releases into loft.
+
+:::tip
+If you connected the management cluster (that loft is running in), you can:
+
+Import `cert-manager`:
+```bash
+curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io"
+```
+
+Import `nginx-ingress`:
+```bash
+curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "nginx-ingress" "https://kubernetes-charts.storage.googleapis.com"
+```
+
+Import `loft` and label it as system app:
+```bash
+curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.devspace.sh" true false
+```
+:::

@@ -17,6 +17,7 @@ module.exports = {
       items: [
         'getting-started/setup',
         'getting-started/clusters',
+        'getting-started/apps',
         'getting-started/spaces',
         'getting-started/users-limits',
         'getting-started/templates',
