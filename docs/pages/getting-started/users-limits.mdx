@@ -3,248 +3,38 @@ title: Users, Accounts & Quotas
 sidebar_label: 5. Users & Accounts
 ---
 
-import Tabs from '@theme/Tabs'
-import TabItem from '@theme/TabItem'
+import CreateUserFragment from '../fragments/auth/create-user.mdx'
+import CreateClusterAccounts from '../fragments/clusters/create-account.mdx'
+import WhatAreAccountQuotas from '../fragments/clusters/what-are-quotas.mdx'
+import CreateAccountQuotas from '../fragments/clusters/create-quotas.mdx'
+import AccountSpaceSettings from '../fragments/clusters/account-space-settings.mdx'
 
 There are 3 important access control concepts in loft:
 - **Users** can sign into loft using a password or using OpenID Connect[^1] (authentication)
-- **Accounts** defines the permissions of a user within a certain cluster (authorization)
-- **Account Quota** defines resource limits for an account across all spaces within a cluster[^2]
+- **Accounts** define the permissions of users within a certain cluster (authorization)
+- **Account Quota** define resource limits for an account across all spaces within a cluster[^2]
 
-[^1] Supported auth providers include: GitHub, GitLab, LDAP, SAML 2.0, Google, Microsoft  
-[^2] Think of a Kubernetes ResourceQuota but aggregated across namespaces
+<span id="fn-1"><sup>1</sup> Supported auth providers include: GitHub, GitLab, LDAP, SAML 2.0, Google, Microsoft</span>
+<span id="fn-2"><sup>2</sup> Think of a Kubernetes ResourceQuota but aggregated across namespaces</span>
 
 ## Add Users
 
-<Tabs
-  groupId="ui-cli-kubectl"
-  defaultValue="ui"
-  values={[
-    { label: 'UI', value: 'ui', },
-    { label: 'kubectl', value: 'kubectl', },
-  ]
-}>
-<TabItem value="ui">
+<CreateUserFragment/>
 
-<figure class="frame">
-  <video controls loop autoplay="true" muted>
-    <source src="/img/ui/auth/create-user.mp4" type="video/mp4" />
-  </video>
-  <figcaption>loft UI - Create User</figcaption>
-</figure>
-
-:::note Send Invite Link
-If you do not set a password for the user, loft will generate an access key for the user and display a invite link which you can send to the user to sign in and define a password for their user.
-:::
-
-</TabItem>
-<TabItem value="kubectl">
-
-Create file `user.yaml`:
-```yaml
-apiVersion: management.loft.sh/v1
-kind: User
-metadata:
-  name: john
-spec:
-  displayName: John Doe
-  email: john@acme.tld
-  username: john
-  subject: john           # Kubernetes subject (use username if in doubt)
-  passwordRef:            # Specify this to set the password for the user
-    key: password
-    secretName: john-password
-    secretNamespace: loft
-```
-
-Create file `password.yaml`:
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  namespace: loft
-  name: john-password
-type: Opaque
-data:
-  password: INSERT_BASE64_ENCODED_SHA256_PASSWORD_HASH
-```
-
-Create the user using `kubectl`:
-```bash
-# IMPORTANT: Run these commands inside the loft management cluster
-kubectl apply -f password.yaml
-kubectl apply -f user.yaml
-```
-
-</TabItem>
-</Tabs>
 
 
 ## Create Cluster Acccounts
-Users in loft do **not** automatically have access to clusters. To give a user access to a cluster, you need to create an account for this user within the cluster.
 
-<Tabs
-  groupId="ui-cli-kubectl"
-  defaultValue="ui"
-  values={[
-    { label: 'UI', value: 'ui', },
-    { label: 'kubectl', value: 'kubectl', },
-  ]
-}>
-<TabItem value="ui">
-
-<figure class="frame">
-  <video controls loop autoplay="true" muted>
-    <source src="/img/ui/clusters/create-account.mp4" type="video/mp4" />
-  </video>
-  <figcaption>loft UI - Create Account</figcaption>
-</figure>
-
-:::tip Copy Cluster Accounts
-When creating a new user, loft offers the option to copy cluster accounts from an existing user. You could also create a "template user," configure all cluster accounts and quotas for this template user, and then add the rest of your team by copying the accounts when adding the users.
-:::
-
-</TabItem>
-<TabItem value="kubectl">
-
-Create file `account.yaml`:
-```yaml
-apiVersion: tenancy.kiosk.sh/v1alpha1
-kind: Account
-metadata:
-  name: johns-account
-spec:
-  subjects:
-  - apiGroup: rbac.authorization.k8s.io
-    kind: User
-    name: john          # References the `spec.subject` defined in the User object
-```
-
-Create the account using `kubectl`:
-```bash
-# IMPORTANT: Make sure to switch to the context of the connected cluster!
-kubectl apply -f account.yaml
-```
-
-</TabItem>
-</Tabs>
+<CreateClusterAccounts/>
 
 
 ## Create Account Quotas
-Account quotas are like Kubernetes resource quotas but they are aggregated across namespaces, i.e. if you specify a limit such as `limits.memory: 8Gi` the user can use up to 8Gi of memory across all the spaces owned by the account that the quota is defined for.
 
-<Tabs
-  groupId="ui-cli-kubectl"
-  defaultValue="ui"
-  values={[
-    { label: 'UI', value: 'ui', },
-    { label: 'kubectl', value: 'kubectl', },
-  ]
-}>
-<TabItem value="ui">
+<WhatAreAccountQuotas/>
+<CreateAccountQuotas/>
 
-<figure class="frame">
-  <video controls loop autoplay="true" muted>
-    <source src="/img/ui/clusters/create-quota.mp4" type="video/mp4" />
-  </video>
-  <figcaption>loft UI - Create Account Quota</figcaption>
-</figure>
-
-</TabItem>
-<TabItem value="kubectl">
-
-Create file `quota.yaml`:
-```yaml
-apiVersion: config.kiosk.sh/v1alpha1
-kind: AccountQuota
-metadata:
-  generation: 2
-  name: johns-quota
-spec:
-  account: johns-account
-  quota:
-    hard:
-      limits.cpu: "2"
-      limits.memory: 8Gi
-```
-
-Create the account quota using `kubectl`:
-```bash
-# IMPORTANT: Make sure to switch to the context of the connected cluster!
-kubectl apply -f quota.yaml
-```
-
-</TabItem>
-</Tabs>
 
 ### Space Limit & Metadata
-While account quotas are mainly concerning resources that users are creating inside their spaces, you can also restrict the creation of spaces itself. 
+While account quotas are mainly concerning resources that users are creating inside their spaces, you can also restrict the creation of spaces itself.
 
-<Tabs
-  groupId="ui-cli-kubectl"
-  defaultValue="ui"
-  values={[
-    { label: 'UI', value: 'ui', },
-    { label: 'kubectl', value: 'kubectl', },
-  ]
-}>
-<TabItem value="ui">
-
-If you open the form to create or edit a cluster account, you will see the section "Space Creation Settings" which provides the following options:
-- **Space Limit** to set a maximum number of namespaces for this account
-- **Timeout for Automatic Sleep Mode** to [enable automatic sleep mode](../spaces/sleep-mode.mdx) after a certain period of inactivity
-- **Enforce Templates** to specify [templates](./templates.mdx) which will be instantiated when creating a space with this account
-- **Labels &amp; Annotations** to specify metadata which should be set when creating a space[^3]
-
-[^3] While users are generally able to define their own labels and annotations, loft will make sure that the enforced labels and annotations cannot be overwritten.
-
-<figure class="frame">
-  <video controls loop autoplay="true" muted>
-    <source src="/img/ui/clusters/account-space-settings.mp4" type="video/mp4" />
-  </video>
-  <figcaption>loft UI - Change Space Creation Settings</figcaption>
-</figure>
-
-</TabItem>
-<TabItem value="kubectl">
-
-Create file `account.yaml`:
-```yaml
-apiVersion: tenancy.kiosk.sh/v1alpha1
-kind: Account
-metadata:
-  name: johns-account
-spec:
-  subjects:
-  - apiGroup: rbac.authorization.k8s.io
-    kind: User
-    name: john          # References the `spec.subject` defined in the User object
-  space:
-    clusterRole: loft-cluster-space-default
-    limit: 5
-    spaceTemplate:
-      metadata:
-        creationTimestamp: null
-        labels:
-          some-label: some-value
-        annotations:
-          # sleep mode annotation is base64 encoded (see note below)
-          loft.sh/sleep-mode: eyJhcGlWZXJzaW9uIjoiY2x1c3Rlci5sb2Z0LnNoL3YxIiwia2luZCI6IlNsZWVwTW9kZUNvbmZpZyIsInNwZWMiOnsiZW5hYmxlZCI6dHJ1ZSwic2xlZXBBZnRlciI6MTgwMH19Cg==
-```
-
-:::note Sleep Mode Annotation
-Run this command to generate a base64 encoded sleep mode annotation:
-```bash
-echo '{"apiVersion":"cluster.loft.sh/v1","kind":"SleepModeConfig","spec":{"enabled":true,"sleepAfter":1800}}' | base64
-```
-:::
-
-Create the account using `kubectl`:
-```bash
-# IMPORTANT: Make sure to switch to the context of the connected cluster!
-kubectl apply -f account.yaml
-```
-
-</TabItem>
-</Tabs>
-
+<AccountSpaceSettings/>

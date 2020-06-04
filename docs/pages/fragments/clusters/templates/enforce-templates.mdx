@@ -1,0 +1,79 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+One of the most popular use cases for templates is to ensure cluster security and enforce isolation amongs users and spaces. You can enforce that certain templates are always applied to spaces when they are being created by adding these templates as part of the "Space Creation Settings" of an account.
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/enforce-template.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Enforce Template</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create file `template.yaml`:
+```yaml
+apiVersion: config.kiosk.sh/v1alpha1
+kind: Template
+metadata:
+  creationTimestamp: "2020-06-02T19:30:48Z"
+  generation: 1
+  name: network-isolation
+  resourceVersion: "705504"
+  selfLink: /apis/config.kiosk.sh/v1alpha1/templates/network-isolation
+  uid: efc3e5c0-7f35-4f83-8987-6258bfd33dec
+resources:
+  manifests:
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: ingress-deny-all
+    spec:
+      podSelector: {}
+      policyTypes:
+      - Ingress
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: ingress-allow-same-namespace
+    spec:
+      ingress:
+      - from:
+        - podSelector: {}
+      podSelector: {}
+      policyTypes:
+      - Ingress
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: ingress-allow-internet-access
+    spec:
+      ingress:
+      - {}
+      podSelector:
+        matchLabels:
+          isolation.loft.sh/allow-internet-access: "true"
+      policyTypes:
+      - Ingress
+```
+
+Create the template using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl create -f template.yaml
+```
+
+</TabItem>
+</Tabs>

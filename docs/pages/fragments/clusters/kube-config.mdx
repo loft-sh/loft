@@ -1,0 +1,14 @@
+To give loft access to a cluster, you need to provide a kube-config for this cluster.
+
+**Option A:** To automatically create a kube-config using [loft CLI](../../getting-started/setup.mdx#install-loft-cli), run the following command:
+```bash
+loft generate admin-kube-config
+```
+:::caution
+Make sure you are in the right cluster/context before executing the command shown above.
+:::
+
+**Option B:** To manually create a kube-config, you need to:
+1. Create a ServiceAccount
+2. Create a ClusterRoleBinding to bind the ServiceAccount to the ClusterRole `cluster-admin`
+3. Create a kube-config for the cluster using the token of the ServiceAccount created above

@@ -2,3 +2,48 @@
 title: Templates
 sidebar_label: Templates
 ---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import WhatAreTemplatesFragment from '../fragments/clusters/templates/what-are-templates.mdx'
+import CreateTemplatesFragment from '../fragments/clusters/templates/create-templates.mdx'
+import EnforceTemplatesFragment from '../fragments/clusters/templates/enforce-templates.mdx'
+import TemplateInstancesFragment from '../fragments/clusters/templates/template-instances.mdx'
+import InstantiateTemplatesFragment from '../fragments/clusters/templates/instantiate-templates.mdx'
+
+
+<WhatAreTemplatesFragment/>
+
+
+## Templates
+
+### Create Templates
+
+<CreateTemplatesFragment/>
+
+
+### Enforce Templates
+
+<EnforceTemplatesFragment/>
+
+
+### Delete Templates
+#TODO
+
+
+## Template Instances
+
+<TemplateInstancesFragment/>
+
+
+### Instantiate Templates
+
+<InstantiateTemplatesFragment/>
+
+
+### Delete Instances
+#TODO
+
+
+## Sync Template &lt;&gt; Instance
+Template instances keep track of the Helm charts and manifests they are creating. When the underlying template changes, the instance will automatically update the Helm chart or the modified manifests to keep everything in sync with the template.

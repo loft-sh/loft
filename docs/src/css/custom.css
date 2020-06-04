@@ -12,7 +12,7 @@
   border-top: 1px solid #e9e9e9;
 }
 
-.markdown h2, 
+.markdown h2,
 .markdown h3 {
   margin-top: 2.4em;
   line-height: 24px;
@@ -29,7 +29,7 @@
 .step_src-components-Step- + h4,
 .step_src-components-Step- + h5 {
   font-size: 1.15em;
-} 
+}
 
 :root {
   --ifm-color-info: #077EEC;
@@ -47,6 +47,10 @@
 .markdown p + ol {
   margin-top: calc(-0.5 * var(--ifm-paragraph-margin-bottom));
   margin-bottom: calc(0.8 * var(--ifm-paragraph-margin-bottom));
+}
+
+.markdown .admonition {
+  margin-left: -1px;
 }
 
 .admonition-note code {
@@ -75,4 +79,55 @@ html body .markdown button[aria-label="Copy code to clipboard"], html body pre.p
   border: none;
   border-radius: 3px;
   outline: none;
+}
+
+.active-section,
+[id^="fn-"] {
+  position: relative;
+}
+
+[id^="fn-"] {
+  display: block;
+  text-indent: -0.8em;
+  padding-left: 0.8em;
+}
+
+.active-section::before,
+span:target::before {
+  content: " ";
+  width: 3px;
+  position: absolute;
+  left: -17px;
+  top: -5px;
+  bottom: calc(-1*var(--ifm-paragraph-margin-bottom));
+  background: #077EEC;
+}
+
+@media (min-width: 1250px) {
+  .active-section::before,
+  span:target::before {
+    left: -40px;
+  }
+}
+
+
+span:target::before {
+  bottom: -5px;
+}
+
+details .active-section::before {
+  display: none;
+}
+
+blockquote.active-section::before {
+  left: -25px;
+}
+
+h3.active-section::before {
+  top: -2.4em;
+}
+
+*:not(.active-section) + h2.active-section::before,
+*:not(.active-section) + h3.active-section::before {
+  top: 2.4rem;
 }

@@ -49,20 +49,9 @@ module.exports = {
       type: 'category',
       label: 'Users & Teams',
       items: [
-        'users/users',
-        'users/teams',
-        'users/authentication',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Administration',
-      items: [
-        'administration/basics',
-        'administration/license',
-        'administration/upgrade',
-        'administration/uninstall',
-        'administration/troubleshooting',
+        'auth/users',
+        'auth/teams',
+        'auth/oidc',
       ],
     },
     {
@@ -71,6 +60,15 @@ module.exports = {
       items: [
         'profile/basics',
         'profile/access-keys',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Administration',
+      items: [
+        'administration/license',
+        'administration/upgrade',
+        'administration/uninstall',
       ],
     },
     {

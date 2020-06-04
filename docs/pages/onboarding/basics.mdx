@@ -3,9 +3,113 @@ title: Onboarding Guide for Users
 sidebar_label: Onboarding Guide for Users
 ---
 
-- setup (install CLI, login, accept invite, change password)
-- creating spaces (clusters already connected), running kubectl, helm etc commands
-- sleep mode for spaces
-- sharing spaces
-- quotas
-- teams
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import InstallCLIFragment from '@site/pages/fragments/install/cli.mdx'
+import WhatAreSpacesFragment from '../fragments/spaces/what-are-spaces.mdx'
+import CreateSpacesFragment from '../fragments/spaces/create.mdx'
+import DeleteSpacesFragment from '../fragments/spaces/delete.mdx'
+import ShareSpacesFragment from '../fragments/spaces/share.mdx'
+
+
+## Install loft CLI
+Installing the loft CLI lets you create spaces and retrieve kube-contexts for your spaces right from the terminal of your IDE which is often much faster than using the UI.
+
+<InstallCLIFragment/>
+
+
+## Login
+#TODO
+
+```bash
+loft login https://my-loft.url.tld
+```
+
+
+## Spaces
+
+
+
+### Create Spaces
+
+<CreateSpacesFragment/>
+
+
+### Switch Between Spaces
+#TODO
+
+```bash
+loft use space [SPACE_NAME]
+```
+
+
+### Share Spaces
+
+<ShareSpacesFragment/>
+
+
+### Delete Spaces
+
+<DeleteSpacesFragment/>
+
+
+### Sleep Mode + Wakeup
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'CLI', value: 'cli', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/spaces/sleep-mode/manual.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Manual Sleep &amp; Wake-Up</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="cli">
+
+Run this command to manually wake up a space:
+```bash
+loft wakeup [SPACE_NAME]   # optional flag: --cluster=[CLUSTER_NAME]
+```
+
+</TabItem>
+<TabItem value="kubectl">
+
+Run any kubectl command to wake up a sleeping space:
+```bash
+loft use space [SPACE_NAME]
+kubectl get po
+```
+
+</TabItem>
+</Tabs>
+
+
+## Quotas
+#TODO
+
+<figure class="frame">
+  <img src="/img/ui/quotas.png" alt="Account Quotas" />
+  <figcaption>loft UI - Account Quotas</figcaption>
+</figure>
+
+
+## Clusters
+#TODO
+
+
+## Teams
+#TODO
+
+
+## Access Keys
+#TODO

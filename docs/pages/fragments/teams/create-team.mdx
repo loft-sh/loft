@@ -1,0 +1,45 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/auth/create-team.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Create Team</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create file `team.yaml`:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Team
+metadata:
+  name: analytics
+spec:
+  displayName: Analytics Team
+  username: analytics
+  users:
+  - admin
+  - john
+```
+
+Create the team using `kubectl`:
+```bash
+# IMPORTANT: Run this command inside the loft management cluster
+kubectl create -f team.yaml
+```
+
+</TabItem>
+</Tabs>
