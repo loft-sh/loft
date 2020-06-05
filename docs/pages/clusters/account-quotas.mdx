@@ -21,4 +21,33 @@ Admins can manage account quotas in the "Quotas" tab of each cluster. Users can 
 
 
 ## Delete Quotas
-#TODO
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/delete-quota.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Delete Account Quotas</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete an account quota using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl delete accountquota [ACCOUNT_QUOTA_NAME]
+```
+
+</TabItem>
+</Tabs>
+

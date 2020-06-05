@@ -5,8 +5,12 @@ sidebar_label: OpenID Connect Auth
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
+import DynamicMembershipFragment from '../fragments/teams/dynamic-membership.mdx'
 
-
+[OpenID Connect](./oidc.mdx) allows users to authenticate using a third-party providers which is useful if organizations want to:
+- provide self sign-up for their users
+- [mirror the team memberships](#mirror-team-memberships) of their users from another provider
+- enforce security standards such as two factor authentication (2FA)
 
 ## Connector Configuration
 
@@ -23,18 +27,22 @@ import TabItem from '@theme/TabItem'
 }>
 <TabItem value="github">
 
+#TODO
 
 </TabItem>
 <TabItem value="gitlab">
 
+#TODO
 
 </TabItem>
 <TabItem value="google">
 
+#TODO
 
 </TabItem>
 <TabItem value="microsoft">
 
+#TODO
 
 </TabItem>
 <TabItem value="others">
@@ -57,14 +65,19 @@ For more details, click on the respective provider and [click here for a full li
 </Tabs>
 
 
-## Team Memberships
-#TODO
+## Mirror Team Memberships
+
+<DynamicMembershipFragment/>
 
 
 ## Disable Password Auth
-#TODO
-
+To disable password authentication, upgrade your loft instance using helm:
+```bash
+helm upgrade -n loft loft loft --repo https://charts.devspace.sh \
+  --reuse-values \
+  --set auth.disablePassword=true
+  --version 0.0.1
+```
 
 ## loft as OIDC Provider
-#TODO
-
+Loft can also act as an OIDC provider for other services, e.g. a self-hosted container registry using [Harbor](https://goharbor.io/docs/2.0.0/administration/configure-authentication/oidc-auth/).

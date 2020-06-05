@@ -20,5 +20,43 @@ An account defines the permissions of a user within a certain cluster (authoriza
 <AccountSpaceSettings/>
 
 
-## Delete Account
-#TODO
+## Delete Accounts
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/delete-account.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Delete Account</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete an account using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl delete account [ACCOUNT_NAME]
+```
+
+</TabItem>
+</Tabs>
+
+:::warning Data Loss
+Deleting an account will also delete:
+- all AccountQuotas created for the account
+- all spaces owned by the account
+- all RBAC objects associated with the account and its spaces
+
+Deletion of these objects will be handled by [Kubernetes OwnerReferences](https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/#owners-and-dependents).
+:::
+

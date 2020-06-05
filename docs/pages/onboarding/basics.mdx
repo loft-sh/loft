@@ -10,6 +10,13 @@ import WhatAreSpacesFragment from '../fragments/spaces/what-are-spaces.mdx'
 import CreateSpacesFragment from '../fragments/spaces/create.mdx'
 import DeleteSpacesFragment from '../fragments/spaces/delete.mdx'
 import ShareSpacesFragment from '../fragments/spaces/share.mdx'
+import WhatAreAccessKeysFragment from '../fragments/profile/what-are-access-keys.mdx'
+import CreateAccessKeysFragment from '../fragments/profile/create-access-key.mdx'
+import LoginAccessKeysFragment from '../fragments/profile/login-access-key.mdx'
+import DeleteAccessKeysFragment from '../fragments/profile/delete-access-key.mdx'
+
+
+Welcome to loft! One of your colleagues has probably sent you this link, so you can quickly get started using loft. With loft, you can create Kubernetes namespaces to test any applications you are working on, you can run ML/AI experiments or you can integrate Kubernetes very easily in you CI/CD pipelines.
 
 
 ## Install loft CLI
@@ -19,25 +26,35 @@ Installing the loft CLI lets you create spaces and retrieve kube-contexts for yo
 
 
 ## Login
-#TODO
-
+After installing the CLI, you must login to loft:
 ```bash
 loft login https://my-loft.url.tld
 ```
+This command will generate an [access key](#access-keys) and securely store it on your computer, so the loft CLI can authenticate when running any further commands.
+
 
 
 ## Spaces
+Spaces are Kubernetes namespaces that allow you to work with, e.g. deploy applications to see if they are working correctly, use in CI/CD pipelines, run ML/AI experiments, debug microservices etc.
 
-
+You can create as many spaces as your admin has configured for you. You may create spaces in [different Kubernete clusters](#clusters) if your admin has granted you access to more than just one cluster.
 
 ### Create Spaces
 
 <CreateSpacesFragment/>
 
 
-### Switch Between Spaces
-#TODO
+### List Spaces
+To get a list of your spaces, take a look in the UI or simply run:
+```bash
+loft list spaces
+```
 
+
+### Switch Between Spaces
+The CLI will automatically handle the kube-context (i.e. which Kubernetes cluster and namespace you are working with and how to authenticate).
+
+To switch from one cluster to another cluster, run:
 ```bash
 loft use space [SPACE_NAME]
 ```
@@ -54,6 +71,11 @@ loft use space [SPACE_NAME]
 
 
 ### Sleep Mode + Wakeup
+Your admin may configure the sleep mode for you spaces. Sleeping spaces will **not** lose any configuration or persistent data but the running containers will be gracefully terminated.
+
+As soon as you run any command within a sleeping space with any Kubernetes tool (e.g. `kubectl get po`, `helm install`, `devspace dev`) your space will automatically wake up and start your containers again.
+
+You can also manually wake up spaces as shown below:
 
 <Tabs
   groupId="ui-cli-kubectl"
@@ -95,7 +117,9 @@ kubectl get po
 
 
 ## Quotas
-#TODO
+In each cluster, you have access to, you have a cluster account. Each of these cluster accounts can have quotas which may limit how many Kubernetes resources (e.g. pods) you can create or how much computing power you can use.
+
+You can view your quotas for all clusters as well as the current utilization in the loft UI:
 
 <figure class="frame">
   <img src="/img/ui/quotas.png" alt="Account Quotas" />
@@ -103,13 +127,23 @@ kubectl get po
 </figure>
 
 
-## Clusters
-#TODO
-
-
-## Teams
-#TODO
-
-
 ## Access Keys
-#TODO
+
+<WhatAreAccessKeysFragment/>
+
+
+### Create Access Keys
+
+<CreateAccessKeysFragment/>
+
+
+### Login with Access Keys
+
+<LoginAccessKeysFragment/>
+
+
+### Delete Access Keys
+
+<DeleteAccessKeysFragment/>
+
+

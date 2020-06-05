@@ -1,4 +1,4 @@
-Instead of statically assigning users to a team, you can also define "Kubernetes Groups" as team members. This is an advantage if you are [using OpenID Connect for authentication](../authentication.mdx) because your existing team structure can be easily reflected in loft without the need to manually replicate team memberships.
+Instead of statically assigning users to a team, you can also define "Kubernetes Groups" as team members. This is an advantage if you are [using OpenID Connect for authentication](../../auth/oidc.mdx) because your existing team structure can be easily reflected in loft without the need to manually replicate team memberships.
 
 Example: Your organization is working with GitHub and has existing teams with different members and access permissions in GitHub. If you configure loft to use GitHub as OpenID Connect Auth Provider and you create the teams you want to give Kubernetes access in loft, you can define a group membership for the GitHub team name. The result of this is that all users who are part of the GitHub team will also become a member of the corresponding team in loft.
 
