@@ -2,3 +2,92 @@
 title: Templates
 sidebar_label: Templates
 ---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import WhatAreTemplatesFragment from '../fragments/clusters/templates/what-are-templates.mdx'
+import CreateTemplatesFragment from '../fragments/clusters/templates/create-templates.mdx'
+import EnforceTemplatesFragment from '../fragments/clusters/templates/enforce-templates.mdx'
+import TemplateInstancesFragment from '../fragments/clusters/templates/template-instances.mdx'
+import InstantiateTemplatesFragment from '../fragments/clusters/templates/instantiate-templates.mdx'
+
+
+<WhatAreTemplatesFragment/>
+
+
+## Templates
+
+### Create Templates
+
+<CreateTemplatesFragment/>
+
+
+### Enforce Templates
+
+<EnforceTemplatesFragment/>
+
+:::caution Only During Space Creation
+Enforced templates are part of the "Space Creation Settings" which means that they are only looked at during the creation of new spaces. Changing the enforced templates will **not** be reflected in existing space **nor** will template instances removed when a template is removed from the list of enforce templates.
+:::
+
+
+### Delete Templates
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/delete-template.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Delete Template</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete a template using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl delete template [TEMPLATE_NAME]
+```
+
+</TabItem>
+</Tabs>
+
+:::caution Template Instances
+Deleting a template will **not** automatically delete the template instances **nor** will it automatically delete the Kubernetes objects or Helm charts created by the template instance. To delete the Kubernetes objects or Helm charts created by the template, remove the manifests and Helm chart definition from the template and wait until the controller has [synchonized the changes to the template instances](#sync-template--instance).
+:::
+
+:::caution Enforced Templates
+Deleting a template will **not** automatically delete the template from the list of [enforced templates](#enforce-templates) in any cluster account.
+:::
+
+
+## Template Instances
+
+<TemplateInstancesFragment/>
+
+
+### Instantiate Templates
+
+<InstantiateTemplatesFragment/>
+
+
+### Delete Instances
+Deleting template instances is only possible via `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl delete templateinstance -n [NAMESPACE] [TEMPLATE_INSTANCE_NAME]
+```
+
+
+## Sync Template &lt;&gt; Instance
+Template instances keep track of the Helm charts and manifests they are creating. When the underlying template changes, the instance will automatically update the Helm chart or the modified manifests to keep everything in sync with the template.

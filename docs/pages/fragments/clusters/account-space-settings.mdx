@@ -1,0 +1,70 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+If you open the form to create or edit a cluster account, you will see the section "Space Creation Settings" which provides the following options:
+- **Space Limit** to set a maximum number of namespaces for this account
+- **Timeout for Automatic Sleep Mode** to [enable automatic sleep mode](../spaces/sleep-mode.mdx) after a certain period of inactivity
+- **Enforce Templates** to specify [templates](./templates.mdx) which will be instantiated when creating a space with this account
+- **Labels &amp; Annotations** to specify metadata which should be set when creating a space[^3]
+
+<span id="fn-3"><sup>3</sup> While users are generally able to define their own labels and annotations, loft will make sure that the enforced labels and annotations cannot be overwritten.</span>
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/account-space-settings.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Change Space Creation Settings</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create file `account.yaml`:
+```yaml
+apiVersion: tenancy.kiosk.sh/v1alpha1
+kind: Account
+metadata:
+  name: johns-account
+spec:
+  subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: john          # References the `spec.subject` defined in the User object
+  space:
+    clusterRole: loft-cluster-space-default
+    limit: 5
+    spaceTemplate:
+      metadata:
+        creationTimestamp: null
+        labels:
+          some-label: some-value
+        annotations:
+          # sleep mode annotation is base64 encoded (see note below)
+          loft.sh/sleep-mode: eyJhcGlWZXJzaW9uIjoiY2x1c3Rlci5sb2Z0LnNoL3YxIiwia2luZCI6IlNsZWVwTW9kZUNvbmZpZyIsInNwZWMiOnsiZW5hYmxlZCI6dHJ1ZSwic2xlZXBBZnRlciI6MTgwMH19Cg==
+```
+
+:::note Sleep Mode Annotation
+Run this command to generate a base64 encoded sleep mode annotation:
+```bash
+echo '{"apiVersion":"cluster.loft.sh/v1","kind":"SleepModeConfig","spec":{"enabled":true,"sleepAfter":1800}}' | base64
+```
+:::
+
+Create the account using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl apply -f account.yaml
+```
+
+</TabItem>
+</Tabs>

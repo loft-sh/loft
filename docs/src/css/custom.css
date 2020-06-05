@@ -12,7 +12,8 @@
   border-top: 1px solid #e9e9e9;
 }
 
-h2, h3 {
+.markdown h2,
+.markdown h3 {
   margin-top: 2.4em;
   line-height: 24px;
 }
@@ -25,9 +26,14 @@ h2, h3 {
   display: inline-block;
 }
 
+.step_src-components-Step- + h4,
+.step_src-components-Step- + h5 {
+  font-size: 1.15em;
+}
+
 :root {
   --ifm-color-info: #077EEC;
-  --ifm-color-success: #3AAF00;
+  --ifm-color-success: rgb(64, 185, 255);
   --ifm-color-warning: #ED7200;
   --ifm-color-error: #C21B1B;
 }
@@ -35,4 +41,109 @@ h2, h3 {
 .tabs__item {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.markdown p + ul,
+.markdown p + ol {
+  margin-top: calc(-0.5 * var(--ifm-paragraph-margin-bottom));
+  margin-bottom: calc(0.8 * var(--ifm-paragraph-margin-bottom));
+}
+
+.markdown .admonition {
+  margin-left: -1px;
+}
+
+.admonition-note code {
+  background: #cdcdcd;
+}
+
+.markdown .codeBlockTitle_node_modules-\@docusaurus-theme-classic-src-theme-CodeBlock- {
+  background: transparent!important;
+  display: none;
+}
+
+.markdown [role="tab"],
+.markdown .prism-code, code {
+  outline: none;
+}
+
+
+html body .markdown button[aria-label="Copy code to clipboard"], html body pre.prism-code > button {
+  margin-top: 0.45em;
+}
+
+.markdown figure.frame img,
+.markdown figure.frame video {
+  width: 100%;
+  box-shadow: 0 0 7px 3px #00000020;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+}
+
+.active-section,
+[id^="fn-"] {
+  position: relative;
+}
+
+[id^="fn-"] {
+  display: block;
+  text-indent: -0.8em;
+  padding-left: 0.8em;
+}
+
+.active-section::before,
+span:target::before {
+  content: " ";
+  width: 3px;
+  position: absolute;
+  left: -17px;
+  top: -5px;
+  bottom: calc(-1*var(--ifm-paragraph-margin-bottom));
+  background: #077EEC;
+}
+
+@media (min-width: 1250px) {
+  .active-section::before,
+  span:target::before {
+    left: -40px;
+  }
+}
+
+
+span:target::before {
+  bottom: -5px;
+}
+
+details .active-section::before {
+  display: none;
+}
+
+blockquote.active-section::before {
+  left: -25px;
+}
+
+h3.active-section::before {
+  top: -2.4em;
+}
+
+*:not(.active-section) + h2.active-section::before,
+*:not(.active-section) + h3.active-section::before {
+  top: -0.5em;
+}
+
+.step_src-components-Step-.active-section::before,
+.step_src-components-Step- + h2.active-section::before,
+.step_src-components-Step- + h3.active-section::before,
+.step_src-components-Step- + h4.active-section::before {
+  display: none;
+}
+
+.step_src-components-Step- + h2.active-section + .active-section::before {
+  top: -5rem;
+}
+
+.step_src-components-Step- + h3.active-section + .active-section::before,
+.step_src-components-Step- + h4.active-section + .active-section::before {
+  top: -3.5rem;
 }

@@ -1,41 +1,27 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Step from '@site/src/components/Step/Step';
-import InstallCreateNamespaceFragment from './create-namespace.mdx';
 import InstallHelmHintFragment from './helm-hint.mdx';
 import CreateAdminUserFragment from './create-admin-user.mdx';
-
-:::tip Separate management cluster
-Although it is possible to install loft to a Kubernetes cluster and then connect the same cluster to this loft instance, it is recommended (especially for teams with 50+ engineers) to create a separate Kubernetes cluster just for the loft management plane.
-:::
-
-### Requirements  
-To install the on-premise edition of loft, you need:
-- kubectl
-- Helm v3
-- a Kubernetes cluster
-- a kube-context with admin access to this cluster
-
-### Install loft via Helm v3
 
 <Tabs
   groupId="cluster"
   defaultValue="cloud"
   values={[
-    { label: 'Cloud / Managed Cluster', value: 'cloud', },
-    { label: 'Self-Managed Cluster', value: 'custom', },
-    { label: 'Local Cluster (testing only)', value: 'local', },
+    { label: 'Cloud Cluster', value: 'cloud', },
+    { label: 'Local Cluster (Testing)', value: 'local', },
   ]
 }>
 <TabItem value="cloud">
 
-:::note
-Choose this option if you want to deploy loft to a managed Kubernetes cluster such as:
+:::note Cloud Clusters
+Choose this option if you want to deploy loft to a Kubernetes cluster such as:
 - GKE (Google Cloud)
 - EKS (Amazon Web Services)
 - AKS (Azure Cloud)
 - DOKS (Digital Ocean)
 - ACK (Alibaba Cloud)
+- RKE (Rancher)
 - any other Kubernetes clusters that support LoadBalancer provisioning via Kubernetes services
 :::
 
@@ -43,43 +29,51 @@ Choose this option if you want to deploy loft to a managed Kubernetes cluster su
 <br />
 <Step>1</Step>
 
-<InstallCreateNamespaceFragment/>
-
-
-<br />
-<Step>2</Step>
-
 #### Ensure Ingress Controller
 
-To use the loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you do not have an ingress controller running in your cluster, you can install one using Helm v3:
+To use the loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
+
+If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
 helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storage.googleapis.com \
   --namespace nginx-ingress \
+  --create-namespace \
   --wait
 ```
 
-After the ingress controller has been deployed, [create a DNS recrod](https://support.dnsimple.com/articles/a-record/) to point the domain or subdomain you want to use for loft to the IP address (create DNS A record) or hostname (create DNS CNAME record) of your load balancer.
+:::important Configuring DNS
+After the ingress controller has been deployed, **[create a DNS record](https://support.dnsimple.com/articles/a-record/)** to point the domain or subdomain you want to use for loft to the IP address (create DNS A record) or hostname (create DNS CNAME record) of your load balancer.
 
 To get the IP address or hostname of the load balancer for your ingress controller, run the following command and look for the `EXTERNAL-IP`:
 
 ```bash
 kubectl -n nginx-ingress get service nginx-ingress-controller
 ```
+```bash
+                                                     |---------------|
+NAME                       TYPE           CLUSTER-IP | EXTERNAL-IP   |  PORT(S)                      AGE     
+nginx-ingress-controller   LoadBalancer   10.0.0.244 | 34.70.140.240 |  80:30984/TCP,443:31758/TCP   19m
+                                                     |---------------|
+```
+:::
 
 :::note Pending External IP
 If the `EXTERNAL-IP` of this service remains `pending` for a long time, make sure your Kubernetes cluster supports services of type `LoadBalancer` or manually reconfigure this service.
 :::
 
 <br />
-<Step>3</Step>
+<Step>2</Step>
 
 #### Ensure Cert Manager
 
-To use the loft UI and API via a domain or subdomain, you need to install cert-manager v0.12+ to your cluster. If you don't have cert-manager deployed yet, you can do this using the following command:
+To use the loft UI and API via a domain or subdomain, you need to install cert-manager v0.12+ to your cluster. If you already have cert-manager set up and running, you can skip this step.
+
+If you do **not** have cert-manager deployed yet, you can do this using the following command:
 ```bash
 helm install cert-manager cert-manager --repo https://charts.jetstack.io \
   --set installCRDs=true \
   --namespace cert-manager \
+  --create-namespace \
   --wait
 ```
 
@@ -87,13 +81,14 @@ Cert Manager will automatically provision SSL certificates for your ingress host
 
 
 <br />
-<Step>4</Step>
+<Step>3</Step>
 
-#### Install loft to management cluster via Helm v3
+#### Install loft to management cluster via helm v3
 
 ```bash
 helm install loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
+  --create-namespace \
   --set admin.username=admin \              # Username for your (admin) user
   --set certIssuer.email=EMAIL \            # Your email address
   --set ingress.host=loft.my-domain.tld \   # CHANGE TO YOUR DOMAIN
@@ -104,7 +99,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 
 
 <br />
-<Step>5</Step>
+<Step>4</Step>
 
 #### Open loft UI and create admin user
 
@@ -119,25 +114,9 @@ kubectl -n devspace-cloud get certificate
 
 
 </TabItem>
-<TabItem value="custom">
-
-:::note
-Choose this option if you want to experiment with loft using a local Kubernetes cluster such as:
-- RKE (Rancher, non-cloud)
-- 
-- any other Kubernetes clusters that does not allow to provision load balancers for services
-:::
-
-
-<br />
-<Step>1</Step>
-
-<InstallCreateNamespaceFragment/>
-
-</TabItem>
 <TabItem value="local">
 
-:::note
+:::note Local Clusters
 Choose this option if you want to experiment with loft using a local Kubernetes cluster such as:
 - Docker Kubernetes
 - minikube
@@ -146,15 +125,13 @@ Choose this option if you want to experiment with loft using a local Kubernetes 
 - any other Kubernetes clusters that runs on your local computer
 :::
 
+:::caution Testing only
+The idea of loft is giving other engineers access to Kubernetes. A local cluster is great to evaluate and test the features of loft but it will not allow to give other engineers access to a Kubernetes cluster because the loft instance will only be accessible on your computer.
+:::
+
 
 <br />
 <Step>1</Step>
-
-<InstallCreateNamespaceFragment/>
-
-
-<br />
-<Step>2</Step>
 
 #### Install loft via Helm v3
 
@@ -163,6 +140,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
   --set admin.username=admin \              # Username for your (admin) user
   --set ingress.enabled=false \
+  --create-namespace \
   --wait
 ```
 
@@ -170,7 +148,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 
 
 <br />
-<Step>3</Step>
+<Step>2</Step>
 
 #### Open loft UI and create admin user
 

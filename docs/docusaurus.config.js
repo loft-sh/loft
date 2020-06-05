@@ -32,7 +32,8 @@ module.exports = {
         {
           href: 'https://loft.sh/blog',
           label: 'Blog',
-          position: 'left'
+          position: 'left',
+          target: '_self'
         },
         {
           href: 'https://github.com/devspace-cloud/loft',
@@ -78,7 +79,12 @@ module.exports = {
     },
     {
       src:
-        'https://devspace.sh/docs.js',
+        'https://static.devspace.cloud/js/docs/highlight-active-sections.js',
+      async: true,
+    },
+    {
+      src:
+        'https://static.devspace.cloud/js/docs/gtm.js',
       async: true,
     },
   ],

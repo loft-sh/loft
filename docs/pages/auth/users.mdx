@@ -1,0 +1,90 @@
+---
+title: Users & Authentication
+sidebar_label: Users & Authentication
+---
+
+import CreateUserFragment from '../fragments/auth/create-user.mdx'
+
+loft provides to different authentication mechanisms:
+- [Authentication using username and password](#username--password-auth)
+- [Authentication using a third-party provider via OpenID Connect](#openid-connect-auth)
+
+## Username + Password Auth
+By default, username and password based authentication is enabled. Admins can [add users](#add-users) and send them invite links to sign up. Additionally, admins can [reset user passwords](#reset-passwords). Users can also change their credentials in the [profile view of the UI](../profile/basics.mdx) after signing in.
+
+Authentication using username and password [can also be disabled](./oidc#disable-password-auth) which is particularly useful for organizations that want to enforce security standards such as two factor authentication (2FA) using a third-party provider.
+
+
+## OpenID Connect Auth
+[OpenID Connect](./oidc.mdx) allows users to authenticate using a third-party providers. Notable providers include:
+- GitHub / GitHub Enterprise
+- GitLab
+- Google
+- Microsoft
+- and many others
+
+Learn more about how to configure [OpenID Connect Authentication](./oidc.mdx).
+
+
+## Workflows
+
+### Add Users
+
+<CreateUserFragment/>
+
+
+### Reset Passwords
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/reset-password.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Reset Password</figcaption>
+</figure>
+
+
+### Delete Users
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/delete-user.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Delete User</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete a user using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the loft management cluster!
+kubectl delete user [USER_NAME]
+```
+
+</TabItem>
+</Tabs>
+
+:::warning Data Loss
+Deleting a user will also delete all cluster accounts that are owned solely by this user. [Deleting these accounts in turn will also delete other related objects](../clusters/accounts#delete-accounts) such as account quotas and spaces.
+:::
+
+
+## Cluster Roles
+loft provides an ClusterRole named `loft-management-admin` that can be assigned to users. This role will allow users to manage all loft-related ressources within the loft cluster, i.e. user, cluster, team etc.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/clusters/loft-user-cluster-roles.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Loft ClusterRoles</figcaption>
+</figure>

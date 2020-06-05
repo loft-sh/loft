@@ -1,0 +1,62 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import HowKubeContextFragment from './kube-context.mdx'
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'CLI', value: 'cli', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/img/ui/spaces/create-space.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Create Space</figcaption>
+</figure>
+
+Creating spaces in the UI is easy but to actually use the space, a cluster user needs a valid kube-context which most non-admin users do not have by default. To get a kube-context limited to a certain space, run the following command using the CLI:
+```bash
+loft use space [SPACE_NAME]
+```
+
+<HowKubeContextFragment/>
+
+</TabItem>
+<TabItem value="cli">
+
+To create a space using the [loft CLI](../../getting-started/setup.mdx#install-loft-cli), run:
+```bash
+loft create space [SPACE_NAME]
+```
+Creating a space with the CLI will automatically set up a kube-context for this space on your computer, so you can immediately run `kubectl`, `helm` or any other commands that may use this namespace.
+
+<HowKubeContextFragment/>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create file `space.yaml`:
+```
+apiVersion: tenancy.kiosk.sh/v1alpha1
+kind: Space
+metadata:
+  name: some-space-name
+```
+
+Create the space using `kubectl`:
+```bash
+kubectl apply -f space.yaml
+```
+
+:::caution Kube-Context Required
+Using `kubectl` to create spaces requires you to have a valid kube-context. This is mainly useful for GitOps based provisioning of spaces.
+:::
+
+</TabItem>
+</Tabs>
