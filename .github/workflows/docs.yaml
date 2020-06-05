@@ -30,7 +30,7 @@ jobs:
       - name: Build Docs
         run: |
           yarn
-          node ./node_modules/mdx-link-checker/index.js pages || echo "Issues with links detected!"
+          node ./node_modules/mdx-link-checker/index.js pages
           yarn build
         working-directory: ./docs
       - name: Prepare Deployment
