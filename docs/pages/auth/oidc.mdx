@@ -27,7 +27,29 @@ OpenID Connect allows users to authenticate using a third-party provider which i
 }>
 <TabItem value="github">
 
-#TODO
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loft-config
+  namespace: loft
+data:
+  config: |
+    oidc:
+      enabled: true
+      clients:
+      - name: My loft instance
+        clientId: ""            # Client ID
+        clientSecret: ""        # Client Secret
+        redirectUris:
+        - http://127.0.0.1:5555/callback
+    auth:
+      oidc:
+        type: github
+        issuerUrl: http://dex.yourlofturl.tld/
+        clientId: ""            # Client ID
+        clientSecret: ""        # Client Secret
+```
 
 </TabItem>
 <TabItem value="gitlab">

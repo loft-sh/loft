@@ -51,7 +51,7 @@ kubectl -n nginx-ingress get service nginx-ingress-controller
 ```
 ```bash
                                                      |---------------|
-NAME                       TYPE           CLUSTER-IP | EXTERNAL-IP   |  PORT(S)                      AGE     
+NAME                       TYPE           CLUSTER-IP | EXTERNAL-IP   |  PORT(S)                      AGE
 nginx-ingress-controller   LoadBalancer   10.0.0.244 | 34.70.140.240 |  80:30984/TCP,443:31758/TCP   19m
                                                      |---------------|
 ```
@@ -106,7 +106,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 :::note Wait For SSL Certificate
 If you configured `ingress.tls.enabled=true` above, you may first have to wait until the SSL certificate is provisioned by cert-manager and Let's encrypt. You can check the status using this command:
 ```bash
-kubectl -n devspace-cloud get certificate
+kubectl -n loft-sh get certificate
 ```
 :::
 
