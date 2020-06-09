@@ -27,7 +27,29 @@ import DynamicMembershipFragment from '../fragments/teams/dynamic-membership.mdx
 }>
 <TabItem value="github">
 
-#TODO
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loft-config
+  namespace: loft
+data:
+  config: |
+    oidc:
+      enabled: true
+      clients:
+      - name: My loft instance
+        clientId: ""            # Client ID
+        clientSecret: ""        # Client Secret
+        redirectUris:
+        - http://127.0.0.1:5555/callback
+    auth:
+      oidc:
+        type: github
+        issuerUrl: http://dex.yourlofturl.tld/
+        clientId: ""            # Client ID
+        clientSecret: ""        # Client Secret
+```
 
 </TabItem>
 <TabItem value="gitlab">

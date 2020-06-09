@@ -3,7 +3,7 @@
 set -e
 
 if [ "$1" = "" ] || [ "$2" = "" ]; then
-  echo 'Usage: curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "release-name-1, release-name-2, ..." "https://chart.registry.url"'
+  echo 'Usage: curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "release-name-1, release-name-2, ..." "https://chart.registry.url"'
   echo ""
   echo "Args:"
   echo "1. Helm Release Name"
@@ -11,13 +11,13 @@ if [ "$1" = "" ] || [ "$2" = "" ]; then
   echo "3. Is System App? (true/false)"
   echo ""
   echo 'Example 1'
-  echo 'curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io"'
+  echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io"'
   echo ""
   echo 'Example 2:'
-  echo 'curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "nginx-ingress" "https://kubernetes-charts.storage.googleapis.com"'
+  echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "nginx-ingress" "https://kubernetes-charts.storage.googleapis.com"'
   echo ""
   echo 'Example 3:'
-  echo 'curl -L "https://raw.githubusercontent.com/devspace-cloud/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.devspace.sh" true false'
+  echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.devspace.sh" true false'
   exit 1
 fi
 

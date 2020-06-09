@@ -1,19 +1,19 @@
-__webpack_public_path__ = "/"
+__webpack_public_path__ = "/docs/"
 
 module.exports = {
   title: 'LOFT - Multi-Tenancy Manager for Kubernetes | Documentation',
   tagline: 'The tagline of my site',
   url: 'https://loft.sh',
   baseUrl: __webpack_public_path__,
-  favicon: '/img/loft-favicon.png',
-  organizationName: 'devspace-cloud', // Usually your GitHub org/user name.
+  favicon: '/media/loft-favicon.png',
+  organizationName: 'loft-sh', // Usually your GitHub org/user name.
   projectName: 'loft', // Usually your repo name.
   themeConfig: {
     disableDarkMode: true,
     navbar: {
       logo: {
         alt: 'loft',
-        src: '/img/loft-logo.svg',
+        src: '/media/loft-logo.svg',
         href: 'https://loft.sh/',
         target: '_self',
       },
@@ -25,7 +25,7 @@ module.exports = {
           target: '_self'
         },
         {
-          to: 'docs/introduction',
+          to: 'introduction',
           label: 'Docs',
           position: 'left'
         },
@@ -36,7 +36,7 @@ module.exports = {
           target: '_self'
         },
         {
-          href: 'https://github.com/devspace-cloud/loft',
+          href: 'https://github.com/loft-sh/loft',
           label: 'GitHub',
           position: 'right',
         },
@@ -60,10 +60,10 @@ module.exports = {
       {
         docs: {
           path: 'pages',
-          routeBasePath: 'docs',
+          routeBasePath: '',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/devspace-cloud/loft/edit/master/docs/',
+            'https://github.com/loft-sh/loft/edit/master/docs/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

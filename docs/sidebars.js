@@ -31,7 +31,6 @@ module.exports = {
         'spaces/basics',
         'spaces/sharing',
         'spaces/sleep-mode',
-        'spaces/isolation',
       ],
     },
     {
@@ -66,30 +65,9 @@ module.exports = {
       type: 'category',
       label: 'Administration',
       items: [
-        'administration/license',
         'administration/upgrade',
         'administration/uninstall',
       ],
-    },
-    {
-      type: 'category',
-      label: 'Kubernetes Resources',
-      items: [
-        'resources/basics',
-        'resources/cluster',
-        'resources/user',
-        'resources/team',
-        'resources/account',
-        'resources/account-quota',
-        'resources/template',
-        'resources/template-instance',
-        'resources/space',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'CLI Commands',
-      items: [],
     },
     {
       type: 'doc',
