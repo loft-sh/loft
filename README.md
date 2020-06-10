@@ -9,6 +9,8 @@
 - **Namespace Templates** for secure tenant isolation and self-service namespace initialization
 - **Multi-Cluster Tenant Management** for sharing a pool of clusters
 
+[![loft demo video](docs/static/media/loft-teaser.gif)](https://loft.sh/)
+
 
 <br>
 
