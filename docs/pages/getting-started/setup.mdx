@@ -36,7 +36,7 @@ The on-premise edition of loft is a good choice for:
 
 -->
 
-## Requirements  
+## Requirements
 To install the on-premise edition of loft, you need:
 - kubectl
 - helm v3 (check with `helm version`)
@@ -76,3 +76,11 @@ TODO: beta sign up
 Installing the loft CLI lets you create spaces and retrieve kube-contexts for your spaces right from the terminal of your IDE, which is often much faster than using the UI.
 
 <InstallCLIFragment/>
+
+
+## Login via CLI
+After installing the CLI, you must login to loft:
+```bash
+loft login https://my-loft.url.tld
+```
+This command will generate an access key and securely store it on your computer, so the loft CLI can authenticate when running any further commands.

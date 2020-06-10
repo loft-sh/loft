@@ -8,6 +8,9 @@
 - **Account Limits** to ensure quality of service and fairness when sharing a cluster
 - **Namespace Templates** for secure tenant isolation and self-service namespace initialization
 - **Multi-Cluster Tenant Management** for sharing a pool of clusters
+- **GitOps-Ready: Custom Resource Definitions** for everything loft does
+
+[![loft demo video](docs/static/media/loft-teaser.gif)](https://loft.sh/)
 
 [![loft demo video](docs/static/media/loft-teaser.gif)](https://loft.sh/)
 
