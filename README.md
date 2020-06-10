@@ -1,6 +1,6 @@
-<h1><img src="docs/static/media/loft-logo.svg" alt="loft"></h1>
+<h1><a href="https://loft.sh/"><img src="docs/static/media/loft-logo.svg" alt="loft"></a></h1>
 
-### **[Getting Started](https://loft.sh/docs/getting-started/setup)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
+### **[Website](https://loft.sh/)** • **[Getting Started](https://loft.sh/docs/getting-started/setup)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
 
 ## Multi-Tenancy Manager For Kubernetes
 - **Accounts & Account Users** to separate tenants in a shared Kubernetes cluster

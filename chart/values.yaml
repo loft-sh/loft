@@ -5,6 +5,10 @@
 # Default value is: loftsh/loft:{{ .Chart.Version }}
 # image: loftsh/loft
 
+config: # Values for loft configmap
+  auth: {}
+  oidc: {}
+
 admin:
   create: true
   username: admin
