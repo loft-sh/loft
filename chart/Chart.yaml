@@ -4,7 +4,7 @@ description: Secure Cluster Sharing + Self-Service Namespace Provisioning
 home: https://loft.sh
 icon: https://static.devspace.cloud/loft/logo/loft-logo.svg
 sources:
-- https://github.com/loft-sh/loft
+- https://github.com/devspace-cloud/loft
 keywords:
 - developer
 - development

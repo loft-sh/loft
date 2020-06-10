@@ -3,4 +3,5 @@ kind: ConfigMap
 metadata:
   name: loft-config
 data:
-  config: "{}"
+  config: |
+    {{ toYaml .Values.config }}
