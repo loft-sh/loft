@@ -97,7 +97,7 @@ To disable password authentication, upgrade your loft instance using helm:
 ```bash
 helm upgrade -n loft loft loft --repo https://charts.devspace.sh \
   --reuse-values \
-  --set auth.disablePassword=true
+  --set config.auth.disablePassword=true
   --version 0.0.1
 ```
 
