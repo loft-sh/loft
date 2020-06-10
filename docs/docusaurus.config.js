@@ -1,5 +1,7 @@
 __webpack_public_path__ = "/docs/"
 
+const path = require('path');
+
 module.exports = {
   title: 'LOFT - Multi-Tenancy Manager for Kubernetes | Documentation',
   tagline: 'The tagline of my site',
@@ -70,6 +72,9 @@ module.exports = {
         },
       },
     ],
+  ],
+  plugins: [
+    path.join(__dirname, 'plugins/gtm/src/index.js')
   ],
   scripts: [
     {
