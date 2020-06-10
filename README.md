@@ -12,6 +12,8 @@
 
 [![loft demo video](docs/static/media/loft-teaser.gif)](https://loft.sh/)
 
+[![loft demo video](docs/static/media/loft-teaser.gif)](https://loft.sh/)
+
 
 <br>
 

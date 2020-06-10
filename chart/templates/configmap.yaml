@@ -4,4 +4,4 @@ metadata:
   name: loft-config
 data:
   config: |
-    {{ toYaml .Values.config }}
+{{ toYaml .Values.config | indent 4}}
