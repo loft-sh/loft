@@ -1,4 +1,4 @@
-<h1><img src="docs/static/media/loft-logo.svg" alt=kiosk></h1>
+<h1><img src="docs/static/media/loft-logo.svg" alt="loft"></h1>
 
 ### **[Getting Started](https://loft.sh/docs/getting-started/setup)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
 
