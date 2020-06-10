@@ -14,6 +14,6 @@
 
 ## Architecture
 
-![loft architecture](docs/build/media/loft-architecture.svg)
+![loft architecture](docs/static/media/loft-architecture.svg)
 
 <br>
