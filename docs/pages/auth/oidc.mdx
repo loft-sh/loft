@@ -141,39 +141,38 @@ config:
     # tlsCert: /etc/dex/tls.crt
     # tlsKey: /etc/dex/tls.key
   connectors:
-  - type: google
-    id: google
-    name: Google
-    config:
+    - type: google
+      id: google
+      name: Google
+      config:
+        # Connector config values starting with a "$" will read from the environment.
+        clientID: $GOOGLE_CLIENT_ID
+        clientSecret: $GOOGLE_CLIENT_SECRET
 
-    # Connector config values starting with a "$" will read from the environment.
-    clientID: $GOOGLE_CLIENT_ID
-    clientSecret: $GOOGLE_CLIENT_SECRET
+        # Dex's issuer URL + "/callback"
+        redirectURI: http://my-dex-issuer.com/callback
 
-    # Dex's issuer URL + "/callback"
-    redirectURI: http://my-dex-issuer.com/callback
+        # Google supports whitelisting allowed domains when using G Suite
+        # (Google Apps). The following field can be set to a list of domains
+        # that can log in:
+        #
+        # hostedDomains:
+        #  - example.com
 
-    # Google supports whitelisting allowed domains when using G Suite
-    # (Google Apps). The following field can be set to a list of domains
-    # that can log in:
-    #
-    # hostedDomains:
-    #  - example.com
+        # The Google connector supports whitelisting allowed groups when using G Suite
+        # (Google Apps). The following field can be set to a list of groups
+        # that can log in:
+        #
+        # groups:
+        #  - admins@example.com
 
-    # The Google connector supports whitelisting allowed groups when using G Suite
-    # (Google Apps). The following field can be set to a list of groups
-    # that can log in:
-    #
-    # groups:
-    #  - admins@example.com
-
-    # Google does not support the OpenID Connect groups claim and only supports
-    # fetching a user's group membership with a service account.
-    # This service account requires an authentication JSON file and the email
-    # of a G Suite admin to impersonate:
-    #
-    #serviceAccountFilePath: googleAuth.json
-    #adminEmail: super-user@example.com
+        # Google does not support the OpenID Connect groups claim and only supports
+        # fetching a user's group membership with a service account.
+        # This service account requires an authentication JSON file and the email
+        # of a G Suite admin to impersonate:
+        #
+        #serviceAccountFilePath: googleAuth.json
+        #adminEmail: super-user@example.com
   oauth2:
     skipApprovalScreen: true
   staticClients:
