@@ -110,9 +110,11 @@ For more details, click on the respective provider and [click here for a full li
 
 After you have configured the correct dex values for your OAuth provider, you can install dex via helm:
 ```
-helm install dex stable/dex \
-  --namespace loft \
-  --set ingress.hosts[0]=my-dex-issuer.com \   # please make sure this domain is accessible for an user that should login into loft
+helm install dex dex --repo https://kubernetes-charts.storage.googleapis.com \
+  --create-namespace \
+  --namespace dex \
+  --set ingress.enabled=true \
+  --set ingress.hosts[0]=my-dex-issuer.com \
   -f dex-values.yaml \
   --wait
 ```
@@ -133,7 +135,7 @@ data:
   config: |
     auth:
       oidc:
-        issuerUrl: http://my-dex-issuer.com   # Required: The issuer url of the OIDC provider (example: https://dex.test.com)
+        issuerUrl: http://my-dex-issuer.com   # Required: The issuer url of the OIDC provider
         clientId: ""                          # Required: Client ID to use
         clientSecret: ""                      # Required: Client Secret to use
         usernameClaim: "email"                # Optional: The username claim within the ID token to use as kubernetes subject and loft username (default: email)
@@ -163,3 +165,32 @@ helm upgrade -n loft loft loft --repo https://charts.devspace.sh \
 
 ## loft as OIDC Provider
 Loft can also act as an OIDC provider for other services, e.g. a self-hosted container registry using [Harbor](https://goharbor.io/docs/2.0.0/administration/configure-authentication/oidc-auth/).
+To configure loft to act as an OIDC provider you'll have to edit the `loft-config` configmap in the `loft` namespace (or the namespace you have installed loft to).
+
+An example configuration for loft to act as an OIDC provider could look like this:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loft-config
+  namespace: loft
+data:
+  config: |
+    oidc:
+      enabled: true
+      clients:
+      - name: "Example Client"
+        clientId: "example"
+        clientSecret: "MYCLIENTSECRET"
+        redirectURIs:
+        - http://my-allowed-redirect-uri
+```
+
+To configure loft as an OIDC provider somewhere else, you can fill out the following fields with:
+- OIDC Provider Endpoint / Issuer: https://my-loft-instance.com/oidc
+- OIDC Client ID: example
+- OIDC Client Secret: MYCLIENTSECRET
+- Group Claim Name: groups
+- Available OIDC Scopes: offline_access, openid, groups, email, profile
+
+With this configuration your loft users are able to authenticate in another application that supports OIDC based authentication like Kubernetes or Harbor.
