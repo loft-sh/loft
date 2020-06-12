@@ -133,7 +133,7 @@ The idea of loft is giving other engineers access to Kubernetes. A local cluster
 
 #### Ensure Ingress Controller
 
-To use the loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
+To use the loft UI and API via browser locally, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
 
 If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
@@ -170,6 +170,7 @@ If you want to use the loft CLI or set the hostname to something other than loft
 
 - Windows - c:\windows\system32\drivers\etc\hosts
 - Mac - /etc/hosts
+
 Edit the appropriate file for your system and add an entry
 ```
 127.0.0.1 loft.localhost
