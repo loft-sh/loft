@@ -129,18 +129,32 @@ Choose this option if you want to experiment with loft using a local Kubernetes 
 The idea of loft is giving other engineers access to Kubernetes. A local cluster is great to evaluate and test the features of loft but it will not allow you to give other engineers access to a Kubernetes cluster because the loft instance will only be accessible on your computer.
 :::
 
+<Step>1</Step>
+
+#### Ensure Ingress Controller
+
+To use the loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
+
+If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
+```bash
+helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storage.googleapis.com \
+  --namespace nginx-ingress \
+  --create-namespace \
+  --wait
+```
 
 <br />
-<Step>1</Step>
+<Step>2</Step>
 
 #### Install loft via Helm v3
 
 ```bash
-helm install loft loft --repo https://charts.devspace.sh/ \
+helm upgrade loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
   --set admin.username=admin \              # Username for your (admin) user
-  --set ingress.enabled=false \
-  --create-namespace \
+  --set certIssuer.create=false \
+  --set ingress.host=loft.localhost \       # If you choose anything other than this, you'll have to set it in your hosts file
+  --set ingress.tls.secret=loft-cert \
   --wait
 ```
 
@@ -148,7 +162,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 
 
 <br />
-<Step>2</Step>
+<Step>3</Step>
 
 #### Open loft UI and create admin user
 
