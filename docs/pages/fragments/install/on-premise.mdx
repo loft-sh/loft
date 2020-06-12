@@ -161,9 +161,22 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 
 <InstallHelmHintFragment/>
 
-
 <br />
 <Step>3</Step>
+
+#### Setting hosts file
+
+If you want to use the loft CLI or set the hostname to something other than loft.localhost, you may need to update your hosts file to access it.
+
+- Windows - c:\windows\system32\drivers\etc\hosts
+- Mac - /etc/hosts
+Edit the appropriate file for your system and add an entry
+```
+127.0.0.1 loft.localhost
+```
+
+<br />
+<Step>4</Step>
 
 #### Open loft UI and create admin user
 
