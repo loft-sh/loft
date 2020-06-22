@@ -152,9 +152,9 @@ helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storag
 helm install loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
   --create-namespace \
-  --set admin.username=admin \              # Username for your (admin) user
+  --set admin.username=admin \
   --set certIssuer.create=false \
-  --set ingress.host=loft.localhost \       # If you choose anything other than this, you'll have to redirect this locally in your hosts file
+  --set ingress.host=loft.localhost \
   --set ingress.tls.secret=loft-cert \
   --wait
 ```
