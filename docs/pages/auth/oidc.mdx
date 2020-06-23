@@ -300,7 +300,11 @@ helm upgrade -n loft loft loft --repo https://charts.devspace.sh \
 
 ## loft as OIDC Provider
 Loft can also act as an OIDC provider for other services, e.g. a self-hosted container registry using [Harbor](https://goharbor.io/docs/2.0.0/administration/configure-authentication/oidc-auth/).
-To configure loft to act as an OIDC provider you'll have to edit the `loft-config` configmap in the `loft` namespace (or the namespace you have installed loft to).
+To configure loft to act as an OIDC provider you'll have to edit the `loft-config` configmap in the `loft` namespace (or the namespace you have installed loft to):
+
+```bash
+kubectl edit configmap loft-config -n loft
+```
 
 An example configuration for loft to act as an OIDC provider could look like this:
 ```yaml
@@ -326,6 +330,6 @@ To configure loft as an OIDC provider somewhere else, you can fill out the follo
 - OIDC Client ID: example
 - OIDC Client Secret: MYCLIENTSECRET
 - Group Claim Name: groups
-- Available OIDC Scopes: offline_access, openid, groups, email, profile
+- Available OIDC Scopes: offline_access,openid,groups,email,profile
 
 With this configuration your loft users are able to authenticate in another application that supports OIDC based authentication like Kubernetes or Harbor.
