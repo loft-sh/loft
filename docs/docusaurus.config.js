@@ -1,7 +1,5 @@
 __webpack_public_path__ = "/docs/"
 
-const path = require('path');
-
 module.exports = {
   title: 'LOFT - Multi-Tenancy Manager for Kubernetes | Documentation',
   tagline: 'The tagline of my site',
@@ -38,15 +36,22 @@ module.exports = {
           target: '_self'
         },
         {
+          href: 'https://slack.k8s.io/#kiosk',
+          className: 'slack-link',
+          'aria-label': 'Slack',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/loft-sh/loft',
-          label: 'GitHub',
+          className: 'github-link',
+          'aria-label': 'GitHub',
           position: 'right',
         },
       ],
     },
     algolia: {
-      apiKey: "fa9d64814055574ca7f02d3aa0271667",
-      indexName: "loft",
+      apiKey: "09508883e8b218e06b0e1aacc0867550",
+      indexName: "loft-sh",
       placeholder: "Search...",
       algoliaOptions: {}
     },
@@ -74,7 +79,12 @@ module.exports = {
     ],
   ],
   plugins: [
-    path.join(__dirname, 'plugins/gtm/src/index.js')
+    [
+      require.resolve('docusaurus-gtm-plugin'),
+      {
+        id: 'GTM-KGZ3TLD',
+      }
+    ]
   ],
   scripts: [
     {
@@ -85,11 +95,6 @@ module.exports = {
     {
       src:
         'https://static.devspace.cloud/js/docs/highlight-active-sections.js',
-      async: true,
-    },
-    {
-      src:
-        'https://static.devspace.cloud/js/docs/gtm.js',
       async: true,
     },
   ],
