@@ -9,6 +9,10 @@ config: # Values for loft configmap
   auth: {}
   oidc: {}
 
+cluster:
+  connect:
+    local: false
+
 admin:
   create: true
   username: admin

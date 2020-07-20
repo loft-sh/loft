@@ -1,0 +1,13 @@
+{{- if .Values.cluster.connect.local }}
+apiVersion: config.kiosk.sh/v1alpha1
+kind: Account
+metadata:
+  name: admin
+  annotations:
+    helm.sh/hook: pre-install
+  labels:
+    loft.sh/user: admin
+spec:
+  space:
+    clusterRole: loft-cluster-space-default
+{{- end }}
