@@ -116,24 +116,15 @@ kubectl -n loft-sh get certificate
 </TabItem>
 <TabItem value="local">
 
-:::note Local Clusters
-Choose this option if you want to experiment with loft using a local Kubernetes cluster such as:
-- Docker Kubernetes
-- minikube
-- microk8s
-- kind
-- any other Kubernetes clusters that runs on your local computer
-:::
-
-:::caution Testing only
-The idea of loft is giving other engineers access to Kubernetes. A local cluster is great to evaluate and test the features of loft but it will not allow you to give other engineers access to a Kubernetes cluster because the loft instance will only be accessible on your computer.
+:::note Insecure Clusters
+Choose this option if you want to install loft with a self signed certificate or for testing purposes locally.
 :::
 
 <Step>1</Step>
 
 #### Ensure Ingress Controller
 
-To use the loft UI and API via browser locally, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
+To access the loft UI and API, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
 
 If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
@@ -157,6 +148,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
   --set certIssuer.create=false \
   --set ingress.host=loft.localhost \
   --set ingress.tls.secret=loft-cert \
+  --set cluster.connect.local=true \
   --wait
 ```
 
@@ -165,9 +157,11 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 <br />
 <Step>3</Step>
 
-#### Setting hosts file
+#### Setting hosts file / Configure DNS
 
-If you want to use the loft CLI or set the hostname to something other than loft.localhost, you may need to update your hosts file to access it.
+Please make sure your specified loft URL is accessible. For local clusters you may need to update your hosts file to access it. For remote clusters make sure you create an A record for the given domain that points to the previously created ingress controller load balancer.
+
+For local clusters, you can find the hosts file at the following location:
 
 - Windows - c:\windows\system32\drivers\etc\hosts
 - Mac - /etc/hosts
