@@ -30,8 +30,13 @@ module.exports = {
       items: [
         'spaces/basics',
         'spaces/sharing',
-        'spaces/sleep-mode',
+        'spaces/networking',
+        'spaces/isolation',
       ],
+    },
+    {
+      type: 'doc',
+      id: 'vclusters/basics',
     },
     {
       type: 'category',
@@ -44,6 +49,10 @@ module.exports = {
         'clusters/apps',
         'clusters/harbor',
       ],
+    },
+    {
+      type: 'doc',
+      id: 'sleep-mode/basics',
     },
     {
       type: 'category',
@@ -77,6 +86,31 @@ module.exports = {
     {
       type: 'doc',
       id: 'onboarding/basics',
+    },
+    {
+      type: 'category',
+      label: 'CLI Reference',
+      items: [
+        'commands/loft_connect_vcluster',
+        'commands/loft_create_space',
+        'commands/loft_create_vcluster',
+        'commands/loft_delete_space',
+        'commands/loft_delete_vcluster',
+        'commands/loft_generate_admin-kube-config',
+        'commands/loft_get_user',
+        'commands/loft_list_clusters',
+        'commands/loft_list_spaces',
+        'commands/loft_list_teams',
+        'commands/loft_list_vclusters',
+        'commands/loft_login',
+        'commands/loft_sleep',
+        'commands/loft_token',
+        'commands/loft_upgrade',
+        'commands/loft_use_cluster',
+        'commands/loft_use_space',
+        'commands/loft_use_vcluster',
+        'commands/loft_wakeup',
+      ],
     },
     {
       type: 'link',
