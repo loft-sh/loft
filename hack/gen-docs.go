@@ -12,8 +12,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/loft-sh/loft/cmd"
-	"github.com/loft-sh/loft/pkg/util/factory"
+	"github.com/loft-sh/loft/cmd/loftctl/cmd"
+	loftlog "github.com/loft-sh/loft/pkg/loftctl/log"
 	"github.com/spf13/cobra/doc"
 )
 
@@ -56,8 +56,8 @@ func main() {
 		return strings.ToLower(base) + ".md"
 	}
 
-	f := factory.DefaultFactory()
-	rootCmd := cmd.BuildRoot(f)
+	log := loftlog.GetInstance()
+	rootCmd := cmd.BuildRoot(log)
 
 	err := doc.GenMarkdownTreeCustom(rootCmd, cliDocsDir, filePrepender, linkHandler)
 	if err != nil {

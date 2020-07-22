@@ -17,12 +17,9 @@ OpenID Connect allows users to authenticate using a third-party provider which i
 
 OpenID Connect authentication is a paid feature of loft, so please make sure this feature is enabled in your loft instance.
 
-## Optional: Setup Dex for Single Sign On
+## Setup Dex for Single Sign-On
 
 If you do not already have an OIDC provider, such as dex, Okta or KeyCloak, this section will show you how to deploy dex to let your users authenticate through external OAuth providers, such as Github, Google or Microsoft.
-Please make sure you have access to a Kubernetes cluster and `kubectl` and `helm` installed and configured.
-
-Depending on your preferred OAuth provider, you'll have to create a different dex-values.yaml locally:
 
 <Tabs
   groupId="oidc-connectors"
@@ -37,7 +34,7 @@ Depending on your preferred OAuth provider, you'll have to create a different de
 }>
 <TabItem value="github">
 
-For an extensive github dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/github.md).
+For an extensive GitHub dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/github.md).
 
 In order to configure Github for dex, you'll have to create a new Github Application for dex and copy the client id and secret to a file called `dex-values.yaml`:
 ```yaml
@@ -76,7 +73,7 @@ config:
 </TabItem>
 <TabItem value="gitlab">
 
-For an extensive gitlab dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/gitlab.md).
+For an extensive GitLab dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/gitlab.md).
 
 In order to configure Gitlab for dex, you'll have to create a new Gitlab Application for dex and copy the client id and secret to a file called `dex-values.yaml`:
 ```yaml
@@ -124,7 +121,7 @@ config:
 </TabItem>
 <TabItem value="google">
 
-For an extensive google dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/google.md).
+For an extensive Google dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/google.md).
 
 In order to configure Google for dex, you'll have create a file called `dex-values.yaml` with a google connector specified:
 ```yaml
@@ -186,7 +183,7 @@ config:
 </TabItem>
 <TabItem value="microsoft">
 
-For an extensive microsoft dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/microsoft.md).
+For an extensive Microsoft dex configuration take a look at the official [dex documentation](https://github.com/dexidp/dex/blob/master/Documentation/connectors/microsoft.md).
 
 In order to configure Microsoft for dex, you'll have create a file called `dex-values.yaml` with a microsoft connector specified:
 ```yaml
@@ -243,7 +240,7 @@ For more details, click on the respective provider and [click here for a full li
 </TabItem>
 </Tabs>
 
-After you have configured the correct dex values for your OAuth provider, you can install dex via helm:
+After creating the `dex-values.yaml` for your OAuth provider (see above), you can now install dex via helm:
 ```
 helm install dex dex --repo https://kubernetes-charts.storage.googleapis.com \
   --create-namespace \
@@ -281,14 +278,17 @@ data:
         type: "github"                        # Optional: if specified, changes the button appearance in the loft UI login page (default: '')
 ```
 
-loft reloads this configuration periodically and you should be able to login via your preferred OIDC provider after some minutes.
+loft reloads this configuration periodically and you should be able to login via your preferred OIDC provider after a couple of minutes.
 
 For each new user that logs into loft that has not yet logged into loft, loft will create a new user object.
-You can automatically assign users based on their ID Token groups to teams, by configuring the Kubernetes Groups in a loft team.
+
+You can automatically assign users based on their ID Token groups to teams ([see below](#mirror-team-memberships)), by configuring the Kubernetes Groups in a loft team.
+
 
 ## Mirror Team Memberships
 
 <DynamicMembershipFragment/>
+
 
 ## Disable Password Auth
 To disable password authentication, upgrade your loft instance using helm:
@@ -298,9 +298,11 @@ helm upgrade -n loft loft loft --repo https://charts.devspace.sh \
   --set config.auth.disablePassword=true
 ```
 
+
 ## loft as OIDC Provider
 Loft can also act as an OIDC provider for other services, e.g. a self-hosted container registry using [Harbor](https://goharbor.io/docs/2.0.0/administration/configure-authentication/oidc-auth/).
-To configure loft to act as an OIDC provider you'll have to edit the `loft-config` configmap in the `loft` namespace (or the namespace you have installed loft to):
+
+To configure loft to act as an OIDC provider you will have to edit the configmap `loft-config` in the namespace you installed loft into:
 
 ```bash
 kubectl edit configmap loft-config -n loft

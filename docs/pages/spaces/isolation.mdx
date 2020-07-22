@@ -1,6 +1,35 @@
 ---
-title: Isolation & Templates
-sidebar_label: Isolation & Templates
+title: Isolation
+sidebar_label: Isolation
 ---
 
-#TODO
+To enable a basic layer of isolation between namespaces, there is a Helm chart shown as [recommended app](../clusters/apps.mdx#app-store) for your clusters which is called `isolation-templates`. Installing this app into your cluster, will install a cluster-wide PodSecurityPolicy as well as some templates for NetworkPolicies and LimitRanges for resource limits.
+
+## PodSecurityPolicy
+The `isolation-templates` chart installs a cluster-wide PodSecurityPolicy ([see YAML template on GitHub](https://github.com/loft-sh/isolation-templates/blob/master/chart/templates/pod-security-policy.yaml)).
+
+:::info Recommendation
+It is highly recommended to have a PodSecurityPolicy in your cluster.
+:::
+
+## Network Isolation
+The `isolation-templates` chart installs 4 templates for Network Policies:
+- `deny-default`: forbids all network traffic ([see YAML template on GitHub](https://github.com/loft-sh/isolation-templates/blob/master/chart/templates/network/deny-default.yaml))
+- `allow-same-namespace`: allows traffic only within this namespace ([see YAML template on GitHub](https://github.com/loft-sh/isolation-templates/blob/master/chart/templates/network/allow-same-namespace.yaml))
+- `allow-dns`: if the space should be able to resolve domain names ([see YAML template on GitHub](https://github.com/loft-sh/isolation-templates/blob/master/chart/templates/network/allow-dns.yaml))
+- `allow-internet`: allows internet traffic for this namespace ([see YAML template on GitHub](https://github.com/loft-sh/isolation-templates/blob/master/chart/templates/network/allow-internet.yaml))
+
+:::info Recommendation
+It is recommended to enforce all network policies provided by the `isolation-templates` chart. Learn [how to enforce a template](../clusters/templates.mdx#enforce-templates) for your cluster accounts.
+:::
+
+:::caution
+If you want to use one of the network policies, you should always use `deny-default` and combine it with any other `allow-*` policies you want to use. Just using one or multiple `allow-*` policies will not have any effect if you do not use the `deny-default` policy.
+:::
+
+## Limit Resources
+The `isolation-templates` chart installs one template that shows you how to configure a LimitRange ([see YAML template on GitHub](https://github.com/loft-sh/isolation-templates/blob/master/chart/templates/resources/memory.yaml)).
+
+:::info Recommendation
+The LimitRange defined by the template within the `isolation-templates` chart is just an example. It is strongly recommended that you define additional templates with additional LimitRanges and then enforce these templates for your cluster accounts. Learn [how to enforce a template](../clusters/templates.mdx#enforce-templates) for your cluster accounts.
+:::
