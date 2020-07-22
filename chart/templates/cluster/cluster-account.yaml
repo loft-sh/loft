@@ -2,11 +2,11 @@
 apiVersion: config.kiosk.sh/v1alpha1
 kind: Account
 metadata:
-  name: admin
+  name: {{ .Values.admin.name }}
   annotations:
     helm.sh/hook: pre-install
   labels:
-    loft.sh/user: admin
+    loft.sh/user: {{ .Values.admin.name }}
 spec:
   space:
     clusterRole: loft-cluster-space-default

@@ -22,10 +22,6 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       serviceAccountName: {{ template "loft.serviceAccountName" . }}
-      volumes:
-        - name: config-volume
-          configMap:
-            name: loft-config
       containers:
       - name: manager
         {{- if .Values.image }}
@@ -33,9 +29,6 @@ spec:
         {{- else }}
         image: "loftsh/loft:{{ .Chart.Version }}"
         {{- end }}
-        volumeMounts:
-          - name: config-volume
-            mountPath: /var/loft
         {{- if not .Values.apiService.enabled }}
         env:
         - name: APISERVICE_DISABLED
