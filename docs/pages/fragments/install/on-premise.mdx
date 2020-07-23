@@ -9,7 +9,7 @@ import CreateAdminUserFragment from './create-admin-user.mdx';
   defaultValue="cloud"
   values={[
     { label: 'Cloud Cluster', value: 'cloud', },
-    { label: 'No Cert-Manager Cluster', value: 'local', },
+    { label: 'Without Cert-Manager', value: 'local', },
   ]
 }>
 <TabItem value="cloud">
@@ -116,8 +116,8 @@ kubectl -n loft-sh get certificate
 </TabItem>
 <TabItem value="local">
 
-:::note Self-Signed Certificate Clusters
-Choose this option if you want to install loft with a self signed certificate, e.g. in local clusters like minikube or docker-desktop.
+:::note Without Cert-Manager
+Choose this option if you want to install loft with a self signed certificate and without cert-manager, e.g. in local clusters like minikube or docker-desktop.
 :::
 
 <Step>1</Step>
