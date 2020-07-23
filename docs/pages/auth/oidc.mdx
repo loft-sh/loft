@@ -253,36 +253,34 @@ helm install dex dex --repo https://kubernetes-charts.storage.googleapis.com \
 
 ## Configure an OIDC Provider in loft
 
-In order to configure an OIDC provider in loft, you'll have to edit the `loft-config` configmap in the `loft` namespace (or the namespace you have installed loft to).
+In order to configure an OIDC provider in loft, you'll have to edit loft config in the admin section in the loft UI.
 If you don't have an OIDC provider installed, check out the previous section for how to install dex.
+
+<figure class="frame">
+  <img src="/docs/media/ui/auth/loft-oidc-config.png" alt="loft OIDC config" />
+  <figcaption>Example loft OIDC config</figcaption>
+</figure>
 
 An example configuration for an OIDC provider could look like this:
 ```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: loft-config
-  namespace: loft
-data:
-  config: |
-    auth:
-      oidc:
-        issuerUrl: http://my-dex-issuer.com   # Required: The issuer url of the OIDC provider
-        clientId: ""                          # Required: Client ID to use
-        clientSecret: ""                      # Required: Client Secret to use
-        usernameClaim: "email"                # Optional: The username claim within the ID token to use as kubernetes subject and loft username (default: email)
-        usernamePrefix: ""                    # Optional: if specified, causes claims mapping to username to be prefix with the provided value (default: '')
-        groupsClaim: ""                       # Optional: GroupsClaim, if specified, causes loft to try to populate the user's groups with an ID Token field (default: '')
-        groupsPrefix: ""                      # Optional: if specified, causes claims mapping to group names to be prefixed with the value (default: '')
-        caFile: "/path.crt"                   # Optional: Path to ca cert of the issuer within the loft container (default: '')
-        type: "github"                        # Optional: if specified, changes the button appearance in the loft UI login page (default: '')
+auth:
+  oidc:
+    issuerUrl: http://my-dex-issuer.com   # Required: The issuer url of the OIDC provider
+    clientId: ""                          # Required: Client ID to use
+    clientSecret: ""                      # Required: Client Secret to use
+    usernameClaim: "email"                # Optional: The username claim within the ID token to use as kubernetes subject and loft username (default: email)
+    usernamePrefix: ""                    # Optional: if specified, causes claims mapping to username to be prefix with the provided value (default: '')
+    groupsClaim: ""                       # Optional: GroupsClaim, if specified, causes loft to try to populate the user's groups with an ID Token field (default: '')
+    groupsPrefix: ""                      # Optional: if specified, causes claims mapping to group names to be prefixed with the value (default: '')
+    caFile: "/path.crt"                   # Optional: Path to ca cert of the issuer within the loft container (default: '')
+    type: "github"                        # Optional: if specified, changes the button appearance in the loft UI login page (default: '')
 ```
 
-loft reloads this configuration periodically and you should be able to login via your preferred OIDC provider after a couple of minutes.
+Save the config and you should be able to login via your preferred OIDC provider after a couple of minutes.
 
 For each new user that logs into loft that has not yet logged into loft, loft will create a new user object.
 
-You can automatically assign users based on their ID Token groups to teams ([see below](#mirror-team-memberships)), by configuring the Kubernetes Groups in a loft team.
+You can also automatically assign users based on their ID Token groups to teams ([see below](#mirror-team-memberships)), by configuring the Kubernetes Groups in a loft team.
 
 
 ## Mirror Team Memberships
@@ -291,40 +289,34 @@ You can automatically assign users based on their ID Token groups to teams ([see
 
 
 ## Disable Password Auth
-To disable password authentication, upgrade your loft instance using helm:
-```bash
-helm upgrade -n loft loft loft --repo https://charts.devspace.sh \
-  --reuse-values \
-  --set config.auth.disablePassword=true
-```
+To disable password authentication, change the loft config:
+
+<figure class="frame">
+  <img src="/docs/media/ui/auth/loft-disable-password.png" alt="loft disbale password" />
+  <figcaption>Disable password authentication in loft</figcaption>
+</figure>
 
 
 ## loft as OIDC Provider
 Loft can also act as an OIDC provider for other services, e.g. a self-hosted container registry using [Harbor](https://goharbor.io/docs/2.0.0/administration/configure-authentication/oidc-auth/).
 
-To configure loft to act as an OIDC provider you will have to edit the configmap `loft-config` in the namespace you installed loft into:
+To configure loft to act as an OIDC provider you will have to edit the loft config under the admin section in the loft UI:
 
-```bash
-kubectl edit configmap loft-config -n loft
-```
+<figure class="frame">
+  <img src="/docs/media/ui/auth/loft-oidc-provider-config.png" alt="loft oidc provider config" />
+  <figcaption>Example loft OIDC provider config</figcaption>
+</figure>
 
 An example configuration for loft to act as an OIDC provider could look like this:
 ```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: loft-config
-  namespace: loft
-data:
-  config: |
-    oidc:
-      enabled: true
-      clients:
-      - name: "Example Client"
-        clientId: "example"
-        clientSecret: "MYCLIENTSECRET"
-        redirectURIs:
-        - http://my-allowed-redirect-uri
+oidc:
+  enabled: true
+  clients:
+  - name: "Example Client"
+    clientId: "example"
+    clientSecret: "MYCLIENTSECRET"
+    redirectURIs:
+    - http://my-allowed-redirect-uri
 ```
 
 To configure loft as an OIDC provider somewhere else, you can fill out the following fields with:

@@ -56,21 +56,8 @@ metadata:
   name: [VCLUSTER_NAME]                     # REPLACE THIS
   namespace: [VCLUSTER_NAMESPACE]           # REPLACE THIS
 spec:
-  pod:
-    podSelector:
-      matchLabels:
-        app: virtualcluster
-        release: [VCLUSTER_NAME]            # REPLACE THIS
-  kubeConfigRef:
-    secretName: [SOME_SECRET_NAME]          # REPLACE THIS
-    secretNamespace: [VCLUSTER_NAMESPACE]   # REPLACE THIS
-    key: config
   helmRelease:
-    chart: {}
     values: >-
-      # unsupported host server version 1.14, will fallback to virtual cluster
-      version 1.16
-
       virtualCluster:
         image: rancher/k3s:v1.16.11-k3s1
         extraArgs:
@@ -142,8 +129,8 @@ kubectl delete virtualcluster [VCLUSTER_NAME] --namespace [VCLUSTER_NAMESPACE]
 ---
 
 
-## Configuration
-You can configure virtual clusters using the VirtualCluster CRD or using the loft UI. Virtual clusters are deployed using a Helm chart (see the [virtual-cluster project on GitHub](https://github.com/loft-sh/virtual-cluster)).
+## Advanced Configuration
+You can configure virtual clusters using the VirtualCluster CRD or using the loft UI. Under the hood, Virtual clusters are deployed using a Helm chart (see the [virtual-cluster project on GitHub](https://github.com/loft-sh/virtual-cluster)). You are able to change how the virtual cluster is deployed via the Advanced Options section in the loft UI.
 
 ### Networking
 By default, Services and Ingresses are syned from the virtual cluster to the host cluster in order to enable correct network functionality for the virtual cluster.
@@ -152,16 +139,16 @@ That means that you can create ingresses in your virtual cluster to make service
 
 Because the syncer keeps annotations for ingresses, you may also set the cert-manager ingress annotations to use the cert-manager in your host cluster to automatically provision SSL certificates from Let's Encrypt.
 
-If you do **not** want ingresses to be syned and instead use a separate ingress controller within a virtual cluster, set the following syncer configuration:
+If you do **not** want ingresses to be syned and instead use a separate ingress controller within a virtual cluster, add the following syncer configuration in the virtual cluster advanced options:
 ```yaml
 syncer:
   extraArgs: ["--disable-sync-resources=ingresses"]
 ```
 
 ### Syncer
-By default, certain Kubernetes objects such as Services or Ingresses are synced from the virtual cluster to the host cluster. The syncer removes unnecessary fields (such as labels) and also transforms certain fields of these objects before sending them to the host cluster.
+By default, certain Kubernetes objects such as Services or Ingresses are synced from the virtual cluster to the host cluster. The syncer removes problematic fields (such as pod labels) and also transforms certain fields of these objects before sending them to the host cluster.
 
-You can configure the syncer using the following options:
+You can configure additional syncer options using the following options:
 ```yaml
 syncer:
   extraArgs:
@@ -207,15 +194,19 @@ Note that you can use any k3s version and all arguments/flags that the k3s binar
 
 
 ## How does it work?
-The basic idea of a virtual cluster is to spin up a new Kubernetes cluster within an existing cluster and sync certain core resources between those two clusters. A host cluster runs the actual virtual clusters pods and needs to be a fully working Kubernetes cluster. The virtual cluster itself only consists of the core Kubernetes components: API server, controller manager and etcd.
+The basic idea of a virtual cluster is to spin up a functional but incomplete new Kubernetes cluster within an existing cluster and sync certain core resources between the two clusters.
+The virtual cluster itself only consists of the core Kubernetes components: API server, controller manager and etcd.
+Besides some core kubernetes resources like pods, services, persistentvolumeclaims etc. that are needed for actual execution, all other kubernetes resources (like deployments, replicasets, resourcequotas, clusterroles, crds, apiservices etc.) are purely handled within the virtual cluster and *NOT* synced to the host cluster.
+This makes it possible to allow each user access to an complete own kubernetes cluster with full functionality, while still being able to separate them in namespaces in the actual host cluster.
 
-A virtual Kubernetes cluster in loft roughly consists of 3 parts:
-- a namespace in a host Kubernetes cluster where the virtual cluster runs
+A virtual Kubernetes cluster in loft is tied to a single namespace. The virtual cluster and hypervisor run within a single pod that consists of two parts:
 - a k3s instance which contains the Kubernetes control plane (API server, controller manager and etcd) for the virtual cluster
 - an instance of a virtual cluster hypervisor which is mainly responsible for syncing cluster resources between the k3s powered virtual cluster and the underlying host cluster
 
 ### Host Namespace
-All Kubernetes objects of the a virtual cluster are encapsulated in a single namespace within the underlying host cluster, which allows system admins to restrict resources of a virtual cluster via resource quotas. It is also possible to have multiple virtual clusters within a single namespace.
+All Kubernetes objects of the a virtual cluster are encapsulated in a single namespace within the underlying host cluster, which allows system admins to restrict resources of a virtual cluster via account/resource quotas or limit ranges.
+Because the virtual cluster uses a cluster id suffix for each synced resource, it is also possible to run several virtual clusters within a single namespace, without them interfering with each other.
+Furthermore it is also possible to run virtual clusters within virtual clusters.
 
 ### Control Plane
 The virtual cluster technology of loft is based on [k3s](https://k3s.io/) to reduce virtual cluster overhead. k3s is a certified Kubernetes distribution and allows loft to spin up a fully functional Kubernetes cluster using a single binary while disabling all unnecessary Kubernetes components like the pod scheduler which is not needed for the virtual cluster because pods are actually scheduled in the underlying host cluster.

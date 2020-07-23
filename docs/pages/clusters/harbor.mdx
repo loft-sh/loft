@@ -101,31 +101,25 @@ Congratulations, you have now a fully working Harbor instance! See the next chap
 ## Configure Harbor to use loft as login provider
 
 In order to let your loft users log into the Harbor instance with their loft user, you can configure loft as the OIDC provider for Harbor.
-To configure loft as an OIDC provider you can edit the loft config via kubectl:
-```bash
-kubectl edit configmap loft-config -n loft
-```
+To configure loft as an OIDC provider you can edit the loft config in the loft UI:
+<figure class="frame">
+  <img src="/docs/media/ui/clusters/loft-harbor-config.png" alt="Loft Harbor Config" />
+  <figcaption>Loft OIDC Provider Config</figcaption>
+</figure>
 
 Use the following values to allow harbor to connect to loft:
 ```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: loft-config
-  namespace: loft
-data:
-  config: |
-    oidc:
-      enabled: true
-      clients:
-      - name: "Harbor"
-        clientId: "harbor"
-        clientSecret: "ANYCLIENTSECRETYOUWANT"
-        redirectURIs:
-        - https://harbor.domain/c/oidc/callback
+oidc:
+  enabled: true
+  clients:
+  - name: "Harbor"
+    clientId: "harbor"
+    clientSecret: "ANYCLIENTSECRETYOUWANT"
+    redirectURIs:
+    - https://harbor.domain/c/oidc/callback
 ```
 
-After you have changed the loft-config configmap, head over to Harbor and change the AuthMode in Administration -> Configuration to OIDC:
+After you have changed the loft config, head over to Harbor and change the AuthMode in Administration -> Configuration to OIDC:
 
 <figure class="frame">
   <img src="/docs/media/ui/clusters/harbor-oidc-configuration.png" alt="Harbor Welcome" />
