@@ -203,6 +203,11 @@ A virtual Kubernetes cluster in loft is tied to a single namespace. The virtual 
 - a k3s instance which contains the Kubernetes control plane (API server, controller manager and etcd) for the virtual cluster
 - an instance of a virtual cluster hypervisor which is mainly responsible for syncing cluster resources between the k3s powered virtual cluster and the underlying host cluster
 
+<figure class="frame">
+  <img src="/docs/media/ui/vclusters/vcluster-architecture.png" alt="vCluster Architecture" />
+  <figcaption>vCluster Architecture Overview</figcaption>
+</figure>
+
 ### Host Namespace
 All Kubernetes objects of the a virtual cluster are encapsulated in a single namespace within the underlying host cluster, which allows system admins to restrict resources of a virtual cluster via account/resource quotas or limit ranges.
 Because the virtual cluster uses a cluster id suffix for each synced resource, it is also possible to run several virtual clusters within a single namespace, without them interfering with each other.
