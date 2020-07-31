@@ -5,10 +5,6 @@
 # Default value is: loftsh/loft:{{ .Chart.Version }}
 # image: loftsh/loft
 
-config: # Values for loft configmap
-  auth: {}
-  oidc: {}
-
 cluster:
   connect:
     local: false

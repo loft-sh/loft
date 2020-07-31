@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: loft-config
-data:
-  config: |
-{{ toYaml .Values.config | indent 4}}
