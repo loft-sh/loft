@@ -5,6 +5,8 @@
 # Default value is: loftsh/loft:{{ .Chart.Version }}
 # image: loftsh/loft
 
+env: {}
+
 cluster:
   connect:
     local: false

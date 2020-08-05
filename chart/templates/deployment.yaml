@@ -29,18 +29,14 @@ spec:
         {{- else }}
         image: "loftsh/loft:{{ .Chart.Version }}"
         {{- end }}
-        {{- if not .Values.apiService.enabled }}
         env:
+        {{- if not .Values.apiService.enabled }}
         - name: APISERVICE_DISABLED
           value: "true"
         {{- end }}
-        # - name: PROXY_HOST
-        #  value: 0.0.0.0
-        # - name: PROXY_PORT
-        #  value: 8443
-        # - name: PROXY_TLS_CERT
-        #  value: /tmp/proxy-cert/tls.crt
-        # - name: PROXY_TLS_KEY
-        #  value: /tmp/proxy-cert/tls.key
+        {{- range $key, $value := .Values.env }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
