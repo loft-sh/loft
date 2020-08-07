@@ -2,7 +2,7 @@
 
 ### **[Website](https://loft.sh/)** • **[Getting Started](https://loft.sh/docs/getting-started/setup)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
 
-## Multi-Tenancy Manager For Kubernetes
+## Namespace & Virtual Cluster Manager for Kubernetes
 - **Lightweight Virtual Clusters** that are flexible like namespaces but much more powerful
 - **Sleep Mode** to put idle namespaces and virtual clusters asleep and saves up to 70% cloud costs
 - **Accounts & Account Users** to separate tenants in a shared Kubernetes cluster
