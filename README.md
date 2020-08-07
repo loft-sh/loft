@@ -3,6 +3,7 @@
 ### **[Website](https://loft.sh/)** • **[Getting Started](https://loft.sh/docs/getting-started/setup)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
 
 ## Multi-Tenancy Manager For Kubernetes
+- **Lightweight Virtual Clusters** that are flexible like namespaces but much more powerful
 - **Accounts & Account Users** to separate tenants in a shared Kubernetes cluster
 - **Self-Service Namespace Provisioning** for account users
 - **Account Limits** to ensure quality of service and fairness when sharing a cluster
