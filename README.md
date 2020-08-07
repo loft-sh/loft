@@ -4,6 +4,7 @@
 
 ## Multi-Tenancy Manager For Kubernetes
 - **Lightweight Virtual Clusters** that are flexible like namespaces but much more powerful
+- **Sleep Mode** to put idle namespaces and virtual clusters asleep and saves up to 70% cloud costs
 - **Accounts & Account Users** to separate tenants in a shared Kubernetes cluster
 - **Self-Service Namespace Provisioning** for account users
 - **Account Limits** to ensure quality of service and fairness when sharing a cluster
