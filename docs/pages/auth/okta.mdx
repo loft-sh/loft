@@ -58,6 +58,13 @@ Please make also sure that you have assigned the correct Users and Groups that y
   <figcaption>Assign Users and Groups to access loft</figcaption>
 </figure>
 
+If you want to propagate the users groups to loft then make sure the Group Filters in Okta are set accordingly. If you want to propagate all groups, add a RegEx filter with '.*'
+
+<figure class="frame">
+  <img src="/docs/media/ui/auth/okta-group-filter.png" alt="Okta Assign Peoples" />
+  <figcaption>Propagate all user groups to loft</figcaption>
+</figure>
+
 ## Configure loft to use Okta as Authentication Method
 
 After you have created an Okta App for loft, go to the Admin -> Config view in loft and enter the following configuration:
