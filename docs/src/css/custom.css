@@ -63,10 +63,16 @@
 }
 
 .markdown [role="tab"],
-.markdown .prism-code, code {
+.markdown .prism-code,
+code {
   outline: none;
 }
 
+.markdown [role="tab"] .comment,
+.markdown .prism-code .comment,
+code .comment {
+  user-select: none;
+}
 
 html body .markdown button[aria-label="Copy code to clipboard"], html body pre.prism-code > button {
   margin-top: 0.45em;
