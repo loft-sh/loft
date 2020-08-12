@@ -7,6 +7,12 @@
 
 env: {}
 
+readinessProbe:
+  enabled: true
+
+livenessProbe:
+  enabled: true
+
 cluster:
   connect:
     local: false
