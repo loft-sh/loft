@@ -17,7 +17,7 @@ cluster:
   connect:
     local: false
 
-useSelfSignedCertificate: true
+useSelfSignedCertificate: false
 
 admin:
   create: true
