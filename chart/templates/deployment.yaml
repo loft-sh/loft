@@ -34,6 +34,9 @@ spec:
           httpGet:
             path: /version
             port: 8080
+            {{- if .Values.useSelfSignedCertificate }}
+            scheme: HTTPS
+            {{- end }}
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -43,6 +46,9 @@ spec:
           httpGet:
             path: /version
             port: 8080
+            {{- if .Values.useSelfSignedCertificate }}
+            scheme: HTTPS
+            {{- end }}
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -50,6 +56,10 @@ spec:
         env:
         {{- if not .Values.apiService.enabled }}
         - name: APISERVICE_DISABLED
+          value: "true"
+        {{- end }}
+        {{- if .Values.useSelfSignedCertificate }}
+        - name: PROXY_TLS_SELF_SIGNED
           value: "true"
         {{- end }}
         {{- range $key, $value := .Values.env }}

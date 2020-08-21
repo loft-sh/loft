@@ -17,6 +17,8 @@ cluster:
   connect:
     local: false
 
+useSelfSignedCertificate: true
+
 admin:
   create: true
   username: admin
