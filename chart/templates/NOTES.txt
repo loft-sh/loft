@@ -9,7 +9,7 @@ To learn more about the release, try:
 
 {{ if .Values.admin.create }}
 {{- if not .Values.admin.password }}
-{{- if or .Values.admin.resetPassword (not (lookup "storage.loft.sh/v1" "User" "" .Values.admin.name)) }}
+{{- if or .Values.admin.resetPassword (not (lookup "storage.loft.sh/v1" "User" "" (include "loft.admin.name" .))) }}
 ########## Set Admin Password ##########
 http
 {{- if .Values.ingress.tls.enabled -}}

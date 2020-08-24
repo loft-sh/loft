@@ -58,9 +58,17 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
-Get
+Get access key for invite link
 */}}
 {{- $}}
 {{- define "loft.admin.accessKey" -}}
 {{- now | unixEpoch | toString | trunc 8 | sha256sum -}}
+{{- end -}}
+
+{{/*
+Get loft admin user username
+*/}}
+{{- $}}
+{{- define "loft.admin.name" -}}
+admin
 {{- end -}}

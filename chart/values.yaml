@@ -22,7 +22,6 @@ useSelfSignedCertificate: false
 admin:
   create: true
   username: admin
-  name: admin
   password: "" # leave empty to generate password reset link
   accessKeySecret: loft-user-accesskey-admin
 

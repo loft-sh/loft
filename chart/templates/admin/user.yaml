@@ -1,14 +1,17 @@
 {{- if .Values.admin.create }}
-{{- if not (lookup "storage.loft.sh/v1" "User" "" .Values.admin.name) }}
+{{- if not (lookup "storage.loft.sh/v1" "User" "" (include "loft.admin.name" .)) }}
 apiVersion: storage.loft.sh/v1
 kind: User
 metadata:
-  name: {{ .Values.admin.name }}
+  name: {{ include "loft.admin.name" . }}
   annotations:
     helm.sh/resource-policy: keep
     helm.sh/hook: pre-install
 spec:
   username: {{ .Values.admin.username }}
+  {{- if .Values.admin.email }}
+  email: {{ .Values.admin.email }}
+  {{- end }}
   groups: ["system:masters"]
   subject: loft-admin
   {{- if ne .Values.admin.password "" }}
