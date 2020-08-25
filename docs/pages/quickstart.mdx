@@ -1,0 +1,100 @@
+---
+title: "Quickstart "
+sidebar_label: Quickstart
+---
+
+import InstallCLIFragment from '@site/pages/fragments/install/cli.mdx'
+
+## Requirements
+To install the on-premise edition of loft, you need:
+- kubectl
+- helm v3 (check with `helm version`)
+- a kube-context with admin access to a Kubernetes cluster
+
+## Install with loft CLI
+The loft CLI provides an easy way to install loft into your cluster. If you prefer to install via helm, take a look at the [Setup Guide](./getting-started/setup.mdx). See below how to install the CLI for your operating system:
+
+<InstallCLIFragment/>
+
+## Install loft
+
+Please make sure you have a working kubernetes context, then run the following command:
+
+```bash
+loft start
+```
+
+This should produce a similar output to:
+
+```
+$> loft start
+[info]   Welcome to the loft installation.
+[info]   This installer will guide you through the installation.
+[info]   If you prefer installing loft via helm yourself, visit https://loft.sh/docs/getting-started/setup
+[info]   Thanks for trying out loft!
+
+? Seems like your cluster is running remotely (GKE, EKS, AKS, private cloud etc.). Is that correct?
+ Yes
+
+? How do you want to access loft?
+ via ingress (multiple users can access loft via domain)
+
+? Enter a hostname for your loft instance (e.g. loft.my-domain.tld):
+  my-loft-url.domain.tld
+
+? Enter an email address for your admin user road@test.de
+
+? Ingress controller required. Should the nginx-ingress controller be installed?
+ Yes
+
+[info]   Executing command: helm install ...
+[done] √ Successfully installed ingress-nginx to your kubernetes cluster!
+
+[info]   Executing command: helm install ...
+[done] √ Successfully deployed loft to your kubernetes cluster!
+[done] √ Loft pod has successfully started
+
+##########################   LOGIN   ############################
+
+Username: admin
+Password: XXXX-XXXX-XXXX-XXXX
+
+Login via UI:  https://my-loft-url.domain.tld
+Login via CLI: loft login --insecure https://my-loft-url.domain.tld
+
+!!! You must accept the untrusted certificate in your browser !!!
+
+Follow this guide to add a valid certificate: https://loft.sh/docs/administration/ssl
+
+#################################################################
+
+Loft was successfully installed and can now be reached at: https://my-loft-url.domain.tld
+
+Thanks for using loft!
+
+```
+
+After the installation has been completed, you can open loft under the displayed url. Please note down the user and generated password that you will need for your first login. The default password is the UID of the namespace where loft is installed in. If you lose the commands output, you can simply run `loft start` again to display it.
+
+If you have installed loft without ingress controller, you'll have to keep the port forwarding active to access loft. If you closed the command, you can restart port-forwarding with `loft start`.
+
+If you open the loft UI for the first time, make sure that you accept any untrusted certificates, since loft was installed with a self-signed certificate that the web browser won't recognize.
+
+<figure class="frame">
+  <img src="/docs/media/ui/quickstart/accept-untrusted.png" alt="Accept untrusted certificates" />
+  <figcaption>Allow any untrusted certificates</figcaption>
+</figure>
+
+Before you jump right into loft, please make sure you are also logged in via the loft CLI:
+
+```bash
+loft login --insecure https://my-loft-url.domain.tld
+```
+
+The loft CLI allows you to easily create [Spaces](./spaces/basics.mdx) and [vClusters](./vclusters/basics.mdx) from the console and automatically configures your local kube context.
+
+Congratulations, you have now successfully installed loft and can now begin to create your first [Spaces](./spaces/basics.mdx) and [vClusters](./vclusters/basics.mdx).
+
+## (Optional) Use Let's Encrypt for securing the loft instance
+
+Please take a look at the [SSL Guide](./administration/ssl) to find out how to configure SSL with Let's Encrypt for loft.

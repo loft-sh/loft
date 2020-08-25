@@ -37,6 +37,7 @@ If you do **not** have an ingress controller running in your cluster, you can in
 ```bash
 helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storage.googleapis.com \
   --namespace nginx-ingress \
+  --set-string controller.config.hsts=false \
   --create-namespace \
   --wait
 ```

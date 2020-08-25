@@ -1,0 +1,26 @@
+---
+title: Configure SSL
+sidebar_label: Configure SSL
+---
+
+In order to secure your loft instance, you'll have to install cert-manager via helm first:
+
+```bash
+helm install cert-manager cert-manager --repo https://charts.jetstack.io \
+  --set installCRDs=true \
+  --namespace cert-manager \
+  --create-namespace \
+  --wait
+```
+
+Then upgrade your loft instance with helm:
+
+```
+helm upgrade loft loft --repo https://charts.devspace.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set certIssuer.create=true \
+  --set certIssuer.email=EMAIL
+```
+
+After a while a certificate for your loft instance should get created and your loft instance is now using a secure certificate issued by Let's Encrypt!

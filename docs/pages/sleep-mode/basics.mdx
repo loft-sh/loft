@@ -285,4 +285,4 @@ Sleep mode is configured by an annotation in the metadata of a Kubernetes namesp
 loft will immediately detect changes to the sleep mode annotation and acts accordingly.
 
 <span id="fn-1"><sup>1</sup> loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute</span>
-<span id="fn-2"><sup>2</sup> loft calculates the time of inactivity from the last request to the Kubernetes API server involving any resource within the namespace, e.g. `kubectl get pod -n my-namespace`, `helm install -n my-namespace`.</span>
+<span id="fn-2"><sup>2</sup> loft calculates the time of inactivity from the last request to the Kubernetes API server that came through loft involving any resource within the namespace, e.g. `kubectl get pod -n my-namespace`, `helm install -n my-namespace` as long as a loft context was used. UI requests that affect the namespace do NOT count as activity within the space.</span>

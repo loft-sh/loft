@@ -12,6 +12,10 @@ module.exports = {
       id: 'introduction',
     },
     {
+      type: 'doc',
+      id: 'quickstart',
+    },
+    {
       type: 'category',
       label: 'Getting Started',
       items: [
@@ -76,6 +80,7 @@ module.exports = {
       type: 'category',
       label: 'Administration',
       items: [
+        'administration/ssl',
         'administration/upgrade',
         'administration/uninstall',
       ],
