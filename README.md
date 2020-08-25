@@ -1,6 +1,6 @@
 <h1><a href="https://loft.sh/"><img src="docs/static/media/loft-logo.svg" alt="loft"></a></h1>
 
-### **[Website](https://loft.sh/)** • **[Getting Started](https://loft.sh/docs/getting-started/setup)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
+### **[Website](https://loft.sh/)** • **[Quickstart](https://loft.sh/docs/quickstart)** • **[Architecture](#architecture)** • **[Documentation](https://loft.sh/docs/introduction)**
 
 ## Namespace & Virtual Cluster Manager for Kubernetes
 - **Lightweight Virtual Clusters** that are flexible like namespaces but much more powerful
