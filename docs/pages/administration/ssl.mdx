@@ -20,7 +20,7 @@ helm upgrade loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
   --reuse-values \
   --set certIssuer.create=true \
-  --set certIssuer.email=EMAIL
+  --set certIssuer.email=youremail@yourdomain.com
 ```
 
 After a while a certificate for your loft instance should get created and your loft instance is now using a secure certificate issued by Let's Encrypt!
