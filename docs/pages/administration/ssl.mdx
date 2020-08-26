@@ -24,3 +24,11 @@ helm upgrade loft loft --repo https://charts.devspace.sh/ \
 ```
 
 After a while a certificate for your loft instance should get created and your loft instance is now using a secure certificate issued by Let's Encrypt!
+
+You can verify if a correct certificate was issued by running:
+
+```
+kubectl get certificates -n loft
+NAME       READY   SECRET     AGE
+tls-loft   True    tls-loft   74s
+```
