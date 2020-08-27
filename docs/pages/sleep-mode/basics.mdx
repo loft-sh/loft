@@ -308,7 +308,7 @@ curl -k -v -XGET -H "X-Sleep-Mode-Ignore: true" 'https://my.loft.instace.com/kub
 As you can see in the examples above, all kubernetes requests that are routed through the loft API server are counted as activity within the space and will reset the period until it sleeps.
 One exception to that rule are requests that are made in the loft UI, since the loft UI always sets the "X-Sleep-Mode-Ignore: true" header for each request.
 
-There are multiple annotations you can set on a namespace to change what counts as activity within a space:
+There are multiple annotations you can set on a namespace to change what counts as activity within that namespace:
 - `sleepmode.loft.sh/last-activity`: this is usually set automatically by loft after an activity was detected within a namespace, however you can also change this value as you like
 - `sleepmode.loft.sh/ignore-all`: if this annotation is set to "true", then all requests will be ignored and not count as activity
 - `sleepmode.loft.sh/ignore-vclusters`: if "true", activity that occurs within a created vcluster within this namespace does not count as activity
@@ -319,6 +319,13 @@ There are multiple annotations you can set on a namespace to change what counts 
 - `sleepmode.loft.sh/ignore-resource-names`: a comma separated list of resources and names that do not count as activity (format: myresource.mygroup=name1 name2)
 
 If you want to set some of this annotations automatically on space creation, you can add these to the space template in the account settings.
+
+You can check when a namespace will start sleeping or will be deleted by hovering over its status in the loft UI. Open connections describes how many keep alive connections are still active to that namespace (e.g. through kubectl exec)
+
+<figure class="frame">
+  <img src="/docs/media/ui/sleep-mode/sleep-mode-hover.png" alt="Display Sleep Mode Information" />
+  <figcaption>Display information when a namespace starts sleeping</figcaption>
+</figure>
 
 ### How can I specify when a namespace should sleep or should be deleted?
 
