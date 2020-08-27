@@ -7,7 +7,7 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import EditNamespacePermissionHint from '../fragments/spaces/rbac-edit-ns.mdx'
 
-The sleep mode feature in loft puts [spaces](../spaces/basics.mdx) or [virtual clusters](../vclusters/basics.mdx) to sleep - either after a specified period of inactivity or manually triggered by a user. Spaces and virtual clusters automatically wake up when a user runs the first kubectl, helm or any other command using the space or virtual clusters. Users can also manually trigger the wake up process by clicking a button in the UI.
+The sleep mode feature in loft puts [spaces](../spaces/basics.mdx) or [virtual clusters](../vclusters/basics.mdx) to sleep - either after a specified period of inactivity or manually triggered by a user. Spaces and virtual clusters automatically wake up when a user runs the first kubectl, helm or any other command using the space or virtual clusters. Users can also manually trigger the wake up process by clicking a button in the UI. Instead of sleeping you are also able to configure automatic deletion of spaces.
 
 :::note Virtual Clusters
 Technically, virtual clusters do not have a sleep mode on their own. Instead, you can enable the sleep mode for the underlying namespace that the virtual cluster runs in. For convenience and easier understanding, the loft UI shows the sleep mode statistics for each virtual cluster but in fact the numbers reflect the sleep mode of the underlying space of each virtual cluster.
@@ -289,7 +289,7 @@ All requests that are made through the loft API server count as activity in the 
 loft create space sleep-test
 ```
 
-and then you access resources within the space that will count as activity space. Some examples:
+and then you access resources within the namespace that will count as activity in the namespace. Some examples:
 
 ```
 # This counts as activity
@@ -305,8 +305,8 @@ curl -k -v -XGET 'https://my.loft.instace.com/kubernetes/cluster/local/api/v1/na
 curl -k -v -XGET -H "X-Sleep-Mode-Ignore: true" 'https://my.loft.instace.com/kubernetes/cluster/local/api/v1/namespaces/sleep-test/pods?limit=500'
 ```
 
-As you can see in the examples above, all kubernetes requests that are routed through the loft API server are counted as activity within the space and will reset the period until it sleeps.
-One exception to that rule are requests that are made in the loft UI, since the loft UI always sets the "X-Sleep-Mode-Ignore: true" header for each request.
+As you can see in the examples above, all kubernetes requests that are routed through the loft API server are counted as activity within the namespace and will reset the period until it sleeps or is deleted.
+One exception to that rule are requests that are made in the loft UI, since the loft UI always sets the `X-Sleep-Mode-Ignore: true` header for each request.
 
 There are multiple annotations you can set on a namespace to change what counts as activity within that namespace:
 - `sleepmode.loft.sh/last-activity`: this is usually set automatically by loft after an activity was detected within a namespace, however you can also change this value as you like
