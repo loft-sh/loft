@@ -278,11 +278,54 @@ kubectl apply -f space.yaml
 
 
 ## How does it work?
-Sleep mode is configured by an annotation in the metadata of a Kubernetes namespace. There are two annotations you can use to configure sleep mode:
-- `sleepmode.loft.sh/sleep-after`: tells loft to trigger sleep mode automatically after x seconds[^1] of inactivity[^2]
-- `sleepmode.loft.sh/force`: tells loft to manually start sleep mode for value `true`
 
-loft will immediately detect changes to the sleep mode annotation and acts accordingly.
+Sleep mode is configured by annotations in the metadata of a Kubernetes namespace. After a certain amount of inactivity in the space starts sleeping.
 
-<span id="fn-1"><sup>1</sup> loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute</span>
-<span id="fn-2"><sup>2</sup> loft calculates the time of inactivity from the last request to the Kubernetes API server that came through loft involving any resource within the namespace, e.g. `kubectl get pod -n my-namespace`, `helm install -n my-namespace` as long as a loft context was used. UI requests that affect the namespace do NOT count as activity within the space.</span>
+### How is the inactivity determined?
+
+All requests that are made through the loft API server count as activity in the namespace. Let's say you have created a new space via:
+
+```
+loft create space sleep-test
+```
+
+and then you access resources within the space that will count as activity space. Some examples:
+
+```
+# This counts as activity
+kubectl --context loft_sleep-test_local get pods -n sleep-test
+
+# This does NOT count as activity
+kubectl --context non_loft_context get pods -n sleep-test
+
+# This counts as activity
+curl -k -v -XGET 'https://my.loft.instace.com/kubernetes/cluster/local/api/v1/namespaces/sleep-test/pods?limit=500'
+
+# This does NOT count as activity (because of the added header X-Sleep-Mode-Ignore)
+curl -k -v -XGET -H "X-Sleep-Mode-Ignore: true" 'https://my.loft.instace.com/kubernetes/cluster/local/api/v1/namespaces/sleep-test/pods?limit=500'
+```
+
+As you can see in the examples above, all kubernetes requests that are routed through the loft API server are counted as activity within the space and will reset the period until it sleeps.
+One exception to that rule are requests that are made in the loft UI, since the loft UI always sets the "X-Sleep-Mode-Ignore: true" header for each request.
+
+There are multiple annotations you can set on a namespace to change what counts as activity within a space:
+- `sleepmode.loft.sh/last-activity`: this is usually set automatically by loft after an activity was detected within a namespace, however you can also change this value as you like
+- `sleepmode.loft.sh/ignore-all`: if this annotation is set to "true", then all requests will be ignored and not count as activity
+- `sleepmode.loft.sh/ignore-vclusters`: if "true", activity that occurs within a created vcluster within this namespace does not count as activity
+- `sleepmode.loft.sh/ignore-groups`: a comma separated list of kubernetes resource groups that do not count as activity (e.g. apps would ignore all activity in deployments, statefulsets etc.)
+- `sleepmode.loft.sh/ignore-resources`: a comma separated list of kubernetes resources that do not count as activity (e.g. pods, deployments.apps, secrets etc.)
+- `sleepmode.loft.sh/ignore-verbs`: a comma separated list of kubernetes verbs that do not count as activity (e.g. get, list, create, update, patch, delete)
+- `sleepmode.loft.sh/ignore-resource-verbs`: a comma separated list of resources and verbs that do not count as activity (format: myresource.mygroup=create update delete,myresource2.mygroup=create update)
+- `sleepmode.loft.sh/ignore-resource-names`: a comma separated list of resources and names that do not count as activity (format: myresource.mygroup=name1 name2)
+
+If you want to set some of this annotations automatically on space creation, you can add these to the space template in the account settings.
+
+### How can I specify when a namespace should sleep or should be deleted?
+
+The period when a namespace should start sleeping can be configured through namespace annotations:
+- `sleepmode.loft.sh/sleep-after`: tells loft to trigger sleep mode automatically after x seconds of inactivity
+- `sleepmode.loft.sh/delete-after`: tells loft to delete the namespace automatically after x seconds of inactivity
+- `sleepmode.loft.sh/force`: if "true" tells loft to force sleep this namespace
+- `sleepmode.loft.sh/delete-all-pods`: if "true" will delete all running pods within a namespace as soon as it starts sleeping, besides scaling down deployments, replicasets and statefulsets
+
+loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute
