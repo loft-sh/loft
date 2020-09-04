@@ -2,7 +2,7 @@
 apiVersion: storage.loft.sh/v1
 kind: Cluster
 metadata:
-  name: local
+  name: loft-cluster
   annotations:
     helm.sh/resource-policy: keep
     helm.sh/hook: pre-install
