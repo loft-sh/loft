@@ -1,0 +1,26 @@
+{{- if .Values.deployClusterAccountTemplates }}
+apiVersion: storage.loft.sh/v1
+kind: ClusterAccountTemplate
+metadata:
+  name: all-clusters-normal
+  labels:
+    loft.sh/default-template: 'true'
+spec:
+  template:
+    spec:
+      space:
+        clusterRole: loft-cluster-space-default
+        limit: 5
+  owns:
+    - apiVersion: config.kiosk.sh/v1alpha1
+      kind: AccountQuota
+      metadata: {}
+      spec:
+        account: '${LOFT_ACCOUNT_NAME}'
+        quota:
+          hard:
+            limits.cpu: '8'
+            limits.memory: '16Gi'
+            requests.cpu: '2'
+            requests.memory: '4Gi'
+{{- end }}
