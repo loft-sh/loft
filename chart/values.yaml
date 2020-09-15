@@ -7,7 +7,7 @@
 
 env: {}
 
-deployClusterAccountTemplates: false
+deployClusterAccountTemplates: true
 
 readinessProbe:
   enabled: true
