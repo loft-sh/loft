@@ -4,7 +4,7 @@ kind: ClusterAccountTemplate
 metadata:
   name: all-clusters-admin
 spec:
-  template:
+  accountTemplate:
     spec:
       space:
         clusterRole: loft-cluster-space-default

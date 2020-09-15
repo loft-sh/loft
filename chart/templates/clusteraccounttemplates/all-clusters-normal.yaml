@@ -6,7 +6,7 @@ metadata:
   labels:
     loft.sh/default-template: 'true'
 spec:
-  template:
+  accountTemplate:
     spec:
       space:
         clusterRole: loft-cluster-space-default
