@@ -64,6 +64,7 @@ module.exports = {
       items: [
         'auth/users',
         'auth/teams',
+        'auth/accounttemplates',
         'auth/oidc',
         'auth/okta',
       ],

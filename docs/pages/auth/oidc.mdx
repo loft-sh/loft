@@ -280,8 +280,13 @@ Save the config and you should be able to login via your preferred OIDC provider
 
 For each new user that logs into loft that has not yet logged into loft, loft will create a new user object.
 
-You can also automatically assign users based on their ID Token groups to teams ([see below](#mirror-team-memberships)), by configuring the Kubernetes Groups in a loft team.
+:::tip Automatic Cluster Access
+You can also give new users automatically cluster access by using [Account Templates](./accounttemplates.mdx)
+:::
 
+:::tip Automatic Team Assignment
+You can also automatically assign users based on their ID Token groups to teams ([see below](#mirror-team-memberships)), by configuring the Kubernetes Groups in a loft team.
+:::
 
 ## Mirror Team Memberships
 
