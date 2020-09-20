@@ -3,98 +3,360 @@ title: "Quickstart "
 sidebar_label: Quickstart
 ---
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 import InstallCLIFragment from '@site/pages/fragments/install/cli.mdx'
 
-## Requirements
-To install the on-premise edition of loft, you need:
-- kubectl
-- helm v3 (check with `helm version`)
-- a kube-context with admin access to a Kubernetes cluster
+**Goal**: Install Loft to a Kubernetes cluster  
+**Estimated time**: 5 minutes  
+**Requirements:**
+- `kubectl` (check via `kubectl version`)
+- `helm` v3 (check with `helm version`)
+- any Kubernetes cluster (GKE, EKS, AKS, Rancher, minikube, kind, Docker Desktop, ...)
+- a kube-context with admin access to this Kubernetes cluster (check with `kubectl auth can-i create clusterrole -A`)
 
-## Install with loft CLI
-The loft CLI provides an easy way to install loft into your cluster. If you prefer to install via helm, take a look at the [Setup Guide](./getting-started/setup.mdx). See below how to install the CLI for your operating system:
+## 1. Install Loft CLI
+Use one of the following commands to download the Loft CLI binary:
 
 <InstallCLIFragment/>
 
-## Install loft
 
-Please make sure you have a working kubernetes context, then run the following command:
-
+## 2. Deploy Loft + Login
+Ensure that you are in the correct kube-context and then run this command:
 ```bash
 loft start
 ```
 
-This should produce a similar output to:
+:::caution Choose Port Forwarding
+When Loft CLI asks you how you `How do you want to access loft?`, answer with `via port-forwarding`. We will see at the end of this guide how you can connect a domain and configure SSL.
+:::
 
-```
-$> loft start
+The output of `loft start` will look like this:
+```text {7-8,17-24}
 [info]   Welcome to the loft installation.
 [info]   This installer will guide you through the installation.
-[info]   If you prefer installing loft via helm yourself, visit https://loft.sh/docs/getting-started/setup
-[info]   Thanks for trying out loft!
 
 ? Seems like your cluster is running remotely (GKE, EKS, AKS, private cloud etc.). Is that correct?
  Yes
 
 ? How do you want to access loft?
- via ingress (multiple users can access loft via domain)
+ via port-forwarding
 
-? Enter a hostname for your loft instance (e.g. loft.my-domain.tld):
-  my-loft-url.domain.tld
+? Enter an email address for your admin user: admin@example.com
 
-? Enter an email address for your admin user road@test.de
-
-? Ingress controller required. Should the nginx-ingress controller be installed?
- Yes
-
-[info]   Executing command: helm install ...
-[done] √ Successfully installed ingress-nginx to your kubernetes cluster!
-
-[info]   Executing command: helm install ...
+[info]   Executing command: helm install loft -n loft ...
 [done] √ Successfully deployed loft to your kubernetes cluster!
 [done] √ Loft pod has successfully started
 
 ##########################   LOGIN   ############################
-
 Username: admin
-Password: XXXX-XXXX-XXXX-XXXX
+Password: XXXX-XXXX-XXXX-XXXX        <-- COPY THIS, YOU WILL NEED IT IN THE NEXT STEP
 
-Login via UI:  https://my-loft-url.domain.tld
-Login via CLI: loft login --insecure https://my-loft-url.domain.tld
+Login via UI:  https://localhost:9898
+Login via CLI: loft login --insecure https://localhost:9898
 
 !!! You must accept the untrusted certificate in your browser !!!
-
 Follow this guide to add a valid certificate: https://loft.sh/docs/administration/ssl
-
 #################################################################
 
-Loft was successfully installed and can now be reached at: https://my-loft-url.domain.tld
-
+Loft was successfully installed and can now be reached at: https://localhost:9898
 Thanks for using loft!
-
 ```
 
-After the installation has been completed, you can open loft under the displayed url. Please note down the user and generated password that you will need for your first login. The default password is the UID of the namespace where loft is installed in. If you lose the commands output, you can simply run `loft start` again to display it.
+:::info Re-Run `loft start`
+You may re-run `loft start` and it will automatically detect that Loft has already been deployed and just start port forwarding again.
+:::
 
-If you have installed loft without ingress controller, you'll have to keep the port forwarding active to access loft. If you closed the command, you can restart port-forwarding with `loft start`.
+After Loft has been deployed and port forwarding has been started, open a second terminal window and run the following command to log in to your Loft instance:
+```bash
+loft login --insecure https://localhost:9898
+```
 
-If you open the loft UI for the first time, make sure that you accept any untrusted certificates, since loft was installed with a self-signed certificate that the web browser won't recognize.
+The CLI will then open the browser, so you can log in with the admin password shown in the output of `loft start` (see step 2 above).
 
 <figure class="frame">
-  <img src="/docs/media/ui/quickstart/accept-untrusted.png" alt="Accept untrusted certificates" />
-  <figcaption>Allow any untrusted certificates</figcaption>
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/quickstart/loft-login-insecure.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Skip SSL Warning &amp; Login</figcaption>
 </figure>
 
-Before you jump right into loft, please make sure you are also logged in via the loft CLI:
+After you logged in via the UI, you will also be logged in via the CLI because you started the login process via `loft login`.
 
+
+## 3. Main Features
+
+### 3.1 Spaces
+Spaces in Loft are the equivalent of regular Kubernetes namespaces with the difference that users can create spaces without having to be cluster admin. 
+
+<Tabs
+  defaultValue="create"
+  values={[
+    { label: 'Create Spaces', value: 'create', },
+    { label: 'Delete Spaces', value: 'delete', },
+    { label: 'List Spaces', value: 'list', },
+    { label: 'Use Spaces', value: 'use', },
+    { label: 'Inspect Spaces', value: 'inspect', },
+  ]
+}>
+<TabItem value="create">
+
+While users will be able to create spaces via the UI, it is much easier to create them via the CLI:
 ```bash
-loft login --insecure https://my-loft-url.domain.tld
+loft create space my-microservice-1
 ```
 
-The loft CLI allows you to easily create [Spaces](./spaces/basics.mdx) and [vClusters](./vclusters/basics.mdx) from the console and automatically configures your local kube context.
+:::info Kube-Context
+Because this command adds a kube-context to the local kube-config file for this space, the user will now be able to immediately use this namespace with any tool that is working with the current kube-context. 
+:::
 
-Congratulations, you have now successfully installed loft and can now begin to create your first [Spaces](./spaces/basics.mdx) and [vClusters](./vclusters/basics.mdx).
+Here are just a few example commands of what a user could do with their space:
+```bash
+kubectl get pods  # use regular kubectl (no --namespace flag needed)
+helm install ...  # install helm charts to the namespace
+skaffold run      # deploy something with skaffold
+devspace dev      # start development with DevSpace
+```
 
-## (Optional) Use Let's Encrypt for securing the loft instance
+</TabItem>
+<TabItem value="delete">
 
-Please take a look at the [SSL Guide](./administration/ssl) to find out how to configure SSL with Let's Encrypt for loft.
+Users will also be able to delete spaces but only the ones that they own:
+```bash
+loft delete space my-microservice-1
+```
+
+</TabItem>
+<TabItem value="list">
+
+Although non-admin users will typically not be able to list all namespaces in a cluster, they can list spaces because they are "virtual" objects and listing spaces filters and only shows those namespaces that the user has the RBAC permission to create objects in.
+```bash
+loft list spaces
+```
+
+</TabItem>
+<TabItem value="use">
+
+Users can have multiple spaces and switch between them. Try it:
+```bash
+loft create space my-microservice-2   # we are not working in this new namespace now
+loft use space my-microservice-1      # switch back to the kube-context of the first namespace
+```
+
+</TabItem>
+<TabItem value="inspect">
+
+While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.com/lensapp/lens)) to explore what is running in their spaces, Loft also lets users take a quick look inside their spaces using the Loft UI.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/quickstart/inspect-spaces.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Inspect Spaces</figcaption>
+</figure>
+
+</TabItem>
+</Tabs>
+
+### 3.2 Virtual Clusters
+
+#### What are virtual clusters?
+- Fully functional Kubernetes clusters (run with the certified Kubernetes distribution k3s)
+- Run inside a single namespace of another Kubernetes cluster
+- Very lightweight and start within a few seconds (much faster than regular EKS/GKE clusters)
+- Much cheaper than "real" Kubernetes clusters (no extra cost for API server + see sleep mode below)
+
+
+#### How to work with virtual clusters?
+Using virtual clusters (vClusters) is very similar to using spaces:
+
+<Tabs
+  defaultValue="create"
+  values={[
+    { label: 'Create vClusters', value: 'create', },
+    { label: 'Delete vClusters', value: 'delete', },
+    { label: 'List vClusters', value: 'list', },
+    { label: 'Use vClusters', value: 'use', },
+    { label: 'Inspect vClusters', value: 'inspect', },
+  ]
+}>
+<TabItem value="create">
+
+While users will be able to create spaces via the UI, it is much easier to create them via the CLI:
+```bash
+loft create vcluster my-dev-stack-1
+```
+
+:::info Kube-Context
+Because this command adds a kube-context to the local kube-config file for this virtual cluster, the user will now be able to use the virtual cluster with any tool that is working with the current kube-context. 
+:::
+
+Here are just a few example commands of what a user could do with this virtual cluster:
+```bash
+kubectl get namespaces            # list namespaces of the virtual cluster with kubectl
+kubectl create namespace backend  # create a namespace `backend`
+kubectl get pods -n kube-system   # list 
+```
+
+:::note vCluster Admin
+Especially looking at the last example command above, you can see that the user really is admin of this virtual cluster. Although the user only has very restricted access to a single namespace of the host cluster, the user is admin of the virtual cluster that runs inside this namespace of the host cluster.
+:::
+
+</TabItem>
+<TabItem value="delete">
+
+Users will also be able to delete virtual cluster but only the ones that they own:
+```bash
+loft delete vcluster my-dev-stack-1
+```
+
+</TabItem>
+<TabItem value="list">
+
+Users can also create multiple virtual clusters (e.g. for different microservices that they are working on). To get a list of all their virtual clusters, they can run:
+```bash
+loft list vclusters
+```
+
+</TabItem>
+<TabItem value="use">
+
+Users can have multiple virtual clusters and switch between them. Try it:
+```bash
+loft create vcluster my-dev-stack-2   # we are not working in this new virtual cluster now
+loft use vcluster my-dev-stack-1      # switch back to the kube-context of the first virtual cluster
+```
+
+</TabItem>
+<TabItem value="inspect">
+
+While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.com/lensapp/lens)) to explore what is running in their virtual clusters, Loft also lets users take a quick look inside their virtual clusters using the Loft UI.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/quickstart/inspect-vclusters.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Inspect Virtual Clusters</figcaption>
+</figure>
+
+:::note Cross-Namespace Views
+All vcluster inspection views you can see in the Loft UI are essentially using the `kubectl --all-namespaces` flag because virtual clusters tend to have a much smaller amount of namespaces and resources than regular clusters, so it is very fast to show all resources across all namespaces.
+:::
+
+</TabItem>
+</Tabs>
+
+#### Why virtual clusters?
+Sometimes, your engineers may need more than just namespaces, e.g. when:
+- they need to deploy Helm charts that configure RBAC
+- they deploy applications to multiple namespaces (e.g. database is supposed to run in a different namespace)
+- they want to install something that needs to add Custom Resource Definitions
+
+In such cases, users can create virtual clusters (vClusters) instead of spaces/namespaces. Learn more about [virtual Kubernetes clusters](https://loft.sh/blog/introduction-into-virtual-clusters-in-kubernetes/).
+
+
+### 3.3 Sleep Mode + Auto-Delete
+Loft automatically tracks idle namespaces and lets you configure if they should either be put to sleep or be automatically deleted after a certain period of inactivity.
+
+<Tabs
+  groupId="ui-cli-kubectl"
+  defaultValue="sleep-cli"
+  values={[
+    { label: 'Sleep', value: 'sleep-cli', },
+    { label: 'Wake-up', value: 'wakeup-cli', },
+    { label: 'Using UI', value: 'sleep-ui', },
+    { label: 'Automatic', value: 'automatic', },
+    { label: 'Automatic For All Spaces', value: 'automatic-all', },
+  ]
+}>
+<TabItem value="sleep-cli">
+
+Run this command to manually put a space to sleep:
+```bash
+loft sleep [SPACE_NAME]   # optional flag: --cluster=[CLUSTER_NAME]
+```
+
+<EditNamespacePermissionHint/>
+
+</TabItem>
+<TabItem value="wakeup-cli">
+
+You can always wake up a space by running a kubectl command:
+```bash
+# IMPORTANT: Make sure you are in the context of this space (using the correct namespace)
+kubectl get po
+```
+
+Instead of running a kubectl command, you can also run this command to manually wake up a space:
+```bash
+loft wakeup [SPACE_NAME]   # optional flag: --cluster=[CLUSTER_NAME]
+```
+
+<EditNamespacePermissionHint/>
+
+</TabItem>
+<TabItem value="sleep-ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/sleep-mode/manual.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Manual Sleep &amp; Wake-Up</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="automatic">
+
+While triggering sleep mode manually is great, you can also configure that a certain namespace goes to sleep automatically after a certain period of inactivity.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/sleep-mode/automatic-space.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Change Sleep Mode For Space</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="automatic-all">
+
+While automating sleep mode for single spaces is great, you can also automate things even further and configure that all namespaces of a certain user or team go to sleep automatically after a certain period of inactivity. Additionally, you can configure that spaces will be deleted after a certain period of inactivity.
+
+To learn more about where to configure these defaults for a user or team, take a look at: [4.3 Users + Accounts](#34-users--accounts)
+
+</TabItem>
+</Tabs>
+
+To learn more about how sleep mode works, take a look at the docs page about [sleep mode for namespaces and virtual clusters](./sleep-mode/basics.mdx).
+
+
+## 4. Give Your Team Access
+The features you have seen in this quickstart guide are great, but the idea of Loft is **not** that you as an admin are going to use these features, instead the idea is to let your engineers use these features to get self-service access to Kubernetes. With Loft you can add a pool of clusters and then give engineers access to these clusters.
+
+In Loft, access to a cluster is defined by a cluster account. Every user can have one or even multiple accounts for a cluster from your pool of clusters that you connect to Loft. Every one of these clusters can run in a different availability zone or even in a different cloud platform etc. So, you can connect EKS clusters from AWS and GKE clusters from Google Cloud and then give people access depending on what they need to work with.
+
+<figure>
+  <img src="/docs/media/loft-accounts.svg" alt="Loft Accounts" />
+  <figcaption>Loft Concepts - Accounts</figcaption>
+</figure>
+
+Loft provides a lot of powerful team features that will make it easy for you to set up a Kubernetes self-service platform for your team:
+- Integration with Authentication Providers (LDAP, SAML, GitHub, GitLab, Micrsoft, Google, ...)
+- Multi-Cluster Access Management & Secure Multi-Tenancy
+- Automatic Tenant and Namespace Isolation via Security Templates
+- Namespace-Based Kube-Context Management (as seen in the examples above)
+
+<a href="./getting-started/setup">
+
+:::info Get Started - Loft For Your Team
+To set up Loft for your team on top of a public or private cloud Kubernetes platform such as GKE, EKS, AKS, RKE, or DOKS, follow the **[Getting Started Guide for setting up Loft for your team](./getting-started/setup.mdx)**.
+:::
+
+</a>
+
+:::note Not sure yet? Speak to an expert!
+If you have questions about Loft or need help setting it up for your use case, [schedule a call with one of our Kubernetes experts](https://loft.sh/demo) to get a full demo of Loft and to discuss your use case.
+:::
+
+
+## 5. Cleanup
+If you installed Loft to a test cluster and you are now ready to depoy it to a different cluster for your team, use **[this guide to fully remove everything and uninstall Loft](./administration/uninstall.mdx)** from your test cluster with just a few commands.

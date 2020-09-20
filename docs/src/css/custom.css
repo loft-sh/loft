@@ -4,7 +4,23 @@
  * work well for content-centric websites.
  */
 
-@import url("https://devspace.sh/css/docs.css");
+.table-of-contents__link {
+  position: relative;
+}
+
+.table-of-contents__link--active::before {
+  content: " ";
+  background: var(--ifm-color-primary);
+  position: absolute;
+  left: -17px;
+  top: -5px;
+  bottom: -5px;
+  width: 6px;
+}
+
+ul ul .table-of-contents__link--active::before {
+  left: -32px;
+}
 
 .menu > .menu__list > .menu__list-item:last-child {
   margin-top: 1.5em;
@@ -18,17 +34,13 @@
   line-height: 24px;
 }
 
-.step_src-components-Step- + h2,
-.step_src-components-Step- + h3,
-.step_src-components-Step- + h4,
-.step_src-components-Step- + h5 {
-  margin-top: 0;
+.markdown .step_src-components-Step- + h2,
+.markdown .step_src-components-Step- + h3,
+.markdown .step_src-components-Step- + h4,
+.markdown .step_src-components-Step- + h5 {
   display: inline-block;
-}
-
-.step_src-components-Step- + h4,
-.step_src-components-Step- + h5 {
-  font-size: 1.15em;
+  margin-top: 0;
+  margin-bottom: 0.9em;
 }
 
 :root {
@@ -36,6 +48,30 @@
   --ifm-color-success: rgb(64, 185, 255);
   --ifm-color-warning: #ED7200;
   --ifm-color-error: #C21B1B;
+}
+
+ul[role="tablist"] {
+  margin-top: -0.6em;
+  border-bottom: none;
+}
+
+ul[role="tablist"] li,
+ul[role="tablist"] li:hover {
+  background: transparent;
+  padding: 0.5em 1.2em;
+}
+
+ul[role="tablist"] li:not([aria-selected="true"]):hover {
+  border-bottom-color: #a6acd0;
+}
+
+[role="tabpanel"] {
+  background-color: #f7f8fc;
+  padding: 1.3em;
+  padding-bottom: 0em;
+  margin: 0 -1.3em 1.8em !important;
+  border: 1px solid #d2e8fd !important;
+  border-radius: 5px;
 }
 
 .tabs__item {
@@ -76,15 +112,6 @@ code .comment {
 
 html body .markdown button[aria-label="Copy code to clipboard"], html body pre.prism-code > button {
   margin-top: 0.45em;
-}
-
-.markdown figure.frame img,
-.markdown figure.frame video {
-  width: 100%;
-  box-shadow: 0 0 7px 3px #00000020;
-  border: none;
-  border-radius: 3px;
-  outline: none;
 }
 
 .active-section,
@@ -129,6 +156,15 @@ blockquote.active-section::before {
   left: -25px;
 }
 
+.markdown h4 {
+  font-size: 1.15em;
+  margin-bottom: 0.4em;
+}
+
+.markdown h2 + h3 {
+  margin-top: 1.5em !important;
+}
+
 h3.active-section::before {
   top: -2.4em;
 }
@@ -170,6 +206,230 @@ h3.active-section::before {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+table thead > tr {
+  border-top: none;
+}
+
+table th:first-child:empty {
+  opacity: 0;
+  border: none;
+}
+
+.container > .row > .col > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Button: Edit this page */
+.container > .row > .col > div > .margin-vert--xl {
+  order: -1;
+  height: 3em;
+  margin: 0 !important;
+  text-align: right;
+}
+
+/* Button: Edit this page */
+.container > .row > .col > div > .margin-vert--xl a {
+  padding: 0.3em 0.5em;
+  background: var(--ifm-color-primary-lighter);
+  color: #fff;
+  font-size: 0.8em;
+  font-weight: 600;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+/* Button: Edit this page */
+.container > .row > .col > div > .margin-vert--xl a:hover {
+  background: var(--ifm-color-primary);
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+html body .markdown button[aria-label="Copy code to clipboard"],
+html body pre.prism-code > button {
+  z-index: 1;
+  border: none;
+  background: var(--ifm-color-primary-lighter);
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 0.6em 0.8em;
+  margin-top: -0.2em;
+  letter-spacing: 0.1em;
+  transition: background-color 0.3s;
+}
+
+html body .markdown button[aria-label="Copy code to clipboard"]:hover,
+html body pre.prism-code > button:hover {
+  background: var(--ifm-color-primary-darker);
+}
+
+body .prism-code,
+pre.prism-code {
+  margin-top: -0.2em;
+  border-radius: 4px;
+}
+
+body .prism-code,
+code {
+	counter-reset: linenumber;
+}
+
+body .prism-code .token-line,
+code > .token-line {
+  counter-increment: linenumber;
+}
+
+body .prism-code .token-line::before,
+code > .token-line::before {
+  width: 1em;
+  content: counter(linenumber);
+  color: #fff;
+  display: block;
+  float: left;
+  padding-right: 0.8em;
+  text-align: right;
+  opacity: 0.6;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+body .prism-code .token-line:first-child:last-child::before,
+code > .token-line:first-child:last-child::before {
+  display: none;
+}
+
+body .prism-code .token-line,
+code .token-line {
+  padding-right: 2em;
+}
+
+.tabs {
+  border-bottom: 1px solid var(--ifm-color-primary-lightest);
+}
+
+.tabs > .tab-item {
+  border-radius: 0;
+  padding: 0.6em 1.2em;
+}
+
+.tabs > .tab-item:focus,
+.tabs > .tab-item:hover {
+  background-color: #f2f9fb;
+}
+
+div[role="tabpanel"] {
+  border-bottom: 1px solid var(--ifm-color-primary-lightest);
+}
+
+body .markdown {
+  position: relative;
+  --ifm-h2-vertical-rhythm-top: 1.8;
+}
+
+.markdown *:not(pre) > code,
+.contents code {
+  white-space: nowrap;
+}
+
+.admonition-warning a,
+.admonition-info a,
+.admonition-warning a:hover,
+.admonition-info a:hover {
+  color: rgb(255, 251, 0);
+}
+
+.markdown figure {
+  margin: 1em 0 2em;
+}
+
+.markdown figure.stretch,
+.markdown figure.stretch img {
+  width: 100%;
+}
+
+.markdown figure.frame img,
+.markdown figure.frame video {
+  width: 100%;
+  box-shadow: 0 0 7px 5px #00000010;
+  border: 1.5px solid #c6cbd1;
+  border-radius: 4px;
+}
+
+.markdown figcaption {
+  position: relative;
+  left: 0;
+  width: 100%;
+  top: 0;
+  margin-top: 5px;
+  outline: 0;
+  text-align: center;
+  z-index: 300;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.navbar__brand::after {
+  display: block;
+  content: " ";
+  background: #dadde1;
+  width: 1px;
+  height: 60px;
+  margin-left: 20px;
+  transform: skew(-15deg, 0);
+}
+
+.menu__link--active {
+  color: var(--ifm-color-primary) !important;
+}
+
+.version-link {
+  position: relative;
+  margin-right: 20px;
+  padding: 0.2em 0.6em;
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.version-link:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: var(--ifm-color-primary-darkest);
+}
+
+.version-link::before {
+  content: "v";
+  padding-right: 0.1em;
+}
+
+.version-link::after {
+  display: block;
+  content: " ";
+  width: 1px;
+  height: 60px;
+  position: absolute;
+  top: -16px;
+  right: -20px;
+  transform: skew(-15deg, 0deg);
+  background: rgb(218, 221, 225);
 }
 
 .github-link,
