@@ -143,3 +143,35 @@ window.addEventListener('load', highlightActiveOnPageLink);
 window.addEventListener('popstate', function (event) {
     highlightDetailsOnActiveHash(location.hash.substr(1));
 }, false);
+
+const fixCopyButtons = function(e){
+    if (e.target.nodeName == "A" || e.target == document) {
+        setTimeout(function() {
+            document.querySelectorAll('html body .markdown button[aria-label="Copy code to clipboard"]').forEach(function(el) {
+                const newEl = el.cloneNode(true);
+                el.parentNode.replaceChild(newEl, el);
+                newEl.addEventListener("click", function(e) {
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(e.target.parentElement.querySelector(':scope > .prism-code'));
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    
+                    document.execCommand('copy');
+                    selection.removeAllRanges();
+            
+                    const original = e.target.textContent;
+                    e.target.textContent = 'Copied';
+            
+                    setTimeout(() => {
+                        e.target.textContent = original;
+                    }, 1200);
+                })
+            });
+        }, 1000);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", fixCopyButtons);
+window.addEventListener("popstate", fixCopyButtons);
+window.addEventListener("click", fixCopyButtons);

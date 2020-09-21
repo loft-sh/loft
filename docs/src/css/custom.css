@@ -22,10 +22,95 @@ ul ul .table-of-contents__link--active::before {
   left: -32px;
 }
 
+
+
+
+
+.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-::-webkit-scrollbar,
+.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-::-webkit-scrollbar-thumb,
+.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-::-webkit-scrollbar-track {
+  transition: all 0.3s !important;
+  border-radius: 0 !important;
+}
+
+.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-:not(:hover)::-webkit-scrollbar,
+.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-:not(:hover)::-webkit-scrollbar-thumb,
+.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-:not(:hover)::-webkit-scrollbar-track {
+  background-color: #fff !important;
+}
+
+.menu__list {
+  margin-right: 0;
+}
+
+.menu__link {
+  outline: none;
+  font-weight: 400;
+}
+
+.menu__list-item > .menu__list .menu__list-item {
+  margin: 0 !important;
+  padding: 0 0 0.2em 0.8em;
+}
+
+.menu__list-item > .menu__list .menu__link {
+  position: relative;
+  margin: 0 !important;
+  padding: 0.1em 0 0.1em 0.2em;
+  background: transparent;
+}
+
+.menu > .menu__list > .menu__list-item > .menu__list .menu__list-item:not(.menu__list-item--collapsed) .menu__list {
+  font-size: 0.85em;
+  margin-top: 0.3em;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.menu__list-item > .menu__list .menu__link:hover {
+  color: var(--ifm-color-primary);
+}
+
+.menu__list-item > .menu__list .menu__link--active {
+  font-weight: 600;
+}
+
+.menu > .menu__list > .menu__list-item:nth-child(1) {
+  display: none;
+}
+
+.menu > .menu__list > .menu__list-item:nth-child(-n+7) {
+  margin: 1em 0;
+}
+
+.menu > .menu__list > .menu__list-item:nth-child(-n+7) > .menu__link--sublist {
+  pointer-events: none;
+  color: var(--ifm-menu-color) !important;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.menu > .menu__list > .menu__list-item:nth-child(-n+7) > .menu__link--sublist::after {
+  display: none;
+}
+
 .menu > .menu__list > .menu__list-item:last-child {
   margin-top: 1.5em;
   padding-top: 1.5em;
   border-top: 1px solid #e9e9e9;
+}
+
+
+
+
+.markdown p + ul {
+  margin-top: -1.2em !important;
+  margin-bottom: 1.4em !important;
+}
+
+.markdown ul > li {
+  margin-top: 0 !important;
 }
 
 .markdown h2,
@@ -87,6 +172,7 @@ ul[role="tablist"] li:not([aria-selected="true"]):hover {
 
 .markdown .admonition {
   margin-left: -1px;
+  border-radius: 4px;
 }
 
 .admonition-note code {
@@ -110,8 +196,10 @@ code .comment {
   user-select: none;
 }
 
-html body .markdown button[aria-label="Copy code to clipboard"], html body pre.prism-code > button {
-  margin-top: 0.45em;
+html body .markdown button[aria-label="Copy code to clipboard"],
+html body pre.prism-code > button {
+  margin-top: 0.45em !important;
+  box-shadow: 0 0 0 8px #292d3e;
 }
 
 .active-section,

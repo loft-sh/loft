@@ -1,5 +1,5 @@
 ---
-title: "Quickstart "
+title: Quickstart Guide
 sidebar_label: Quickstart
 ---
 
@@ -7,16 +7,18 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import InstallCLIFragment from '@site/pages/fragments/install/cli.mdx'
 
-**Goal**: Install Loft to a Kubernetes cluster  
+:::note About This Guide
+**Goal**: Install Loft to Kubernetes, evaluate the core features and decide if Loft is what your team needs  
 **Estimated time**: 5 minutes  
 **Requirements:**
+- any local or remote Kubernetes cluster (minikube, kind, Docker Desktop, GKE, EKS, AKS, Rancher, ...)
 - `kubectl` (check via `kubectl version`)
 - `helm` v3 (check with `helm version`)
-- any Kubernetes cluster (GKE, EKS, AKS, Rancher, minikube, kind, Docker Desktop, ...)
 - a kube-context with admin access to this Kubernetes cluster (check with `kubectl auth can-i create clusterrole -A`)
+:::
 
-## 1. Install Loft CLI
-Use one of the following commands to download the Loft CLI binary:
+## 1. Download Loft CLI
+Use one of the following commands to download the Loft CLI binary from GitHub:
 
 <InstallCLIFragment/>
 
@@ -28,24 +30,24 @@ loft start
 ```
 
 :::caution Choose Port Forwarding
-When Loft CLI asks you how you `How do you want to access loft?`, answer with `via port-forwarding`. We will see at the end of this guide how you can connect a domain and configure SSL.
+When Loft CLI asks you how you `How do you want to access loft?`, answer with `via port-forwarding`. We will see later how you can connect a domain and configure SSL.
 :::
 
 The output of `loft start` will look like this:
 ```text {7-8,17-24}
-[info]   Welcome to the loft installation.
+[info]   Welcome to the Loft installation.
 [info]   This installer will guide you through the installation.
 
-? Seems like your cluster is running remotely (GKE, EKS, AKS, private cloud etc.). Is that correct?
- Yes
+? Seems like your cluster is running locally (Docker Desktop, minikube, etc). Is that correct?
+  > Yes
 
-? How do you want to access loft?
- via port-forwarding
+? How do you want to access Loft?
+  > via port-forwarding (only you can access Loft)
 
 ? Enter an email address for your admin user: admin@example.com
 
 [info]   Executing command: helm install loft -n loft ...
-[done] √ Successfully deployed loft to your kubernetes cluster!
+[done] √ Successfully deployed Loft to your kubernetes cluster!
 [done] √ Loft pod has successfully started
 
 ##########################   LOGIN   ############################
@@ -157,6 +159,7 @@ While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.co
 
 </TabItem>
 </Tabs>
+
 
 ### 3.2 Virtual Clusters
 
@@ -348,7 +351,7 @@ Loft provides a lot of powerful team features that will make it easy for you to 
 <a href="./getting-started/setup">
 
 :::info Get Started - Loft For Your Team
-To set up Loft for your team on top of a public or private cloud Kubernetes platform such as GKE, EKS, AKS, RKE, or DOKS, follow the **[Getting Started Guide for setting up Loft for your team](./getting-started/setup.mdx)**.
+To set up Loft for your team on top of a public or private cloud Kubernetes platform such as GKE, EKS, AKS, RKE, or DOKS, follow the **[Full Setup Guide for setting up Loft for your team](./getting-started/setup.mdx)**.
 :::
 
 </a>
@@ -359,4 +362,4 @@ If you have questions about Loft or need help setting it up for your use case, [
 
 
 ## 5. Cleanup
-If you installed Loft to a test cluster and you are now ready to depoy it to a different cluster for your team, use **[this guide to fully remove everything and uninstall Loft](./administration/uninstall.mdx)** from your test cluster with just a few commands.
+If you installed Loft to a test cluster and you are now ready to depoy it to a different cluster for your team, use **[this guide to fully remove everything and uninstall Loft](./guides/administration/uninstall.mdx)** from your test cluster with just a few commands.

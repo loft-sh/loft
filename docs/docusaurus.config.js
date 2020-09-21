@@ -1,7 +1,7 @@
 __webpack_public_path__ = "/docs/"
 
 module.exports = {
-  title: 'LOFT - Multi-Tenancy Manager for Kubernetes | Documentation',
+  title: 'Loft Docs | Virtual Clusters & Kubernetes Self-Service Namespaces',
   tagline: 'The tagline of my site',
   url: 'https://loft.sh',
   baseUrl: __webpack_public_path__,
