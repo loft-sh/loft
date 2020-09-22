@@ -119,12 +119,17 @@ ul ul .table-of-contents__link--active::before {
   line-height: 24px;
 }
 
+.markdown .step_src-components-Step- {
+  margin-top: 0.8em;
+}
+
 .markdown .step_src-components-Step- + h2,
 .markdown .step_src-components-Step- + h3,
 .markdown .step_src-components-Step- + h4,
-.markdown .step_src-components-Step- + h5 {
+.markdown .step_src-components-Step- + h5,
+.markdown .step_src-components-Step- + p {
   display: inline-block;
-  margin-top: 0;
+  margin-top: 1em;
   margin-bottom: 0.9em;
 }
 
@@ -157,6 +162,13 @@ ul[role="tablist"] li:not([aria-selected="true"]):hover {
   margin: 0 -1.3em 1.8em !important;
   border: 1px solid #d2e8fd !important;
   border-radius: 5px;
+}
+
+[role="tabpanel"] [role="tabpanel"] {
+  background-color: #fff;
+  margin-left: -5px !important;
+  margin-right: -5px !important;
+  border-radius: 3px;
 }
 
 .tabs__item {
@@ -445,6 +457,10 @@ body .markdown {
   margin: 1em 0 2em;
 }
 
+.markdown figure:last-child {
+  margin-bottom: 1.2em;
+}
+
 .markdown figure.stretch,
 .markdown figure.stretch img {
   width: 100%;
@@ -453,7 +469,7 @@ body .markdown {
 .markdown figure.frame img,
 .markdown figure.frame video {
   width: 100%;
-  box-shadow: 0 0 7px 5px #00000010;
+  box-shadow: 0 0 7px 5px #00000009;
   border: 1.5px solid #c6cbd1;
   border-radius: 4px;
 }

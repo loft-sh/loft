@@ -2,3 +2,71 @@
 title: Add User Authentication
 sidebar_label: 3. Add User Authentication
 ---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Step from '@site/src/components/Step/Step'
+import CreateUserFragment from '../fragments/auth/create-user.mdx'
+import GitHubSetupFragment from '../fragments/auth/sso/github.mdx'
+import GitLabSetupFragment from '../fragments/auth/sso/gitlab.mdx'
+import OktaSetupFragment from '../fragments/auth/sso/okta.mdx'
+import LDAPSetupFragment from '../fragments/auth/sso/ldap.mdx'
+import SAMLSetupFragment from '../fragments/auth/sso/saml.mdx'
+import GenericSetupFragment from '../fragments/auth/sso/generic.mdx'
+
+Loft provides regular email+password based authentication but also integrates with a variety of external auth providers for single sign-on via the OpenID Connect protocol. You can even configure Loft to use multiple authentication providers if that is what you need.
+
+
+<Tabs
+  defaultValue="invite"
+  groupId="auth"
+  values={[
+    { label: 'Username + Password', value: 'password', },
+    { label: 'GitHub', value: 'github', },
+    { label: 'GitLab', value: 'gitlab', },
+    { label: 'LDAP', value: 'ldap', },
+    { label: 'Okta', value: 'okta', },
+    { label: 'SAML 2.0', value: 'saml', },
+    { label: 'Other Options', value: 'other', },
+  ]
+}>
+<TabItem value="password">
+
+Authentication with username and password is enabled by default but [you can also disable password-based authentication](../auth/password#disable-password-auth) if you want to force users to use single sign-on (SSO).
+
+When using password-based authentication, you have to manually add users either via the UI or via kubectl.
+
+<CreateUserFragment/>
+
+</TabItem>
+<TabItem value="github">
+
+<GitHubSetupFragment />
+
+</TabItem>
+<TabItem value="gitlab">
+
+<GitLabSetupFragment />
+
+</TabItem>
+<TabItem value="ldap">
+
+<LDAPSetupFragment/>
+
+</TabItem>
+<TabItem value="okta">
+
+<OktaSetupFragment />
+
+</TabItem>
+<TabItem value="saml">
+
+<SAMLSetupFragment/>
+
+</TabItem>
+<TabItem value="other">
+
+<GenericSetupFragment/>
+
+</TabItem>
+</Tabs>
