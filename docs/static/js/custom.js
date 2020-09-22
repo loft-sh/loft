@@ -143,6 +143,13 @@ window.addEventListener('load', highlightActiveOnPageLink);
 window.addEventListener('popstate', function (event) {
     highlightDetailsOnActiveHash(location.hash.substr(1));
 }, false);
+window.addEventListener("click", function (e) {
+    if (e.target.nodeName == "A" || e.target == document) {
+        setTimeout(function() {
+            highlightDetailsOnActiveHash(location.hash.substr(1));
+        }, 1000);
+    }
+});
 
 const fixCopyButtons = function(e){
     if (e.target.nodeName == "A" || e.target == document) {

@@ -231,12 +231,12 @@ span:target::before {
   width: 3px;
   position: absolute;
   left: -17px;
-  top: -5px;
+  top: -10px;
   bottom: calc(-1*var(--ifm-paragraph-margin-bottom));
   background: #077EEC;
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1500px) {
   .active-section::before,
   span:target::before {
     left: -40px;

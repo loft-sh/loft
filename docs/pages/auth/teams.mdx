@@ -24,7 +24,6 @@ import DynamicMembershipFragment from '../fragments/teams/dynamic-membership.mdx
 ## Delete Teams
 
 <Tabs
-  groupId="ui-cli-kubectl"
   defaultValue="ui"
   values={[
     { label: 'UI', value: 'ui', },
@@ -53,5 +52,5 @@ kubectl delete team [TEAM_NAME]
 </Tabs>
 
 :::warning Data Loss
-Deleting a team will also delete all cluster accounts that are owned solely by this team. [Deleting these accounts in turn will also delete other related objects](../clusters/accounts.mdx#delete-accounts) such as account quotas and spaces.
+Deleting a team will also delete all cluster accounts that are owned solely by this team. [Deleting these accounts in turn will also delete other related objects](../multi-tenancy/accounts.mdx#delete-accounts) such as account quotas and spaces.
 :::
