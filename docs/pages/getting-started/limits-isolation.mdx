@@ -39,3 +39,34 @@ Templates define Kubernetes manifests or Helm charts that you want to deploy to 
 
 ### Enforce Templates
 <EnforceTemplatesFragment/>
+
+
+## Additional Security
+While Templates are great for namespace-level enforcement of security policies, it is stongly recommended to add cluster-wide security resources as well.
+
+One example of such a security resource would be a `PodSecurityPolicy` that should be added to each connected cluster. You can use the following example to get started:
+```yaml
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: strict-policy
+spec:
+  allowPrivilegeEscalation: false
+  fsGroup:
+    rule: RunAsAny
+  hostPorts:
+  - max: 0
+    min: 0
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - secret
+  - configMap
+  - emptyDir
+  - downwardAPI
+  - persistentVolumeClaim
+```
