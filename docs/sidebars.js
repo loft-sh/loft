@@ -12,87 +12,113 @@ module.exports = {
       id: 'introduction',
     },
     {
-      type: 'doc',
-      id: 'quickstart',
-    },
-    {
       type: 'category',
       label: 'Getting Started',
+      collapsed: false,
       items: [
-        'getting-started/setup',
-        'getting-started/clusters',
-        'getting-started/apps',
-        'getting-started/spaces',
-        'getting-started/users-limits',
-        'getting-started/templates',
-        'getting-started/teams',
+        {
+          type: 'doc',
+          id: 'quickstart',
+        },
+        {
+          type: 'category',
+          label: 'Full Setup Guide',
+          items: [
+            'getting-started/setup',
+            'getting-started/clusters',
+            'getting-started/auth',
+            'getting-started/cluster-accounts',
+            'getting-started/limits-isolation',
+          ],
+        },
       ],
     },
     {
       type: 'category',
-      label: 'Spaces',
+      label: 'Self-Service',
+      collapsed: false,
       items: [
-        'spaces/basics',
-        'spaces/sharing',
-        'spaces/networking',
-        'spaces/isolation',
+        {
+          type: 'doc',
+          id: 'self-service/namespaces',
+        },
+        {
+          type: 'doc',
+          id: 'self-service/virtual-clusters',
+        },
+        {
+          type: 'doc',
+          id: 'self-service/sleep-mode',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Multi-Tenancy',
+      collapsed: false,
+      items: [
+        'multi-tenancy/clusters',
+        'multi-tenancy/accounts',
+        'multi-tenancy/account-quotas',
+        'multi-tenancy/templates',
+        'multi-tenancy/apps',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Users & Authentication',
+      collapsed: false,
+      items: [
+        {
+          type: 'category',
+          label: 'User Management',
+          items: [
+            'auth/users',
+            'auth/teams',
+            'auth/profiles',
+            'auth/access-keys',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Authentication + SSO',
+          items: [
+            'auth/password',
+            'auth/sso/github',
+            'auth/sso/gitlab',
+            'auth/sso/ldap',
+            'auth/sso/okta',
+            'auth/sso/saml',
+            'auth/sso/others',
+          ],
+        },
+        'auth/account-templates',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      collapsed: false,
+      items: [
+        'guides/onboarding',
+        'guides/ci-cd-pipelines',
+        'guides/oidc',
+        'guides/administration/upgrade',
+        'guides/administration/uninstall',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Integrations',
+      collapsed: false,
+      items: [
+        'integrations/harbor',
+        'integrations/dex',
       ],
     },
     {
       type: 'doc',
-      id: 'vclusters/basics',
-    },
-    {
-      type: 'category',
-      label: 'Clusters',
-      items: [
-        'clusters/basics',
-        'clusters/accounts',
-        'clusters/account-quotas',
-        'clusters/templates',
-        'clusters/apps',
-        'clusters/harbor',
-      ],
-    },
-    {
-      type: 'doc',
-      id: 'sleep-mode/basics',
-    },
-    {
-      type: 'category',
-      label: 'Users & Teams',
-      items: [
-        'auth/users',
-        'auth/teams',
-        'auth/accounttemplates',
-        'auth/oidc',
-        'auth/okta',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Profile',
-      items: [
-        'profile/basics',
-        'profile/access-keys',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Administration',
-      items: [
-        'administration/ssl',
-        'administration/upgrade',
-        'administration/uninstall',
-      ],
-    },
-    {
-      type: 'doc',
-      id: 'architecture/basics',
-    },
-    {
-      type: 'doc',
-      id: 'onboarding/basics',
+      id: 'architecture',
     },
     {
       type: 'category',
@@ -122,7 +148,7 @@ module.exports = {
     {
       type: 'link',
       label: '↗️ DevSpace',
-      href: 'https://devspace.sh/cli/docs/introduction',
+      href: 'https://devspace.sh/',
     },
   ],
 };

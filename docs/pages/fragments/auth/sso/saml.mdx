@@ -1,0 +1,52 @@
+import Step from '@site/src/components/Step/Step'
+import DexHostnameFragment from './dex/hostname.mdx'
+import DexInstallFragment from './dex/install.mdx'
+import DexConfigFragment from './dex/config.mdx'
+import SAMLDexConfigFragment from './dex/connectors/saml.mdx'
+import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
+
+:::caution Refresh Tokens
+The SAML 2.0 connector in dex does **not** support refresh tokens since "since the SAML 2.0 protocol doesn't provide a way to requery a provider without interaction" (see [dex documentation for SAML 2.0](https://github.com/dexidp/dex/blob/master/Documentation/connectors/saml.md)).
+:::
+
+<Step>1</Step>
+
+**Choose DEX_HOSTNAME And Configure DNS**
+
+<DexHostnameFragment/>
+
+
+<Step>2</Step>
+
+**Create Dex Config For SAML 2.0**
+
+<SAMLDexConfigFragment/>
+
+
+<Step>3</Step>
+
+**Deploy Dex via Helm**
+
+<DexInstallFragment/>
+
+
+<Step>4</Step>
+
+**Configure Loft To Use Dex For Authentication**
+
+<DexConfigFragment/>
+
+
+<Step>5</Step>
+
+**Authenticate via Dex + SAML 2.0**
+
+After saving the new Loft configuration, Loft will restart itself and you should be able to log in via SAML 2.0 and dex.
+
+
+<Step>6</Step>
+
+**Disable Username + Password Authentication** (optional)
+
+<DisablePasswordAuthFragment/>
+

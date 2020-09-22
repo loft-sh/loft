@@ -1,7 +1,7 @@
 __webpack_public_path__ = "/docs/"
 
 module.exports = {
-  title: 'LOFT - Multi-Tenancy Manager for Kubernetes | Documentation',
+  title: 'Loft Docs | Virtual Clusters & Kubernetes Self-Service Namespaces',
   tagline: 'The tagline of my site',
   url: 'https://loft.sh',
   baseUrl: __webpack_public_path__,
@@ -9,7 +9,9 @@ module.exports = {
   organizationName: 'loft-sh', // Usually your GitHub org/user name.
   projectName: 'loft', // Usually your repo name.
   themeConfig: {
-    disableDarkMode: true,
+    colorMode: {
+      disableSwitch: true,
+    },
     navbar: {
       logo: {
         alt: 'loft',
@@ -17,7 +19,7 @@ module.exports = {
         href: 'https://loft.sh/',
         target: '_self',
       },
-      links: [
+      items: [
         {
           href: 'https://loft.sh/',
           label: 'Website',
@@ -67,7 +69,7 @@ module.exports = {
       {
         docs: {
           path: 'pages',
-          routeBasePath: '',
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/loft-sh/loft/edit/master/docs/',
@@ -78,14 +80,7 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    [
-      require.resolve('docusaurus-gtm-plugin'),
-      {
-        id: 'GTM-KGZ3TLD',
-      }
-    ]
-  ],
+  plugins: [],
   scripts: [
     {
       src:
@@ -94,7 +89,7 @@ module.exports = {
     },
     {
       src:
-        'https://static.devspace.cloud/js/docs/highlight-active-sections.js',
+        '/docs/js/custom.js',
       async: true,
     },
   ],

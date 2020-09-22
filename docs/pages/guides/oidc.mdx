@@ -1,0 +1,34 @@
+---
+title: Using Loft as OIDC Provider
+sidebar_label: Loft as OIDC Provider
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import DynamicMembershipFragment from '../fragments/teams/dynamic-membership.mdx'
+
+Loft can act as an OpenID Connect provider for other services, e.g. a self-hosted container registry using [Harbor](../integrations/harbor.mdx).
+
+To tell Loft to act as OIDC provider, navigate to `Admin > Config` and add the `oidc` section to your config:
+```yaml {2-9}
+auth: ...
+oidc:
+  enabled: true
+  clients:
+  - name: "Example Client"
+    clientId: "loft"
+    clientSecret: "MYCLIENTSECRET"
+    redirectURIs:
+    - http://my-allowed-redirect-uri
+# - ADD A 2nd OIDC CLIENT HERE
+# - ADD A 3rd OIDC CLIENT HERE
+```
+
+To configure loft as an OIDC provider somewhere else, you can fill out the following fields with:
+- OIDC Provider Endpoint / Issuer: https://loft.mycompany.tld/oidc
+- OIDC Client ID: loft
+- OIDC Client Secret: MYCLIENTSECRET
+- Group Claim Name: groups
+- Available OIDC Scopes: offline_access,openid,groups,email,profile
+
+With this configuration your Loft users will be able to authenticate in another application using their Loft account (which may itself be based on another SSO provider).
