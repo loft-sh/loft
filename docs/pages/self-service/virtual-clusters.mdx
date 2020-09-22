@@ -5,9 +5,12 @@ sidebar_label: Virtual Clusters
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
+import CreateVClusterFragment from '../fragments/vclusters/create.mdx'
+import UseVClusterFragment from '../fragments/vclusters/use.mdx'
+import DeleteVClusterFragment from '../fragments/vclusters/delete.mdx'
 
 
-In loft, users can create virtual Kubernetes clusters which are fully functional Kubernetes clusters but they run inside a namespace of another cluster.
+In Loft, users can create virtual Kubernetes clusters which are fully functional Kubernetes clusters but they run inside a namespace of another cluster.
 
 
 ## Why Virtual Clusters?
@@ -23,115 +26,13 @@ Virtual clusters:
 ## Workflows
 
 ### Create vCluster
-<Tabs
-  defaultValue="ui"
-  values={[
-    { label: 'UI', value: 'ui', },
-    { label: 'CLI', value: 'cli', },
-    { label: 'kubectl', value: 'kubectl', },
-  ]
-}>
-<TabItem value="ui">
-
-<figure class="frame">
-  <video controls loop autoplay="true" muted>
-    <source src="/docs/media/ui/vclusters/create-vcluster.mp4" type="video/mp4" />
-  </video>
-  <figcaption>loft UI - Create Virtual Cluster</figcaption>
-</figure>
-
-</TabItem>
-<TabItem value="cli">
-
-Run this command to create a virtual cluster:
-```bash
-loft create vcluster [VCLUSTER_NAME]   # optional flag: --cluster=[CLUSTER_NAME]
-```
-
-Creating a virtual cluster using the CLI will automatically configure a kube-context on your local machine for this vCluster.
-
-With the kube-context of the vCluster, you can run any kubectl command within the virtual cluster:
-```bash
-kubectl get namespaces
-```
-
-</TabItem>
-<TabItem value="kubectl">
-
-Create the file `vcluster.yaml`:
-```yaml
-apiVersion: storage.loft.sh/v1
-kind: VirtualCluster
-metadata:
-  name: [VCLUSTER_NAME]                     # REPLACE THIS
-  namespace: [VCLUSTER_NAMESPACE]           # REPLACE THIS
-spec:
-  helmRelease:
-    values: >-
-      virtualCluster:
-        image: rancher/k3s:v1.16.11-k3s1
-        extraArgs:
-          - --service-cidr=[VCLUSTER_SERVICE_CIDR]/20          # REPLACE THIS
-        baseArgs:
-          - server
-          - --write-kubeconfig=/k3s-config/kube-config.yaml
-          - --data-dir=/data
-          - --no-deploy=traefik,servicelb,metrics-server,local-storage
-          - --disable-network-policy
-          - --disable-agent
-          - --disable-scheduler
-          - --disable-cloud-controller
-          - --flannel-backend=none
-          - --kube-controller-manager-arg=controllers=*,-nodeipam,-nodelifecycle,-persistentvolume-binder,-attachdetach,-persistentvolume-expander,-cloud-node-lifecycle
-      storage:
-        size: 5Gi
-```
-
-Create the virtual cluster using `kubectl`:
-```bash
-kubectl apply -f vcluster.yaml
-```
-
-</TabItem>
-</Tabs>
+<CreateVClusterFragment/>
 
 ### Use vCluster
-Run this command to add a kube-context for the virtual cluster to your local kube-config file or to switch to an existing kube-context of a virtual cluster:
-```bash
-kubectl use vcluster                  # shows a list of all available vclusters
-kubectl use vcluster [VCLUSTER_NAME]  # optional flags: --cluster=[CLUSTER_NAME] --space [VCLUSTER_NAMESPACE]
-```
-
-Then, run any kubectl command within the virtual cluster:
-```bash
-kubectl get namespaces
-```
+<UseVClusterFragment/>
 
 ### Delete vCluster
-<Tabs
-  defaultValue="cli"
-  values={[
-    { label: 'CLI', value: 'cli', },
-    { label: 'kubectl', value: 'kubectl', },
-  ]
-}>
-<TabItem value="cli">
-
-Run this command to delete a virtual cluster:
-```bash
-loft delete vcluster [VCLUSTER_NAME]   # optional flags: --cluster=[CLUSTER_NAME] --space [VCLUSTER_NAMESPACE]
-```
-
-</TabItem>
-<TabItem value="kubectl">
-
-Run this command to delete a virtual cluster using `kubectl`:
-```bash
-kubectl delete virtualcluster [VCLUSTER_NAME] --namespace [VCLUSTER_NAMESPACE]
-```
-
-</TabItem>
-</Tabs>
+<DeleteVClusterFragment/>
 
 <br/>
 

@@ -120,7 +120,7 @@ ul ul .table-of-contents__link--active::before {
 }
 
 .markdown .step_src-components-Step- {
-  margin-top: 0.8em;
+  margin-top: 0.8em !important;
 }
 
 .markdown .step_src-components-Step- + h2,

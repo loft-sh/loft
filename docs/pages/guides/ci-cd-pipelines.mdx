@@ -2,3 +2,46 @@
 title: Using Loft in CI/CD Pipelines
 sidebar_label: CI/CD Pipelines with Loft
 ---
+
+import WhatAreAccessKeysFragment from '../fragments/profile/what-are-access-keys.mdx'
+import CreateAccessKeysFragment from '../fragments/profile/create-access-key.mdx'
+import LoginAccessKeysFragment from '../fragments/profile/login-access-key.mdx'
+
+When using Loft in a CI/CD pipeline to create namespaces and virtual cluster, there are couple of things to consider:
+1. You may want to use the [offical `loftsh/loft-ci` image](#container-image)
+2. You definitely want to [authenticate using Access Keys](#authentication)
+
+## Container Image
+When using Loft in a CI/CD pipeline that runs based on containers, you can use the [official `loft-ci` image](https://hub.docker.com/r/loftsh/loft-ci) either as a base image or directly.
+
+This image is based on `alpine` and contains:
+- [Loft CLI](https://github.com/loft-sh/loftctl)
+- kubectl
+- helm v3
+- [DevSpace](https://devspace.sh/)
+
+This is what the Dockerfile looks like:
+```Dockerfile
+FROM devspacesh/devspace:5
+
+# Add helm
+RUN wget -O helm.tar.gz https://get.helm.sh/helm-v3.3.3-linux-amd64.tar.gz \
+ && tar -zxvf helm.tar.gz \
+ && mv linux-amd64/helm /bin/helm
+
+# Add Loft CLI (same version as the tag of this image)
+COPY release/loft-linux-amd64 /bin/loft
+RUN chmod +x /bin/loft
+```
+
+
+## Authentication
+
+### 1. Create Access Keys
+
+<CreateAccessKeysFragment/>
+
+
+### 2. Login with Access Keys
+
+<LoginAccessKeysFragment/>

@@ -1,0 +1,10 @@
+Run this command to add a kube-context for the virtual cluster to your local kube-config file or to switch to an existing kube-context of a virtual cluster:
+```bash
+kubectl use vcluster                  # shows a list of all available vclusters
+kubectl use vcluster [VCLUSTER_NAME]  # optional flags: --cluster=[CLUSTER_NAME] --space [VCLUSTER_NAMESPACE]
+```
+
+Then, run any kubectl command within the virtual cluster:
+```bash
+kubectl get namespaces
+```
