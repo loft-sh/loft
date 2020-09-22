@@ -79,7 +79,6 @@ module.exports = {
             'auth/access-keys',
           ],
         },
-        'auth/account-templates',
         {
           type: 'category',
           label: 'Authentication + SSO',
@@ -93,6 +92,7 @@ module.exports = {
             'auth/sso/others',
           ],
         },
+        'auth/account-templates',
       ],
     },
     {

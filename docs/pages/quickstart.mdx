@@ -5,7 +5,8 @@ sidebar_label: Quickstart
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
-import InstallCLIFragment from '@site/pages/fragments/install/cli.mdx'
+import InstallCLIFragment from './fragments/install/cli.mdx'
+import ClusterAccountDiagram from './fragments/diagrams/cluster-accounts.mdx'
 
 :::note About This Guide
 **Goal**: Install Loft to Kubernetes, evaluate the core features and decide if Loft is what your team needs  
@@ -335,12 +336,7 @@ To learn more about how sleep mode works, take a look at the docs page about [sl
 ## 4. Give Your Team Access
 The features you have seen in this quickstart guide are great, but the idea of Loft is **not** that you as an admin are going to use these features, instead the idea is to let your engineers use these features to get self-service access to Kubernetes. With Loft you can add a pool of clusters and then give engineers access to these clusters.
 
-In Loft, access to a cluster is defined by a cluster account. Every user can have one or even multiple accounts for a cluster from your pool of clusters that you connect to Loft. Every one of these clusters can run in a different availability zone or even in a different cloud platform etc. So, you can connect EKS clusters from AWS and GKE clusters from Google Cloud and then give people access depending on what they need to work with.
-
-<figure>
-  <img src="/docs/media/loft-accounts.svg" alt="Loft Accounts" />
-  <figcaption>Loft Concepts - Accounts</figcaption>
-</figure>
+<ClusterAccountDiagram/>
 
 Loft provides a lot of powerful team features that will make it easy for you to set up a Kubernetes self-service platform for your team:
 - Integration with Authentication Providers (LDAP, SAML, GitHub, GitLab, Micrsoft, Google, ...)

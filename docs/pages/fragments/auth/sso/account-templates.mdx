@@ -1,0 +1,23 @@
+If you configured single sign-on, you may want to give users access to certain clusters when they sign in for the first time, potentially depending on their groups.
+
+To tell Loft to automatically apply certain account templates to new users when they sign in via SSO for the first time, navigate to `Admin > Config` in Loft and add the following lines to your `auth.oidc` section of the config:
+```yaml {8-13}
+auth:
+  oidc:
+    issuerUrl: 'https://my.issuer.com/'
+    clientId: CLIENT_ID
+    clientSecret: CLIENT_SECRET
+    groupsClaim: groups
+    getUserInfo: true
+    clusterAccountTemplates:              # Apply these templates to every new user
+    - name: loft-all-clusters-default     # Name of template 1
+    - name: some-other-account-template   # Name of template 2
+    groupClusterAccountTemplates:         # Apply templates depending on the user's groups
+      admin-group:                        # Apply if user has group `admin-group`
+      - name: loft-all-clusters-admin     # Name of the account template to apply
+```
+
+<figure class="frame">
+  <img src="/docs/media/ui/auth/cat-oidc.png" alt="Configure Automatic Cluster Account Templates" />
+  <figcaption>Configure Automatic Cluster Account Templates</figcaption>
+</figure>
