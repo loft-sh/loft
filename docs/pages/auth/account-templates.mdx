@@ -14,12 +14,11 @@ Since cluster access is determined in Loft by who has an account in which cluste
 A cluster account template is a Custom Resource in Kubernetes and consists of 3 components:
 1. **Cluster Selector**: A label selector to selects clusters to define in which clusters a new account will be created.
 2. **Account Template**: An account template that specifies how the created account should look like.
-3. **Template For Additional Account Resources**: An array of owned resources (e.g. AccountQuota, ClusterRoleBinding etc.), which the account owns and an owner reference to the account is set. This has the
+3. **Templates For Additional Account Resources**: An array of owned resources (e.g. AccountQuota, ClusterRoleBinding etc.), which the account owns and an owner reference to the account is set. This has the
 advantage that if the account is deleted, all of his owned resources are deleted as well and ownership of resources can be easily identified.
 
 
 ## Create Account Templates
-
 You can create cluster account templates either via kubectl or the loft UI.
 
 <Tabs
