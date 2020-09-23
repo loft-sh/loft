@@ -12,6 +12,10 @@
   border-top: 1px solid #e9e9e9;
 }
 
+.markdown figure figcaption {
+  z-index: 1;
+}
+
 .markdown h2,
 .markdown h3 {
   margin-top: 2.4em;
