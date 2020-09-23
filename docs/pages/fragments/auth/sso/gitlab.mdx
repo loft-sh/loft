@@ -1,0 +1,60 @@
+import Step from '@site/src/components/Step/Step'
+import DexHostnameFragment from './dex/hostname.mdx'
+import DexInstallFragment from './dex/install.mdx'
+import DexConfigFragment from './dex/config.mdx'
+import GitLabDexConfigFragment from './dex/connectors/gitlab.mdx'
+import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
+
+<Step>1</Step>
+
+**Choose DEX_HOSTNAME And Configure DNS**
+
+<DexHostnameFragment/>
+
+
+<Step>2</Step>
+
+**Create A GitLab App**
+
+In GitLab, navigate to `User Settings > Applications` and create a new application with the following settings:
+- Application name: Loft Login via GitLab
+- Redirect URI: https://dex.yourcompany.tld/callback = `https:// + $DEX_HOSTNAME + /callback`
+- Scopes: `read_user` + `openid`
+
+Remember the `$GITLAB_CLIENT_ID` and `$GITLAB_CLIENT_SECRET` that GitLab generates for your OAuth application because you will need it in the next step.
+
+
+<Step>3</Step>
+
+**Create Dex Config For GitLab**
+
+<GitLabDexConfigFragment/>
+
+
+<Step>4</Step>
+
+**Deploy Dex via Helm**
+
+<DexInstallFragment/>
+
+
+<Step>5</Step>
+
+**Configure Loft To Use Dex For Authentication**
+
+<DexConfigFragment/>
+
+
+<Step>6</Step>
+
+**Authenticate via Dex + GitLab**
+
+After saving the new Loft configuration, Loft will restart itself and you should be able to log in via GitLab and dex.
+
+
+<Step>7</Step>
+
+**Disable Username + Password Authentication** (optional)
+
+<DisablePasswordAuthFragment/>
+

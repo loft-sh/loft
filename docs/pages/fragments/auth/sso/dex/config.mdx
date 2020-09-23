@@ -1,0 +1,14 @@
+To tell Loft to use dex for SSO, navigate to `Admin > Config` in Loft and adjust your config as shown below:
+```yaml
+auth:
+  oidc:
+    issuerUrl: https://dex.mycompany.tld  # Use $DEX_HOSTNAME (see above)
+    clientId: ""                          # Use $DEX_CLIENT_ID (see above)
+    clientSecret: ""                      # Use $DEX_CLIENT_SECRET (see above)
+    type: "github"                        # Optional: SSO Login Button Icon ("", github, gitlab, microsoft, google)
+    usernameClaim: "email"                # Optional: Which part of the dex token to use as Loft username (default: email)
+    usernamePrefix: ""                    # Optional: Add prefix to usernameClaim for Loft username
+    groupsClaim: "groups"                 # Optional: Add Kubernetes groups for this user
+    groupsPrefix: "loft-"                 # Optional: Prefix for Kubernetes groups
+    caFile: ""                            # Optional: Path to a CA cert of dex within the loft container (default: '')
+```

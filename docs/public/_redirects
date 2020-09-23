@@ -1,1 +1,41 @@
 /docs/spaces/sleep-mode  /docs/sleep-mode/basics  301!
+
+
+# SEO Redirects
+/docs/getting-started/apps              /docs/multi-tenancy/apps                301!
+/docs/getting-started/spaces            /docs/self-service/namespaces           301!
+/docs/getting-started/users-limits      /docs/getting-started/limits-isolation  301!
+/docs/getting-started/templates         /docs/multi-tenancy/templates           301!
+/docs/getting-started/teams             /docs/auth/teams                        301!
+
+/docs/spaces/basics                     /docs/self-service/namespaces           301!
+/docs/spaces/sharing                    /docs/self-service/namespaces           301!
+/docs/spaces/networking                 /docs/self-service/namespaces           301!
+/docs/spaces/isolation                  /docs/self-service/namespaces           301!
+
+/docs/vclusters/basics                  /docs/self-service/virtual-clusters     301!
+
+/docs/clusters/basics                   /docs/multi-tenancy/clusters            301!
+/docs/clusters/accounts                 /docs/multi-tenancy/accounts            301!
+/docs/clusters/account-quotas           /docs/multi-tenancy/account-quotas      301!
+/docs/clusters/templates                /docs/multi-tenancy/templates           301!
+/docs/clusters/apps                     /docs/multi-tenancy/apps                301!
+/docs/clusters/harbor                   /docs/integrations/harbor               301!
+
+/docs/sleep-mode/basics                 /docs/self-service/sleep-mode           301!
+
+/docs/auth/accounttemplates             /docs/auth/account-templates            301!
+/docs/auth/oidc                         /docs/getting-started/auth              301!
+/docs/auth/okta                         /docs/auth/sso/okta                     301!
+
+/docs/profile/basics                    /docs/auth/profiles                     301!
+/docs/profile/access-keys               /docs/auth/access-keys                  301!
+
+/docs/administration/ssl                /docs/getting-started/setup             301!
+/docs/administration/upgrade            /docs/guides/administration/upgrade     301!
+/docs/administration/uninstall          /docs/guides/administration/uninstall   301!
+
+/docs/architecture/basics               /docs/architecture                      301!
+
+/docs/onboarding/basics                 /docs/guides/onboarding                 301!
+

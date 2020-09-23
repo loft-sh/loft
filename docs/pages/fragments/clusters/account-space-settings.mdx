@@ -2,7 +2,6 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 
 <Tabs
-  groupId="ui-cli-kubectl"
   defaultValue="ui"
   values={[
     { label: 'UI', value: 'ui', },
@@ -13,8 +12,8 @@ import TabItem from '@theme/TabItem'
 
 If you open the form to create or edit a cluster account, you will see the section "Space Creation Settings" which provides the following options:
 - **Space Limit** to set a maximum number of namespaces for this account
-- **Timeout for Automatic Sleep Mode** to [enable automatic sleep mode](../../sleep-mode/basics.mdx) after a certain period of inactivity
-- **Enforce Templates** to specify [templates](../../clusters/templates.mdx) which will be instantiated when creating a space with this account
+- **Timeout for Automatic Sleep Mode** to [enable automatic sleep mode](../../self-service/sleep-mode.mdx) after a certain period of inactivity
+- **Enforce Templates** to specify [templates](../../multi-tenancy/templates.mdx) which will be instantiated when creating a space with this account
 - **Labels &amp; Annotations** to specify metadata which should be set when creating a space[^3]
 
 <span id="fn-3"><sup>3</sup> While users are generally able to define their own labels and annotations, loft will make sure that the enforced labels and annotations cannot be overwritten.</span>
@@ -49,16 +48,9 @@ spec:
         labels:
           some-label: some-value
         annotations:
-          # sleep mode annotation is base64 encoded (see note below)
-          loft.sh/sleep-mode: eyJhcGlWZXJzaW9uIjoiY2x1c3Rlci5sb2Z0LnNoL3YxIiwia2luZCI6IlNsZWVwTW9kZUNvbmZpZyIsInNwZWMiOnsiZW5hYmxlZCI6dHJ1ZSwic2xlZXBBZnRlciI6MTgwMH19Cg==
+          # automatically start sleep mode after 1h
+          sleepmode.loft.sh/sleep-after: '3600'
 ```
-
-:::note Sleep Mode Annotation
-Run this command to generate a base64 encoded sleep mode annotation:
-```bash
-echo '{"apiVersion":"cluster.loft.sh/v1","kind":"SleepModeConfig","spec":{"enabled":true,"sleepAfter":1800}}' | base64
-```
-:::
 
 Create the account using `kubectl`:
 ```bash

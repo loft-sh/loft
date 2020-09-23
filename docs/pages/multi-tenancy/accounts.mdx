@@ -1,0 +1,69 @@
+---
+title: Cluster Accounts
+sidebar_label: Accounts
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import ClusterAccountDiagram from '../fragments/diagrams/cluster-accounts.mdx'
+import CreateClusterAccounts from '../fragments/clusters/create-account.mdx'
+import AccountSpaceSettings from '../fragments/clusters/account-space-settings.mdx'
+
+<ClusterAccountDiagram/>
+
+## Managing Accounts
+
+### Create Accounts
+
+<CreateClusterAccounts/>
+
+
+### Space Creation Settings
+
+<AccountSpaceSettings/>
+
+
+### Delete Accounts
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/clusters/delete-account.mp4" type="video/mp4" />
+  </video>
+  <figcaption>loft UI - Delete Account</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete an account using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl delete account [ACCOUNT_NAME]
+```
+
+</TabItem>
+</Tabs>
+
+:::warning Data Loss
+Deleting an account will also delete:
+- all AccountQuotas created for the account
+- all spaces owned by the account
+- all RBAC objects associated with the account and its spaces
+
+Deletion of these objects will be handled by [Kubernetes OwnerReferences](https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/#owners-and-dependents).
+:::
+
+
+## Account Templates
+Loft provides a CRD called [ClusterAccountTemplate](../auth/account-templates.mdx) which allows you to automatically create cluster accounts for users when they are being created or edited.
+
+[Learn more about Cluster Account Templates.](../auth/account-templates.mdx)
