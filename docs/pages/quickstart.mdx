@@ -9,7 +9,7 @@ import InstallCLIFragment from './fragments/install/cli.mdx'
 import ClusterAccountDiagram from './fragments/diagrams/cluster-accounts.mdx'
 
 :::note About This Guide
-**Goal**: Install Loft to Kubernetes, evaluate the core features and decide if Loft is what your team needs  
+**Goal**: Install Loft to Kubernetes, evaluate the core features, and decide if Loft is what your team needs  
 **Estimated time**: 5 minutes  
 **Requirements:**
 - any local or remote Kubernetes cluster (minikube, kind, Docker Desktop, GKE, EKS, AKS, Rancher, ...)
@@ -168,7 +168,7 @@ While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.co
 - Fully functional Kubernetes clusters (run with the certified Kubernetes distribution k3s)
 - Run inside a single namespace of another Kubernetes cluster
 - Very lightweight and start within a few seconds (much faster than regular EKS/GKE clusters)
-- Much cheaper than "real" Kubernetes clusters (no extra cost for API server + see sleep mode below)
+- Much cheaper than "real" Kubernetes clusters (no extra cost for API server + sleep mode, see below)
 
 
 #### How to work with virtual clusters?
@@ -186,7 +186,7 @@ Using virtual clusters (vClusters) is very similar to using spaces:
 }>
 <TabItem value="create">
 
-While users will be able to create spaces via the UI, it is much easier to create them via the CLI:
+While users will be able to create vClusters via the UI, it is much easier to create them via the CLI:
 ```bash
 loft create vcluster my-dev-stack-1
 ```
@@ -244,7 +244,7 @@ While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.co
 </figure>
 
 :::note Cross-Namespace Views
-All vcluster inspection views you can see in the Loft UI are essentially using the `kubectl --all-namespaces` flag because virtual clusters tend to have a much smaller amount of namespaces and resources than regular clusters, so it is very fast to show all resources across all namespaces.
+All vCluster inspection views you can see in the Loft UI are essentially using the `kubectl --all-namespaces` flag because virtual clusters tend to have a much smaller amount of namespaces and resources than regular clusters, so it is very fast to show all resources across all namespaces.
 :::
 
 </TabItem>
@@ -333,7 +333,7 @@ To learn more about how sleep mode works, take a look at the docs page about [sl
 
 
 ## 4. Give Your Team Access
-The features you have seen in this quickstart guide are great, but the idea of Loft is **not** that you as an admin are going to use these features, instead the idea is to let your engineers use these features to get self-service access to Kubernetes. With Loft you can add a pool of clusters and then give engineers access to these clusters.
+The features you have seen in this quickstart guide are great, but the idea of Loft is **not** that you as an admin are going to use them, instead the idea is to let your engineers use these features to get self-service access to Kubernetes. With Loft, you can add a pool of clusters and then give engineers access to these clusters.
 
 <ClusterAccountDiagram/>
 

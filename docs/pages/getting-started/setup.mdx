@@ -9,7 +9,7 @@ import Step from '@site/src/components/Step/Step'
 import InstallCLIFragment from '../fragments/install/cli.mdx'
 
 :::note About This Guide
-**Goal**: Install Loft to a remote Kubernetes cluster, connect your auth provider and onboard your team  
+**Goal**: Install Loft to a remote Kubernetes cluster, connect your auth provider, and onboard your team  
 **Estimated time**: 20 minutes  
 **Requirements:**
 - **any *remote* Kubernetes cluster** (GKE, EKS, AKS, Rancher/RKE, ...)
@@ -88,11 +88,11 @@ EXTERNAL-IP may be 'pending' for a while until your cloud provider has created a
 To configure DNS, do the following:
 1. Leave `loft start` running and open a second terminal window
 2. Run `kubectl get services -n ingress-nginx` in the second terminal window
-3. If the `EXTERNAL-UP` is pending, wait a bit and go back to 2., otherwise:
+3. If the `EXTERNAL-IP` is pending, wait a bit and go back to 2., otherwise:
 4. Copy the `EXTERNAL-IP` of your ingress controller service 
 5. Open the DNS settings of your domain (in AWS Route 53, Google Cloud DNS, Godaddy etc.)
 6. If the `EXTERNAL-IP` is
-   - **an IP address**, set a **A-record** for your Loft subdomain pointing to your `EXTERNAL-IP`  
+   - **an IP address**, set an **A-record** for your Loft subdomain pointing to your `EXTERNAL-IP`  
    - **a subdomain**, set a **CNAME-record** for your Loft subdomain pointing to your `EXTERNAL-IP`
 
 
@@ -174,7 +174,7 @@ If you are using a self-signed certificate, make sure that everyone either adds 
 
 
 ## 5. Login
-After Loft has been deployed, your DNS is configured and you added a SSL certificate, `loft start` will terminate with the following output:
+After Loft has been deployed, your DNS is configured, and you added a SSL certificate, `loft start` will terminate with the following output:
 ```bash {2-3}
 ##########################   LOGIN   ############################
 Username: admin
