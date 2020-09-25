@@ -17,7 +17,7 @@ Connecting clusters to Loft is the first step to making these clusters available
 
 
 ## 1. Connect Clusters
-You succesfully installed Loft to a Kubernetes cluster. You can either give engineers access to this cluster OR you can connect separate Kubernetes clusters for your team.
+You succesfully installed Loft to a Kubernetes cluster. You can now either give engineers access to this cluster OR you can connect separate Kubernetes clusters for your team.
 
 <Tabs
   defaultValue="single-cluster"
@@ -58,9 +58,9 @@ You can connect clusters via the UI as well as via kubectl:
 ## 2. Add Shared Services *(optional)*
 While your engineers will be able to deploy their own Helm charts and other applications to the namespaces and virtual clusters that they create, you may want to provide a certain set of shared services that a majority of your engineers need.
 
-Common examples of shared service you may want to install into each connect cluster are:
+Common examples of shared service you may want to install into each connected cluster are:
 - ingress-nginx as an ingress controller for incoming traffic via (sub-)domains
-- cert-manager + cert-issuer for automatically provising SSL certificates for ingresses
+- cert-manager + cert-issuer for automatically provisioning SSL certificates for ingresses
 
 ### 2.1 Ingress Controller
 To install ingress-nginx as an ingress controller, go to `Clusters > [CLUSTER_NAME] > Cluster (Tab)` and click on the app `ingress-nginx` to install it.
@@ -68,7 +68,7 @@ To install ingress-nginx as an ingress controller, go to `Clusters > [CLUSTER_NA
 <InstallAppsFragment/>
 
 ### 2.2 Cluster Subdomain
-An ingress controller alone is not doing much if there is not domain pointing to the ingress controller. Loft provides a service for free wildcard subdomains. 
+An ingress controller alone is not doing much if there is no domain pointing to the ingress controller. Loft provides a service for free wildcard subdomains. 
 
 Make sure you open the UI view `Clusters > [CLUSTER_NAME] > Cluster (Tab)` and then:
 1. Enter a subdomain prefix under `Cluster Subdomain for Spaces` (e.g. use your company name)

@@ -4,7 +4,7 @@ kubectl apply -f cluster.yaml
 ```
 
 :::note Cluster Status
-After creating the cluster resource, the loft controller will detect the new cluster and initialize it, i.e. it will install the kiosk helm chart into the cluster. To check if the cluster has been initialized, run:
+After creating the cluster resource, the Loft controller will detect the new cluster and initialize it, i.e. it will install the kiosk helm chart into the cluster. To check if the cluster has been initialized, run:
 ```bash
 kubectl get cluster -o custom-columns=NAME:metadata.name,PHASE:status.phase
 ```
