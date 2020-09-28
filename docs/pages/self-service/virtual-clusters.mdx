@@ -40,16 +40,16 @@ Virtual clusters:
 
 
 ## Advanced Configuration
-You can configure virtual clusters using the VirtualCluster CRD or using the loft UI. Under the hood, Virtual clusters are deployed using a Helm chart (see the [virtual-cluster project on GitHub](https://github.com/loft-sh/virtual-cluster)). You are able to change how the virtual cluster is deployed via the Advanced Options section in the loft UI.
+You can configure virtual clusters using the VirtualCluster CRD or using the Loft UI. Under the hood, Virtual clusters are deployed using a Helm chart (see the [virtual-cluster project on GitHub](https://github.com/loft-sh/virtual-cluster)). You are able to change how the virtual cluster is deployed via the Advanced Options section in the Loft UI.
 
 ### Networking
-By default, Services and Ingresses are syned from the virtual cluster to the host cluster in order to enable correct network functionality for the virtual cluster.
+By default, Services and Ingresses are synced from the virtual cluster to the host cluster in order to enable correct network functionality for the virtual cluster.
 
 That means that you can create ingresses in your virtual cluster to make services available via domains using the ingress-controller that is running in the host cluster. This helps to share resources across different virtual clusters and is easier for users of virtual clusters because otherwise, they would need to install an ingress-controller and configure DNS for each virtual cluster.
 
 Because the syncer keeps annotations for ingresses, you may also set the cert-manager ingress annotations to use the cert-manager in your host cluster to automatically provision SSL certificates from Let's Encrypt.
 
-If you do **not** want ingresses to be syned and instead use a separate ingress controller within a virtual cluster, add the following syncer configuration in the virtual cluster advanced options:
+If you do **not** want ingresses to be synced and instead use a separate ingress controller within a virtual cluster, add the following syncer configuration in the virtual cluster advanced options:
 ```yaml
 syncer:
   extraArgs: ["--disable-sync-resources=ingresses"]
@@ -109,7 +109,7 @@ The virtual cluster itself only consists of the core Kubernetes components: API 
 Besides some core kubernetes resources like pods, services, persistentvolumeclaims etc. that are needed for actual execution, all other kubernetes resources (like deployments, replicasets, resourcequotas, clusterroles, crds, apiservices etc.) are purely handled within the virtual cluster and *NOT* synced to the host cluster.
 This makes it possible to allow each user access to an complete own kubernetes cluster with full functionality, while still being able to separate them in namespaces in the actual host cluster.
 
-A virtual Kubernetes cluster in loft is tied to a single namespace. The virtual cluster and hypervisor run within a single pod that consists of two parts:
+A virtual Kubernetes cluster in Loft is tied to a single namespace. The virtual cluster and hypervisor run within a single pod that consists of two parts:
 - a k3s instance which contains the Kubernetes control plane (API server, controller manager and etcd) for the virtual cluster
 - an instance of a virtual cluster hypervisor which is mainly responsible for syncing cluster resources between the k3s powered virtual cluster and the underlying host cluster
 
@@ -119,12 +119,12 @@ A virtual Kubernetes cluster in loft is tied to a single namespace. The virtual 
 </figure>
 
 ### Host Namespace
-All Kubernetes objects of the a virtual cluster are encapsulated in a single namespace within the underlying host cluster, which allows system admins to restrict resources of a virtual cluster via account/resource quotas or limit ranges.
+All Kubernetes objects of a virtual cluster are encapsulated in a single namespace within the underlying host cluster, which allows system admins to restrict resources of a virtual cluster via account/resource quotas or limit ranges.
 Because the virtual cluster uses a cluster id suffix for each synced resource, it is also possible to run several virtual clusters within a single namespace, without them interfering with each other.
 Furthermore it is also possible to run virtual clusters within virtual clusters.
 
 ### Control Plane
-The virtual cluster technology of loft is based on [k3s](https://k3s.io/) to reduce virtual cluster overhead. k3s is a certified Kubernetes distribution and allows loft to spin up a fully functional Kubernetes cluster using a single binary while disabling all unnecessary Kubernetes components like the pod scheduler which is not needed for the virtual cluster because pods are actually scheduled in the underlying host cluster.
+The virtual cluster technology of Loft is based on [k3s](https://k3s.io/) to reduce virtual cluster overhead. k3s is a certified Kubernetes distribution and allows Loft to spin up a fully functional Kubernetes cluster using a single binary while disabling all unnecessary Kubernetes components like the pod scheduler which is not needed for the virtual cluster because pods are actually scheduled in the underlying host cluster.
 
 ### Hypervisor
-Besides k3s there is a Kubernetes hypervisor that emulates a fully working Kubernetes setup in the virtual cluster. Besides the synchronization of virtual and host cluster resources, the hypervisor also redirects certain Kubernetes API requests to the host cluster, such as port forwarding or pod / service proxying. It essentially acts as a reverse proxy for the virtual cluster.
+Besides k3s, there is a Kubernetes hypervisor that emulates a fully working Kubernetes setup in the virtual cluster. Besides the synchronization of virtual and host cluster resources, the hypervisor also redirects certain Kubernetes API requests to the host cluster, such as port forwarding or pod / service proxying. It essentially acts as a reverse proxy for the virtual cluster.
