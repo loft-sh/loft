@@ -7,10 +7,10 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import EditNamespacePermissionHint from '../fragments/spaces/rbac-edit-ns.mdx'
 
-The sleep mode feature in loft puts [spaces](./namespaces.mdx) or [virtual clusters](./virtual-clusters.mdx) to sleep - either after a specified period of inactivity or manually triggered by a user. Spaces and virtual clusters automatically wake up when a user runs the first kubectl, helm or any other command using the space or virtual clusters. Users can also manually trigger the wake up process by clicking a button in the UI. Instead of sleeping you are also able to configure automatic deletion of spaces.
+The sleep mode feature in Loft puts [spaces](./namespaces.mdx) or [virtual clusters](./virtual-clusters.mdx) to sleep - either after a specified period of inactivity or manually triggered by a user. Spaces and virtual clusters automatically wake up when a user runs the first kubectl, helm or any other command using the space or virtual clusters. Users can also manually trigger the wake up process by clicking a button in the UI. Instead of the sleep mode, you are also able to configure automatic deletion of spaces.
 
 :::note Virtual Clusters
-Technically, virtual clusters do not have a sleep mode on their own. Instead, you can enable the sleep mode for the underlying namespace that the virtual cluster runs in. For convenience and easier understanding, the loft UI shows the sleep mode statistics for each virtual cluster but in fact the numbers reflect the sleep mode of the underlying space of each virtual cluster.
+Technically, virtual clusters do not have a sleep mode on their own. Instead, you can enable the sleep mode for the underlying namespace that the virtual cluster runs in. For convenience and easier understanding, the Loft UI shows the sleep mode statistics for each virtual cluster but in fact the numbers reflect the sleep mode of the underlying space of each virtual cluster.
 :::
 
 :::note State Preservation
@@ -19,21 +19,21 @@ Note that when a space or virtual cluster goes to sleep, all persistent data as 
 
 
 ## Use Case & Benefits
-While some of the spaces and virtual clusters that you manage with loft may contain production workloads which must run all day every day, there are many use cases where you want to create spaces and virtual clusters for development, testing, experimentation or CI/CD. These non-production workloads are usually just required to run when engineers are actually working with them. Considering a regular 40-hour work week, engineers work about 24% of the overall time per week:
+While some of the spaces and virtual clusters that you manage with Loft may contain production workloads which must run all day every day, there are many use cases where you want to create spaces and virtual clusters for development, testing, experimentation or CI/CD. These non-production workloads are usually just required to run when engineers are actually working with them. Considering a regular 40-hour work week, engineers work about 24% of the overall time per week:
 ```
 40h work time / (24h per day * 7 days) total hours per week) ≈ 24%
 ```
-And this calculation is not even including time for meetings, sick days, holidays etc. That means you can save more than 76% of your cloud infrastructure cost for idle namespaces or virtual clusters. Some namespaces and virtual clusters may even be running without any engineer touching them for weeks because we all know how the biggest downside of the cloud is that while it is easy to spin up things, no one ever shuts down anything without being forced to do so.
+And this calculation is not even including time for meetings, sick days, holidays etc. That means you can save more than 76% of your cloud infrastructure cost for idle namespaces or virtual clusters. Some namespaces and virtual clusters may even be running without any engineer touching them for weeks because one of the biggest downsides of the cloud is that while it is easy to spin up things, hardly anyone ever shuts down anything without being forced to do so.
 
 Sleep mode offers a fully automated solution for this problem. If your cluster is configured to horizontally auto-scale its nodes (which most public cloud providers allow you to enable with just a single click), you can save over 76% of infrastructure cost for your clusters by enabling sleep mode.
 
 
 ## Sleep
-When putting a space or virtual cluster to sleep, loft looks up and saves the `replica` number for Deployments, StatefulSets, DaemonSets and other ReplicaSet based resources. Then, it scales down this replica number to 0 which triggers Kubernetes to delete all pods/containers.
+When putting a space or virtual cluster to sleep, Loft looks up and saves the `replica` number for Deployments, StatefulSets, DaemonSets and other ReplicaSet based resources. Then, it scales down this replica number to 0 which triggers Kubernetes to delete all pods/containers.
 
-With loft, you can:
-- [enforce automatic sleep for all spaces of a certain cluster account](#automatic-for-entire-account) after a certain period of inactivity[^2]
-- [enable automatic sleep for individual spaces](#automatic-for-individual-spaces) after a certain period of inactivity[^2]
+With Loft, you can:
+- [enforce automatic sleep for all spaces of a certain cluster account](#automatic-for-entire-account) after a certain period of inactivity
+- [enable automatic sleep for individual spaces](#automatic-for-individual-spaces) after a certain period of inactivity
 - [trigger sleep mode manually for individual spaces](#manual-sleep)
 
 
@@ -41,7 +41,7 @@ With loft, you can:
 Cluster admins can enforce the [sleep mode annotation](#how-does-it-work) for all spaces of a certain account to ensure that all spaces go to sleep after a certain period of inactivity.
 
 :::note Enforcement
-Annotations set in the account settings cannot be overridden by the user when creating a space. The default RBAC set up by loft does not allow users to modify their namespaces after creation. If you add additional RBAC to allow users to update their namespaces, users will be able to deactivate or manually trigger sleep mode.
+Annotations set in the account settings cannot be overridden by the user when creating a space. The default RBAC set up by Loft does not allow users to modify their namespaces after creation. If you add additional RBAC to allow users to update their namespaces, users will be able to deactivate or manually trigger sleep mode.
 :::
 
 <Tabs
@@ -57,7 +57,7 @@ Annotations set in the account settings cannot be overridden by the user when cr
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/sleep-mode/automatic-account.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Change Sleep Mode In Space Creation Settings</figcaption>
+  <figcaption>Loft UI - Change Sleep Mode In Space Creation Settings</figcaption>
 </figure>
 
 </TabItem>
@@ -112,7 +112,7 @@ kubectl apply -f account.yaml
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/sleep-mode/automatic-space.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Change Sleep Mode For Space</figcaption>
+  <figcaption>Loft UI - Change Sleep Mode For Space</figcaption>
 </figure>
 
 </TabItem>
@@ -159,7 +159,7 @@ kubectl apply -f space.yaml
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/sleep-mode/manual.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Manual Sleep &amp; Wake-Up</figcaption>
+  <figcaption>Loft UI - Manual Sleep &amp; Wake-Up</figcaption>
 </figure>
 
 </TabItem>
@@ -201,10 +201,10 @@ kubectl apply -f space.yaml
 
 
 ## Wake-Up
-When loft wakes up a space, it starts all pods/containers it has previously removed from the namespace. loft does this by changing the `replica` number for Deployments, StatefulSets, DaemonSets and other ReplicaSet based resources.
+When Loft wakes up a space, it starts all pods/containers it has previously removed from the namespace. Loft does this by changing the `replica` number for Deployments, StatefulSets, DaemonSets and other ReplicaSet based resources.
 
 ### Automatic Wake-Up
-loft is configured to wake up spaces automatically once they are being used. Using a space means to send any request to the Kubernetes API server involving any resources within the corresponding namespace. It does not matter if this request comes from running a kubectl command, a helm command or using any other tool, e.g.:
+Loft is configured to wake up spaces automatically once they are being used. Using a space means to send any request to the Kubernetes API server involving any resources within the corresponding namespace. It does not matter if this request comes from running a kubectl command, a helm command or using any other tool, e.g.:
 
 ```bash
 kubectl get po -n [NAMESPACE]
@@ -226,7 +226,7 @@ kubectl get po -n [NAMESPACE]
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/sleep-mode/manual.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Manual Sleep &amp; Wake-Up</figcaption>
+  <figcaption>Loft UI - Manual Sleep &amp; Wake-Up</figcaption>
 </figure>
 
 </TabItem>
@@ -275,11 +275,11 @@ kubectl apply -f space.yaml
 
 ## How does it work?
 
-Sleep mode is configured by annotations in the metadata of a Kubernetes namespace. After a certain amount of inactivity in the space starts sleeping.
+Sleep mode is configured by annotations in the metadata of a Kubernetes namespace. After a certain amount of inactivity, the space starts sleeping.
 
 ### How is the inactivity determined?
 
-All requests that are made through the loft API server count as activity in the namespace. Let's say you have created a new space via:
+All requests that are made through the Loft API server count as activity in the namespace. Let's say you have created a new space via:
 
 ```
 loft create space sleep-test
@@ -301,11 +301,11 @@ curl -k -v -XGET 'https://my.loft.instace.com/kubernetes/cluster/local/api/v1/na
 curl -k -v -XGET -H "X-Sleep-Mode-Ignore: true" 'https://my.loft.instace.com/kubernetes/cluster/local/api/v1/namespaces/sleep-test/pods?limit=500'
 ```
 
-As you can see in the examples above, all kubernetes requests that are routed through the loft API server are counted as activity within the namespace and will reset the period until it sleeps or is deleted.
-One exception to that rule are requests that are made in the loft UI, since the loft UI always sets the `X-Sleep-Mode-Ignore: true` header for each request.
+As you can see in the examples above, all kubernetes requests that are routed through the Loft API server are counted as activity within the namespace and will reset the period until it sleeps or is deleted.
+One exception to this rule are requests that are made in the Loft UI, since the Loft UI always sets the `X-Sleep-Mode-Ignore: true` header for each request.
 
 There are multiple annotations you can set on a namespace to change what counts as activity within that namespace:
-- `sleepmode.loft.sh/last-activity`: this is usually set automatically by loft after an activity was detected within a namespace, however you can also change this value as you like
+- `sleepmode.loft.sh/last-activity`: this is usually set automatically by Loft after an activity was detected within a namespace, however you can also change this value as you like
 - `sleepmode.loft.sh/ignore-all`: if this annotation is set to "true", then all requests will be ignored and not count as activity
 - `sleepmode.loft.sh/ignore-vclusters`: if "true", activity that occurs within a created vcluster within this namespace does not count as activity
 - `sleepmode.loft.sh/ignore-groups`: a comma separated list of kubernetes resource groups that do not count as activity (e.g. apps would ignore all activity in deployments, statefulsets etc.)
@@ -316,7 +316,7 @@ There are multiple annotations you can set on a namespace to change what counts 
 
 If you want to set some of this annotations automatically on space creation, you can add these to the space template in the account settings.
 
-You can check when a namespace will start sleeping or will be deleted by hovering over its status in the loft UI. Open connections describes how many keep alive connections are still active to that namespace (e.g. through kubectl exec)
+You can check when a namespace will start sleeping or will be deleted by hovering over its status in the Loft UI. Open connections describes how many keep alive connections are still active to that namespace (e.g. through kubectl exec).
 
 <figure class="frame">
   <img src="/docs/media/ui/sleep-mode/sleep-mode-hover.png" alt="Display Sleep Mode Information" />
@@ -326,9 +326,9 @@ You can check when a namespace will start sleeping or will be deleted by hoverin
 ### How can I specify when a namespace should sleep or should be deleted?
 
 The period when a namespace should start sleeping can be configured through namespace annotations:
-- `sleepmode.loft.sh/sleep-after`: tells loft to trigger sleep mode automatically after x seconds of inactivity
-- `sleepmode.loft.sh/delete-after`: tells loft to delete the namespace automatically after x seconds of inactivity
-- `sleepmode.loft.sh/force`: if "true" tells loft to force sleep this namespace
+- `sleepmode.loft.sh/sleep-after`: tells Loft to trigger sleep mode automatically after x seconds of inactivity
+- `sleepmode.loft.sh/delete-after`: tells Loft to delete the namespace automatically after x seconds of inactivity
+- `sleepmode.loft.sh/force`: if "true" tells Loft to force sleep this namespace
 - `sleepmode.loft.sh/delete-all-pods`: if "true" will delete all running pods within a namespace as soon as it starts sleeping, besides scaling down deployments, replicasets and statefulsets
 
-loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute
+Loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute.
