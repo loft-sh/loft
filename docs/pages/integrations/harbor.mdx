@@ -38,7 +38,7 @@ expose:
     hosts:
       core: harbor.domain # Change THIS
     annotations:
-      # Please make sure you have the loft app cert-issuer installed
+      # Please make sure you have the Loft app cert-issuer installed
       # for automatic certificate generation
       cert-manager.io/cluster-issuer: lets-encrypt-http-issuer
       kubernetes.io/ingress.class: "nginx"
