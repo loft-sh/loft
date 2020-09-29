@@ -1,9 +1,9 @@
-By default, loft only shows Helm charts which have the label `loft.sh/app: true`. This label needs to be set on the secrets that Helm creates for a respective release. Additionally, there is the label `loft.sh/system-app: true` and the annotation `loft.sh/url: REPO_URL` to provide additional details about the app.
+By default, Loft only shows Helm charts which have the label `loft.sh/app: true`. This label needs to be set on the secrets that Helm creates for a respective release. Additionally, there is the label `loft.sh/system-app: true` and the annotation `loft.sh/url: REPO_URL` to provide additional details about the app.
 
-Sometimes, it can be useful to "import" an already existing Helm chart by adding the missing labels and annotations. This has the advantage that you can view and manage the Helm release using the loft UI. Using the helper script [`import-helm-release`](https://github.com/loft-sh/loft/blob/master/hack/import-helm-release.sh) you can import Helm releases into loft.
+Sometimes, it can be useful to "import" an already existing Helm chart by adding the missing labels and annotations. This has the advantage that you can view and manage the Helm release using the loft UI. With the helper script [`import-helm-release`](https://github.com/loft-sh/loft/blob/master/hack/import-helm-release.sh), you can import Helm releases into Loft.
 
 :::tip
-If you connected the management cluster (that loft is running in), you can:
+If you connected the management cluster (that Loft is running in), you can:
 
 Import `cert-manager`:
 ```bash

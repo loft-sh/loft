@@ -8,10 +8,10 @@ import TabItem from '@theme/TabItem'
 import ConnectLoftClusterFragment from '../fragments/clusters/connect-loft-cluster.mdx'
 import ConnectOtherClusterFragment from '../fragments/clusters/connect-other-cluster.mdx'
 
-With loft, you can manage clusters, cluster access, namespaces as well as applications running inside your clusters.
+With Loft, you can manage clusters, cluster access, namespaces as well as applications running inside your clusters.
 
 ## Connect Clusters
-To manage a cluster with loft, you must first connect the cluster to your loft instance. You can also connect the cluster that loft is running inside (loft cluster), so you can manage this cluster using loft as well.
+To manage a cluster with Loft, you must first connect the cluster to your Loft instance. You can also connect the cluster that Loft is running inside (Loft cluster), so you can manage this cluster using Loft as well.
 
 ### Loft Cluster
 
@@ -24,10 +24,10 @@ To manage a cluster with loft, you must first connect the cluster to your loft i
 
 
 ## Disconnect Clusters
-With loft, you can disconnect clusters with a single click or command.
+With Loft, you can disconnect clusters with a single click or command.
 
 :::info State Preservation
-Disconnecting a cluster will not remove anything from the cluster. It will only remove the credentials (kube-config) saved in loft for connecting to the cluster. After disconnecting a cluster, you can simply reconnect it and everything will still be there: namespaces, apps, cluster account, account quotas, etc.
+Disconnecting a cluster will not remove anything from the cluster. It will only remove the credentials (kube-config) saved in Loft for connecting to the cluster. After disconnecting a cluster, you can simply reconnect it and everything will still be there: namespaces, apps, cluster account, account quotas, etc.
 :::
 
 <Tabs
@@ -43,7 +43,7 @@ Disconnecting a cluster will not remove anything from the cluster. It will only 
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/clusters/disconnect-cluster.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Disconnect Cluster</figcaption>
+  <figcaption>Loft UI - Disconnect Cluster</figcaption>
 </figure>
 
 </TabItem>
@@ -62,7 +62,7 @@ kubectl delete cluster [CLUSTER_NAME]
 
 
 ## Reconnect
-Because loft saves the entire state of a cluster within the cluster ifself, you can disconnect and simply reconnect a cluster without data loss.
+Because Loft saves the entire state of a cluster within the cluster ifself, you can disconnect and simply reconnect a cluster without data loss.
 
 <figure class="frame">
   <video controls loop autoplay="true" muted>
