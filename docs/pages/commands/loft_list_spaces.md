@@ -4,7 +4,7 @@ sidebar_label: loft list spaces
 ---
 
 
-Lists the loft spaces you have access to
+Lists the Loft spaces you have access to
 
 ## Synopsis
 

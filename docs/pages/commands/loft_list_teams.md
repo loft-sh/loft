@@ -4,7 +4,7 @@ sidebar_label: loft list teams
 ---
 
 
-Lists the loft teams you are member of
+Lists the Loft teams you are member of
 
 ## Synopsis
 

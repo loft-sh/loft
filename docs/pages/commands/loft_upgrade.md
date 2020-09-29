@@ -4,7 +4,7 @@ sidebar_label: loft upgrade
 ---
 
 
-Upgrade the loft CLI to the newest version
+Upgrade the Loft CLI to the newest version
 
 ## Synopsis
 

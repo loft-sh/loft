@@ -4,7 +4,7 @@ sidebar_label: loft list vclusters
 ---
 
 
-Lists the loft virtual clusters you have access to
+Lists the Loft virtual clusters you have access to
 
 ## Synopsis
 

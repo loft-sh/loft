@@ -4,7 +4,7 @@ sidebar_label: loft login
 ---
 
 
-Login to a loft instance
+Login to a Loft instance
 
 ## Synopsis
 

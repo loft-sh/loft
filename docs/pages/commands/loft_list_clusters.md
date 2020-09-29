@@ -4,7 +4,7 @@ sidebar_label: loft list clusters
 ---
 
 
-Lists the loft clusters you have access to
+Lists the Loft clusters you have access to
 
 ## Synopsis
 

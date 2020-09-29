@@ -4,7 +4,7 @@ sidebar_label: loft token
 ---
 
 
-Token prints the access token to a loft instance
+Prints the access token to a Loft instance
 
 ## Synopsis
 
