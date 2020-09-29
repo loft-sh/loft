@@ -19,5 +19,5 @@ kubectl api-resources --api-group='storage.loft.sh' -o name | xargs kubectl dele
 ```
 
 :::warning Data Loss
-Deleting the loft CRDs will also remove all loft objects inside your cluster, e.g. `Cluster`, `Team`, `User`. This **cannot** be undone.
+Deleting the Loft CRDs will also remove all Loft objects inside your cluster, e.g. `Cluster`, `Team`, and `User`. This **cannot** be undone.
 :::
