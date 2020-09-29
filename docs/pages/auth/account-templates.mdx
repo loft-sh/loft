@@ -7,19 +7,18 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import AccountTemplatesForSSOFragment from '../fragments/auth/sso/account-templates.mdx'
 
-Account Templates are a way to automatically create an account in a connected clusters for a new team or user and optionally create other resources that belong to such an account. 
+Account Templates are a way to automatically create an account in a connected cluster for a new team or user and optionally create other resources that belong to such an account. 
 
-Since cluster access is determined in Loft by who has an account in which cluster, creating an account in a cluster is equivalent of giving a user access to a cluster. Account templates are particularly useful when using single sign-on because users are being created when they log in for the first time and without any cluster accouns, a new user will not able to do anything. Account templates can solve this by automatically creating account for such users.
+Since cluster access is determined in Loft by who has an account in which cluster, creating an account in a cluster is equivalent of giving a user access to a cluster. Account templates are particularly useful when using single sign-on because users are being created when they log in for the first time and without any cluster accounts, a new user will not automatically be able to do anything. Account templates can solve this by automatically creating accounts for such users.
 
 A cluster account template is a Custom Resource in Kubernetes and consists of 3 components:
-1. **Cluster Selector**: A label selector to selects clusters to define in which clusters a new account will be created.
+1. **Cluster Selector**: A label selector to select clusters to define in which clusters a new account will be created.
 2. **Account Template**: An account template that specifies how the created account should look like.
-3. **Templates For Additional Account Resources**: An array of owned resources (e.g. AccountQuota, ClusterRoleBinding etc.), which the account owns and an owner reference to the account is set. This has the
-advantage that if the account is deleted, all of his owned resources are deleted as well and ownership of resources can be easily identified.
+3. **Templates For Additional Account Resources**: An array of owned resources (e.g. AccountQuota, ClusterRoleBinding etc.), which the account owns and an owner reference to the account is set to. This has the advantage that if the account is deleted, all of its owned resources are deleted as well and ownership of resources can be easily identified.
 
 
 ## Create Account Templates
-You can create cluster account templates either via kubectl or the loft UI.
+You can create cluster account templates either via kubectl or the Loft UI.
 
 <Tabs
   defaultValue="ui"
@@ -44,18 +43,18 @@ You will be presented with several options how the Cluster Account Template can 
   <figcaption>Create a new Cluster Account Template</figcaption>
 </figure>
 
-First, you can optionally specify Kubernetes **Metadata of Cluster Account Template** such as annotations or labels for this Account Template object.
+At first, you can optionally specify the Kubernetes **Metadata of Cluster Account Template** such as annotations or labels for this Account Template object.
 
 Then, you can specify what the account template should do:
-1. **Select Clusters**: Labels in the form of `label1=value1` that specify in which clusters an account should be created in. If empty, all clusters are selected. You will see which clusters are selected in the account templates table under the column 'Selected Clusters'
+1. **Select Clusters**: Labels in the form of `label1=value1` that specify which clusters an account should be created in. If empty, all clusters are selected. You will see which clusters are selected in the account templates table under the column 'Selected Clusters'
 2. **Create Account in Clusters**: Account settings for the account that will be created in the cluster. This section is very similar to the `Space Creation Settings` section in the `Clusters -> Accounts` drawer.
 3. **Create Account Resources in Clusters**:
-    - **Account Quota**: Here you can define the hard limits for an account quota that will be created for the account. Leave empty to create no AccountQuota for the account.
-    - **Cluster Role Bindings**: For each of these cluster roles, a [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) is created for the account. Use this for example if you want to grant a user full cluster access.
-    - **Other Resources**: Other custom kubernetes resources that should be created in the target cluster for the account. This can be any kubernetes resource yaml. Bear in mind that:
-      - No metadata section required: loft will automatically set metadata.generateName if no metadata for a resource is provided
-      - You can use ${LOFT_ACCOUNT_NAME} as a placeholder for the account name. For example, in an AccountQuota you can set `spec.account: ${LOFT_ACCOUNT_NAME}`. This will be replaced when the account is actually created with the correct account name.
-      - An ownerReference will be set automatically for the resource that references the account. This means that deleting the account will also delete all his resources.
+    - **Account Quota**: Here, you can define the hard limits for an account quota that will be created for the account. Leave empty to create no AccountQuota for the account.
+    - **Cluster Role Bindings**: For each of these cluster roles, a [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) is created for the account. Use this, for example, if you want to grant a user full cluster access.
+    - **Other Resources**: Other custom Kubernetes resources that should be created in the target cluster for the account. This can be any Kubernetes resource yaml. Bear in mind that:
+      - No metadata section required: Loft will automatically set metadata.generateName if no metadata for a resource is provided
+      - You can use ${LOFT_ACCOUNT_NAME} as a placeholder for the account name. For example, in an AccountQuota you can set `spec.account: ${LOFT_ACCOUNT_NAME}`. This will be replaced by the correct account name when the account is actually created.
+      - An ownerReference will be set automatically for the resource that references the account. This means that deleting the account will also delete all its resources.
 
 After you are done configuring the ClusterAccountTemplate, press `Create` to create the resource. This will not create any accounts yet.
 
@@ -96,7 +95,7 @@ spec:
 
 Create the Cluster Account Template using `kubectl`:
 ```bash
-# IMPORTANT: Run this command inside the loft management cluster
+# IMPORTANT: Run this command inside the Loft management cluster
 kubectl create -f clusteraccounttemplate.yaml
 ```
 
@@ -105,7 +104,7 @@ kubectl create -f clusteraccounttemplate.yaml
 
 
 ## Use Account Templates
-Applying cluster account templates to an user or team can be done either via kubectl or the loft UI. For automatically applying account templates to users on single sign on, please see the next section.
+Applying cluster account templates to an user or team can be done either via kubectl or the Loft UI. For automatically applying account templates to users on single sign-on, please see the next section.
 
 <Tabs
   defaultValue="ui"
@@ -121,7 +120,7 @@ Applying cluster account templates to an user or team can be done either via kub
   <figcaption>Apply Cluster Account Templates</figcaption>
 </figure>
 
-In the Account Templates section you are able to select one or multiple cluster account templates to apply to a user or team when creating or editing it.
+In the Account Templates section, you are able to select one or multiple cluster account templates to apply to a user or team when creating or editing it.
 
 :::tip Preselect Account Templates
 Some account templates might be preselected, these are the templates that have the label `loft.sh/default-template: "true"` specified.
@@ -142,11 +141,11 @@ If you want to delete a template and the corresponding account resources, please
 
 ```bash
 # Users
-# IMPORTANT: Run this command inside the loft management cluster
+# IMPORTANT: Run this command inside the Loft management cluster
 kubectl edit user my-user
 
 # Teams
-# IMPORTANT: Run this command inside the loft management cluster
+# IMPORTANT: Run this command inside the Loft management cluster
 kubectl edit team my-team
 ```
 

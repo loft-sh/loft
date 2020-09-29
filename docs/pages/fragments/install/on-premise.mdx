@@ -15,7 +15,7 @@ import CreateAdminUserFragment from './create-admin-user.mdx';
 <TabItem value="cloud">
 
 :::note Cloud Clusters
-Choose this option if you want to deploy loft to a Kubernetes cluster such as:
+Choose this option if you want to deploy Loft to a Kubernetes cluster such as:
 - GKE (Google Cloud)
 - EKS (Amazon Web Services)
 - AKS (Azure Cloud)
@@ -31,7 +31,7 @@ Choose this option if you want to deploy loft to a Kubernetes cluster such as:
 
 #### Ensure Ingress Controller
 
-To use the loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
+To use the Loft UI and API via a domain or subdomain, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
 
 If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
@@ -43,7 +43,7 @@ helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storag
 ```
 
 :::important Configuring DNS
-After the ingress controller has been deployed, **[create a DNS record](https://support.dnsimple.com/articles/a-record/)** to point the domain or subdomain you want to use for loft to the IP address (create DNS A record) or hostname (create DNS CNAME record) of your load balancer.
+After the ingress controller has been deployed, **[create a DNS record](https://support.dnsimple.com/articles/a-record/)** to point the domain or subdomain you want to use for Loft to the IP address (create DNS A record) or hostname (create DNS CNAME record) of your load balancer.
 
 To get the IP address or hostname of the load balancer for your ingress controller, run the following command and look for the `EXTERNAL-IP`:
 
@@ -67,7 +67,7 @@ If the `EXTERNAL-IP` of this service remains `pending` for a long time, make sur
 
 #### Ensure Cert Manager
 
-To use the loft UI and API via a domain or subdomain, you need to install cert-manager v0.12+ to your cluster. If you already have cert-manager set up and running, you can skip this step.
+To use the Loft UI and API via a domain or subdomain, you need to install cert-manager v0.12+ to your cluster. If you already have cert-manager set up and running, you can skip this step.
 
 If you do **not** have cert-manager deployed yet, you can do this using the following command:
 ```bash
@@ -84,7 +84,7 @@ Cert Manager will automatically provision SSL certificates for your ingress host
 <br />
 <Step>3</Step>
 
-#### Install loft to management cluster via helm v3
+#### Install Loft to management cluster via helm v3
 
 ```bash
 helm install loft loft --repo https://charts.devspace.sh/ \
@@ -102,7 +102,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 <br />
 <Step>4</Step>
 
-#### Open loft UI and create admin user
+#### Open Loft UI and create admin user
 
 :::note Wait For SSL Certificate
 If you configured `ingress.tls.enabled=true` above, you may first have to wait until the SSL certificate is provisioned by cert-manager and Let's encrypt. You can check the status using this command:
@@ -118,14 +118,14 @@ kubectl -n loft-sh get certificate
 <TabItem value="local">
 
 :::note Without Cert-Manager
-Choose this option if you want to install loft with a self signed certificate and without cert-manager, e.g. in local clusters like minikube or docker-desktop.
+Choose this option if you want to install Loft with a self signed certificate and without cert-manager, e.g. in local clusters like minikube or docker-desktop.
 :::
 
 <Step>1</Step>
 
 #### Ensure Ingress Controller
 
-To access the loft UI and API, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
+To access the Loft UI and API, we recommend to install an ingress controller to your cluster. If you already have an ingress controller set up and running, you can skip this step.
 
 If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
@@ -139,7 +139,7 @@ helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storag
 <br />
 <Step>2</Step>
 
-#### Install loft via Helm v3
+#### Install Loft via Helm v3
 
 ```bash
 helm install loft loft --repo https://charts.devspace.sh/ \
@@ -159,7 +159,7 @@ helm install loft loft --repo https://charts.devspace.sh/ \
 
 #### Setting hosts file OR configure DNS
 
-Please make sure your specified loft URL is accessible. For local clusters you may need to update your hosts file to access it. For remote clusters make sure you create an A record in your DNS configuration for the given domain that points to the previously created ingress controller load balancer external IP.
+Please make sure your specified Loft URL is accessible. For local clusters, you may need to update your hosts file to access it. For remote clusters, make sure you create an A record in your DNS configuration for the given domain that points to the previously created ingress controller load balancer external IP.
 
 For local clusters, you can find the hosts file at the following location:
 
@@ -174,7 +174,7 @@ Edit the appropriate file for your system and add an entry
 <br />
 <Step>4</Step>
 
-#### Open loft UI and create admin user
+#### Open Loft UI and create admin user
 
 <CreateAdminUserFragment/>
 

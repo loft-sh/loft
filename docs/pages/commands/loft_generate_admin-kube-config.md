@@ -18,7 +18,7 @@ loft generate admin-kube-config [flags]
 ########## loft generate admin-kube-config ############
 #######################################################
 Creates a new kube config that can be used to connect
-a cluster to loft.
+a cluster to Loft.
 
 Example:
 loft generate admin-kube-config
@@ -39,7 +39,7 @@ loft generate admin-kube-config --namespace mynamespace
 ## Global & Inherited Flags
 
 ```
-      --config string                  The loft config to use (will be created if it does not exist) (default "C:\\Users\\gente\\.loft\\config.json")
+      --config string                  The Loft config to use (will be created if it does not exist) (default "C:\\Users\\gente\\.loft\\config.json")
       --debug                          Prints the stack trace if an error occurs
       --log-flush-frequency duration   Maximum number of seconds between log flushes (default 5s)
       --silent                         Run in silent mode and prevents any devspace log output except panics & fatals

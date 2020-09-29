@@ -5,7 +5,7 @@ import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
 
 **Create A New App In Okta**
 
-The first step is to create a new Okta App for loft.
+The first step is to create a new Okta App for Loft.
 
 <figure class="frame">
   <img src="/docs/media/ui/auth/create-app-okta.png" alt="Create App for loft" />
@@ -21,7 +21,7 @@ Next select "Web" App and make sure OpenID Connect is the single sign on method.
 
 In the next screen make sure the login redirect URIs contain your Loft instance domain:
 ```bash
-# Exchange the ${my-loft-domain.com} with your loft domain
+# Exchange the ${my-loft-domain.com} with your Loft domain
 https://${my-loft-domain.com}/auth/oidc/callback
 ```
 

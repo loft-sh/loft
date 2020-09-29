@@ -5,7 +5,7 @@ sidebar_label: Users
 
 import CreateUserFragment from '../fragments/auth/create-user.mdx'
 
-Loft provides to different [authentication mechanisms including password-based authentication and several single sign-on (SSO) options](../getting-started/auth.mdx).
+Loft provides different [authentication mechanisms including password-based authentication and several single sign-on (SSO) options](../getting-started/auth.mdx).
 
 ## Workflows
 
@@ -20,7 +20,7 @@ Loft provides to different [authentication mechanisms including password-based a
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/auth/reset-password.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Reset Password</figcaption>
+  <figcaption>Loft UI - Reset Password</figcaption>
 </figure>
 
 
@@ -39,7 +39,7 @@ Loft provides to different [authentication mechanisms including password-based a
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/auth/delete-user.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Delete User</figcaption>
+  <figcaption>Loft UI - Delete User</figcaption>
 </figure>
 
 </TabItem>
@@ -47,7 +47,7 @@ Loft provides to different [authentication mechanisms including password-based a
 
 Delete a user using `kubectl`:
 ```bash
-# IMPORTANT: Make sure to switch to the context of the loft management cluster!
+# IMPORTANT: Make sure to switch to the context of the Loft management cluster!
 kubectl delete user [USER_NAME]
 ```
 
@@ -60,11 +60,11 @@ Deleting a user will also delete all cluster accounts that are owned solely by t
 
 
 ## Cluster Roles
-loft provides an ClusterRole named `loft-management-admin` that can be assigned to users. This role will allow users to manage all loft-related ressources within the loft cluster, i.e. user, cluster, team etc.
+Loft provides an ClusterRole named `loft-management-admin` that can be assigned to users. This role will allow users to manage all Loft-related ressources within the Loft cluster, i.e. user, cluster, team etc.
 
 <figure class="frame">
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/auth/user-loft-cluster-roles.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Loft ClusterRoles</figcaption>
+  <figcaption>Loft UI - Loft ClusterRoles</figcaption>
 </figure>
