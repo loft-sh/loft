@@ -51,6 +51,7 @@ module.exports = {
         'clusters/account-quotas',
         'clusters/templates',
         'clusters/apps',
+        'clusters/monitoring',
         'clusters/harbor',
       ],
     },
