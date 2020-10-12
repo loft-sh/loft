@@ -1,0 +1,72 @@
+---
+title: Clusters
+sidebar_label: Clusters
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import ConnectLoftClusterFragment from '../fragments/clusters/connect-loft-cluster.mdx'
+import ConnectOtherClusterFragment from '../fragments/clusters/connect-other-cluster.mdx'
+
+With Loft, you can manage clusters, cluster access, namespaces as well as applications running inside your clusters.
+
+## Connect Clusters
+To manage a cluster with Loft, you must first connect the cluster to your Loft instance. You can also connect the cluster that Loft is running inside (Loft cluster), so you can manage this cluster using Loft as well.
+
+### Loft Cluster
+
+<ConnectLoftClusterFragment/>
+
+
+### Other Clusters
+
+<ConnectOtherClusterFragment/>
+
+
+## Disconnect Clusters
+With Loft, you can disconnect clusters with a single click or command.
+
+:::info State Preservation
+Disconnecting a cluster will not remove anything from the cluster. It will only remove the credentials (kube-config) saved in Loft for connecting to the cluster. After disconnecting a cluster, you can simply reconnect it and everything will still be there: namespaces, apps, cluster account, account quotas, etc.
+:::
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/clusters/disconnect-cluster.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Disconnect Cluster</figcaption>
+</figure>
+
+</TabItem>
+
+<TabItem value="kubectl">
+
+Run the following command to disconnect a cluster:
+```bash
+# IMPORTANT: Make sure you are using the context of the Loft cluster to run this command
+kubectl delete cluster [CLUSTER_NAME]
+```
+
+</TabItem>
+
+</Tabs>
+
+
+## Reconnect
+Because Loft saves the entire state of a cluster within the cluster ifself, you can disconnect and simply reconnect a cluster without data loss.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/clusters/reconnect-cluster.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Reconnect Cluster</figcaption>
+</figure>

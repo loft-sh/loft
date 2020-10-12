@@ -29,7 +29,8 @@ spec:
         {{- else }}
         image: "loftsh/loft:{{ .Chart.Version }}"
         {{- end }}
-        {{- if and .Values.livenessProbe .Values.livenessProbe.enabled }}
+        {{- if .Values.livenessProbe }}
+        {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
           httpGet:
             path: /version
@@ -41,7 +42,9 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         {{- end }}
-        {{- if and .Values.readinessProbe .Values.readinessProbe.enabled }}
+        {{- end }}
+        {{- if .Values.readinessProbe }}
+        {{- if .Values.readinessProbe.enabled }}
         readinessProbe:
           httpGet:
             path: /version
@@ -52,6 +55,7 @@ spec:
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
+        {{- end }}
         {{- end }}
         env:
         {{- if not .Values.apiService.enabled }}

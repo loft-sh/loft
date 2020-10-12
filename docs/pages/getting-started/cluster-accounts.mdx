@@ -1,0 +1,69 @@
+---
+title: Add Cluster Accounts
+sidebar_label: 4. Add Cluster Accounts
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import ClusterAccountDiagram from '../fragments/diagrams/cluster-accounts.mdx'
+import CreateClusterAccounts from '../fragments/clusters/create-account.mdx'
+import AccountTemplatesForSSOFragment from '../fragments/auth/sso/account-templates.mdx'
+
+Now that users can authenticate with Loft, the question is how they get access to the clusters you connected in step 2 of this setup guide.
+
+<ClusterAccountDiagram/>
+
+That means that if a user signs in via single sign-on for the first time, they will **not** automatically have access to any clusters and cannot do anything.
+
+There are 2 ways you can create cluster accounts for your users:
+1. [Manually creating and managing cluster accounts for each user in each cluster](#1-manual-account-management)
+2. [Automatically create accounts for every new user using Account Templates](#2-automation-via-account-templates)
+
+Both approaches are not mutually exclusive and are generally used in combination. Most Loft admins configure 2. and then manually edit accounts when needed, e.g. give users access to a newly connected cluster, change limits on a per-user basis, etc.
+
+## 1. Manual Account Management
+Accounts are defined on a per-cluster basis, i.e. if a user needs access to 3 clusters, they will need 3 accounts, one for each cluster.
+
+<CreateClusterAccounts/>
+
+
+## 2. Automation via Account Templates
+Loft provides a CRD called ClusterAccountTemplate which allows you to automatically create cluster accounts for users when they are being created or edited.
+
+### 2.1 Use Default Account Templates
+Loft provides 2 default account templates:
+- `loft-all-cluster-default` which gives a user access to ALL connected clusters
+- `loft-all-cluster-admin` which gives a user **admin** access to ALL connected clusters
+
+You can view and edit these template by navigating to `Users > Account Templates`.
+
+
+<Tabs
+  defaultValue="manual"
+  values={[
+    { label: 'Manual Add/Edit User', value: 'manual', },
+    { label: 'Single Sign-On (SSO)', value: 'automated', },
+  ]
+}>
+<TabItem value="manual">
+
+The template `loft-all-cluster-default` is marked as default template to be used for new users. That means that when you add a new user manually via the UI (not using SSO) and you do **not** remove this template before creating the user, this template will be applied and the user will get access to all connected clusters.
+
+<figure class="frame">
+  <img src="/docs/media/ui/auth/cat-apply.png" alt="Apply Cluster Account Templates" />
+  <figcaption>Loft UI - Apply Cluster Account Templates</figcaption>
+</figure>
+
+You can mark additional templates to be selected by default by adding the label `loft.sh/default-template: "true"` to the Kubernetes ClusterAccounteTemplate object.
+
+</TabItem>
+<TabItem value="automated">
+
+<AccountTemplatesForSSOFragment/>
+
+</TabItem>
+</Tabs>
+
+
+### 2.2 Custom Account Templates
+Besides the two default ClusterAccountTemplates, you can add your own templates, e.g. for giving users access to only a specific set of clusters based on their groups. Learn more about [adding your own custom ClusterAccountTemplates here](../auth/account-templates.mdx).

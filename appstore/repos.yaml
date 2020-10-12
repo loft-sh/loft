@@ -1572,3 +1572,31 @@ sync:
           email: acharder4@yahoo.com
         - name: aledbf
           email: aledbf@gmail.com
+    - name: lakefs
+      url: https://charts.lakefs.io
+    - name: duyet
+      url: https://duyet.github.io/charts
+    - name: kvaps
+      url: https://kvaps.github.io/charts
+    - name: questdb
+      url: https://helm.questdb.io
+    - name: lightstepsatellite
+      url: https://lightstep.github.io/lightstep-satellite-helm-chart/
+    - name: fasterbytes
+      url: https://fasterbytes.github.io/charts
+    - name: prometheus-community
+      url: https://prometheus-community.github.io/helm-charts
+    - name: logicmonitor
+      url: https://logicmonitor.github.com/k8s-helm-charts
+    - name: drycc
+      url: https://charts.drycc.cc/stable
+    - name: gocd
+      url: https://gocd.github.io/helm-chart
+    - name: mongoosehelm
+      url: https://esl.github.io/MongooseHelm/
+    - name: k8s-cloudwatch
+      url: https://awslabs.github.io/k8s-cloudwatch-adapter/charts/k8s-cloudwatch-adapter
+    - name: cmak-operator
+      url: https://eshepelyuk.github.io/cmak-operator/
+    - name: kfirfer
+      url: https://kfirfer.github.io/helm

@@ -1,10 +1,11 @@
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 
-One of the most popular use cases for templates is to ensure cluster security and enforce isolation among users and spaces. You can enforce that certain templates are always applied to spaces when they are being created by adding these templates as part of the "Space Creation Settings" of an account.
+One of the most popular use cases for templates is to ensure cluster security and enforce isolation among users and spaces. However, creating a Template per se does nothing at all if you do not enforce the template.
+
+You can enforce that certain templates are always applied to namespaces when they are being created by adding these templates as part of the "Space Creation Settings" of an account. See the examples below for instructions.
 
 <Tabs
-  groupId="ui-cli-kubectl"
   defaultValue="ui"
   values={[
     { label: 'UI', value: 'ui', },
@@ -17,7 +18,7 @@ One of the most popular use cases for templates is to ensure cluster security an
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/clusters/enforce-template.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Enforce Template</figcaption>
+  <figcaption>Loft UI - Enforce Template</figcaption>
 </figure>
 
 </TabItem>

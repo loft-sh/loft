@@ -1,0 +1,72 @@
+---
+title: Add Limits & Isolation
+sidebar_label: 5. Add Limits & Isolation
+---
+
+import CreateUserFragment from '../fragments/auth/create-user.mdx'
+import CreateClusterAccounts from '../fragments/clusters/create-account.mdx'
+import WhatAreAccountQuotas from '../fragments/clusters/what-are-quotas.mdx'
+import CreateAccountQuotas from '../fragments/clusters/create-quotas.mdx'
+import AccountSpaceSettings from '../fragments/clusters/account-space-settings.mdx'
+import EnforceTemplatesFragment from '../fragments/clusters/templates/enforce-templates.mdx'
+import CreateTemplatesFragment from '../fragments/clusters/templates/create-templates.mdx'
+
+There are 3 concepts in Loft that allow you to restrict or limit a user's account within a cluster:
+- **Account Quotas** define resource limits for an account across all namespaces of an account within a cluster[^1]
+- **Space Creation Settings** define max number of namespaces a user can create, sleep mode and other options
+- **Templates** which can be enforced when creating a namespace (e.g. NetworkPolicies, LimitRanges etc.)
+
+<span id="fn-1"><sup>1</sup> Think of a Kubernetes ResourceQuota but aggregated across namespaces of an account.</span>
+
+
+## Create Account Quotas
+
+<WhatAreAccountQuotas/>
+<CreateAccountQuotas/>
+
+
+## Space Limit & Metadata
+While account quotas are mainly concerning resources that users are creating inside their spaces, you can also restrict the creation of spaces itself.
+
+<AccountSpaceSettings/>
+
+
+## Templates
+Templates define Kubernetes manifests or Helm charts that you want to deploy to every namespace that a user creates when using their cluster account. This allows you to isolate namespaces and enforce security policies for each namespace.
+
+### Create Templates
+<CreateTemplatesFragment/>
+
+### Enforce Templates
+<EnforceTemplatesFragment/>
+
+
+## Additional Security
+While Templates are great for namespace-level enforcement of security policies, it is stongly recommended to add cluster-wide security resources as well.
+
+One example of such a security resource would be a `PodSecurityPolicy` that should be added to each connected cluster. You can use the following example to get started:
+```yaml
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: strict-policy
+spec:
+  allowPrivilegeEscalation: false
+  fsGroup:
+    rule: RunAsAny
+  hostPorts:
+  - max: 0
+    min: 0
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - secret
+  - configMap
+  - emptyDir
+  - downwardAPI
+  - persistentVolumeClaim
+```

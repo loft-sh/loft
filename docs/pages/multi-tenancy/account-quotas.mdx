@@ -1,0 +1,54 @@
+---
+title: Account Quotas
+sidebar_label: Account Quotas
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import CreateAccountQuotas from '../fragments/clusters/create-quotas.mdx'
+import WhatAreAccountQuotas from '../fragments/clusters/what-are-quotas.mdx'
+
+<WhatAreAccountQuotas/>
+
+Admins can manage account quotas in the "Quotas" tab of each cluster. Users can view a list of all quotas of their accounts as well as of the quotas of the accounts of their teams under "Quotas". Both views also show the current utilization for each quota limit.
+
+<figure class="frame">
+  <img src="/docs/media/ui/quotas.png" alt="Account Quotas" />
+  <figcaption>Loft UI - Account Quotas</figcaption>
+</figure>
+
+## Create Quotas
+
+<CreateAccountQuotas/>
+
+
+## Delete Quotas
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/clusters/delete-quota.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Delete Account Quotas</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete an account quota using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the connected cluster!
+kubectl delete accountquota [ACCOUNT_QUOTA_NAME]
+```
+
+</TabItem>
+</Tabs>
+

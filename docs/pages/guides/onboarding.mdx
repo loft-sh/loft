@@ -1,0 +1,160 @@
+---
+title: Loft Onboarding Guide
+sidebar_label: Onboarding Guide
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import InstallCLIFragment from '../fragments/install/cli.mdx'
+import WhatAreSpacesFragment from '../fragments/spaces/what-are-spaces.mdx'
+import CreateSpacesFragment from '../fragments/spaces/create.mdx'
+import DeleteSpacesFragment from '../fragments/spaces/delete.mdx'
+import ShareSpacesFragment from '../fragments/spaces/share.mdx'
+import WhatAreAccessKeysFragment from '../fragments/profile/what-are-access-keys.mdx'
+import CreateAccessKeysFragment from '../fragments/profile/create-access-key.mdx'
+import LoginAccessKeysFragment from '../fragments/profile/login-access-key.mdx'
+import DeleteAccessKeysFragment from '../fragments/profile/delete-access-key.mdx'
+import CreateVClusterFragment from '../fragments/vclusters/create.mdx'
+import UseVClusterFragment from '../fragments/vclusters/use.mdx'
+import DeleteVClusterFragment from '../fragments/vclusters/delete.mdx'
+
+
+Welcome to Loft! One of your colleagues has probably sent you this link, so you can quickly get started using Loft. With Loft, you can create Kubernetes namespaces to test any applications you are working on, you can run ML/AI experiments or you can integrate Kubernetes very easily in CI/CD pipelines.
+
+
+## Install Loft CLI
+Installing the Loft CLI lets you create spaces and retrieve kube-contexts for your spaces right from the terminal of your IDE which is often much faster than using the UI.
+
+<InstallCLIFragment/>
+
+
+## Login
+After installing the CLI, you must log in to Loft:
+```bash
+loft login https://my-loft.url.tld
+```
+This command will generate an [access key](#access-keys) and securely store it on your computer, so the Loft CLI can authenticate when running any further commands.
+
+
+## Spaces / Namespaces
+Spaces are Kubernetes namespaces that allow you to work with Kubernetes, e.g. deploy applications to see if they are working correctly, use in CI/CD pipelines, run ML/AI experiments, debug microservices etc.
+
+You can create as many spaces as your admin has configured for you. You may create spaces in different Kubernetes clusters if your admin has granted you access to more than just one cluster.
+
+### Create Spaces
+
+<CreateSpacesFragment/>
+
+
+### List Spaces
+To get a list of your spaces, take a look in the UI or simply run:
+```bash
+loft list spaces
+```
+
+
+### Switch Between Spaces
+The CLI will automatically handle the kube-context (i.e. which Kubernetes cluster and namespace you are working with and how to authenticate).
+
+To switch from one cluster to another cluster, run:
+```bash
+loft use space [SPACE_NAME]
+```
+
+
+### Share Spaces
+
+<ShareSpacesFragment/>
+
+
+### Delete Spaces
+
+<DeleteSpacesFragment/>
+
+
+### Sleep Mode + Wakeup
+Your admin may configure the sleep mode for you spaces. Sleeping spaces will **not** lose any configuration or persistent data but the running containers will be gracefully terminated.
+
+As soon as you run any command within a sleeping space with any Kubernetes tool (e.g. `kubectl get po`, `helm install`, `devspace dev`) your space will automatically wake up and start your containers again.
+
+You can also manually wake up spaces as shown below:
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'CLI', value: 'cli', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/ui/sleep-mode/manual.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Manual Sleep &amp; Wake-Up</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="cli">
+
+Run this command to manually wake up a space:
+```bash
+loft wakeup [SPACE_NAME]   # optional flag: --cluster=[CLUSTER_NAME]
+```
+
+</TabItem>
+<TabItem value="kubectl">
+
+Run any kubectl command to wake up a sleeping space:
+```bash
+loft use space [SPACE_NAME]
+kubectl get po
+```
+
+</TabItem>
+</Tabs>
+
+## Virtual Clusters
+
+### Create vCluster
+<CreateVClusterFragment/>
+
+### Use vCluster
+<UseVClusterFragment/>
+
+### Delete vCluster
+<DeleteVClusterFragment/>
+
+## Quotas
+In each cluster that you have access to, you have a cluster account. Each of these cluster accounts can have quotas which may limit how many Kubernetes resources (e.g. pods) you can create or how much computing power you can use.
+
+You can view your quotas for all clusters as well as the current utilization in the Loft UI:
+
+<figure class="frame">
+  <img src="/docs/media/ui/quotas.png" alt="Account Quotas" />
+  <figcaption>Loft UI - Account Quotas</figcaption>
+</figure>
+
+
+## Access Keys
+
+<WhatAreAccessKeysFragment/>
+
+
+### Create Access Keys
+
+<CreateAccessKeysFragment/>
+
+
+### Login with Access Keys
+
+<LoginAccessKeysFragment/>
+
+
+### Delete Access Keys
+
+<DeleteAccessKeysFragment/>
+
+

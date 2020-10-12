@@ -1,0 +1,64 @@
+import Step from '@site/src/components/Step/Step'
+import DexHostnameFragment from './dex/hostname.mdx'
+import DexInstallFragment from './dex/install.mdx'
+import DexConfigFragment from './dex/config.mdx'
+import GitHubDexConfigFragment from './dex/connectors/github.mdx'
+import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
+
+<Step>1</Step>
+
+**Choose DEX_HOSTNAME And Configure DNS**
+
+<DexHostnameFragment/>
+
+
+<Step>2</Step>
+
+**Create A GitHub App**
+
+In GitHub, navigate to `Settings > Developer Settings > OAuth Apps` and [create a new OAuth App](https://github.com/settings/applications/new) with the following settings:
+- Application name: Loft Login via GitHub
+- Homepage URL: https://loft.yourcompany.tld = `https:// + $LOFT_HOSTNAME`
+- Auth callback URL: https://dex.yourcompany.tld/callback = `https:// + $DEX_HOSTNAME + /callback`
+
+Remember the `$GITHUB_CLIENT_ID` and `$GITHUB_CLIENT_SECRET` that GitHub generates for your OAuth application because you will need it in the next step.
+
+
+<Step>3</Step>
+
+**Create Dex Config For GitHub**
+
+<GitHubDexConfigFragment/>
+
+
+<Step>4</Step>
+
+**Deploy Dex via Helm**
+
+<DexInstallFragment/>
+
+
+<Step>5</Step>
+
+**Configure Loft To Use Dex For Authentication**
+
+<DexConfigFragment/>
+
+
+<Step>6</Step>
+
+**Authenticate via Dex + GitHub**
+
+After saving the new Loft configuration, Loft will restart itself and you should be able to log in via GitHub and dex. Beware that only members of your organization on GitHub can sign in and that everyone must grant access to view their organization during the login process.
+
+:::warning Must Grant Access To Organization
+Users **must** grant access to the organization you configured dex for in step 2 above, otherwise they will **not** be able to log in.
+:::
+
+
+<Step>7</Step>
+
+**Disable Username + Password Authentication** (optional)
+
+<DisablePasswordAuthFragment/>
+

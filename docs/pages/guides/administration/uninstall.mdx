@@ -1,0 +1,23 @@
+---
+title: Uninstalling Loft
+sidebar_label: Uninstall Loft
+---
+
+## Delete Helm Release
+```bash
+helm delete -n loft loft
+```
+
+## Delete Namespace (optional)
+```bash
+kubectl delete ns loft
+```
+
+## Delete CRDs (optional)
+```bash
+kubectl api-resources --api-group='storage.loft.sh' -o name | xargs kubectl delete crd
+```
+
+:::warning Data Loss
+Deleting the Loft CRDs will also remove all Loft objects inside your cluster, e.g. `Cluster`, `Team`, and `User`. This **cannot** be undone.
+:::

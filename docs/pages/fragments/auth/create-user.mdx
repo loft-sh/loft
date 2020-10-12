@@ -1,8 +1,8 @@
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
+import Step from '@site/src/components/Step/Step'
 
 <Tabs
-  groupId="ui-cli-kubectl"
   defaultValue="ui"
   values={[
     { label: 'UI', value: 'ui', },
@@ -11,16 +11,23 @@ import TabItem from '@theme/TabItem'
 }>
 <TabItem value="ui">
 
+<Step>1</Step>
+
+**Create User**
+
 <figure class="frame">
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/auth/create-user.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Create User</figcaption>
+  <figcaption>Loft UI - Create User</figcaption>
 </figure>
 
-:::note Send Invite Link
-If you do not set a password for the user, loft will generate an access key for the user and display an invite link which you can send to the user to sign in and define a password for their user.
-:::
+
+<Step>2</Step>
+
+**Send Invite Link To User (optional)**
+
+If you did not specify a password for the user in step 1, Loft will automatically generate an invite link with a one-time access token for this user. If you send these invite links to your users, they will be logged in and asked to change their password.
 
 </TabItem>
 <TabItem value="kubectl">
@@ -47,8 +54,8 @@ Create file `password.yaml`:
 apiVersion: v1
 kind: Secret
 metadata:
-  namespace: loft
   name: john-password
+  namespace: loft
 type: Opaque
 data:
   password: INSERT_BASE64_ENCODED_SHA256_PASSWORD_HASH
@@ -56,7 +63,7 @@ data:
 
 Create the user using `kubectl`:
 ```bash
-# IMPORTANT: Run these commands inside the loft management cluster
+# IMPORTANT: Run these commands inside the cluster where Loft is running
 kubectl apply -f password.yaml
 kubectl apply -f user.yaml
 ```

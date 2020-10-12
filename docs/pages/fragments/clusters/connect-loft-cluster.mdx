@@ -5,10 +5,9 @@ import Highlight from '@site/src/components/Highlight/Highlight'
 import ChooseClusterNameFragment from './name.mdx'
 import CreateClusterFragment from './create-cluster.mdx'
 
-To manage the cluster where loft is running in (loft cluster) using loft, you need to connect it. You can skip this step if you only want to [connect other clusters](#connect-other-clusters) instead. However, it is often useful to connect the loft cluster to manage this cluster using loft although you may not want to make it available to the rest of your team.
+To manage the cluster where Loft is running in (Loft cluster) using Loft, you need to connect it. You can skip this step if you only want to connect other clusters instead. However, it is often useful to connect the Loft cluster to manage this cluster using Loft although you may not want to make it available to the rest of your team.
 
 <Tabs
-  groupId="ui-cli-kubectl"
   defaultValue="ui"
   values={[
     { label: 'UI', value: 'ui', },
@@ -17,13 +16,13 @@ To manage the cluster where loft is running in (loft cluster) using loft, you ne
 }>
 <TabItem value="ui">
 
-In the loft UI, navigate to "Clusters" and click the <Highlight>Connect Cluster</Highlight> button.
+In the Loft UI, navigate to "Clusters" and click the <Highlight>Connect Cluster</Highlight> button.
 
 <figure class="frame">
   <video controls loop autoplay="true" muted>
     <source src="/docs/media/ui/clusters/connect-cluster-loft.mp4" type="video/mp4" />
   </video>
-  <figcaption>loft UI - Connect Loft Cluster</figcaption>
+  <figcaption>Loft UI - Connect Loft Cluster</figcaption>
 </figure>
 
 <Step>1</Step>
@@ -35,14 +34,14 @@ In the loft UI, navigate to "Clusters" and click the <Highlight>Connect Cluster<
 <br/>
 <Step>2</Step>
 
-#### Connect loft cluster
-Because loft already has access to the cluster it is running inside, you will see a special button <Highlight>Connect loft cluster</Highlight> which will let you connect the management cluster with a single click.
+#### Connect Loft cluster
+Since Loft already has access to the cluster it is running inside, you will see a special button <Highlight>Connect loft cluster</Highlight> which will let you connect the management cluster with a single click.
 
 </TabItem>
 
 <TabItem value="kubectl">
 
-loft is designed as a Kubernetes extension and provides Custom Resource Definitions for everything, so you can also connect a cluster using `kubectl`. The UI of loft also uses kubectl under the hood, not just to connect clusters but also for anything else you can configure with the UI.
+Loft is designed as a Kubernetes extension and provides Custom Resource Definitions for everything, so you can also connect a cluster using `kubectl`. The UI of Loft also uses kubectl under the hood, not just to connect clusters but also for anything else you can configure with the UI.
 
 <Step>1</Step>
 
