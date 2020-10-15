@@ -28,23 +28,23 @@ In the app values, make sure the values for `grafana.grafana.ini.server.root_url
 # Required values by loft
 grafana:
   grafana.ini:
+    auth.proxy:
+      auto_sign_up: true
+      enabled: true
+      header_name: X-WEBAUTH-USER
+      header_property: username
+    security:
+      allow_embedding: true
+    server:
+      # CHANGE THIS
+      domain: ${DOMAIN_WHERE_LOFT_IS_REACHABLE}
+      # CHANGE THIS
+      root_url: https://${DOMAIN_WHERE_LOFT_IS_REACHABLE}/grafana/${LOFT_CLUSTER_NAME}/
+      serve_from_sub_path: true
     users:
       allow_sign_up: false
       auto_assign_org: true
       auto_assign_org_role: Admin
-    auth.proxy:
-      enabled: true
-      header_name: X-WEBAUTH-USER
-      header_property: username
-      auto_sign_up: true
-    server:
-      # CHANGE THIS
-      root_url: https://${DOMAIN_WHERE_LOFT_IS_REACHABLE}/grafana/${LOFT_CLUSTER_NAME}/
-      # CHANGE THIS
-      domain: ${DOMAIN_WHERE_LOFT_IS_REACHABLE}
-      serve_from_sub_path: true
-    security:
-      allow_embedding: true
 ```
 
 If you already have a prometheus installation, you can also just install the [Grafana chart](https://github.com/grafana/helm-charts/tree/main/charts/grafana), with the above values without the initial grafana prefix.
