@@ -3,17 +3,17 @@ title: Monitoring
 sidebar_label: Monitoring
 ---
 
-loft offers direct integration with [Grafana](https://grafana.com/) and you can view any Grafana dashboard directly in loft. With the recommended app kube-prometheus-stack, a complete monitoring setup can be enabled in your cluster with a single click.
-Grafana itself is the most popular technology used to compose observability dashboards with everything from Prometheus & Graphite metrics, to logs and application data to power plants and beehives.
+Loft provides direct integration with [Grafana](https://grafana.com/) and you can view any Grafana dashboard directly in Loft. With the recommended app kube-prometheus-stack, a complete monitoring setup can be enabled in your cluster with a single click.
+Grafana itself is the most popular technology used to compose observability dashboards with everything from Prometheus and Graphite metrics, to logs and application data to power plants and beehives.
 
-loft provides additional custom Grafana dashboards for easier cost, account and resource tracking.
+Loft provides additional custom Grafana dashboards for easier cost, account, and resource tracking.
 
 <figure class="frame">
   <img src="/docs/media/ui/clusters/monitoring-loft-dashboards-view.png" alt="dashboards" />
-  <figcaption>loft Grafana dashboard</figcaption>
+  <figcaption>Loft Grafana dashboard</figcaption>
 </figure>
 
-## Install kube-prometheus-stack
+## 1. Install kube-prometheus-stack
 
 Navigate to `Clusters -> CLUSTER -> Overview` and click on the recommended app `kube-prometheus-stack`.
 
@@ -25,7 +25,7 @@ Navigate to `Clusters -> CLUSTER -> Overview` and click on the recommended app `
 In the app values, make sure the values for `grafana.grafana.ini.server.root_url` and `grafana.grafana.ini.server.domain` are correct. You can also add any values the chart [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) supports:
 
 ```yaml
-# Required values by loft
+# Required values by Loft
 grafana:
   grafana.ini:
     auth.proxy:
@@ -47,26 +47,26 @@ grafana:
       auto_assign_org_role: Admin
 ```
 
-If you already have a prometheus installation, you can also just install the [Grafana chart](https://github.com/grafana/helm-charts/tree/main/charts/grafana), with the above values without the initial grafana prefix.
+If you already have a Prometheus installation, you can also just install the [Grafana chart](https://github.com/grafana/helm-charts/tree/main/charts/grafana) with the above values without the initial grafana prefix.
 
-After pressing install, please be patient until the kube-prometheus-stack is installed.
+After pressing *Install*, please be patient until the kube-prometheus-stack is installed.
 
-## Install loft Grafana dashboards (optional)
+## 2. Install Loft Grafana dashboards (optional)
 
-To install the additional loft Grafana dashboards navigate to `Clusters -> CLUSTER -> Overview` and click on the recommended app `loft-grafana-dashboards`.
+To install the additional Loft Grafana dashboards, navigate to `Clusters -> CLUSTER -> Overview` and click on the recommended app `loft-grafana-dashboards`.
 
 <figure class="frame">
   <img src="/docs/media/ui/clusters/monitoring-loft-dashboards.png" alt="loft dashboards" />
-  <figcaption>loft Grafana dashboards</figcaption>
+  <figcaption>Loft Grafana dashboards</figcaption>
 </figure>
 
 :::warning Same Namespace
-The loft dashboards can only be discovered by Grafana if you install them into the same namespace as you installed the `kube-prometheus-stack`
+The Loft dashboards can only be discovered by Grafana if you install them into the same namespace as you installed the `kube-prometheus-stack`.
 :::
 
-## Viewing Grafana dashboards in loft
+## 3. Viewing Grafana dashboards in Loft
 
-After installing the kube-prometheus-stack with Grafana, you can select the discovered Grafana dashboards in the view `Clusters -> CLUSTER -> Monitoring`. There should be several dashboards you can select from. After selecting a dashboard, the dashboard is shown below:
+After installing the kube-prometheus-stack with Grafana, you can select the discovered Grafana dashboards in the view `Clusters -> CLUSTER -> Monitoring`. There should be several dashboards you can select from. After selecting a dashboard, the dashboard is shown below.
 
 <figure class="frame">
   <img src="/docs/media/ui/clusters/monitoring-dashboards.png" alt="dashboards" />
@@ -74,7 +74,7 @@ After installing the kube-prometheus-stack with Grafana, you can select the disc
 </figure>
 
 :::info Empty Panels
-It may be possible sometimes that a panel appears to be empty. This can happen if Grafana does not recognize the iframe height change fast enough. The panel and all other empty panels should be shown after collapsing and expanding the empty panel.
+It may be possible that sometimes a panel appears to be empty. This can happen if Grafana does not recognize the iframe height change fast enough. The panel and all other empty panels should be shown after collapsing and expanding the empty panel.
 :::
 
-Congratulations, you now have a fully fledged monitoring setup with loft, prometheus and Grafana!
+Congratulations, you now have a fully fledged monitoring setup with Loft, Prometheus, and Grafana!
