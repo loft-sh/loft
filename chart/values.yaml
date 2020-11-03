@@ -7,6 +7,12 @@
 
 env: {}
 
+tls:
+  enabled: false
+  secret: my-secret
+  crtKey: tls.crt
+  keyKey: tls.key
+
 readinessProbe:
   enabled: true
 

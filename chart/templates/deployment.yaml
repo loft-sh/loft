@@ -38,6 +38,11 @@ spec:
             {{- if .Values.useSelfSignedCertificate }}
             scheme: HTTPS
             {{- end }}
+            {{- if .Values.tls }}
+            {{- if .Values.tls.enabled }}
+            scheme: HTTPS
+            {{- end }}
+            {{- end }}
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -52,12 +57,31 @@ spec:
             {{- if .Values.useSelfSignedCertificate }}
             scheme: HTTPS
             {{- end }}
+            {{- if .Values.tls }}
+            {{- if .Values.tls.enabled }}
+            scheme: HTTPS
+            {{- end }}
+            {{- end }}
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
         {{- end }}
         {{- end }}
         env:
+        {{- if .Values.tls }}
+        {{- if .Values.tls.enabled }}
+        - name: PROXY_TLS_CERT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.tls.secret }}
+              key: {{ .Values.tls.crtKey }}
+        - name: PROXY_TLS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.tls.secret }}
+              key: {{ .Values.tls.keyKey }}
+        {{- end }}
+        {{- end }}
         {{- if not .Values.apiService.enabled }}
         - name: APISERVICE_DISABLED
           value: "true"
