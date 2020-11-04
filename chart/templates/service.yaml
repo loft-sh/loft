@@ -11,14 +11,15 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: manager
-      port: {{ .Values.service.manager.port }}
-      targetPort: {{ .Values.service.manager.targetPort }}
-      nodePort: {{ .Values.service.manager.nodePort }}
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: {{ .Values.service.httpNodePort }}
       protocol: TCP
-    - name: webhook
+    - name: https
       port: 443
-      targetPort: 9443
+      targetPort: 443
+      nodePort: {{ .Values.service.httpsNodePort }}
       protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}

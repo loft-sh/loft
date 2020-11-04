@@ -33,16 +33,7 @@ spec:
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
           httpGet:
-            path: /version
-            port: 8080
-            {{- if .Values.useSelfSignedCertificate }}
-            scheme: HTTPS
-            {{- end }}
-            {{- if .Values.tls }}
-            {{- if .Values.tls.enabled }}
-            scheme: HTTPS
-            {{- end }}
-            {{- end }}
+            path: /healthz
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -52,16 +43,7 @@ spec:
         {{- if .Values.readinessProbe.enabled }}
         readinessProbe:
           httpGet:
-            path: /version
-            port: 8080
-            {{- if .Values.useSelfSignedCertificate }}
-            scheme: HTTPS
-            {{- end }}
-            {{- if .Values.tls }}
-            {{- if .Values.tls.enabled }}
-            scheme: HTTPS
-            {{- end }}
-            {{- end }}
+            path: /healthz
           failureThreshold: 6
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -84,10 +66,6 @@ spec:
         {{- end }}
         {{- if not .Values.apiService.enabled }}
         - name: APISERVICE_DISABLED
-          value: "true"
-        {{- end }}
-        {{- if .Values.useSelfSignedCertificate }}
-        - name: PROXY_TLS_SELF_SIGNED
           value: "true"
         {{- end }}
         {{- range $key, $value := .Values.env }}

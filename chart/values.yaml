@@ -9,7 +9,7 @@ env: {}
 
 tls:
   enabled: false
-  secret: my-secret
+  secret: loft-tls
   crtKey: tls.crt
   keyKey: tls.key
 
@@ -43,9 +43,6 @@ ingress:
 
 service:
   type: ClusterIP
-  manager:
-    port: 80
-    targetPort: 8080
 
 replicaCount: 1
 

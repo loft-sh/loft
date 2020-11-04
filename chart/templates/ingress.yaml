@@ -24,7 +24,7 @@ spec:
           - path: {{ .Values.ingress.path }}
             backend:
               serviceName: loft
-              servicePort: {{ .Values.service.manager.port }}
+              servicePort: 80
   {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
