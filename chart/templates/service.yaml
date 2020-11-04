@@ -14,6 +14,7 @@ spec:
     - name: manager
       port: {{ .Values.service.manager.port }}
       targetPort: {{ .Values.service.manager.targetPort }}
+      nodePort: {{ .Values.service.manager.nodePort }}
       protocol: TCP
     - name: webhook
       port: 443
