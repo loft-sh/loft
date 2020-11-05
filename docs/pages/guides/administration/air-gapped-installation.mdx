@@ -1,0 +1,131 @@
+---
+title: Installing loft into an air-gapped environment
+sidebar_label: Installing loft into an air-gapped environment
+---
+
+:::note About This Guide
+**Goal**: Install Loft into an air-gapped kubernetes cluster
+**Estimated time**: 40 minutes
+**Requirements:**
+- a running air-gapped kubernetes cluster
+- a private docker registry that you and the kubernetes cluster can access (e.g. my-private-registry:5000 or gcr.io/my-team)
+- `kubectl` (check via `kubectl version`)
+- `helm` v3 (check with `helm version`)
+- `docker` (check with `docker version`)
+- a kube-context with admin access to this Kubernetes cluster (check with `kubectl auth can-i create clusterrole -A`)
+- an offline license key for loft (contact info@loft.sh to get one)
+:::
+
+## Download and push the needed docker images
+
+The first step of installing loft into an air-gapped environment is to push the required docker images into the private registry.
+To find out which images are needed we provide a file called `loft-images.txt` with each loft release.
+Download the `loft-images.txt` from your chosen loft release on the [releases page](https://github.com/loft-sh/loft/releases).
+
+Next download the script `download-images.sh` from the [releases page](https://github.com/loft-sh/loft/releases) and run it inside a folder with `loft-images.txt`:
+```bash
+# Make sure the script is executable
+chmod +x ./download-images.sh
+
+# Download all required images and compress them
+./download-images.sh --image-list loft-images.txt
+```
+
+Please be patient since this process can take a while. After the command has finished a file called `loft-images.tar.gz` should have been created.
+For the next step download the script `push-images.sh` from the [releases page](https://github.com/loft-sh/loft/releases) and run it inside the same folder:
+```bash
+# Make sure the script is executable
+chmod +x ./push-images.sh
+
+# Push all images to the private registry (make sure you are logged into the registry)
+# You can also append a suffix to the registry e.g. gcr.io/my-team
+./push-images.sh --registry my-private-registry:5000
+```
+
+After a while all images should be pushed and you can continue with the next step.
+
+## Install loft into the cluster
+
+The next step is to deploy loft via helm into the air-gapped cluster.
+
+:::warning Open Ports
+Since loft and kiosk install [webhooks](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) and [api server extensions](https://kubernetes.io/docs/tasks/extend-kubernetes/setup-extension-api-server/) into the cluster, the kubernetes master needs to be able to communicate with loft and kiosk.
+In private GKE clusters for example this is not the default.
+You need to ensure that incoming traffic from the kubernetes master to the following tcp ports is allowed:
+- 8888 (loft api service extension)
+- 8443 (kiosk api service extension)
+- 9443 (kiosk webhook & loft webhook)
+:::
+
+Now use helm to install loft into the cluster:
+```bash
+# Put any loft version here that you want to install and pushed the images for
+# Please strip the 'v' infront of the version (e.g. v1.0.0 is bad, 1.0.0 is good)
+export VERSION=1.3.0
+
+# The initial password for the admin user. You can login
+# into loft via admin:PASSWORD
+export PASSWORD=my-password
+
+# The registry you pushed the required images to.
+# e.g. my-private-registry:5000 or gcr.io/my-team
+export REGISTRY=my-private-registry:5000
+
+# The email that should be used for the admin user
+export EMAIL=my-email@my-company.com
+
+# The license key you have received from us
+export LICENSE=LICENSE_KEY
+
+# Run the helm command
+helm install loft loft --repository-config '' \
+   --repo https://charts.devspace.sh \
+   --version $VERSION \
+   --set admin.password=$PASSWORD \
+   --set admin.email=$EMAIL \
+   --set env.LICENSE_KEY=$LICENSE \
+   --set image=$REGISTRY/loftsh/loft:$VERSION \
+   --set env.DEFAULT_IMAGE_REGISTRY=$REGISTRY \
+   --namespace loft \
+   --create-namespace \
+   --set certIssuer.create=false \
+   --set cluster.connect.local=true
+```
+
+After a while the loft container and kiosk should be running:
+```bash
+$ kubectl get pods -n loft
+NAME                     READY   STATUS    RESTARTS   AGE
+kiosk-6cf658c9ff-sqcjg   1/1     Running   0          140s
+loft-769d77774d-2ckh2    1/1     Running   0          184s
+```
+
+For testing purposes you can connect to loft directly via port-forwarding:
+```bash
+kubectl port-forward deploy/loft -n loft 8080:443
+```
+
+You then can reach loft under `https://localhost:8080` (Please make sure to accept any untrusted certificates).
+
+## Upgrading loft
+
+Upgrading loft basically follows the same principle as installing loft:
+- Download and push the required images for the version into the private registry
+- Upgrade loft via helm:
+```bash
+# Put any loft version here that you want to upgrade and pushed the images for
+# Please strip the 'v' infront of the version (e.g. v1.0.0 is bad, 1.0.0 is good)
+export VERSION=1.3.0
+
+# The registry you pushed the required images to.
+# e.g. my-private-registry:5000 or gcr.io/my-team
+export REGISTRY=my-private-registry:5000
+
+# Run the helm command
+helm upgrade loft loft --repository-config '' \
+   --repo https://charts.devspace.sh \
+   --version $VERSION \
+   --namespace loft \
+   --reuse-values \
+   --set image=$REGISTRY/loftsh/loft:$VERSION
+```

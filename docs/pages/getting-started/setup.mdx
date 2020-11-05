@@ -18,6 +18,10 @@ import InstallCLIFragment from '../fragments/install/cli.mdx'
 - a kube-context with admin access to this Kubernetes cluster (check with `kubectl auth can-i create clusterrole -A`)
 :::
 
+:::warning Air-gapped Cluster
+If you want to install loft into an air-gapped cluster, please take a look at the **[Air-Gapped Installation Guide](../guides/administration/air-gapped-installation.mdx)** instead.
+:::
+
 :::warning Remote Cluster Required
 The guide requires you to install Loft to a remote cluster (e.g. GKE, EKS, AKS, Rancher/RKS, self-managed in your private cloud). If you just want to evaluate Loft with a local test cluster such as minikube, kind or Docker Desktop, take a look at the **[Quickstart Guide](../quickstart.mdx)** instead. 
 :::
