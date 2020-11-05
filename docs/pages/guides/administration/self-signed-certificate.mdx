@@ -79,7 +79,7 @@ Now the only thing left to do is to tell loft to use tls instead of expecting th
 helm upgrade loft loft --repo https://charts.devspace.sh/ \
   --namespace loft \
   --reuse-values \
-  --set tls.enabled=true
+  --set tls.enabled=true \
   --set tls.secret=my-loft-cert
 ```
 
