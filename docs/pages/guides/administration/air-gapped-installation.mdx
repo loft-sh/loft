@@ -4,9 +4,9 @@ sidebar_label: Installing loft into an air-gapped environment
 ---
 
 :::note About This Guide
-**Goal**: Install Loft into an air-gapped kubernetes cluster
-**Estimated time**: 40 minutes
-**Requirements:**
+**Goal**: Install Loft into an air-gapped kubernetes cluster  
+**Estimated time**: 40 minutes  
+**Requirements:**  
 - a running air-gapped kubernetes cluster
 - a private docker registry that you and the kubernetes cluster can access (e.g. my-private-registry:5000 or gcr.io/my-team)
 - `kubectl` (check via `kubectl version`)
@@ -48,10 +48,10 @@ After a while all images should be pushed and you can continue with the next ste
 
 The next step is to deploy loft via helm into the air-gapped cluster.
 
-:::warning Open Ports
-Since loft and kiosk install [webhooks](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) and [api server extensions](https://kubernetes.io/docs/tasks/extend-kubernetes/setup-extension-api-server/) into the cluster, the kubernetes master needs to be able to communicate with loft and kiosk.
-In private GKE clusters for example this is not the default.
-You need to ensure that incoming traffic from the kubernetes master to the following tcp ports is allowed:
+:::warning Open Ports in VPC Networks
+Since loft and [kiosk](https://github.com/kiosk-sh/kiosk) install [webhooks](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) and [api server extensions](https://kubernetes.io/docs/tasks/extend-kubernetes/setup-extension-api-server/) into the cluster, the kubernetes master needs to be able to communicate with the loft and kiosk pods.
+In private GKE clusters the kubernetes master and nodes for example are not in the same subnetwork and [cannot communicate directly](https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#add_firewall_rules) with each other on every port.
+Hence, you need to ensure that there is a firewall rule that allows incoming traffic from the kubernetes master network to the tcp ports:
 - 8888 (loft api service extension)
 - 8443 (kiosk api service extension)
 - 9443 (kiosk webhook & loft webhook)
