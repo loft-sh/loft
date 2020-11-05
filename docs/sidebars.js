@@ -104,6 +104,7 @@ module.exports = {
         'guides/monitoring',
         'guides/ci-cd-pipelines',
         'guides/oidc',
+        'guides/administration/air-gapped-installation',
         'guides/administration/self-signed-certificate',
         'guides/administration/upgrade',
         'guides/administration/uninstall',
