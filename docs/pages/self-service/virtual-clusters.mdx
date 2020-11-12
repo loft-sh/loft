@@ -98,16 +98,115 @@ virtualCluster:
 ```
 Note that you can use any k3s version and all arguments/flags that the k3s binary of this specific version provides. See [k3s](https://k3s.io/) for more information.
 
+### Monitoring 
+
+In general, monitoring inside a virtual cluster works as monitoring a normal kubernetes cluster, except that kubelet cadvisor and probes metrics cannot be scraped directly, since the namespace and pod names in the scraped metrics refer to the host kubernetes cluster names instead of the actual virtual cluster names.
+However, virtual clusters provide custom kubelet metrics endpoints that collect the metrics from the host kubernetes cluster and automatically filters and rewrites the metrics so that the pod and namespace names fit.
+
+To configure prometheus to scrape the rewritten kubelet metrics, follow these steps:
+1. Make sure the virtual cluster can access nodes data. This can be enabled in the advanced options of clusters with:
+```yaml
+# Below you can configure the virtual cluster
+...
+
+# This option will deploy a ClusterRole & ClusterRoleBinding 
+# that allows the virtual cluster to access node metrics
+rbac:
+  clusterRole:
+    create: true
+
+...
+```
+2. Make sure your prometheus (that is running inside of the virtual cluster) can access the metrics endpoints of the virtual cluster (inside the virtual cluster it is accessed through the default/kubernetes service). This can be done by either editing the already deployed prometheus ClusterRole, or creating a new one:
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: virtual-cluster-prometheus-role
+subjects:
+  - kind: ServiceAccount
+    # SERVICE ACCOUNT NAME OF THE PROMETHEUS HERE
+    name: prometheus-kube-prometheus-prometheus
+    # NAMESPACE OF THE PROMETHEUS HERE
+    namespace: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: virtual-cluster-prometheus-role
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtual-cluster-prometheus-role
+rules:
+  - verbs:
+      - get
+    nonResourceURLs:
+      - /metrics
+      - /metrics/cadvisor
+      - /metrics/probes
+```
+3. Make sure the endpoints and service `default/kubernetes` have the correct labels:
+```yaml
+# Label service
+kubectl label --overwrite services kubernetes --namespace default k8s-app=kubelet
+# Label endpoints
+kubectl label --overwrite endpoints kubernetes --namespace default k8s-app=kubelet
+```
+4. Deploy the service monitor into the prometheus namespace:
+```yaml 
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus-kube-kubelet
+  namespace: prometheus
+spec:
+  endpoints:
+    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      honorLabels: true
+      path: /metrics/cadvisor
+      port: https
+      relabelings:
+        - sourceLabels:
+            - __metrics_path__
+          targetLabel: metrics_path
+      scheme: https
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecureSkipVerify: true
+    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      honorLabels: true
+      path: /metrics/probes
+      port: https
+      relabelings:
+        - sourceLabels:
+            - __metrics_path__
+          targetLabel: metrics_path
+      scheme: https
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecureSkipVerify: true
+  jobLabel: k8s-app
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      k8s-app: kubelet
+```
+
+Now prometheus should be able to scrape the correct kubelet metrics for your virtual cluster and all grafana dashboards should work as expected. These steps also work for virtual clusters inside virtual clusters.
+
 <br/>
 
 ---
 
 
 ## How does it work?
-The basic idea of a virtual cluster is to spin up a functional but incomplete new Kubernetes cluster within an existing cluster and sync certain core resources between the two clusters.
+The basic idea of a virtual cluster is to spin up a functional but incomplete new Kubernetes cluster within an existing cluster and sync certain needed core resources between the two clusters.
 The virtual cluster itself only consists of the core Kubernetes components: API server, controller manager and etcd.
-Besides some core kubernetes resources like pods, services, persistentvolumeclaims etc. that are needed for actual execution, all other kubernetes resources (like deployments, replicasets, resourcequotas, clusterroles, crds, apiservices etc.) are purely handled within the virtual cluster and *NOT* synced to the host cluster.
-This makes it possible to allow each user access to an complete own kubernetes cluster with full functionality, while still being able to separate them in namespaces in the actual host cluster.
+Besides some core kubernetes resources like pods, services, persistentvolumeclaims etc. that are needed for actual execution, all other kubernetes resources (like unbound configmaps, unbound secrets, deployments, replicasets, resourcequotas, clusterroles, crds, apiservices etc.) are purely handled within the virtual cluster and *NOT* synced to the host cluster.
+This makes it possible to allow each user access to a complete own kubernetes cluster with full functionality, while still being able to separate them in namespaces in the actual host cluster.
 
 A virtual Kubernetes cluster in Loft is tied to a single namespace. The virtual cluster and hypervisor run within a single pod that consists of two parts:
 - a k3s instance which contains the Kubernetes control plane (API server, controller manager and etcd) for the virtual cluster
