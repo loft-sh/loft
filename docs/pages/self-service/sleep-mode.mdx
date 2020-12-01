@@ -313,6 +313,7 @@ There are multiple annotations you can set on a namespace to change what counts 
 - `sleepmode.loft.sh/ignore-verbs`: a comma separated list of kubernetes verbs that do not count as activity (e.g. get, list, create, update, patch, delete)
 - `sleepmode.loft.sh/ignore-resource-verbs`: a comma separated list of resources and verbs that do not count as activity (format: myresource.mygroup=create update delete,myresource2.mygroup=create update)
 - `sleepmode.loft.sh/ignore-resource-names`: a comma separated list of resources and names that do not count as activity (format: myresource.mygroup=name1 name2)
+- `sleepmode.loft.sh/ignore-active-conntections`: if this annotation is set to "true", then still active kubernetes connections will be ignored for determining activity in a space 
 
 If you want to set some of this annotations automatically on space creation, you can add these to the space template in the account settings.
 
