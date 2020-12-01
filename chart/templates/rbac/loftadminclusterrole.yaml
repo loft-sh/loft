@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     loft.sh/management-default-role: "true"
 rules:
-  - apiGroups: ["management.loft.sh"]
+  - apiGroups: ["management.loft.sh", "storage.loft.sh"]
     resources: ["*"]
     verbs: ["*"]
   - apiGroups: ["rbac.authorization.k8s.io"]
