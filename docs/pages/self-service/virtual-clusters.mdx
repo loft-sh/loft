@@ -3,8 +3,6 @@ title: Virtual Clusters (vClusters)
 sidebar_label: Virtual Clusters
 ---
 
-import Tabs from '@theme/Tabs'
-import TabItem from '@theme/TabItem'
 import CreateVClusterFragment from '../fragments/vclusters/create.mdx'
 import UseVClusterFragment from '../fragments/vclusters/use.mdx'
 import DeleteVClusterFragment from '../fragments/vclusters/delete.mdx'
@@ -68,6 +66,37 @@ syncer:
     - mountPath: /data
       name: data
   resources: {}
+  
+# Create a cluster role for node syncing
+# rbac:
+#   clusterRole:
+#     create: true
+```
+
+The following flags are available:
+```
+  --bind-address string             The address to bind the server to (default "0.0.0.0")
+  --client-ca-cert string           The path to the client ca certificate (default "/data/server/tls/client-ca.crt")
+  --disable-sync-resources string   The resources that shouldn't be synced by the virtual cluster (e.g. --disable-sync-resources=ingresses,nodes)
+  --enable-storage-classes          If enabled, the virtual cluster will sync storage classes (make sure rbac.clusterRole.create is true in the options)
+  --enforce-node-selector           If enabled and --node-selector is set then the virtual cluster will ensure that no pods are scheduled outside of the node selector (default true)
+  --fake-nodes                      If enabled, the virtual cluster will create fake nodes instead of copying the actual physical nodes config (default true) (if false make sure rbac.clusterRole.create is true in the options)
+  --fake-persistent-volumes         If enabled, the virtual cluster will create fake persistent volumes instead of copying the actual physical persistent volumes config (default true) (if false make sure rbac.clusterRole.create is true in the options)
+  --kube-config string              The path to the virtual cluster admin kube config (default "/data/server/cred/admin.kubeconfig")
+  --log-flush-frequency duration    Maximum number of seconds between log flushes (default 5s)
+  --node-selector string            If set, nodes with the given node selector will be synced to the virtual cluster. This will implicitly set --fake-nodes=false (make sure rbac.clusterRole.create is true in the options)
+  --out-kube-config-secret string   If specified, the virtual cluster will write the generated kube config to the given secret (default "kubeconfig")
+  --owning-statefulset string       If configured, all synced resources will have this statefulset as owner reference
+  --port int                        The port to bind to (default 8443)
+  --request-header-ca-cert string   The path to the request header ca certificate (default "/data/server/tls/request-header-ca.crt")
+  --server-ca-cert string           The path to the server ca certificate (default "/data/server/tls/server-ca.crt")
+  --server-ca-key string            The path to the server ca key (default "/data/server/tls/server-ca.key")
+  --service-name string             The service name where the virtualcluster proxy will be available (default "virtualcluster")
+  --suffix string                   The suffix to append to the synced resources in the namespace (default "suffix")
+  --sync-all-nodes                  If enabled and --fake-nodes is false, the virtual cluster will sync all nodes instead of only the needed ones
+  --target-namespace string         The namespace to run the virtual cluster in (defaults to current namespace)
+  --tls-san strings                 Add additional hostname or IP as a Subject Alternative Name in the TLS cert
+  --translate-image strings         Translates image names from the virtual pod to the physical pod (e.g. --translate-image=coredns/coredns=mirror.io/coredns/coredns)
 ```
 
 ### Control Plane (k3s)
