@@ -61,6 +61,7 @@ module.exports = {
         'multi-tenancy/accounts',
         'multi-tenancy/account-quotas',
         'multi-tenancy/templates',
+        'multi-tenancy/shared-secrets',
         'multi-tenancy/apps',
       ],
     },

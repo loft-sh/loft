@@ -28,11 +28,17 @@ apiVersion: tenancy.kiosk.sh/v1alpha1
 kind: Account
 metadata:
   name: johns-account
+  labels:
+    # the kubernetes name of the 
+    # loft user you want to create
+    # the account for
+    loft.sh/user: my-loft-user
+    # loft.sh/team: my-loft-team
 spec:
-  subjects:
-  - apiGroup: rbac.authorization.k8s.io
-    kind: User
-    name: john          # References the `spec.subject` defined in the User object
+  # Subjects should be empty since loft
+  # will sync the subjects automatically
+  # from the user or team
+  subjects: [] 
 ```
 
 Create the account using `kubectl`:
