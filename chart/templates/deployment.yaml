@@ -22,6 +22,10 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       serviceAccountName: {{ template "loft.serviceAccountName" . }}
+      {{- if .Values.volumes }}
+      volumes:
+{{ toYaml .Values.volumes | indent 8 }}
+      {{- end }}
       containers:
       - name: manager
         {{- if .Values.image }}
@@ -73,6 +77,10 @@ spec:
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
+        {{- end }}
+        {{- if .Values.volumeMounts }}
+        volumeMounts:
+{{ toYaml .Values.volumeMounts | indent 10 }}
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
