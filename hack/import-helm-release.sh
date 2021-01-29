@@ -14,7 +14,7 @@ if [ "$1" = "" ] || [ "$2" = "" ]; then
   echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io"'
   echo ""
   echo 'Example 2:'
-  echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "nginx-ingress" "https://kubernetes-charts.storage.googleapis.com"'
+  echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "ingress-nginx" "https://kubernetes.github.io/ingress-nginx"'
   echo ""
   echo 'Example 3:'
   echo 'curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.devspace.sh" true false'
