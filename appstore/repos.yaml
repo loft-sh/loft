@@ -8,17 +8,6 @@ sync:
   repos:
     - name: devspace
       url: https://charts.devspace.sh
-    # Helm hosted repositories
-    - name: stable
-      url: https://kubernetes-charts.storage.googleapis.com
-      maintainers:
-        - name: Helm Project
-          email: cncf-helm-security@lists.cncf.io
-    - name: incubator
-      url: https://kubernetes-charts-incubator.storage.googleapis.com
-      maintainers:
-        - name: Helm Project
-          email: cncf-helm-security@lists.cncf.io
     - name: jfrog
       url: https://charts.jfrog.io
       maintainers:

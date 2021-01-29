@@ -129,8 +129,8 @@ To access the Loft UI and API, we recommend to install an ingress controller to 
 
 If you do **not** have an ingress controller running in your cluster, you can install one using Helm v3:
 ```bash
-helm install nginx-ingress nginx-ingress --repo https://kubernetes-charts.storage.googleapis.com \
-  --namespace nginx-ingress \
+helm install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx \
   --set-string controller.config.hsts=false \
   --create-namespace \
   --wait

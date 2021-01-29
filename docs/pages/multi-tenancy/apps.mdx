@@ -62,7 +62,7 @@ curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-
 
 Import `nginx-ingress`:
 ```bash
-curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "nginx-ingress" "https://kubernetes-charts.storage.googleapis.com"
+curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "ingress-nginx" "https://kubernetes.github.io/ingress-nginx"
 ```
 
 Import `loft` and label it as system app:
