@@ -1,38 +1,62 @@
-# Default values for loft.
+# Default values for loft deployment.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 # Default value is: loftsh/loft:{{ .Chart.Version }}
 # image: loftsh/loft
 
+# Additional enviroment variables in the form of
+# VAR_NAME: VAR_VALUE
 env: {}
 
+# Additional volumes that should be mounted to the loft deployment
 volumes: []
 
+# Additional volume mounts that should be mounted into the loft container
 volumeMounts: []
 
+# Prometheus Service Monitor Configuration
+serviceMonitor:
+  enabled: false
+  jobLabel: loft
+  targetPort: 80
+  path: /metrics
+  interval: 60s
+  scrapeTimeout: 30s
+  labels: {}
+
+# TLS configuration with a custom cert and key
+# Make sure the secret exists prior to deploying loft,
+# otherwise the loft pod will not be able to start
 tls:
   enabled: false
   secret: loft-tls
   crtKey: tls.crt
   keyKey: tls.key
 
+# If the readinessProbe should be enabled
 readinessProbe:
   enabled: true
 
+# If the livenessProbe should be enabled
 livenessProbe:
   enabled: true
 
+# This option automatically connects the local
+# cluster to loft and creates an admin account 
+# in there
 cluster:
   connect:
     local: false
 
+# If an admin user should be created during deployment
 admin:
   create: true
   username: admin
   password: "" # leave empty to generate password reset link
   accessKeySecret: loft-user-accesskey-admin
 
+# Ingress options to use loft behind an ingress
 ingress:
   enabled: true
   name: loft-ingress
@@ -43,11 +67,14 @@ ingress:
     secret: tls-loft
     clusterIssuer: lets-encrypt-http-issuer
 
+# Loft service options
 service:
   type: ClusterIP
 
+# Replica amount of the loft deployment
 replicaCount: 1
 
+# Resources of the loft deployment
 resources:
   requests:
     memory: 128Mi
@@ -56,9 +83,12 @@ resources:
     memory: 2Gi
     cpu: "2"
 
+# If an extension api service should be registered for 
+# the loft apis in kubernetes
 apiService:
   enabled: true
 
+# Additional loft service account options
 serviceAccount:
   name: loft
   create: true
@@ -67,6 +97,7 @@ serviceAccount:
 nameOverride: ""
 fullnameOverride: ""
 
+# If a cert issuer should be created for loft
 certIssuer:
   create: true
   email: "" # This is a required field if create == true
