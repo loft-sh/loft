@@ -254,11 +254,11 @@ apiVersion: tenancy.kiosk.sh/v1alpha1
 kind: Space
 metadata:
   name: ml-experiment-1
-spec:
-  account: johns-account
   annotations:
     # remove force sleep annotation or set to false
     # sleepmode.loft.sh/force: 'false'
+spec:
+  account: johns-account
 ```
 
 Create the account using `kubectl`:
@@ -271,7 +271,6 @@ kubectl apply -f space.yaml
 
 </TabItem>
 </Tabs>
-
 
 ## How does it work?
 
@@ -330,6 +329,7 @@ The period when a namespace should start sleeping can be configured through name
 - `sleepmode.loft.sh/sleep-after`: tells Loft to trigger sleep mode automatically after x seconds of inactivity
 - `sleepmode.loft.sh/delete-after`: tells Loft to delete the namespace automatically after x seconds of inactivity
 - `sleepmode.loft.sh/force`: if "true" tells Loft to force sleep this namespace
+- `sleepmode.loft.sh/force-duration`: the amount of seconds after the space starts sleeping after which no automatic wake up should occur (a value of 0 means infinite). This can be useful if there is an application accessing the space that would directly wake up the space again after it started sleeping.
 - `sleepmode.loft.sh/delete-all-pods`: if "true" will delete all running pods within a namespace as soon as it starts sleeping, besides scaling down deployments, replicasets and statefulsets
 
 Loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute.
