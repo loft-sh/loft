@@ -108,3 +108,15 @@ certIssuer:
     enabled: true
     ingressClass: nginx
   resolvers: []
+
+# Additional annotations for the loft deployment
+# annotations: {}
+
+# Additional labels for the loft deployment
+# labels: {}
+
+# Additional annotations for the loft pod
+# podAnnotations: {}
+
+# Additional labels for the loft pod
+# podLabels: {}
