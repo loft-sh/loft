@@ -107,6 +107,7 @@ module.exports = {
         'guides/oidc',
         'guides/administration/air-gapped-installation',
         'guides/administration/metrics',
+        'guides/administration/auditing',
         'guides/administration/high-availability',
         'guides/administration/self-signed-certificate',
         'guides/administration/upgrade',
