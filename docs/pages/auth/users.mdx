@@ -4,6 +4,7 @@ sidebar_label: Users
 ---
 
 import CreateUserFragment from '../fragments/auth/create-user.mdx'
+import ImagePullSecrets from '../fragments/sharedsecrets/image-pull-secrets.mdx'
 
 Loft provides different [authentication mechanisms including password-based authentication and several single sign-on (SSO) options](../getting-started/auth.mdx).
 
@@ -77,3 +78,9 @@ Loft provides an ClusterRole named `loft-management-admin` that can be assigned 
   </video>
   <figcaption>Loft UI - Loft ClusterRoles</figcaption>
 </figure>
+
+## Image Pull Secrets
+
+Image pull secrets can be used to automatically login users to specified container image registries as soon as they run `loft login` (no locally installed docker needed). 
+
+<ImagePullSecrets />
