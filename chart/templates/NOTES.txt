@@ -6,23 +6,3 @@ To learn more about the release, try:
 
   $ helm status {{ .Release.Name }}
   $ helm get all {{ .Release.Name }}
-
-{{ if .Values.admin.create }}
-{{- if not .Values.admin.password }}
-{{- if or .Values.admin.resetPassword (not (lookup "storage.loft.sh/v1" "User" "" (include "loft.admin.name" .))) }}
-########## Set Admin Password ##########
-http
-{{- if .Values.ingress.tls.enabled -}}
-s
-{{- end -}}
-://
-{{- .Values.ingress.host -}}
-{{- if eq .Values.ingress.host "localhost" -}}
-:3000
-{{- end -}}
-/invite?token=
-{{- (cat "{\"username\": \"" .Values.admin.username "\", \"accesskey\": \"" (include "loft.admin.accessKey" .) "\"}")  | replace " " "" | b64enc}}
-########################################
-{{- end }}
-{{- end }}
-{{- end }}

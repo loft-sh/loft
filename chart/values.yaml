@@ -53,14 +53,14 @@ cluster:
 admin:
   create: true
   username: admin
-  password: "" # leave empty to generate password reset link
-  accessKeySecret: loft-user-accesskey-admin
+  password: "my-password"
 
 # Ingress options to use loft behind an ingress
 ingress:
   enabled: true
   name: loft-ingress
   host: loft.mydomain.tld
+  ingressClass: nginx
   path: /
   tls:
     enabled: true

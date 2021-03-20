@@ -19,11 +19,6 @@ spec:
     secretName: loft-user-secret-admin
     secretNamespace: {{ .Release.Namespace }}
     key: password
-  {{- else }}
-  accessKeysRef:
-    secretName: {{ .Values.admin.accessKeySecret }}
-    secretNamespace: {{ .Release.Namespace }}
-    key: accesskeys
   {{- end }}
 ---
 {{- if .Values.admin.password }}
@@ -34,28 +29,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     helm.sh/resource-policy: keep
-    {{- if .Values.admin.resetPassword }}
-    helm.sh/hook: pre-install,pre-upgrade
-    {{- else }}
     helm.sh/hook: pre-install
-    {{- end }}
 data:
   password: {{ .Values.admin.password | sha256sum | b64enc }}
-{{- else }}
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Values.admin.accessKeySecret }}
-  namespace: {{ .Release.Namespace }}
-  annotations:
-    helm.sh/resource-policy: keep
-    {{- if .Values.admin.resetPassword }}
-    helm.sh/hook: pre-install,pre-upgrade
-    {{- else }}
-    helm.sh/hook: pre-install
-    {{- end }}
-data:
-  accesskeys: {{ printf "[{\"name\":\"reset-password\",\"key\":\"%s\"}]" (include "loft.admin.accessKey" .) | b64enc }}
 {{- end }}
 {{- end }}
 {{- end }}

@@ -10,7 +10,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: {{ .Values.ingress.ingressClass }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8 32k"
