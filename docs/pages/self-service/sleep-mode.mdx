@@ -333,3 +333,31 @@ The period when a namespace should start sleeping can be configured through name
 - `sleepmode.loft.sh/delete-all-pods`: if "true" will delete all running pods within a namespace as soon as it starts sleeping, besides scaling down deployments, replicasets and statefulsets
 
 Loft checks every space with an automatic sleep mode annotation in a fixed interval of 1 minute.
+
+### How can I prevent that certain resources within a space start sleeping?
+
+Loft allows you to specify resources that should not sleep within a space by providing the annotation `sleepmode.loft.sh/exclude: 'true'` on either a `Deployment`, `StatefulSet`, `ReplicaSet` or `Pod`. For example the following `Deployment` would not sleep if the space is sleeping:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  annotations:
+    sleepmode.loft.sh/exclude: 'true'
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command:
+            - sleep
+            - '3600'
+```
