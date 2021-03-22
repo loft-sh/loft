@@ -70,6 +70,10 @@ The output of `loft start` will look like this:
 ...
 ```
 
+:::warning Websocket Support Required
+If you choose to install loft with another ingress controller, please make sure you have websocket support for the loft ingress enabled. Without websocket support, certain kubernetes requests such as port forwarding (`kubectl port-forward`) and terminal proxying (`kubectl exec`) will not work.
+:::
+
 ## 3. Configure DNS
 After Loft has been deployed, the CLI will tell you to configure DNS:
 ```bash {6}
