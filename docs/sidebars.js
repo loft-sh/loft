@@ -115,6 +115,7 @@ module.exports = {
         'guides/administration/high-availability',
         'guides/administration/self-signed-certificate',
         'guides/administration/reset-admin-password',
+        'guides/administration/config-reference',
         'guides/administration/upgrade',
         'guides/administration/uninstall',
       ],
