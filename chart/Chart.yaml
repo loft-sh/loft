@@ -1,10 +1,10 @@
 apiVersion: v2
 name: loft
-description: Secure Cluster Sharing + Self-Service Namespace Provisioning
+description: Secure Cluster Sharing, Self-Service Namespace Provisioning and Virtual Clusters
 home: https://loft.sh
-icon: https://static.devspace.cloud/loft/logo/loft-logo.svg
+icon: https://static.loft.sh/loft/logo/loft-logo.svg
 sources:
-- https://github.com/devspace-cloud/loft
+- https://github.com/loft-sh/loft
 keywords:
 - developer
 - development
@@ -15,10 +15,12 @@ keywords:
 - cluster
 - space
 - namespace
+- vcluster
+- vclusters
 maintainers:
-- name: DevSpace Technologies Inc.
-  email: info@devspace.cloud
-  url: https://twitter.com/DevSpace
+- name: Loft Labs, Inc.
+  email: info@loft.sh
+  url: https://twitter.com/loft_sh
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -30,4 +32,4 @@ maintainers:
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 
-version: v1.9.3
+version: 1.9.3
