@@ -105,8 +105,9 @@ module.exports = {
       collapsed: false,
       items: [
         'guides/onboarding',
-        'guides/monitoring',
+        'guides/api',
         'guides/ci-cd-pipelines',
+        'guides/monitoring',
         'guides/oidc',
         'guides/administration/air-gapped-installation',
         'guides/administration/metrics',
