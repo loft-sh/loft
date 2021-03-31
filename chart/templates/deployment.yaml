@@ -75,6 +75,11 @@ spec:
         {{- end }}
         {{- end }}
         env:
+        {{- range $key, $value := .Values.envValueFrom }}
+        - name: {{ $key | quote }}
+          valueFrom:
+{{ toYaml $value | indent 12 }}
+        {{- end }}
         {{- if .Values.tls }}
         {{- if .Values.tls.enabled }}
         - name: PROXY_TLS_CERT

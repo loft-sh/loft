@@ -9,6 +9,13 @@
 # VAR_NAME: VAR_VALUE
 env: {}
 
+# Additional environment variables in the form of
+# VAR_NAME: 
+#   secretKeyRef:
+#     name: mysecret
+#     key: username
+envValueFrom: {}
+
 # Additional volumes that should be mounted to the loft deployment
 volumes: []
 
