@@ -117,6 +117,7 @@ module.exports = {
         'guides/administration/reset-admin-password',
         'guides/administration/config-reference',
         'guides/administration/upgrade',
+        'guides/troubleshooting',
         'guides/administration/uninstall',
       ],
     },

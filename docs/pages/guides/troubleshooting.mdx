@@ -1,0 +1,60 @@
+---
+title: Loft Troubleshooting
+sidebar_label: Troubleshooting
+---
+
+The commands/steps listed on this page can be used to check loft related issues in your cluster. If you should experience any issues that are not mentioned here or you are stuck investigating, please feel free to contact us either via the integrated Chat on this site, via the [Kubernetes Slack](https://slack.k8s.io/) channels #devspace and #kiosk or write us an E-Mail to support@loft.sh. We are always happy to help you out. 
+
+## Networking 
+
+You can always try to connect to Loft directly and circumvent any load balancers and ingress controllers in front of Loft by using port forwarding. You can use
+
+```
+kubectl port-forward deploy/loft -n loft 8080:443
+```
+
+After that you can access Loft at `https://localhost:8080`. You can even login with the Loft CLI to this URL with:
+
+```
+loft login localhost:8080 --insecure
+```
+
+If you can access Loft via port-forwarding this is usually an indicator that the problem lies in front of Loft and might be related to a faulty Load Balancer or Ingress Controller configuration.
+
+### DevSpace / Kubectl Error: error upgrading connection
+
+If you receive this error with a Loft context during `kubectl exec` or `devspace dev` this indicates that the connection to Loft does not support upgrade requests (SPDY) that are required by Kubernetes and Loft. Example:
+```
+$ kubectl exec -it ubuntu -- bash
+Error from server (BadRequest): Upgrade request required
+```
+
+The error means that Loft did not receive an `Upgrade` http header, which needs to be resent by each reverse proxy that sits in front of Loft, because this is a [hop-by-hop header](https://www.freesoft.org/CIE/RFC/2068/143.htm). A more in depth explanation can be found in the [nginx documentation](https://www.nginx.com/blog/websocket-nginx).
+
+#### AWS
+
+If you are using AWS, please make sure you do **NOT** use any ALB or HTTP Load Balancers as they do not support the required upgrade requests. Please use an ELB with TCP backend or NLB Load Balancer instead.
+
+#### Ingress Nginx
+
+If you are using the [ingress nginx](https://github.com/kubernetes/ingress-nginx/) ingress controller, Loft should work out of the box.
+
+#### Nginx Ingress Controller
+
+If you are using the [nginx ingress controller](https://docs.nginx.com/nginx-ingress-controller/overview/#what-is-the-ingress-controller), please make sure you have the 
+
+#### Other Ingress Controllers
+
+If you are using another ingress controller, please make sure WebSocket support is enabled. Loft should work with most ingress controllers that support websockets.
+
+### Error: failed calling webhook "validate.loft.sh": Post xxx/validate?timeout=10s: context deadline exceeded (InternalError)
+
+This error occurs if the Kubernetes master cannot contact the Loft or Kiosk pods for resource validation. Usually this error occurs in private clusters where the Kubernetes master and nodes are in different VPC subnets that have a firewall enforced that forbids connection between those subnets on certain ports.
+
+Loft requires that the Kubernetes master can contact the Loft and Kiosk pods on the following ports:
+- 8888 (loft api service extension)
+- 8443 (kiosk api service extension)
+- 9443 (kiosk webhook & loft webhook)
+
+Especially in private GKE clusters this error occurs, because by default the communication to those ports will be blocked. To enable communication for private GKE clusters, please take a look at the [Google Cloud Documenation](https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#add_firewall_rules)
+
