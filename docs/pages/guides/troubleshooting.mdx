@@ -41,7 +41,7 @@ If you are using the [ingress nginx](https://github.com/kubernetes/ingress-nginx
 
 #### Nginx Ingress Controller
 
-If you are using the [nginx ingress controller](https://docs.nginx.com/nginx-ingress-controller/overview/#what-is-the-ingress-controller), please make sure you have the 
+If you are using the [nginx ingress controller](https://docs.nginx.com/nginx-ingress-controller/overview/#what-is-the-ingress-controller), please make sure you have the annotation `nginx.org/websocket-services: loft` set on the ingress.
 
 #### Other Ingress Controllers
 
@@ -49,12 +49,12 @@ If you are using another ingress controller, please make sure WebSocket support 
 
 ### Error: failed calling webhook "validate.loft.sh": Post xxx/validate?timeout=10s: context deadline exceeded (InternalError)
 
-This error occurs if the Kubernetes master cannot contact the Loft or Kiosk pods for resource validation. Usually this error occurs in private clusters where the Kubernetes master and nodes are in different VPC subnets that have a firewall enforced that forbids connection between those subnets on certain ports.
+This error occurs if the Kubernetes master cannot contact the Loft or Kiosk pods for resource validation. Usually this error occurs in private Kubernetes clusters where the Kubernetes master and nodes are in different VPC subnets that have a firewall enforced that forbids connection between those subnets on certain ports.
 
 Loft requires that the Kubernetes master can contact the Loft and Kiosk pods on the following ports:
 - 8888 (loft api service extension)
 - 8443 (kiosk api service extension)
 - 9443 (kiosk webhook & loft webhook)
 
-Especially in private GKE clusters this error occurs, because by default the communication to those ports will be blocked. To enable communication for private GKE clusters, please take a look at the [Google Cloud Documenation](https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#add_firewall_rules)
+Especially in private GKE clusters you could see this error, because by default the communication to those ports will be blocked. To enable communication for private GKE clusters, please take a look at the [Google Cloud Documenation](https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#add_firewall_rules)
 
