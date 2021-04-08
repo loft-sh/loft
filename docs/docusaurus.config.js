@@ -38,7 +38,7 @@ module.exports = {
           target: '_self'
         },
         {
-          href: 'https://slack.k8s.io/#kiosk',
+          href: 'https://slack.loft.sh/',
           className: 'slack-link',
           'aria-label': 'Slack',
           position: 'right',
@@ -60,7 +60,7 @@ module.exports = {
     footer: {
       style: 'light',
       links: [],
-      copyright: `Copyright © ${new Date().getFullYear()} DevSpace Technologies Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Loft Labs, Inc.`,
     },
   },
   presets: [
