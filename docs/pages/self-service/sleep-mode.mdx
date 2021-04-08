@@ -348,7 +348,7 @@ There are multiple ways to approach this problem of active connections preventin
 2. Tell loft to ignore all active connections for determining space activity via the space annotation `sleepmode.loft.sh/ignore-active-conntections: 'true'`. This will put a space to sleep even though there still might be open connections such as `kubectl exec` or `kubectl port-forward`.
 3. Configure your kubelets with the flag `--streaming-connection-idle-timeout duration`(see [docs](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)). This behaves essentially as option 1, however this configuration is Loft independent.
 
-## How can I prevent that certain resources within a space start sleeping?
+## How can I prevent certain resources within a space from sleeping?
 
 Loft allows you to specify resources that should not sleep within a space by providing the annotation `sleepmode.loft.sh/exclude: 'true'` on either a `Deployment`, `StatefulSet`, `ReplicaSet` or `Pod`. For example the following `Deployment` would not sleep if the space is sleeping:
 ```yaml
