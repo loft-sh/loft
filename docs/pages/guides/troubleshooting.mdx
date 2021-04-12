@@ -113,6 +113,15 @@ spec:
     - loft-gateway
   hosts:
     - loft.my.domain.com
+  http:
+    - match:
+      - uri:
+          prefix: /
+      route:
+      - destination:
+          host: loft
+          port:
+            number: 80
   tls:
     - match:
       - port: 443
