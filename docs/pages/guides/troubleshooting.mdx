@@ -35,6 +35,34 @@ The error means that Loft did not receive an `Upgrade` http header, which needs 
 
 If you are using AWS, please make sure you do **NOT** use any ALB or HTTP Load Balancers as they do not support the required upgrade requests. Please use an ELB with TCP backend or NLB Load Balancer instead.
 
+If you want to use ACM for TLS termination instead of in cluster certificate management, you can use a NLB that does TLS termination and routes the raw traffic to Loft:
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:eu-west-2:xxx:certificate/xxx"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  name: loft-loadbalancer
+  namespace: loft
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: loft
+    release: loft
+```
+
 #### Ingress Nginx
 
 If you are using the [ingress nginx](https://github.com/kubernetes/ingress-nginx/) ingress controller, Loft should work out of the box.
@@ -42,6 +70,58 @@ If you are using the [ingress nginx](https://github.com/kubernetes/ingress-nginx
 #### Nginx Ingress Controller
 
 If you are using the [nginx ingress controller](https://docs.nginx.com/nginx-ingress-controller/overview/#what-is-the-ingress-controller), please make sure you have the annotation `nginx.org/websocket-services: loft` set on the ingress.
+
+#### Istio 
+
+Unfortunately istio does not support SPDY upgrade connections with HTTP routing, which is why you cannot use TLS termination at the istio Gateway itself and must use SNI to forward TLS traffic to loft which does the termination. To configure which TLS certificate loft is using see the [self signed certificate guide](./administration/self-signed-certificate.mdx) 
+
+An example configuration could look like this:
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: loft-gateway
+  namespace: loft
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - loft.my.domain.com
+      port:
+        name: loft-https
+        number: 443
+        protocol: HTTPS
+      tls:
+        mode: PASSTHROUGH
+    - hosts:
+        - loft.my.domain.com
+      port:
+        name: loft-http
+        number: 80
+        protocol: HTTP
+      tls:
+        httpsRedirect: true
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: loft-virtualservice
+  namespace: loft
+spec:
+  gateways:
+    - loft-gateway
+  hosts:
+    - loft.my.domain.com
+  tls:
+    - match:
+      - port: 443
+        sniHosts:
+          - loft.my.domain.com
+      route:
+      - destination:
+          host: loft.loft.svc.cluster.local
+```
 
 #### Other Ingress Controllers
 
