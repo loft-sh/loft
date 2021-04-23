@@ -278,14 +278,6 @@ sync:
       url: https://dhiatn.github.io/helm-kafka-topics-ui
       maintainers:
         - email: dhia.absi+helm@gmail.com
-    - name: k8dash
-      url: https://herbrandson.github.io/k8dash/helm
-      maintainers:
-        - email: eric@herbrandson.com
-    - name: funkypenguin
-      url: https://funkypenguin.github.io/helm-charts
-      maintainers:
-        - email: helm-charts@funkypenguin.co.nz
     - name: geek-cookbook
       url: https://geek-cookbook.github.io/charts
       maintainers:
@@ -312,11 +304,6 @@ sync:
       maintainers:
         - email: aaron@ecomaz.net
           name: Aaron Schlesinger
-    - name: zentainer
-      url: https://charts.zentainer.app
-      maintainers:
-        - name: Will Newby
-          email: will@zentainer.app
     - name: promitor
       url: https://promitor.azurecr.io/helm/v1/repo
       maintainers:
@@ -503,13 +490,6 @@ sync:
       maintainers:
         - email: cloud@uswitch.com
           name: uSwitch Infrastructure Team
-    - name: external-secrets
-      url: https://godaddy.github.io/kubernetes-external-secrets/
-      maintainers:
-        - email: jxpearce@godaddy.com
-          name: jeffpearce
-        - email: klu6@godaddy.com
-          name: keweilu
     - name: pfisterer-knox
       url: https://pfisterer.github.io/apache-knox-helm/
       maintainers:
@@ -626,11 +606,6 @@ sync:
       maintainers:
         - email: concourse@pivotal.io
           name: Pivotal Concourse Team
-    - name: tomkerkhove
-      url: https://tomkerkhove.azurecr.io/helm/v1/repo
-      maintainers:
-        - email: kerkhove.tom@gmail.com
-          name: Tom Kerkhove
     - name: cgroschupp
       url: https://cgroschupp.github.io/helm-charts/
       maintainers:
@@ -702,11 +677,6 @@ sync:
       maintainers:
         - email: massalitine@gmail.com
           name: Nikita Massalitin
-    - name: cern
-      url: https://charts.cern.ch/cern/
-      maintainers:
-        - email: helm-repo-admins@cern.ch
-          name: CERN Helm Repo Admins
     - name: chubaofs
       url: https://chubaofs.github.io/chubaofs-charts
       maintainers:
@@ -912,11 +882,6 @@ sync:
           email: lee.calcote@layer5.io
         - name: Layer5 Authors
           email: community@layer5.io
-    - name: blazure
-      url: https://charts.blazure.com
-      maintainers:
-        - email: ryan@ryanholt.net
-          name: Ryan Holt
     - name: cdi
       url: http://raw.githubusercontent.com/woohhan/cdi-chart/master/
       maintainers:
@@ -1180,11 +1145,6 @@ sync:
           email: rohitrsh@gmail.com
         - name: Shubhomoy Biswas
           email: shubhomoy.biswas95@gmail.com
-    - name: redsky
-      url: https://redskyops.dev/charts/
-      maintainers:
-        - name: Red Sky Ops Team
-          email: info@redskyops.dev
     - name: honeycomb
       url: https://honeycombio.github.io/helm-charts/
       maintainers:
@@ -1241,11 +1201,6 @@ sync:
           email: patrick@ch.tario.org
         - name: Weblate Support
           email: info@weblate.org
-    - name: solr-operator
-      url: https://bloomberg.github.io/solr-operator/charts/
-      maintainers:
-        - name: Houston Putman
-          email: houston@apache.org
     - name: inaccel
       url: https://setup.inaccel.com/helm
       maintainers:
@@ -1319,11 +1274,6 @@ sync:
       maintainers:
         - name: Codesim LLC
           email: info@codesim.com
-    - name: curity
-      url: https://github.com/curityio/idsvr-helm
-      maintainers:
-        - name: Curity AB
-          email: info@curity.io
     - name: dash-ops
       url: http://dash-ops.github.io/helm-charts
       maintainers:
@@ -1530,11 +1480,6 @@ sync:
       maintainers:
         - name: Kubernetes SIG Scheduling
           email: kubernetes-sig-scheduling@googlegroups.com
-    - name: percona
-      url: https://percona-lab.github.io/percona-helm-charts/
-      maintainers:
-        - name: Ivan Pylypenko
-          email: ivan.pylypenko@percona.com
     - name: kuma
       url: https://kumahq.github.io/charts
       maintainers:
@@ -1571,12 +1516,8 @@ sync:
       url: https://helm.questdb.io
     - name: lightstepsatellite
       url: https://lightstep.github.io/lightstep-satellite-helm-chart/
-    - name: fasterbytes
-      url: https://fasterbytes.github.io/charts
     - name: prometheus-community
       url: https://prometheus-community.github.io/helm-charts
-    - name: logicmonitor
-      url: https://logicmonitor.github.com/k8s-helm-charts
     - name: drycc
       url: https://charts.drycc.cc/stable
     - name: gocd
