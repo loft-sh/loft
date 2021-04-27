@@ -53,6 +53,7 @@ auth:
 	clusterAccountTemplates: 
 	  # The name of the cluster account template
 	- name: my-cluster-account-template
+      sync: true
 	# (Optional) A mapping between groups and cluster account templates. 
 	# If the user has a certain group, the cluster account template 
 	# will be added during creation
@@ -62,6 +63,7 @@ auth:
 	    # Names of the cluster account templates to apply
 	    clusterAccountTemplates: 
 	    - name: my-cluster-account-template
+          sync: true
 ```
 
 <Step>3</Step>
