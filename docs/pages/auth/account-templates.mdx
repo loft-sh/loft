@@ -7,9 +7,9 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import AccountTemplatesForSSOFragment from '../fragments/auth/sso/account-templates.mdx'
 
-Account Templates are a way to automatically create an account in a connected cluster for a new team or user and optionally create other resources that belong to such an account. 
+Account Templates are a way to automatically create an account in a connected cluster for a new team or user and optionally create other resources that belong to such an account. Account Templates have a sync functionality and provide an easy way to manage multiple accounts and resources in multiple clusters with just a single resource.
 
-Since cluster access is determined in Loft by who has an account in which cluster, creating an account in a cluster is equivalent of giving a user access to a cluster. Account templates are particularly useful when using single sign-on because users are being created when they log in for the first time and without any cluster accounts, a new user will not automatically be able to do anything. Account templates can solve this by automatically creating accounts for such users.
+Since cluster access is determined in Loft by who has an account in which cluster, creating an account in a cluster is equivalent of giving a user or team access to a cluster. Account templates are particularly useful when using single sign-on because users are being created when they log in for the first time and without any cluster accounts, a new user will not automatically be able to do anything. Account templates can solve this by automatically creating accounts for such users.
 
 A cluster account template is a Custom Resource in Kubernetes and consists of 3 components:
 1. **Cluster Selector**: A label selector to select clusters to define in which clusters a new account will be created.
@@ -104,7 +104,7 @@ kubectl create -f clusteraccounttemplate.yaml
 
 
 ## Use Account Templates
-Applying cluster account templates to an user or team can be done either via kubectl or the Loft UI. For automatically applying account templates to users on single sign-on, please see the next section.
+Applying cluster account templates to a user or team can be done either via kubectl or the Loft UI. For automatically applying account templates to users on single sign-on, please see the next section.
 
 <Tabs
   defaultValue="ui"
@@ -128,14 +128,18 @@ Some account templates might be preselected, these are the templates that have t
 
 :::note How Templates are applied
 The account templates will be applied in the order that they are specified, if multiple account templates target the same cluster, only **ONE** account is created for the cluster and templates are skipped for a cluster if an account for that user or team does already exist.
-If an error during applying the account templates is encountered, the error message can be viewed in the Status column of the user or team.
+If an error during applying the account templates is encountered, the error message can be viewed in the Status column of the user or team. 
 :::
 
 :::note Reapply Templates
-If you want to reapply a template for an user or team, delete it and then re-add it to the user or team. This will **NOT** delete accounts and only works for templates that have failed to apply.
-If you want to delete a template and the corresponding account resources, please delete the account of the user in the cluster instead. This will delete **ALL** spaces and resources the account owns in the cluster.
+By default, Loft will try to reapply the Cluster Account Template as soon as it changes. If a new cluster is created that matches the label selector of the Cluster Account Template, an account for all users and teams that use this Template will be created.    
 :::
-
+    
+:::note Deleting Accounts
+Loft will **never** delete any accounts automatically, as this can have severe consequences like all account spaces and resources getting deleted.
+If you want to delete a template from a user or team and the corresponding account resources, please remove the template from the user first and then delete the account of the user or team in the cluster. This will delete **ALL** spaces and resources the account owns in the cluster.
+:::
+    
 </TabItem>
 <TabItem value="kubectl">
 
@@ -160,11 +164,24 @@ spec:
   # The cluster account templates you want to apply
   clusterAccountTemplates:
     - name: loft-all-clusters-default
+      sync: true  # <- Set this if you want to update the created accounts automatically as soon as the template changes
 ```
 
 </TabItem>
 </Tabs>
 
+
+## Sync Cluster Account Templates 
+
+Syncing cluster account templates is done by three-way merging the old cluster account template, the new cluster account template and the already existing account and account resources (see the [helm docs](https://helm.sh/docs/faq/#improved-upgrade-strategy-3-way-strategic-merge-patches) for more informations about three-way merges). From these resources, Loft will derive patches (or create and delete requests) that will be applied on the account and the resources, based on what has changed in the cluster account template.
+
+For example, if you only change the space limit for the account in a cluster account template, Loft will look through all users and teams that use this template and try to update their account, by patching just the `spec.space.limit` field of the account. All other fields, annotations and labels of the account stay untouched. This means you can change the account and its resources without worrying that the sync will revert it back. The only fields that will be changed are the ones that have changed between the old and new cluster account template state. 
+
+For account resources such as cluster roles or account quotas that belong to the account, the same principle is applied. The only difference here is that these resources can be created or deleted as well based on if they have been added or removed from the cluster account template.
+
+:::info Enabling Sync
+If you assign a cluster account template via the UI to a user or team, cluster account template sync will be enabled by default. If you assign a template manually via kubectl, make sure that the `spec.clusterAccountTemplates[*].sync` is set to `true`. If you assign cluster account templates via SSO, please make sure that you enable sync via the `clusterAccountTemplates[*].sync` or `groupClusterAccountTemplates[*].clusterAccountTemplates[*].sync` option 
+:::
 
 ## For Single Sign-On (SSO)
 

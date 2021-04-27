@@ -5,7 +5,7 @@ Loft provides 2 default templates which will be added to each connected cluster:
 - `loft-limit-range` for an example of a LimitRange
 - `loft-network-policy` for an example of a NetworkPolicy
 
-You can edit these template if you want to or you can create your own templates as shown below.
+You can edit these templates if you want to or you can create your own templates as shown below.
 
 <Tabs
   defaultValue="ui"
@@ -62,6 +62,9 @@ resources:
     kind: NetworkPolicy
     metadata:
       name: ingress-allow-internet-access
+      labels:
+        # You can also use template parameters such as ${namespace} or ${account} 
+        created-in-namespace: ${namespace}
     spec:
       ingress:
       - {}

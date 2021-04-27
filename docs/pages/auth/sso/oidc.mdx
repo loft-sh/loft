@@ -38,6 +38,8 @@ auth:
     #
     # (Optional) Path to a PEM encoded root certificate of the provider. 
     caFile: /tmp/ca-file.crt
+    # (Optional) Specify whether to communicate without validating SSL certificates
+    insecureCa: false
     # (Optional) UsernameClaim is the JWT field to use as the user's username. 
     # If not set defaults to email.
     usernameClaim: email
@@ -50,6 +52,9 @@ auth:
 	# (Optional) If specified, causes claims mapping to group names to be prefixed with the
 	# value.
 	groupsPrefix: group-prefix-
+	# (Optional) If groups is non empty, access is denied if the user is not part of at least one 
+	# of the specified groups. This requires groupsClaim to be set!
+	groups: ["my-oidc-group"]
 	# (Optional) If specified, tells the OIDCAuthenticator to try to populate the user's
 	# information from the UserInfo. This might be necessary for slim tokens such as used
 	# by Okta
@@ -59,6 +64,7 @@ auth:
 	clusterAccountTemplates: 
 	  # The name of the cluster account template
 	- name: my-cluster-account-template
+      sync: true
 	# (Optional) A mapping between groups and cluster account templates. 
 	# If the user has a certain group, the cluster account template 
 	# will be added during creation
@@ -68,6 +74,7 @@ auth:
 	    # Names of the cluster account templates to apply
 	    clusterAccountTemplates: 
 	    - name: my-cluster-account-template
+          sync: true
 ```
 
 <Step>2</Step>
