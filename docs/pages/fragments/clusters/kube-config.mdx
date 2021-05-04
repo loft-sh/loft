@@ -8,6 +8,10 @@ loft generate admin-kube-config
 Make sure you are in the right cluster/context before executing the command shown above.
 :::
 
+:::caution
+If you try to connect a Rancher provisioned cluster, please make sure you are using the [Authorized Cluster Endpoint](https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cluster-access/ace/) for the cluster you wish to connect. Otherwise, you'll experience problems with authentication as the default Rancher proxy authentication endpoint does not correctly support impersonation.
+:::
+
 **Option B:** To manually create a kube-config, you need to:
 1. Create a ServiceAccount
 2. Create a ClusterRoleBinding to bind the ServiceAccount to the ClusterRole `cluster-admin`
