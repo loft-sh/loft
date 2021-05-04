@@ -147,3 +147,12 @@ Loft requires that the Kubernetes master can contact the Loft and Kiosk pods on 
 
 Especially in private GKE clusters you could see this error, because by default the communication to those ports will be blocked. To enable communication for private GKE clusters, please take a look at the [Google Cloud Documenation](https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#add_firewall_rules)
 
+## Connecting Rancher Clusters
+
+If you want to connect clusters that were created with Rancher, you'll need to make sure that you are using the [authorized cluster endpoints](https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cluster-access/kubectl/#authenticating-directly-with-a-downstream-cluster) that provides a kube context that bypasses the rancher authentication. 
+Otherwise, you will get problems with different users authenticating through Loft as the default Rancher proxy does not correctly support impersonation that is used by Loft.
+
+
+
+
+
