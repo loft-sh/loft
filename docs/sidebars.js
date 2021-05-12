@@ -60,6 +60,7 @@ module.exports = {
         'multi-tenancy/clusters',
         'multi-tenancy/accounts',
         'multi-tenancy/account-quotas',
+        'multi-tenancy/policies',
         'multi-tenancy/templates',
         'multi-tenancy/shared-secrets',
         'multi-tenancy/apps',
