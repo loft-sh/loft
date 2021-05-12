@@ -6,14 +6,14 @@ sidebar_label: Policies
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 
-Policies allow you to customize and extend Loft. As Loft internally uses Kubernetes resources for anything (including UI requests), you can customize almost everything with policies. 
+Policies allow you to customize admission control and extend Loft. As Loft internally uses Kubernetes resources for anything (including UI requests), you can customize almost everything with policies. 
 
 The following use cases are possible with policies:
 
 - Custom validation of users, teams, spaces, clusters and other objects. For example, you can:
   - Deny creation, updating or deletion of resources only for specific users or teams
   - Deny security critical objects such as privileged pods in clusters
-  - Ensure unique names, hosts or other properties across a cluster 
+  - Ensure unique names, hosts or other properties within a cluster 
 - Automatic mutation of created or updated resources. For example, you can:
   - Add a label or annotation which user or team created an object
   - Inject sidecar containers into a pod
