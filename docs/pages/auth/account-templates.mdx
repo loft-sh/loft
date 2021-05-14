@@ -140,6 +140,29 @@ Loft will **never** delete any accounts automatically, as this can have severe c
 If you want to delete a template from a user or team and the corresponding account resources, please remove the template from the user first and then delete the account of the user or team in the cluster. This will delete **ALL** spaces and resources the account owns in the cluster.
 :::
     
+:::note Excluding Clusters for Users or Teams
+You can exclude certain clusters for a user or team with the annotation `loft.sh/account-templates-ignore-clusters` that will prevent any cluster account template to create an account for this user or team in one of the specified clusters. For example:
+
+```yaml
+apiVersion: management.loft.sh/v1
+kind: User
+metadata:
+  name: admin
+  annotations:
+    # This will exclude the clusters cluster1 and cluster2 for user admin
+    # in all specified cluster account templates under spec.clusterAccountTemplates
+    loft.sh/account-templates-ignore-clusters: cluster1,cluster2
+spec:
+  displayName: John Doe
+  username: admin
+  email: john.doe@test.com
+  subject: loft-admin 
+  clusterAccountTemplates:
+  - name: loft-all-clusters-default
+    sync: true
+```
+:::
+    
 </TabItem>
 <TabItem value="kubectl">
 

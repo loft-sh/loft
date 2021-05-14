@@ -194,15 +194,7 @@ spec:
   resources: ["pods"]
   javascript: |
     // Do not allow the user "test" to create pods anywhere
-    const allAccounts = list("Account", "config.kiosk.sh/v1alpha1");
-
-    // Find account of the user by subject
-    const userAccount = allAccounts.find(account => {
-        // flatten account subjects
-        const subjects = account.spec?.subjects?.map(subject => subject.name) || [];
-        return subjects.includes(request.userInfo?.username);
-    });
-    if (userAccount?.metadata?.labels?.["loft.sh/user"] === "test") {
+    if (request.userInfo?.groups?.includes("loft:user:test")) {
         deny("Sorry test, but you are not allowed to create pods in this cluster");
     }
 ```
