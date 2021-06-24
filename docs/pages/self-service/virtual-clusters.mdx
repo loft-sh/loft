@@ -8,8 +8,9 @@ import UseVClusterFragment from '../fragments/vclusters/use.mdx'
 import DeleteVClusterFragment from '../fragments/vclusters/delete.mdx'
 
 
-In Loft, users can create virtual Kubernetes clusters which are fully functional Kubernetes clusters but they run inside a namespace of another cluster.
+In Loft, users can create virtual Kubernetes clusters which are fully functional Kubernetes clusters, but each vcluster runs inside a namespace of the underlying k8s cluster. It's cheaper than creating separate full-blown clusters and it offers better multi-tenancy and isolation than regular namespaces.
 
+Virtual Clusters in Loft are based on the open source project [vcluster](https://github.com/loft-sh/vcluster). For more in-depth information, please take a look at the [official vcluster docs](https://www.vcluster.com/docs/architecture/basics).
 
 ## Why Virtual Clusters?
 Virtual clusters:
@@ -38,7 +39,9 @@ Virtual clusters:
 
 
 ## Advanced Configuration
-You can configure virtual clusters using the VirtualCluster CRD or using the Loft UI. Under the hood, Virtual clusters are deployed using a Helm chart (see the [virtual-cluster project on GitHub](https://github.com/loft-sh/virtual-cluster)). You are able to change how the virtual cluster is deployed via the Advanced Options section in the Loft UI.
+You can configure virtual clusters using the VirtualCluster CRD or using the Loft UI. Under the hood, Virtual clusters are deployed using a Helm chart (see the [vcluster project on GitHub](https://github.com/loft-sh/vluster)). You are able to change how the virtual cluster is deployed via the Advanced Options section in the Loft UI.
+
+For more specific use cases and greater in-depth documentation, please take a look at the [official vcluster docs](https://www.vcluster.com/docs/architecture/basics).
 
 ### Networking
 By default, Services and Ingresses are synced from the virtual cluster to the host cluster in order to enable correct network functionality for the virtual cluster.
@@ -61,42 +64,42 @@ You can configure additional syncer options using the following options:
 syncer:
   extraArgs:
     - --disable-sync-resources=ingresses  # any k8s resources not to sync to the host cluster
-  env: []
-  volumeMounts:
-    - mountPath: /data
-      name: data
-  resources: {}
-  
-# Create a cluster role for node syncing
-# rbac:
-#   clusterRole:
-#     create: true
 ```
 
 The following flags are available:
 ```
-  --bind-address string             The address to bind the server to (default "0.0.0.0")
-  --client-ca-cert string           The path to the client ca certificate (default "/data/server/tls/client-ca.crt")
-  --disable-sync-resources string   The resources that shouldn't be synced by the virtual cluster (e.g. --disable-sync-resources=ingresses,nodes)
-  --enable-storage-classes          If enabled, the virtual cluster will sync storage classes (make sure rbac.clusterRole.create is true in the options)
-  --enforce-node-selector           If enabled and --node-selector is set then the virtual cluster will ensure that no pods are scheduled outside of the node selector (default true)
-  --fake-nodes                      If enabled, the virtual cluster will create fake nodes instead of copying the actual physical nodes config (default true) (if false make sure rbac.clusterRole.create is true in the options)
-  --fake-persistent-volumes         If enabled, the virtual cluster will create fake persistent volumes instead of copying the actual physical persistent volumes config (default true) (if false make sure rbac.clusterRole.create is true in the options)
-  --kube-config string              The path to the virtual cluster admin kube config (default "/data/server/cred/admin.kubeconfig")
-  --log-flush-frequency duration    Maximum number of seconds between log flushes (default 5s)
-  --node-selector string            If set, nodes with the given node selector will be synced to the virtual cluster. This will implicitly set --fake-nodes=false (make sure rbac.clusterRole.create is true in the options)
-  --out-kube-config-secret string   If specified, the virtual cluster will write the generated kube config to the given secret (default "kubeconfig")
-  --owning-statefulset string       If configured, all synced resources will have this statefulset as owner reference
-  --port int                        The port to bind to (default 8443)
-  --request-header-ca-cert string   The path to the request header ca certificate (default "/data/server/tls/request-header-ca.crt")
-  --server-ca-cert string           The path to the server ca certificate (default "/data/server/tls/server-ca.crt")
-  --server-ca-key string            The path to the server ca key (default "/data/server/tls/server-ca.key")
-  --service-name string             The service name where the virtualcluster proxy will be available (default "virtualcluster")
-  --suffix string                   The suffix to append to the synced resources in the namespace (default "suffix")
-  --sync-all-nodes                  If enabled and --fake-nodes is false, the virtual cluster will sync all nodes instead of only the needed ones
-  --target-namespace string         The namespace to run the virtual cluster in (defaults to current namespace)
-  --tls-san strings                 Add additional hostname or IP as a Subject Alternative Name in the TLS cert
-  --translate-image strings         Translates image names from the virtual pod to the physical pod (e.g. --translate-image=coredns/coredns=mirror.io/coredns/coredns)
+      --bind-address string                     The address to bind the server to (default "0.0.0.0")
+      --client-ca-cert string                   The path to the client ca certificate (default "/data/server/tls/client-ca.crt")
+      --cluster-domain string                   The cluster domain ending that should be used for the virtual cluster (default "cluster.local")
+      --disable-sync-resources string           The resources that shouldn't be synced by the virtual cluster (e.g. ingresses)
+      --enable-priority-classes                 If enabled, the virtual cluster will sync priority classes from and to the host cluster
+      --enable-storage-classes                  If enabled, the virtual cluster will sync storage classes
+      --enforce-node-selector                   If enabled and --node-selector is set then the virtual cluster will ensure that no pods are scheduled outside of the node selector (default true)
+      --fake-kubelets                           If enabled, the virtual cluster will create fake kubelet endpoints to support metrics-servers (default true)
+      --fake-nodes                              If enabled, the virtual cluster will create fake nodes instead of copying the actual physical nodes config (default true)
+      --fake-persistent-volumes                 If enabled, the virtual cluster will create fake persistent volumes instead of copying the actual physical persistent volumes config (default true)
+      --kube-config string                      The path to the virtual cluster admin kube config (default "/data/server/cred/admin.kubeconfig")
+      --lease-duration int                      Lease duration of the leader election in seconds (default 60)
+      --log-flush-frequency duration            Maximum number of seconds between log flushes (default 5s)
+      --node-selector string                    If set, nodes with the given node selector will be synced to the virtual cluster. This will implicitly set --fake-nodes=false
+      --out-kube-config-secret string           If specified, the virtual cluster will write the generated kube config to the given secret (default "kubeconfig")
+      --override-hosts                          If enabled, vcluster will override a containers /etc/hosts file if there is a subdomain specified for the pod (spec.subdomain). (default true)
+      --override-hosts-container-image string   The image for the init container that is used for creating the override hosts file. (default "alpine:3.13.1")
+      --owning-statefulset string               If configured, all synced resources will have this statefulset as owner reference
+      --port int                                The port to bind to (default 8443)
+      --renew-deadline int                      Renew deadline of the leader election in seconds (default 40)
+      --request-header-ca-cert string           The path to the request header ca certificate (default "/data/server/tls/request-header-ca.crt")
+      --retry-period int                        Retry period of the leader election in seconds (default 15)
+      --server-ca-cert string                   The path to the server ca certificate (default "/data/server/tls/server-ca.crt")
+      --server-ca-key string                    The path to the server ca key (default "/data/server/tls/server-ca.key")
+      --service-account string                  If set, will set this host service account on the synced pods
+      --service-name string                     The service name where the vcluster proxy will be available (default "vcluster")
+      --suffix string                           The suffix to append to the synced resources in the namespace (default "suffix")
+      --sync-all-nodes                          If enabled and --fake-nodes is false, the virtual cluster will sync all nodes instead of only the needed ones
+      --sync-node-changes                       If enabled and --fake-nodes is false, the virtual cluster will proxy node updates from the virtual cluster to the host cluster. This is not recommended and should only be used if you know what you are doing.
+      --target-namespace string                 The namespace to run the virtual cluster in (defaults to current namespace)
+      --tls-san strings                         Add additional hostname or IP as a Subject Alternative Name in the TLS cert
+      --translate-image strings                 Translates image names from the virtual pod to the physical pod (e.g. coredns/coredns=mirror.io/coredns/coredns)
 ```
 
 ### Control Plane (k3s)
@@ -126,110 +129,6 @@ virtualCluster:
   resources: {}
 ```
 Note that you can use any k3s version and all arguments/flags that the k3s binary of this specific version provides. See [k3s](https://k3s.io/) for more information.
-
-### Monitoring 
-
-In general, monitoring inside a virtual cluster works as monitoring a normal kubernetes cluster, except that kubelet cadvisor and probes metrics cannot be scraped directly, since the namespace and pod names in the scraped metrics refer to the host kubernetes cluster names instead of the actual virtual cluster names.
-However, virtual clusters provide custom kubelet metrics endpoints that collect the metrics from the host kubernetes cluster and automatically filters and rewrites the metrics so that the pod and namespace names fit.
-
-To configure prometheus to scrape the rewritten kubelet metrics, follow these steps:
-1. Make sure the virtual cluster can access nodes data. This can be enabled in the advanced options of clusters with:
-```yaml
-# Below you can configure the virtual cluster
-...
-
-# This option will deploy a ClusterRole & ClusterRoleBinding 
-# that allows the virtual cluster to access node metrics
-rbac:
-  clusterRole:
-    create: true
-
-...
-```
-2. Make sure your prometheus (that is running inside of the virtual cluster) can access the metrics endpoints of the virtual cluster (inside the virtual cluster it is accessed through the default/kubernetes service). This can be done by either editing the already deployed prometheus ClusterRole, or creating a new one:
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: virtual-cluster-prometheus-role
-subjects:
-  - kind: ServiceAccount
-    # SERVICE ACCOUNT NAME OF THE PROMETHEUS HERE
-    name: prometheus-kube-prometheus-prometheus
-    # NAMESPACE OF THE PROMETHEUS HERE
-    namespace: prometheus
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: virtual-cluster-prometheus-role
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: virtual-cluster-prometheus-role
-rules:
-  - verbs:
-      - get
-    nonResourceURLs:
-      - /metrics
-      - /metrics/cadvisor
-      - /metrics/probes
-```
-3. Make sure the endpoints and service `default/kubernetes` have the correct labels:
-```yaml
-# Label service
-kubectl label --overwrite services kubernetes --namespace default k8s-app=kubelet
-# Label endpoints
-kubectl label --overwrite endpoints kubernetes --namespace default k8s-app=kubelet
-```
-4. Deploy the service monitor into the prometheus namespace:
-```yaml 
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: prometheus-kube-kubelet
-  namespace: prometheus
-spec:
-  endpoints:
-    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-      honorLabels: true
-      path: /metrics/cadvisor
-      port: https
-      relabelings:
-        - sourceLabels:
-            - __metrics_path__
-          targetLabel: metrics_path
-      scheme: https
-      tlsConfig:
-        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        insecureSkipVerify: true
-    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-      honorLabels: true
-      path: /metrics/probes
-      port: https
-      relabelings:
-        - sourceLabels:
-            - __metrics_path__
-          targetLabel: metrics_path
-      scheme: https
-      tlsConfig:
-        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        insecureSkipVerify: true
-  jobLabel: k8s-app
-  namespaceSelector:
-    matchNames:
-      - default
-  selector:
-    matchLabels:
-      k8s-app: kubelet
-```
-
-Now prometheus should be able to scrape the correct kubelet metrics for your virtual cluster and all grafana dashboards should work as expected. These steps also work for virtual clusters inside virtual clusters.
-
-<br/>
-
----
-
 
 ## How does it work?
 The basic idea of a virtual cluster is to spin up a functional but incomplete new Kubernetes cluster within an existing cluster and sync certain needed core resources between the two clusters.

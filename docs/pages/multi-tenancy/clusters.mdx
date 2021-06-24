@@ -70,3 +70,29 @@ Because Loft saves the entire state of a cluster within the cluster ifself, you 
   </video>
   <figcaption>Loft UI - Reconnect Cluster</figcaption>
 </figure>
+
+## Advanced Workflows
+
+### Reset Connected Cluster
+
+Loft allows you to reset certain parts of a connected cluster, such as:
+
+* **default cluster roles**: If specified, Loft will reset the default cluster roles in the target cluster used to determine RBAC permissions for Loft users and teams
+* **default templates**: If specified, Loft will reset the default kiosk templates (`limit-range` and `network-policy`)
+* **kiosk**: If specified, Loft will delete and reinstall the kiosk chart into the target cluster
+
+<figure class="frame">
+    <img src="/docs/media/ui/clusters/reset-cluster.png" alt="Reset Cluster" />
+    <figcaption>Reset a cluster through the Loft UI</figcaption>
+</figure>
+
+To reset a cluster, navigate to the *Clusters* view and press on the *Reset* button in the *Actions* column.
+
+### Disable Kiosk
+
+There might be cases where you don't want Loft to automatically handle kiosk updates for you and you want to manually install or upgrade kiosk. This can be achieved either by setting the environment variable `DISABLE_KIOSK` to `true` in the Loft container or by setting the annotation `loft.sh/cluster-ignore-kiosk: true` on a single or multiple connected clusters.
+
+:::warning
+If you do not install kiosk in a connected cluster, certain functionality, such as Spaces, Accounts, Account Quotas & Templates will not be available in the cluster
+:::
+

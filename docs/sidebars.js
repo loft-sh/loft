@@ -108,6 +108,7 @@ module.exports = {
         'guides/onboarding',
         'guides/api',
         'guides/ci-cd-pipelines',
+        'guides/direct-cluster-endpoints',
         'guides/monitoring',
         'guides/oidc',
         'guides/administration/air-gapped-installation',

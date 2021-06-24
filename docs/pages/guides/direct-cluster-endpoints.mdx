@@ -1,0 +1,75 @@
+---
+title: Direct Cluster Endpoints
+sidebar_label: Direct Cluster Endpoints
+---
+
+Direct Cluster Endpoints are a feature to avoid the central Loft instance and directly connect to a connected Loft cluster. By default, all Kubernetes contexts that are created through Loft will route all Kubernetes traffic (such as `kubectl get pods` etc.) through the central Loft instance.
+This allows Loft to handle authentication, authorization, auditing, sleep mode activity etc. 
+
+However, if you have multiple connected clusters in a Loft instance that are spread across the globe, the traffic redirection through the central Loft gateway can increase request delay. A solution to this are direct cluster endpoints, which are installed directly into the connected clusters and handle authentication, authorization etc. themselves within the cluster without the need to redirect traffic to the central Loft instance first.
+
+## Install a Direct Cluster Endpoint
+
+The Direct Cluster Endpoint chart is a recommended app in the Loft cluster overview. You can install it by clicking on the app and press *Install*. 
+
+<figure class="frame">
+    <img src="/docs/media/ui/guides/install-direct-cluster-endpoint.png" alt="Install direct cluster endpoint" />
+    <figcaption>Install Direct Cluster Endpoint</figcaption>
+</figure>
+
+By default, the chart will create an ingress for the direct cluster endpoint, you can specify the domain in the *Chart Values* via:
+
+```yaml
+ingress:
+  # Host name where the cluster should be reachable
+  host: loft.mydomain.tld
+  # Optional ingress class
+  #ingressClass: nginx
+```
+
+:::tip
+As kubectl requires an HTTPS connection, the direct cluster endpoint has to be reachable by HTTPS as well. By default, the ingress will use a self-signed certificate, however this is insecure and it is recommended to use either cert-manager to issue a Let's Encrypt certificate or to use a self signed certificate.
+:::
+
+You can find the direct cluster endpoint chart and all available chart options in the [official Loft repo](https://github.com/loft-sh/loft/tree/master/deploy/directclusterendpoint/chart)
+
+## Enable a Direct Cluster Endpoint
+
+In order to tell Loft to use an installed direct cluster endpoint for a connected cluster, you will need to add an annotation to the cluster object.
+
+<figure class="frame">
+    <img src="/docs/media/ui/guides/cluster-direct-cluster-endpoint.png" alt="Enable direct cluster endpoint" />
+    <figcaption>Enable Direct Cluster Endpoint</figcaption>
+</figure>
+
+The following annotations can be specified:
+
+* **loft.sh/direct-cluster-endpoint**: This is the domain name that should be used to connect to the cluster directly. This usually corresponds to the ingress host that you have specified earlier. As soon as this annotation is set, the direct cluster endpoint for the connected cluster is turned on and will be preferred in future over the central Loft instance
+* **loft.sh/direct-cluster-endpoint-insecure** (Optional): If this is `true`, Loft will create Kubernetes contexts with `insecure-skip-tls-verify: true` for this endpoint
+* **loft.sh/direct-cluster-endpoint-ca-data** (Optional): Base64 encoded ca cert of the direct cluster endpoint
+
+## Using a Direct Cluster Endpoint
+
+If a direct cluster endpoint is enabled via the `loft.sh/direct-cluster-endpoint` annotation on a connected cluster, the Loft commands `loft use space`, `loft use cluster`, `loft use vcluster`, `loft create space` and `loft create vcluster` will now use the direct cluster endpoint instead of the central Loft gateway.
+
+The CLI will also notify you when running one of the above commands if a direct cluster endpoint is used:
+```bash
+loft use space my-space --cluster my-connected-cluster
+[info]   Using direct cluster endpoint at https://my-cluster-endpoint.com
+[done] √ Successfully updated kube context to use space my-space in cluster my-connected-cluster
+```
+
+You can then check which server is contacted by running:
+
+```
+kubectl get ns -v 6
+I0624 15:53:30.287997   70943 loader.go:379] Config loaded from file:  /xxx/.kube/config
+I0624 15:53:30.307530   70943 round_trippers.go:445] GET https://my-cluster-endpoint.com/kubernetes/cluster/api/v1/namespaces?limit=500 200 OK in 13 milliseconds
+NAME              STATUS   AGE
+default           Active   164m
+kube-node-lease   Active   164m
+kube-public       Active   164m
+kube-system       Active   164m
+```
+
+As you can see, `kubectl` now routes the traffic directly to the direct cluster endpoint instead of the central Loft instance. 
