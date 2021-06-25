@@ -48,7 +48,7 @@ livenessProbe:
 # Ingress options to use loft behind an ingress
 ingress:
   enabled: true
-  name: loft-directclusterendpoint-ingress
+  name: loft-direct-cluster-endpoint-ingress
   host: loft.mydomain.tld
   ingressClass: nginx
   path: /
@@ -75,7 +75,7 @@ resources:
 
 # Additional loft service account options
 serviceAccount:
-  name: loft-directclusterendpoint
+  name: loft-direct-cluster-endpoint
   create: true
   clusterRole: cluster-admin
 

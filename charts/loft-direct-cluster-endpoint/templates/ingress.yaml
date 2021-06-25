@@ -15,7 +15,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8 32k"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
-    nginx.org/websocket-services: loft-directclusterendpoint
+    nginx.org/websocket-services: loft-direct-cluster-endpoint
   {{- if .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer }}
   {{- end }}
@@ -26,7 +26,7 @@ spec:
         paths:
           - path: {{ .Values.ingress.path }}
             backend:
-              serviceName: loft-directclusterendpoint
+              serviceName: loft-direct-cluster-endpoint
               servicePort: 80
   {{- if .Values.ingress.tls.enabled }}
   tls:
