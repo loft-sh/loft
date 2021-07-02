@@ -28,7 +28,7 @@ ingress:
 ```
 
 :::tip
-As kubectl requires an HTTPS connection, the direct cluster endpoint has to be reachable by HTTPS as well. By default, the ingress will use a self-signed certificate, however this is insecure and it is recommended to use either cert-manager to issue a Let's Encrypt certificate or to use a self signed certificate.
+As kubectl requires an HTTPS connection, the direct cluster endpoint has to be reachable by HTTPS as well. By default, the ingress will use a self-signed certificate, however this is insecure and it is recommended to use either cert-manager to issue a Let's Encrypt certificate or to use a trusted self signed certificate.
 :::
 
 You can find the direct cluster endpoint chart and all available chart options in the [official Loft repo](https://github.com/loft-sh/loft/tree/master/charts/loft-direct-cluster-endpoint)
