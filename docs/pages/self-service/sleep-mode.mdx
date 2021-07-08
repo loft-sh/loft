@@ -307,7 +307,7 @@ There are multiple annotations you can set on a namespace to change what counts 
 - `sleepmode.loft.sh/last-activity`: this is usually set automatically by Loft after an activity was detected within a namespace, however you can also change this value as you like
 - `sleepmode.loft.sh/ignore-all`: if this annotation is set to "true", then all requests will be ignored and not count as activity
 - `sleepmode.loft.sh/ignore-vclusters`: if "true", activity that occurs within a created vcluster within this namespace does not count as activity
-- `sleepmode.loft.sh/ignore-groups`: a comma separated list of kubernetes resource groups that do not count as activity (e.g. apps would ignore all activity in deployments, statefulsets etc.)
+- `sleepmode.loft.sh/ignore-groups`: a comma separated list of user groups that do not count as activity (e.g. loft:team:admins would ignore all users in the team admins or loft:user:admin would ignore the admin user)
 - `sleepmode.loft.sh/ignore-resources`: a comma separated list of kubernetes resources that do not count as activity (e.g. pods, deployments.apps, secrets etc.)
 - `sleepmode.loft.sh/ignore-verbs`: a comma separated list of kubernetes verbs that do not count as activity (e.g. get, list, create, update, patch, delete)
 - `sleepmode.loft.sh/ignore-resource-verbs`: a comma separated list of resources and verbs that do not count as activity (format: myresource.mygroup=create update delete,myresource2.mygroup=create update)
