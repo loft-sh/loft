@@ -54,7 +54,7 @@ livenessProbe:
 # in there
 cluster:
   connect:
-    local: false
+    local: true
 
 # If an admin user should be created during deployment
 admin:
@@ -106,7 +106,7 @@ fullnameOverride: ""
 
 # If a cert issuer should be created for loft
 certIssuer:
-  create: true
+  create: false
   email: "" # This is a required field if create == true
   name: lets-encrypt-http-issuer
   secretName: loft-letsencrypt-credentials
