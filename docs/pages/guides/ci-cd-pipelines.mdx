@@ -3,15 +3,140 @@ title: Using Loft in CI/CD Pipelines
 sidebar_label: CI/CD Pipelines with Loft
 ---
 
-import WhatAreAccessKeysFragment from '../fragments/profile/what-are-access-keys.mdx'
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 import CreateAccessKeysFragment from '../fragments/profile/create-access-key.mdx'
 import LoginAccessKeysFragment from '../fragments/profile/login-access-key.mdx'
 
 When using Loft in a CI/CD pipeline to create namespaces and virtual cluster, there are couple of things to consider:
-1. You may want to use the [offical `loftsh/loft-ci` image](#container-image)
-2. You definitely want to [authenticate using Access Keys](#authentication)
+1. You might want to generate your kube configs manually
+2. You may want to use the [offical `loftsh/loft-ci` image](#container-image) in a containerized CI/CD pipeline
+3. You definitely want to [authenticate using Access Keys](#authentication) in either case
 
-## Container Image
+## Accessing Loft
+
+You can easily construct a kube config that can be used directly in any external CI/CD pipeline or tool to access a space, connected cluster or vcluster directly. For this you'll only need an [access key](#authentication).
+
+Then you can create a kube config in this format:
+
+<Tabs
+    defaultValue="space"
+    values={[
+        { label: 'Space', value: 'space', },
+        { label: 'Cluster', value: 'cluster', },
+        { label: 'vcluster', value: 'vcluster', },
+    ]
+    }>
+<TabItem value="space">
+
+Create a `kubeconfig.yaml` with:
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:    
+    # Optional if untrusted certificate
+    # insecure-skip-tls-verify: true
+    server: https://my-loft-domain.com/kubernetes/cluster/$CLUSTER
+  name: loft
+contexts:
+- context:
+    cluster: loft
+    namespace: $SPACE
+    user: loft
+  name: loft
+current-context: loft
+users:
+- name: loft
+  user:
+    token: $ACCESS_KEY
+```
+
+Replace the $ACCESS_KEY with your generated access key, $CLUSTER with the name of the connected kubernetes cluster the space was created in and $SPACE with the name of the space. You can now use this kube config with any external applications such as `kubectl` or `terraform`.
+
+Then run any command in the space with:
+```
+kubectl --kubeconfig kubeconfig.yaml get pods
+```
+    
+</TabItem>
+<TabItem value="cluster">
+
+Create a `kubeconfig.yaml` with:
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:    
+    # Optional if untrusted certificate
+    # insecure-skip-tls-verify: true
+    server: https://my-loft-domain.com/kubernetes/cluster/$CLUSTER
+  name: loft
+contexts:
+- context:
+    cluster: loft
+    user: loft
+  name: loft
+current-context: loft
+users:
+- name: loft
+  user:
+    token: $ACCESS_KEY
+```
+
+Replace the $ACCESS_KEY with your generated access key and $CLUSTER with the name of the connected kubernetes cluster. You can now use this kube config with any external applications such as `kubectl` or `terraform`.
+
+Then run any command in the cluster with:
+```
+kubectl --kubeconfig kubeconfig.yaml get spaces
+```
+    
+</TabItem>
+<TabItem value="vcluster">
+
+Create a `kubeconfig.yaml` with:
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:    
+    # Optional if untrusted certificate
+    # insecure-skip-tls-verify: true
+    server: https://my-loft-domain.com/kubernetes/virtualcluster/$CLUSTER/$NAMESPACE/$VCLUSTER
+  name: loft
+contexts:
+- context:
+    cluster: loft
+    user: loft
+  name: loft
+current-context: loft
+users:
+- name: loft
+  user:
+    token: $ACCESS_KEY
+```
+
+Replace the $ACCESS_KEY with your generated access key, $CLUSTER with the name of the connected kubernetes cluster the vcluster is running in, $NAMESPACE with the namespace the vcluster is running in and $VCLUSTER with the name of the vcluster. You can now use this kube config with any external applications such as `kubectl` or `terraform`.
+
+Then run any command in the vcluster with:
+```
+kubectl --kubeconfig kubeconfig.yaml get ns
+```
+
+:::info RBAC Permissions
+In order for a user to access a virtual cluster the user needs the RBAC permission `get` on the resource `virtualclusters` in the api group `storage.loft.sh` with api version `v1` either in the namespace where the virtual cluster was created in or cluster wide
+:::
+    
+</TabItem>
+</Tabs>
+
+## Authentication
+
+### Create Access Keys
+
+<CreateAccessKeysFragment/>
+
+## Using the Container Image
 When using Loft in a CI/CD pipeline that runs based on containers, you can use the [official `loft-ci` image](https://hub.docker.com/r/loftsh/loft-ci) either as a base image or directly.
 
 This image is based on `alpine` and contains:
@@ -21,6 +146,7 @@ This image is based on `alpine` and contains:
 - [DevSpace](https://devspace.sh/)
 
 This is what the Dockerfile looks like:
+
 ```Dockerfile
 FROM devspacesh/devspace:5
 
@@ -34,14 +160,6 @@ COPY release/loft-linux-amd64 /bin/loft
 RUN chmod +x /bin/loft
 ```
 
-
-## Authentication
-
-### 1. Create Access Keys
-
-<CreateAccessKeysFragment/>
-
-
-### 2. Login with Access Keys
+### Login with Access Keys
 
 <LoginAccessKeysFragment/>

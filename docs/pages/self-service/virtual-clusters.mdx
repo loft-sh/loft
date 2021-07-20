@@ -130,6 +130,31 @@ virtualCluster:
 ```
 Note that you can use any k3s version and all arguments/flags that the k3s binary of this specific version provides. See [k3s](https://k3s.io/) for more information.
 
+### Overriding vcluster defaults
+
+There are default values how a new virtual cluster will be deployed by Loft either through the UI (vClusters > Create vCluster) or through the Loft CLI (`loft create vcluster`). These default values can be overridden on cluster level by setting the annotation `virtualcluster.loft.sh/default-values` to the new values. 
+
+For example, if you want to disable ingress syncing by default, you would use this as default values:
+```yaml
+# Below you can configure the virtual cluster
+vcluster:
+  extraArgs:
+    - --service-cidr=10.96.0.0/12
+  image: rancher/k3s:v1.21.2-k3s1
+
+syncer:
+  extraArgs: ["--disable-sync-resources=ingresses"]
+```
+
+You can now navigate to Clusters > Show Yaml and set the annotation accordingly.
+
+<figure class="frame">
+    <img src="/docs/media/ui/vclusters/vcluster-default-values.png" alt="vCluster Set Default Values" />
+    <figcaption>vCluster Set Default Values</figcaption>
+</figure>
+
+The next time a new virtual cluster is created through the Loft CLI or UI in this connected cluster these new default values will be applied.
+
 ## How does it work?
 The basic idea of a virtual cluster is to spin up a functional but incomplete new Kubernetes cluster within an existing cluster and sync certain needed core resources between the two clusters.
 The virtual cluster itself only consists of the core Kubernetes components: API server, controller manager and etcd.
