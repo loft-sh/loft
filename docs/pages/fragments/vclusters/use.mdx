@@ -6,7 +6,7 @@ You can either use the Loft CLI to create a kube config automatically or you can
 <Tabs defaultValue="cli"
     values={[
         { label: 'CLI', value: 'cli', },
-        { label: 'Manually', value: 'manually', },
+        { label: 'Kube Config', value: 'kubeconfig', },
     ]
 }>
 <TabItem value="cli">
@@ -23,9 +23,9 @@ kubectl get namespaces
 ```
 
 </TabItem>
-<TabItem value="manually">
+<TabItem value="kubeconfig">
 
-If you need to construct a kube config manually, you'll need to create an [Access Key](../../auth/access-keys.mdx) first. Then create a `kubeconfig.yaml` in the following format:
+If you need to construct a kube config directly, you'll need to create an [Access Key](../../auth/access-keys.mdx) first. Then create a `kubeconfig.yaml` in the following format:
 
 ```yaml
 apiVersion: v1
