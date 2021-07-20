@@ -2,13 +2,13 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import HowKubeContextFragment from './kube-context.mdx'
 
-Accessing an already existing space can be either done by using the Loft CLI or constructing a kube config manually. 
+Accessing an already existing space can be either done by using the Loft CLI or constructing a kube config directly. 
 
 <Tabs
   defaultValue="cli"
   values={[
     { label: 'CLI', value: 'cli', },
-    { label: 'Manually', value: 'manually', },
+    { label: 'Kube Config', value: 'kubeconfig', },
   ]
 }>
 <TabItem value="cli">
@@ -22,9 +22,9 @@ loft use space [SPACE_NAME]
 <HowKubeContextFragment/>
 
 </TabItem>
-<TabItem value="manually">
+<TabItem value="kubeconfig">
 
-If you need to construct a kube config manually, you'll need to generate an [Access Key](../../auth/access-keys.mdx) first. Then create a `kubeconfig.yaml` in the following format:
+If you need to construct a kube config directly, you'll need to generate an [Access Key](../../auth/access-keys.mdx) first. Then create a `kubeconfig.yaml` in the following format:
 
 ```yaml
 apiVersion: v1
