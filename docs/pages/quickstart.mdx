@@ -172,21 +172,21 @@ While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.co
 
 
 #### How to work with virtual clusters?
-Using virtual clusters (vClusters) is very similar to using spaces:
+Using virtual clusters is very similar to using spaces:
 
 <Tabs
   defaultValue="create"
   values={[
-    { label: 'Create vClusters', value: 'create', },
-    { label: 'Delete vClusters', value: 'delete', },
-    { label: 'List vClusters', value: 'list', },
-    { label: 'Use vClusters', value: 'use', },
-    { label: 'Inspect vClusters', value: 'inspect', },
+    { label: 'Create Virtual Clusters', value: 'create', },
+    { label: 'Delete Virtual Clusters', value: 'delete', },
+    { label: 'List Virtual Clusters', value: 'list', },
+    { label: 'Use Virtual Clusters', value: 'use', },
+    { label: 'Inspect Virtual Clusters', value: 'inspect', },
   ]
 }>
 <TabItem value="create">
 
-While users will be able to create vClusters via the UI, it is much easier to create them via the CLI:
+While users will be able to create Virtual Clusters via the UI, it is much easier to create them via the CLI:
 ```bash
 loft create vcluster my-dev-stack-1
 ```
@@ -202,7 +202,7 @@ kubectl create namespace backend  # create a namespace `backend`
 kubectl get pods -n kube-system   # list 
 ```
 
-:::note vCluster Admin
+:::note Virtual Cluster Admin
 Especially looking at the last example command above, you can see that the user really is admin of this virtual cluster. Although the user only has very restricted access to a single namespace of the host cluster, the user is admin of the virtual cluster that runs inside this namespace of the host cluster.
 :::
 
@@ -244,7 +244,7 @@ While users can use `kubectl` or any localhost UI (e.g. [Lens](https://github.co
 </figure>
 
 :::note Cross-Namespace Views
-All vCluster inspection views you can see in the Loft UI are essentially using the `kubectl --all-namespaces` flag because virtual clusters tend to have a much smaller amount of namespaces and resources than regular clusters, so it is very fast to show all resources across all namespaces.
+All virtual cluster inspection views you can see in the Loft UI are essentially using the `kubectl --all-namespaces` flag because virtual clusters tend to have a much smaller amount of namespaces and resources than regular clusters, so it is very fast to show all resources across all namespaces.
 :::
 
 </TabItem>
@@ -256,7 +256,7 @@ Sometimes, your engineers may need more than just namespaces, e.g. when:
 - they deploy applications to multiple namespaces (e.g. database is supposed to run in a different namespace)
 - they want to install something that needs to add Custom Resource Definitions
 
-In such cases, users can create virtual clusters (vClusters) instead of spaces/namespaces. Learn more about [virtual Kubernetes clusters](https://loft.sh/blog/introduction-into-virtual-clusters-in-kubernetes/).
+In such cases, users can create virtual clusters instead of spaces/namespaces. Learn more about [virtual Kubernetes clusters](https://loft.sh/blog/introduction-into-virtual-clusters-in-kubernetes/).
 
 
 ### 3.3 Sleep Mode + Auto-Delete

@@ -11,7 +11,7 @@ The metrics can be scraped with the included `ServiceMonitor` in the loft chart,
 
 ```bash
 # Make sure you change serviceMonitor.namespace if your prometheus installation requires this.
-helm upgrade loft loft --repo https://charts.devspace.sh/ \
+helm upgrade loft loft --repo https://charts.loft.sh/ \
   --namespace loft \
   --reuse-values \
   --set serviceMonitor.enabled=true \

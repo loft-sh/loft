@@ -14,7 +14,7 @@ By default, loft will run in a cluster as a single replica without high availabi
 To configure loft to be highly available, you only have to set the environment variable `LEADER_ELECTION_ENABLED` to `true` on the loft deployment. Then you can then scale up the replicas and loft will start with leader election mode. You can do that via helm on an existing loft installation:
 ```
 # Run loft with 3 replicas
-helm upgrade loft loft --repo https://charts.devspace.sh/ \
+helm upgrade loft loft --repo https://charts.loft.sh/ \
   --namespace loft \
   --reuse-values \
   --set-string env.LEADER_ELECTION_ENABLED=true \

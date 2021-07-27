@@ -133,7 +133,7 @@ helm install cert-manager cert-manager --repo https://charts.jetstack.io \
 
 **Upgrade your Loft instance via Helm:**
 ```bash {5}
-helm upgrade loft loft --repo https://charts.devspace.sh/ \
+helm upgrade loft loft --repo https://charts.loft.sh/ \
   --namespace loft \
   --reuse-values \
   --set certIssuer.create=true \
