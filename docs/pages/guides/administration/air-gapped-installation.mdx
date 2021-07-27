@@ -91,7 +91,7 @@ export REGISTRY=my-private-registry:5000
 
 # Run the helm command
 helm install loft loft --repository-config '' \
-   --repo https://charts.devspace.sh \
+   --repo https://charts.loft.sh \
    --version $VERSION \
    --set admin.password=$PASSWORD \
    --set admin.email=$EMAIL \
@@ -124,7 +124,7 @@ export LICENSE=LICENSE_KEY
 
 # Run the helm command
 helm install loft loft --repository-config '' \
-    --repo https://charts.devspace.sh \
+    --repo https://charts.loft.sh \
     --version $VERSION \
     --set admin.password=$PASSWORD \
     --set admin.email=$EMAIL \
@@ -180,7 +180,7 @@ export REGISTRY=my-private-registry:5000
 
 # Run the helm command
 helm upgrade loft loft --repository-config '' \
-   --repo https://charts.devspace.sh \
+   --repo https://charts.loft.sh \
    --version $VERSION \
    --namespace loft \
    --reuse-values \
@@ -197,7 +197,7 @@ export VERSION=1.13.0
 
 # Run the helm command
 helm upgrade loft loft --repository-config '' \
-    --repo https://charts.devspace.sh \
+    --repo https://charts.loft.sh \
     --version $VERSION \
     --namespace loft
 ```

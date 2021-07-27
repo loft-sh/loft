@@ -76,7 +76,7 @@ kubectl create secret generic my-loft-cert -n loft --type=kubernetes.io/tls --fr
 
 Now the only thing left to do is to tell loft to use tls instead of expecting the ingress controller to handle this. This can be done via helm:
 ```
-helm upgrade loft loft --repo https://charts.devspace.sh/ \
+helm upgrade loft loft --repo https://charts.loft.sh/ \
   --namespace loft \
   --reuse-values \
   --set tls.enabled=true \

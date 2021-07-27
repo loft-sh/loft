@@ -87,7 +87,7 @@ Cert Manager will automatically provision SSL certificates for your ingress host
 #### Install Loft to management cluster via helm v3
 
 ```bash
-helm install loft loft --repo https://charts.devspace.sh/ \
+helm install loft loft --repo https://charts.loft.sh/ \
   --namespace loft \
   --create-namespace \
   --set admin.username=admin \              # Username for your (admin) user
@@ -142,7 +142,7 @@ helm install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ing
 #### Install Loft via Helm v3
 
 ```bash
-helm install loft loft --repo https://charts.devspace.sh/ \
+helm install loft loft --repo https://charts.loft.sh/ \
   --namespace loft \
   --create-namespace \
   --set admin.username=admin \

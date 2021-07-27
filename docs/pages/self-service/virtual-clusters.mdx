@@ -1,5 +1,5 @@
 ---
-title: Virtual Clusters (vClusters)
+title: Virtual Clusters
 sidebar_label: Virtual Clusters
 ---
 
@@ -24,13 +24,13 @@ Virtual clusters:
 
 ## Workflows
 
-### Create vCluster
+### Create Virtual Cluster
 <CreateVClusterFragment/>
 
-### Use vCluster
+### Use Virtual Cluster
 <UseVClusterFragment/>
 
-### Delete vCluster
+### Delete Virtual Cluster
 <DeleteVClusterFragment/>
 
 <br/>
@@ -58,7 +58,7 @@ syncer:
 
 ### Overriding vcluster defaults
 
-There are default values how a new virtual cluster will be deployed by Loft either through the UI (vClusters > Create vCluster) or through the Loft CLI (`loft create vcluster`). These default values can be overridden on cluster level by setting the annotation `virtualcluster.loft.sh/default-values` to the new values. 
+There are default values how a new virtual cluster will be deployed by Loft either through the UI (Virtual Clusters > Create Virtual Cluster) or through the Loft CLI (`loft create vcluster`). These default values can be overridden on cluster level by setting the annotation `virtualcluster.loft.sh/default-values` to the new values. 
 
 For example, if you want to disable ingress syncing by default, you would use this as default values:
 ```yaml
@@ -75,8 +75,8 @@ syncer:
 You can now navigate to Clusters > Show Yaml and set the annotation accordingly.
 
 <figure class="frame">
-    <img src="/docs/media/ui/vclusters/vcluster-default-values.png" alt="vCluster Set Default Values" />
-    <figcaption>vCluster Set Default Values</figcaption>
+    <img src="/docs/media/ui/vclusters/vcluster-default-values.png" alt="vcluster Set Default Values" />
+    <figcaption>vcluster Set Default Values</figcaption>
 </figure>
 
 The next time a new virtual cluster is created through the Loft CLI or UI in this connected cluster these new default values will be applied.
@@ -92,8 +92,8 @@ A virtual Kubernetes cluster in Loft is tied to a single namespace. The virtual 
 - an instance of a virtual cluster hypervisor which is mainly responsible for syncing cluster resources between the k3s powered virtual cluster and the underlying host cluster
 
 <figure class="frame">
-  <img src="/docs/media/ui/vclusters/vcluster-architecture.png" alt="vCluster Architecture" />
-  <figcaption>vCluster Architecture Overview</figcaption>
+  <img src="/docs/media/ui/vclusters/vcluster-architecture.png" alt="Virtual Cluster Architecture" />
+  <figcaption>Virtual Cluster Architecture Overview</figcaption>
 </figure>
 
 ### Host Namespace
