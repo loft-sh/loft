@@ -71,7 +71,7 @@ Below is an example audit policy configuration (see last section for a complete 
 audit:
   # Enable auditing
   enabled: true
-  # The path to the audit log
+  # The path to the audit log (Use - to log to console)
   path: /tmp/loft-audit.log
   # The policy to use
   policy:
@@ -353,7 +353,7 @@ audit:
   # Whether auditing should be enabled
   enabled: true
   # The path where to save the audit log files. This is required if auditing is enabled. Backup log files will 
-  # be retained in the same directory.
+  # be retained in the same directory. Use - to log all messages to the console instead of log files.
   path: /tmp/audit.log
   # The audit policy to use and log requests. By default loft will not log anything. The policy structure 
   # is the same as a kubernetes audit policy. 
