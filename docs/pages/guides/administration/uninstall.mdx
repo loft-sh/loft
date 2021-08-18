@@ -40,6 +40,14 @@ Delete kiosk resources (such as accounts, templates, templateinstances):
 kubectl api-resources --api-group='config.kiosk.sh' -o name | xargs kubectl delete crd
 ```
 
+## Delete Admin Password (optional)
+The password that was set to the admin user is encrypted and stored in a Kubernetes secret that has the annotation `helm.sh/resource-policy: keep`. This is to really preserve the admin password. To delete this, you have to manually run the following command
+
+```bash
+kubectl delete secret loft-user-secret-admin -n loft
+```
+
+
 :::warning Data Loss
 Deleting the Loft CRDs will also remove all Loft objects inside your cluster, e.g. `Cluster`, `Team`, and `User`. This **cannot** be undone.
 :::
