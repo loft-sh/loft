@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: loft-clusters-viewer
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    loft.sh/management-default-role: "true"
+rules:
+  - apiGroups: ["management.loft.sh", "storage.loft.sh"]
+    resources: ["clusters"]
+    verbs: ["get"]

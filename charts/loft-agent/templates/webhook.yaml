@@ -1,21 +1,14 @@
-{{- if .Values.apiService.enabled }}
-apiVersion: apiregistration.k8s.io/v1
-kind: APIService
+{{- if .Values.webhook }}
+{{- if .Values.webhook.create }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
 metadata:
-  name: v1.management.loft.sh
-spec:
-  version: v1
-  versionPriority: 1000
-  group: management.loft.sh
-  groupPriorityMinimum: 10000
-  service:
-    name: loft-apiservice
-    namespace: {{ .Release.Namespace }}
+  name: loft-agent
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: loft-apiservice
+  name: loft-agent-webhook
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "loft.fullname" . }}
@@ -25,10 +18,12 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 443
-      targetPort: 8443
+    - name: webhook
+      port: 443
+      targetPort: 9443
       protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}
     release: {{ .Release.Name }}
+{{- end }}
 {{- end }}
