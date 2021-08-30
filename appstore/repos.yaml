@@ -6,7 +6,7 @@
 # The name and URL between both files must be the same.
 sync:
   repos:
-    - name: devspace
+    - name: loft
       url: https://charts.devspace.sh
     - name: jfrog
       url: https://charts.jfrog.io
