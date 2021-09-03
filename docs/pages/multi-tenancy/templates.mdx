@@ -1,6 +1,6 @@
 ---
-title: Templates
-sidebar_label: Templates
+title: Security Templates
+sidebar_label: Security Templates
 ---
 
 import Tabs from '@theme/Tabs'
@@ -15,14 +15,14 @@ import InstantiateTemplatesFragment from '../fragments/clusters/templates/instan
 <WhatAreTemplatesFragment/>
 
 
-## Templates
+## Security Templates
 
-### Create Templates
+### Create Security Templates
 
 <CreateTemplatesFragment/>
 
 
-### Enforce Templates
+### Enforce Security Templates
 
 <EnforceTemplatesFragment/>
 
@@ -31,7 +31,7 @@ Enforced templates are part of the "Space Creation Settings" which means that th
 :::
 
 
-### Delete Templates
+### Delete Security Templates
 
 <Tabs
   defaultValue="ui"
@@ -70,12 +70,12 @@ Deleting a template will **not** automatically delete the template from the list
 :::
 
 
-## Template Instances
+## Security Template Instances
 
 <TemplateInstancesFragment/>
 
 
-### Instantiate Templates
+### Instantiate Security Templates
 
 <InstantiateTemplatesFragment/>
 
@@ -87,7 +87,7 @@ Deleting template instances is only possible via `kubectl`:
 kubectl delete templateinstance -n [NAMESPACE] [TEMPLATE_INSTANCE_NAME]
 ```
 
-## Template Parameters
+## Security Template Parameters
 
 Template parameters are a way to allow template instances to change certain parts of a template. Currently, they can only be configured in the Loft UI via the `Show Yaml` button or via `kubectl` directly. Furthermore, there are several predefined parameters that can be used within a template, to change the deployed resources based on which namespace they got deployed in.
 
@@ -139,5 +139,5 @@ The available predefined parameters that can be used without specifying them in 
 - `${account.metadata.annotations.MYANNOTATION}`: Value of the annotation on the account that owns the namespace. If the annotation does not exist, instantiation of the template will fail.
 - `${account.metadata.labels.MYLABEL}`: Value of the label on the account that owns the namespace. If the label does not exist, instantiation of the template will fail.
 
-## Sync Template &lt;&gt; Instance
+## Sync Security Template &lt;&gt; Instance
 Template instances keep track of the Helm charts and manifests they are creating. When the underlying template changes, the instance will automatically update the Helm chart or the modified manifests to keep everything in sync with the template.
