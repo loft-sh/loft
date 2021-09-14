@@ -1,0 +1,185 @@
+---
+title: Exposing Loft (via Ingress etc.)
+sidebar_label: Exposing Loft (via Ingress etc.)
+---
+
+In order for other people to access your Loft instance, you will need to expose Loft either via an Ingress or LoadBalancer / NodePort service. If you just want to test Loft, you can also use port-forwarding via `loft start`. 
+
+## Expose Loft with an Ingress
+
+Make sure you install Loft into the target cluster via `loft start`. Install an ingress controller into the target cluster, like [ingress-nginx](https://kubernetes.github.io/ingress-nginx/deploy/) for example.
+
+:::info
+If you are using AWS, please make sure you are using a NLB to route traffic as other load balancers do not support the SPDY protocol Kubernetes requires
+:::
+
+The easiest way to create an ingress for the Loft instance is to enable the ingress supplied in the Loft chart via the following command:
+
+```
+helm upgrade loft loft --repo https://charts.loft.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set ingress.enabled=true \
+  --set ingress.host=my-loft-domain.com \
+  --set ingress.ingressClass=nginx
+```
+
+This will deploy an ingress in the following form into the cluster:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt-http-issuer
+    kubernetes.io/ingress.class: nginx
+    meta.helm.sh/release-name: loft
+    meta.helm.sh/release-namespace: loft
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 32k
+    nginx.ingress.kubernetes.io/proxy-buffers-number: 8 32k
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
+    nginx.org/websocket-services: loft
+  labels:
+    app: loft
+    app.kubernetes.io/managed-by: Helm
+    chart: loft-1.15.0
+    heritage: Helm
+    release: loft
+  name: loft-ingress
+  namespace: loft
+spec:
+  rules:
+  - host: my-loft-domain.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: loft
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - my-loft-domain.com
+    secretName: tls-loft
+status:
+  loadBalancer: {}
+```
+
+Find out the target IP or hostname for the ingress:
+```
+kubectl get ingress -n loft
+NAME           CLASS    HOSTS                ADDRESS          PORTS     AGE
+loft-ingress   <none>   my-loft-domain.com   x.x.x.x          80, 443   10m
+```
+
+Next [set up an A dns record](https://www.google.com/search?q=set+up+a+record+dns) to the ingress address (x.x.x.x). Make sure Loft is reachable at the address via:
+
+```
+curl https://my-loft-domain.com/version --insecure
+{"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
+```
+
+### Set Up TLS
+
+Loft requires a secure connection as Loft acts as a Kubernetes Gateway and authenticated Kubernetes requests require a TLS connection. By default, the ingress uses a self signed certificate, which shouldn't be used in a production scenario. 
+
+You can use Let's Encrypt and cert-manager to automatically create an SSL certificate for your Loft subdomain. In order to do so, please make sure you have Loft installed and an [ingress created](#expose-loft-with-an-ingress)
+
+Next [install cert-manager](https://cert-manager.io/docs/installation/) into the cluster. Upgrade Loft to automatically create a cluster issuer for your ingress:
+
+```
+helm upgrade loft loft --repo https://charts.loft.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set certIssuer.create=true \
+  --set certIssuer.email=youremail@yourdomain.com
+```
+
+Make sure a valid certificate is created for your ingress:
+
+```
+kubectl get certificates -n loft
+NAME       READY   SECRET     AGE
+tls-loft   True    tls-loft   63s
+```
+
+Now try to reach your Loft instance through a secure connection:
+
+```
+curl https://my-loft-domain.com/version
+{"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
+```
+
+## Expose Loft via LoadBalancer
+
+In order to expose Loft via a LoadBalancer service, you need to install loft first. Then create a `service.yaml` in the following form:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: loft-loadbalancer
+  namespace: loft
+spec:
+  type: LoadBalancer
+  ports:
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+  selector:
+    app: loft
+    release: loft
+```
+
+Create the load balancer with:
+```
+kubectl create -f service.yaml
+```
+
+Wait until the load balancer receives an external-ip:
+```
+kubectl get svc loft-loadbalancer -n loft
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)          AGE
+loft-loadbalancer       LoadBalancer   10.112.2.142    x.x.x.x          443:30933/TCP    3m16s
+```
+
+Make sure Loft is reachable at the external ip via:
+```
+curl https://x.x.x.x/version --insecure
+{"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
+```
+
+### Expose Loft via a LoadBalancer in AWS
+
+If you are using AWS and want to expose Loft via a LoadBalancer to use the AWS Certificate Manager for TLS termination, create the LoadBalancer in the following form:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:eu-west-2:xxx:certificate/xxx"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  name: loft-loadbalancer
+  namespace: loft
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: loft
+    release: loft
+```
