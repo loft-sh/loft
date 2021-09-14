@@ -108,6 +108,7 @@ module.exports = {
       collapsed: false,
       items: [
         'guides/onboarding',
+        'guides/exposing-loft',
         'guides/api',
         'guides/ci-cd-pipelines',
         'guides/direct-cluster-endpoints',

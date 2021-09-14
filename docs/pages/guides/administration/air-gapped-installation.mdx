@@ -56,8 +56,8 @@ Since loft and [kiosk](https://github.com/kiosk-sh/kiosk) install [webhooks](htt
 In private GKE clusters the kubernetes master and nodes for example are not in the same subnetwork and [cannot communicate directly](https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#add_firewall_rules) with each other on every port.
 Hence, you need to ensure that there is a firewall rule that allows incoming traffic from the kubernetes master network to the tcp ports:
 - 8888 (loft api service extension)
-- 8443 (kiosk api service extension)
-- 9443 (kiosk webhook & loft webhook)
+- 8443 (loft agent api service extension)
+- 9443 (loft agent webhook & loft webhook)
 :::
 
 Now use helm to install loft into the cluster:
@@ -73,8 +73,9 @@ Now use helm to install loft into the cluster:
 ```bash
 # Put any loft version here that you want to install and pushed the images for
 # Please strip the 'v' infront of the version (e.g. v1.0.0 is bad, 1.0.0 is good)
-export VERSION=1.13.0
-
+# Check https://github.com/loft-sh/loft/releases for the latest Loft release version
+export VERSION=x.x.x
+    
 # The initial password for the admin user. You can login
 # into loft via admin:PASSWORD
 export PASSWORD=my-password
@@ -91,27 +92,21 @@ export REGISTRY=my-private-registry:5000
 
 # Run the helm command
 helm install loft loft --repository-config '' \
-   --repo https://charts.loft.sh \
+   --repo https://charts.loft.sh \ 
    --version $VERSION \
    --set admin.password=$PASSWORD \
    --set admin.email=$EMAIL \
-   --set env.LICENSE_KEY=$LICENSE \
    --set image=$REGISTRY/loftsh/loft:$VERSION \
+   --set env.LICENSE_KEY=$LICENSE \
    --set env.DEFAULT_IMAGE_REGISTRY=$REGISTRY \
    --namespace loft \
-   --create-namespace \
-   --set certIssuer.create=false \
-   --set cluster.connect.local=true
+   --create-namespace
 ```
 
 </TabItem>
 <TabItem value="noprivateregistry">
 
 ```bash
-# Put any loft version here that you want to install and pushed the images for
-# Please strip the 'v' infront of the version (e.g. v1.0.0 is bad, 1.0.0 is good)
-export VERSION=1.13.0
-
 # The initial password for the admin user. You can login
 # into loft via admin:PASSWORD
 export PASSWORD=my-password
@@ -125,14 +120,11 @@ export LICENSE=LICENSE_KEY
 # Run the helm command
 helm install loft loft --repository-config '' \
     --repo https://charts.loft.sh \
-    --version $VERSION \
     --set admin.password=$PASSWORD \
     --set admin.email=$EMAIL \
     --set env.LICENSE_KEY=$LICENSE \
     --namespace loft \
-    --create-namespace \
-    --set certIssuer.create=false \
-    --set cluster.connect.local=true
+    --create-namespace
 ```
 
 </TabItem>
@@ -141,9 +133,9 @@ helm install loft loft --repository-config '' \
 After a while the loft container and kiosk should be running:
 ```bash
 $ kubectl get pods -n loft
-NAME                     READY   STATUS    RESTARTS   AGE
-kiosk-6cf658c9ff-sqcjg   1/1     Running   0          140s
-loft-769d77774d-2ckh2    1/1     Running   0          184s
+NAME                          READY   STATUS    RESTARTS   AGE
+loft-agent-6cf658c9ff-sqcjg   1/1     Running   0          140s
+loft-769d77774d-2ckh2         1/1     Running   0          184s
 ```
 
 For testing purposes you can connect to loft directly via port-forwarding:
@@ -172,7 +164,7 @@ Upgrading loft basically follows the same principle as installing loft:
 ```bash
 # Put any loft version here that you want to upgrade and pushed the images for
 # Please strip the 'v' infront of the version (e.g. v1.0.0 is bad, 1.0.0 is good)
-export VERSION=1.13.0
+export VERSION=x.x.x
 
 # The registry you pushed the required images to.
 # e.g. my-private-registry:5000 or gcr.io/my-team
@@ -193,7 +185,7 @@ helm upgrade loft loft --repository-config '' \
 ```bash
 # Put any loft version here that you want to upgrade and pushed the images for
 # Please strip the 'v' infront of the version (e.g. v1.0.0 is bad, 1.0.0 is good)
-export VERSION=1.13.0
+export VERSION=x.x.x
 
 # Run the helm command
 helm upgrade loft loft --repository-config '' \
