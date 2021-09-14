@@ -3,9 +3,13 @@ title: Apps
 sidebar_label: Apps
 ---
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 import InstallAppsFragment from '../fragments/clusters/apps/install-apps.mdx'
 
-Apps are Helm charts from Helm repositories which you can manage via Loft. Apps can be managed in the loft UI from within a space (Spaces > Apps) or from within a cluster (Clusters > Apps). 
+Apps are Helm charts from Helm repositories or Kubernetes manifests that are deployed as Helm charts which you can manage via Loft. Apps can be managed in the loft UI in the Apps view and installed into a space (Spaces > Apps), virtual cluster (Virtual Clusters > Apps) or directly into a cluster (Clusters > Apps). 
+
+Apps can also be installed automatically through [virtual cluster templates](./virtual-cluster-templates) or [space templates](./space-templates). 
 
 <figure>
     <img src="/docs/media/ui/apps/apps_space_overview.png" alt="loft Apps" />
@@ -22,54 +26,117 @@ By default, all users that have admin access to a space are able to install apps
 
 ### System Apps
 
-System apps are Helm charts which are installed into the cluster by Loft during the cluster initialization process, i.e. right after connecting the cluster. These apps are managed and upgraded by Loft. You cannot delete or upgrade them manually because this would impact Loft's ability to manage the cluster. Currently, only kiosk is a system app.
+System apps are Helm charts which are installed into the cluster by Loft during the cluster initialization process, i.e. right after connecting the cluster. These apps are managed and upgraded by Loft. You cannot delete or upgrade them manually because this would impact Loft's ability to manage the cluster. Currently, only loft-agent is a system app.
 
-### App Store
+### Other Apps
 
-Loft has the most commonly used Helm Charts already predefined which makes it easy to install over 1,200 Helm charts with just a few clicks.
+In addition to your custom apps, Loft has the most commonly used Helm Charts already predefined which makes it easy to install over 1,200 Helm charts with just a few clicks.
 
-**Recommended Apps:** After connecting a cluster, Loft suggests a few specific popular apps which you can see in the "Clusters > Cluster" tab. Click on one to configure and install it.
+**Recommended Apps:** Apps that are marked as recommended app will show up in one of the apps views 
 **Other Apps:** To install other apps, click on "Explore other apps" and use the searchable select to find charts.
 
-To customize what Apps should be available, take a look at the customization section below.
+To customize what Apps should be available, take a look at the create app or customization section below.
 
 ## Workflows
 
-### Convert an existing Helm Release
+### Define a new App
 
-In Helm v3, Helm creates a Kubernetes secret for each Helm release that contains details about the release. To view such secrets you can execute in the cluster:
-```
-# Show all deployed helm releases in the cluster 
-kubectl get secrets --selector=owner=helm,status=deployed --all-namespaces
-``` 
-In order for Loft to display the Helm releases as apps in the Loft UI, the secret needs a label called `loft.sh/app: true`. 
-To query the Helm releases Loft will display in the UI, you can run:
-```
-# Show all deployed helm releases in the cluster that are marked as loft apps
-kubectl get secrets --selector=owner=helm,status=deployed,loft.sh/app=true --all-namespaces
-```
+Apps can be created either through the Loft UI or kubectl. 
 
-Additionally, there is the label `loft.sh/system-app: true` and the annotation `loft.sh/url: REPO_URL` to provide additional loft specific details about the app.
-Sometimes, it can be useful to "import" an already existing Helm chart by adding the missing labels and annotations. This has the advantage that you can view and manage the Helm release using the Loft UI. With the helper script [`import-helm-release`](https://github.com/loft-sh/loft/blob/master/hack/import-helm-release.sh), you can import Helm releases into Loft.
+<Tabs
+    defaultValue="ui"
+    values={[
+        { label: 'UI', value: 'ui', },
+        { label: 'kubectl', value: 'kubectl', },
+    ]
+}>
+<TabItem value="ui">
 
-:::tip
-If you connected the management cluster (that Loft is running in), you can:
+<figure>
+    <img src="/docs/media/ui/apps/add_app.png" alt="loft Apps" />
+    <figcaption>Add a new app</figcaption>
+</figure>
 
-Import `cert-manager`:
-```bash
-curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io"
-```
+Navigate to the Apps view and click on 'Add App' button. You can configure the following options in the app drawer:
+- Metadata: name of the app that will be used to display the app in other views
+- App Info: icon that is shown if the app is installed as well as a short description and if the app should be shown as recommended app in the Cluster, Space or Virtual Cluster App view
+- App Resources: the actual Kubernetes objects that should be installed by this app. This can either be plain Kubernetes objects or a helm chart:
+  * Kubernetes objects: Plain yaml definition of objects that should get deployed into the space or virtual cluster. Since Loft will wrap those resources in a Helm chart, you can actually use helm templating syntax in those resources, such as `{{ .Release.Namespace }}`.
+  * Helm chart: Definition of a helm chart to deploy as well as the default values to use
+- Access To App: additional users and teams that should be able to access this app object in addition to all existing RBAC rules. As soon as the user or team can view the app they will be able to install an app
 
-Import `nginx-ingress`:
-```bash
-curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "ingress-nginx" "https://kubernetes.github.io/ingress-nginx"
-```
+:::info Apps Authorization
+Loft will install apps by [impersonating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) the user that wants to install the app, which means that if the user is not allowed to install certain resources (e.g. ClusterRoles), the user also won't be able to install an App that contains such resources.
 
-Import `loft` and label it as system app:
-```bash
-curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.loft.sh" true false
-```
+By default, all users that have admin access to a space are able to install apps into that space limited by their RBAC rights. To disable this, remove the RBAC rights for `helmreleases` in the cluster role `loft-cluster-extra-space-admin-rules`.
 :::
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create a `app.yaml` in the following form:
+
+```yaml
+apiVersion: storage.loft.sh/v1
+kind: App
+metadata:
+  name: my-app
+spec:
+  description: My app description
+  recommendedApp:
+    - space
+    - cluster
+  manifests: |-
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: loft-e2e-2
+    spec:
+      restartPolicy: Never
+      containers:
+        - image: busybox
+          name: e2e
+          command: ["sh"]
+          args: ["-c", "exit 0"]
+  access: []
+```
+
+Then apply the app to the cluster where Loft was installed with:
+
+```
+kubectl apply -f app.yaml
+```
+
+</TabItem>
+</Tabs>
+
+### Delete an App
+
+You can either delete an app through the Loft UI or use kubectl. Deleting an app will not delete any already deployed instances of this app.
+
+<Tabs
+    defaultValue="ui"
+    values={[
+        { label: 'UI', value: 'ui', },
+        { label: 'kubectl', value: 'kubectl', },
+    ]
+}>
+<TabItem value="ui">
+
+Navigate to Apps. Then click on the 'Delete' button.
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete the app `my-app` by running the following command in the cluster where Loft is installed in:
+
+```
+kubectl delete app my-app
+```
+
+</TabItem>
+</Tabs>
+
 
 ### Install Apps
 
@@ -85,7 +152,6 @@ You can upgrade (or downgrade) your apps in the UI which essentially performs a 
     <figcaption>Loft UI - Upgrade App</figcaption>
 </figure>
 
-
 ### Uninstall Apps
 Uninstalling an app essentially performs `helm delete`.
 
@@ -98,7 +164,7 @@ Uninstalling an app essentially performs `helm delete`.
 
 ## Customization
 
-### Change App Repositories
+### Change Helm App Repositories
 
 You can customize which Helm repositories should be crawled by Loft. This can be done in the "Admin > Config" tab. In the textbox you can change the `apps` settings. You have several options to customize how Loft will crawl the Helm repositories:
 ```yaml
@@ -136,60 +202,39 @@ Apps crawled from the repository will then be shown as `my-custom-repo/chart` wi
     <figcaption>Loft Apps</figcaption>
 </figure>
 
-### Change Predefined Space Apps
+### Convert an existing Helm Release
 
-You can also specify custom predefined apps that will be displayed in the "Spaces > Apps" tab. This can be done in the "Admin > Config" tab under the `apps` section in the textbox. The following options are available:
-
-```yaml
-# 
-# Specify custom predefined apps. The predefined apps are displayed in Spaces > Apps. 
-#
-apps:
-  # Predefined Apps that are configured here will be displayed in the in the Spaces > Apps view
-  predefinedApps:
-    # Repo name and chart name of the helm chart to deploy
-  - chart: repo/chart
-    # (Optional) Title is the name that should be displayed for the predefined app. 
-    # If empty the chart name is used.
-    title: my-custom-app
-    # (Optional) The version that should be preselected in the create app drawer
-    initialVersion: 0.0.1
-    # (Optional) Values that should be prefilled when selecting the app. Several place holders can
-    # be used that will be replaced by loft:
-    # - ${loft.host} -> The current hostname (e.g. loft.my-domain.com)
-    # - ${loft.cluster} -> The name of the cluster
-    # - ${loft.space} -> The name of the space / namespace
-    # - ${loft.user} -> The name of the user
-    initialValues: >
-      my-values:
-        host: ${loft.host}
-    # (Optional) iconUrl specifies an url to the icon that should be displayed for this app.
-	# If none is specified the icon from the chart metadata is used.
-    iconUrl: http://url-to-my-icon.com/icon.png
-    # (Optional) readmeUrl specifies an url to the readme page of this predefined app. 
-	# If empty an url will be constructed to artifact hub.
-	readmeUrl: http://url-to-readme.com/my-chart/readme
-    # (Optional) Cluster names in which the predefined app should be displayed under Space > Apps. 
-    # If ommitted it is shown in all clusters
-    clusters:
-    - my-local-cluster
+In Helm v3, Helm creates a Kubernetes secret for each Helm release that contains details about the release. To view such secrets you can execute in the cluster:
+```
+# Show all deployed helm releases in the cluster 
+kubectl get secrets --selector=owner=helm,status=deployed --all-namespaces
+``` 
+In order for Loft to display the Helm releases as apps in the Loft UI, the secret needs a label called `loft.sh/app: true`.
+To query the Helm releases Loft will display in the UI, you can run:
+```
+# Show all deployed helm releases in the cluster that are marked as loft apps
+kubectl get secrets --selector=owner=helm,status=deployed,loft.sh/app=true --all-namespaces
 ```
 
-For example, if you want to specify a mysql example app, enter the following into the textbox and press apply:
-```yaml
-apps:
-  predefinedApps:
-    - chart: bitnami/mysql
-      initialValues: |
-        auth:
-          rootPassword: ${loft.user}-${loft.space}
-      title: easy-mysql
-      readmeUrl: 'https://artifacthub.io/packages/helm/bitnami/mysql'
+Additionally, there is the label `loft.sh/system-app: true` and the annotation `loft.sh/url: REPO_URL` to provide additional loft specific details about the app.
+Sometimes, it can be useful to "import" an already existing Helm chart by adding the missing labels and annotations. This has the advantage that you can view and manage the Helm release using the Loft UI. With the helper script [`import-helm-release`](https://github.com/loft-sh/loft/blob/master/hack/import-helm-release.sh), you can import Helm releases into Loft.
+
+:::tip
+If you connected the management cluster (that Loft is running in), you can:
+
+Import `cert-manager`:
+```bash
+curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io"
 ```
 
-After a short waiting period, Loft will display the app in the "Spaces > Apps" tab:
+Import `nginx-ingress`:
+```bash
+curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "ingress-nginx" "https://kubernetes.github.io/ingress-nginx"
+```
 
-<figure>
-    <img src="/docs/media/ui/apps/mysql_example.png" alt="loft Apps" />
-    <figcaption>mysql example predefined app</figcaption>
-</figure>
+Import `loft` and label it as system app:
+```bash
+curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "loft" "https://charts.loft.sh" true false
+```
+:::
+

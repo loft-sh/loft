@@ -64,6 +64,8 @@ module.exports = {
         'multi-tenancy/templates',
         'multi-tenancy/shared-secrets',
         'multi-tenancy/apps',
+        'multi-tenancy/space-templates',
+        'multi-tenancy/virtual-cluster-templates'
       ],
     },
     {
