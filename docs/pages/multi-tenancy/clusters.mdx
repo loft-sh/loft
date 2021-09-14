@@ -8,10 +8,10 @@ import TabItem from '@theme/TabItem'
 import ConnectLoftClusterFragment from '../fragments/clusters/connect-loft-cluster.mdx'
 import ConnectOtherClusterFragment from '../fragments/clusters/connect-other-cluster.mdx'
 
-With Loft, you can manage clusters, cluster access, namespaces as well as applications running inside your clusters.
+With Loft, you can manage clusters, cluster access, namespaces, virtual clusters as well as applications running inside your connected clusters.
 
 ## Connect Clusters
-To manage a cluster with Loft, you must first connect the cluster to your Loft instance. You can also connect the cluster that Loft is running inside (Loft cluster), so you can manage this cluster using Loft as well.
+To manage a cluster within Loft, you must first connect the cluster to your Loft instance. You can also connect the cluster that Loft is running inside (Loft cluster), so you can manage this cluster using Loft as well.
 
 ### Loft Cluster
 
@@ -88,11 +88,11 @@ Loft allows you to reset certain parts of a connected cluster, such as:
 
 To reset a cluster, navigate to the *Clusters* view and press on the *Reset* button in the *Actions* column.
 
-### Disable Kiosk
+### Disable Loft Agent
 
-There might be cases where you don't want Loft to automatically handle kiosk updates for you and you want to manually install or upgrade kiosk. This can be achieved either by setting the environment variable `DISABLE_KIOSK` to `true` in the Loft container or by setting the annotation `loft.sh/cluster-ignore-kiosk: true` on a single or multiple connected clusters.
+There might be cases where you don't want Loft to automatically handle loft-agent updates for you and you want to manually install or upgrade the loft agent. This can be achieved either by setting the environment variable `DISABLE_AGENT` to `true` in the Loft container or by setting the annotation `loft.sh/cluster-ignore-agent: 'true'` on a connected cluster.
 
 :::warning
-If you do not install kiosk in a connected cluster, certain functionality, such as Spaces, Accounts, Account Quotas & Templates will not be available in the cluster
+If you do not install loft agent into a connected cluster at all, certain functionality, such as Spaces, Virtual Clusters, Apps, Accounts, Account Quotas & Security Templates will not be available in the cluster
 :::
 
