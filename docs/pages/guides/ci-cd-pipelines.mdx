@@ -12,10 +12,10 @@ When using Loft in a CI/CD pipeline to create namespaces and virtual cluster, th
 1. You might want to generate your kube configs manually
 2. You may want to use the [offical `loftsh/loft-ci` image](#using-the-container-image) in a containerized CI/CD pipeline
 3. You definitely want to [authenticate using Access Keys](#authentication) in either case
-4. If using GitHub Actions for CI/CD see the section on [Using GitHub Actions](#using-github-actions)
-5. If using GitLab for CI/CD  see [Using GitLab CI/CD Pipelines](#using-gitlab-cicd-pipelines)
+4. If using GitHub Actions for CI/CD see the section on [Using GitHub Actions](#github-actions)
+5. If using GitLab for CI/CD  see [Using GitLab CI/CD Pipelines](#gitlab-cicd)
 
-## Accessing Loft
+## Authentication & Cluster Access
 
 You can easily construct a kube config that can be used directly in any external CI/CD pipeline or tool to access a space, connected cluster or vcluster directly. For this you'll only need an [access key](#authentication).
 
@@ -166,19 +166,21 @@ RUN chmod +x /bin/loft
 
 <LoginAccessKeysFragment/>
 
-## Using GitHub Actions
+## Integrations
+
+### GitHub Actions
 
 Loft provides the following GitHub Actions for use in workflows:
 - [Setup DevSpace](https://github.com/loft-sh/setup-devspace): Installs the `devspace` CLI
 - [Setup Loft](https://github.com/loft-sh/setup-loft): Installs the `loft` CLI and logs in to the Loft instance
-- [Create Space](https://github.com/loft-sh/create-space): Creates a Loft Space
-- [Delete Space](https://github.com/loft-sh/delete-space): Deletes a Loft Space
-- [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster): Creates a Loft Virtual Cluster
-- [Delete Virtual Cluster](https://github.com/loft-sh/delete-vcluster): Deletes a Loft Virtual Cluster
+- [Create Space](https://github.com/loft-sh/create-space): Creates a Space
+- [Delete Space](https://github.com/loft-sh/delete-space): Deletes a Space
+- [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster): Creates a Virtual Cluster
+- [Delete Virtual Cluster](https://github.com/loft-sh/delete-vcluster): Deletes a Virtual Cluster
 
-### Using a Space for Pull Requests
+#### Spaces for Pull Requests
 
-These examples show how to create and delete a Loft Space for pull requests.
+These examples show how to create and delete Spaces for pull requests.
 
 <Tabs
     defaultValue="manual"
@@ -208,7 +210,7 @@ jobs:
         with:
           url: ${{ secrets.LOFT_URL }}
           access-key: ${{ secrets.LOFT_ACCESS_KEY }}
-      - name: Create PR Space
+      - name: Create Space for PR
         uses: loft-sh/create-space@main
         with:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
@@ -224,7 +226,7 @@ jobs:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
 2. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps.
 3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
@@ -253,7 +255,7 @@ jobs:
         with:
           url: ${{ secrets.LOFT_URL }}
           access-key: ${{ secrets.LOFT_ACCESS_KEY }}
-      - name: Create PR Space
+      - name: Create Space for PR
         uses: loft-sh/create-space@main
         with:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
@@ -266,7 +268,7 @@ jobs:
         run: make e2e
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
 2. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the space after the job completes.
 3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
@@ -296,7 +298,7 @@ jobs:
         with:
           url: ${{ secrets.LOFT_URL }}
           access-key: ${{ secrets.LOFT_ACCESS_KEY }}
-      - name: Create PR Space
+      - name: Create Space for PR
         uses: loft-sh/create-space@main
         with:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
@@ -305,7 +307,7 @@ jobs:
         run: devspace run e2e
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The [Setup DevSpace](https://github.com/loft-sh/setup-devspace) action installs the DevSpace CLI.
 2. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
 3. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the space after the job completes.
@@ -314,9 +316,9 @@ jobs:
 </TabItem>
 </Tabs>
 
-### Using a Virtual Cluster for Pull Requests
+#### Virtual Clusters for Pull Requests
 
-These examples show how to create and delete a Loft Virtual Cluster for pull requests.
+These examples show how to create and delete Virtual Clusters for pull requests.
 
 <Tabs
     defaultValue="manual"
@@ -346,7 +348,7 @@ jobs:
         with:
           url: ${{ secrets.LOFT_URL }}
           access-key: ${{ secrets.LOFT_ACCESS_KEY }}
-      - name: Create PR Virtual Cluster
+      - name: Create Virtual Cluster for PR
         uses: loft-sh/create-vcluster@main
         with:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
@@ -362,7 +364,7 @@ jobs:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
 2. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps.
 3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
@@ -392,7 +394,7 @@ jobs:
         with:
           url: ${{ secrets.LOFT_URL }}
           access-key: ${{ secrets.LOFT_ACCESS_KEY }}
-      - name: Create PR Virtual Cluster
+      - name: Create Virtual Cluster for PR
         uses: loft-sh/create-vcluster@main
         with:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
@@ -405,7 +407,7 @@ jobs:
         run: make e2e
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
 2. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the virtual cluster after the job completes.
 3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
@@ -436,7 +438,7 @@ jobs:
         with:
           url: ${{ secrets.LOFT_URL }}
           access-key: ${{ secrets.LOFT_ACCESS_KEY }}
-      - name: Create PR Virtual Cluster
+      - name: Create Virtual Cluster for PR
         uses: loft-sh/create-vcluster@main
         with:
           name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
@@ -445,7 +447,7 @@ jobs:
         run: devspace run e2e
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The [Setup DevSpace](https://github.com/loft-sh/setup-devspace) action installs the DevSpace CLI.
 2. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
 3. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the virtual cluster after the job completes.
@@ -456,13 +458,13 @@ jobs:
 
 </Tabs>
 
-## Using GitLab CI/CD Pipelines
+### GitLab CI/CD
 
 When using Loft with GitLab you can use the [official `loft-ci` image](https://hub.docker.com/r/loftsh/loft-ci) as either a base image or directly. See [Using the Container Image](#using-the-container-image) for details on the available tools. If additional tooling is needed for your CI/CD process, a custom image can be created.
 
-### Using Spaces for Merge Requests
+#### Spaces for Merge Requests
 
-This example shows how to create and delete a Loft Space for running end-to-end tests for the default branch and merge requests. It assumes you have configured CI/CD variables `LOFT_URL` and `LOFT_ACCESS_KEY`.
+This example shows how to create and delete a Space for running end-to-end tests for the default branch and merge requests. It assumes you have configured CI/CD variables `LOFT_URL` and `LOFT_ACCESS_KEY`.
 
 ```yaml {}
 image: loftsh/loft-ci
@@ -488,7 +490,7 @@ e2e:
 
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The `loftsh/loft-ci` image is used for all pipeline jobs and provides the `loft` CLI, the `devspace` CLI, and `kubectl`.
 2. The `before_script` first logs in to loft using the `$LOFT_URL` and `$LOFT_ACCESS_KEY` variables that you defined in GitLab. [See the GitLab docs for more information](https://docs.gitlab.com/ee/ci/variables/)
 3. The `before_script` then creates a space using [predefined GitLab variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html) to create a unique name for the space.
@@ -496,9 +498,9 @@ e2e:
 5. Then the `script` section uses `kubectl` to deploy the application to the space and waits for the `my-app` deployment to become ready. `make` is then used to run an end-to-end test suite.
 6. Finally `after_script` deletes the space. By using `after_script` we can ensure the space is deleted even if the tests fail.
 
-### Using Virtual Clusters for Merge Requests
+#### Virtual Clusters for Merge Requests
 
-This example shows how to create and delete a Loft Virtual Cluster for running end-to-end tests for the default branch and merge requests. It assumes you have configured CI/CD variables `LOFT_URL` and `LOFT_ACCESS_KEY`.
+This example shows how to create and delete a Virtual Cluster for running end-to-end tests for the default branch and merge requests. It assumes you have configured CI/CD variables `LOFT_URL` and `LOFT_ACCESS_KEY`.
 
 ```yaml
 image: loftsh/loft-ci
@@ -524,7 +526,7 @@ e2e:
 
 ```
 
-#### Step by Step Explanation
+**Explanation:**
 1. The `loftsh/loft-ci` image is used for all pipeline jobs and provides the `loft` CLI, the `devspace` CLI, and `kubectl`.
 2. The `before_script` first logs in to loft using the `$LOFT_URL` and `$LOFT_ACCESS_KEY` variables that you defined in GitLab. [See the GitLab docs for more information](https://docs.gitlab.com/ee/ci/variables/)
 3. The `before_script` then creates a virtual cluster using [predefined GitLab variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html) to create a unique name.
