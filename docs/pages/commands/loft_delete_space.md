@@ -10,7 +10,7 @@ Deletes a space from a cluster
 
 
 ```
-loft delete space [flags]
+loft delete space [name] [flags]
 ```
 
 ```
@@ -20,7 +20,6 @@ loft delete space [flags]
 Deletes a space from a cluster.
 
 Example:
-loft delete space 
 loft delete space myspace
 loft delete space myspace --cluster mycluster
 #######################################################

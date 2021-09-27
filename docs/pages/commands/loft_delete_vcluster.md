@@ -10,7 +10,7 @@ Deletes a virtual cluster from a cluster
 
 
 ```
-loft delete vcluster [flags]
+loft delete vcluster [name] [flags]
 ```
 
 ```
