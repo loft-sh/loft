@@ -13,7 +13,7 @@ spec:
   email: {{ .Values.admin.email }}
   {{- end }}
   groups: ["system:masters"]
-  subject: loft-admin
+  subject: admin
   {{- if ne .Values.admin.password "" }}
   passwordRef:
     secretName: loft-user-secret-admin
