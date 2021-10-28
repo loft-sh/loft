@@ -14,8 +14,8 @@
     "classnames": "^2.2.6",
     "docusaurus-gtm-plugin": "^0.0.2",
     "mdx-link-checker": "^0.0.7",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "browserslist": {
     "production": [
