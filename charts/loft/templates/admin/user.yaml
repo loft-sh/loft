@@ -12,7 +12,7 @@ spec:
   {{- if .Values.admin.email }}
   email: {{ .Values.admin.email }}
   {{- end }}
-  groups: ["system:masters"]
+  groups: ["loft:admins"]
   subject: admin
   {{- if ne .Values.admin.password "" }}
   passwordRef:
@@ -20,6 +20,7 @@ spec:
     secretNamespace: {{ .Release.Namespace }}
     key: password
   {{- end }}
+{{- end }}
 ---
 {{- if .Values.admin.password }}
 apiVersion: v1
@@ -28,10 +29,8 @@ metadata:
   name: loft-user-secret-admin
   namespace: {{ .Release.Namespace }}
   annotations:
-    helm.sh/resource-policy: keep
     helm.sh/hook: pre-install
 data:
   password: {{ .Values.admin.password | sha256sum | b64enc }}
-{{- end }}
 {{- end }}
 {{- end }}
