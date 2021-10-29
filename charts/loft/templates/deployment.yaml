@@ -36,8 +36,8 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       serviceAccountName: {{ template "loft.serviceAccountName" . }}
-      {{- if .Values.volumes }}
       volumes:
+      {{- if .Values.volumes }}
 {{ toYaml .Values.volumes | indent 8 }}
       {{- end }}
       containers:
