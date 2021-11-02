@@ -1,11 +1,9 @@
 {{- if .Values.admin.create }}
-{{- if not (lookup "storage.loft.sh/v1" "User" "" (include "loft.admin.name" .)) }}
 apiVersion: storage.loft.sh/v1
 kind: User
 metadata:
   name: {{ include "loft.admin.name" . }}
   annotations:
-    helm.sh/resource-policy: keep
     helm.sh/hook: pre-install
 spec:
   username: {{ .Values.admin.username }}
@@ -20,7 +18,6 @@ spec:
     secretNamespace: {{ .Release.Namespace }}
     key: password
   {{- end }}
-{{- end }}
 ---
 {{- if .Values.admin.password }}
 apiVersion: v1
