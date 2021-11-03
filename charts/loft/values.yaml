@@ -127,3 +127,10 @@ certIssuer:
 
 # Additional labels for the loft pod
 # podLabels: {}
+
+# Additional options for audit logging
+audit:
+  enableSideCar: false
+  image: library/alpine:3.13.1
+  # Audit log level to use, valid log levels are 1, 2 or 3
+  level: 0

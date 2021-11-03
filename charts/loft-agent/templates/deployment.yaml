@@ -40,6 +40,12 @@ spec:
       {{- if .Values.volumes }}
 {{ toYaml .Values.volumes | indent 8 }}
       {{- end }}
+      {{- if .Values.audit }}
+      {{- if .Values.audit.enableSideCar }}
+      - name: audit-log
+        emptyDir: {}
+      {{- end }}
+      {{- end }}
       containers:
       - name: agent
         {{- if .Values.image }}
@@ -98,12 +104,29 @@ spec:
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        {{- if .Values.volumeMounts }}
         volumeMounts:
+        {{- if .Values.volumeMounts }}
 {{ toYaml .Values.volumeMounts | indent 10 }}
+        {{- end }}
+        {{- if .Values.audit }}
+        {{- if .Values.audit.enableSideCar }}
+        - mountPath: /var/log/loft
+          name: audit-log
+        {{- end }}
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+      {{- if .Values.audit }}
+      {{- if .Values.audit.enableSideCar }}
+      - name: audit
+        image: "{{ .Values.audit.image }}"
+        command: ["sh"]
+        args: ["-c", "touch /var/log/loft/audit.log && tail -F /var/log/loft/audit.log"]
+        volumeMounts:
+          - mountPath: /var/log/loft
+            name: audit-log
+      {{- end }}
+      {{- end }}
       {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
