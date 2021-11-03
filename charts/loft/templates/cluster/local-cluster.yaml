@@ -4,7 +4,6 @@ kind: Cluster
 metadata:
   name: loft-cluster
   annotations:
-    helm.sh/resource-policy: keep
     helm.sh/hook: pre-install
 spec:
   displayName: "Local Cluster"
