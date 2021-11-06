@@ -64,7 +64,7 @@ admin:
 
 # Ingress options to use loft behind an ingress
 ingress:
-  enabled: true
+  enabled: false
   name: loft-ingress
   host: loft.mydomain.tld
   ingressClass: nginx
