@@ -13,6 +13,9 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+    {{- with .Values.ingress.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.ingressClass }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
@@ -20,9 +23,9 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8 32k"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
     nginx.org/websocket-services: loft
-  {{- if .Values.ingress.tls.enabled }}
-    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer }}
-  {{- end }}
+    {{- with .Values.ingress.annotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   rules:
     - host: {{ .Values.ingress.host }}

@@ -1,3 +1,57 @@
+# If an admin user should be created during deployment
+admin:
+  create: true
+  username: admin
+  password: "my-password"
+
+# This option automatically connects the local
+# cluster to loft and creates an admin account 
+# in there
+cluster:
+  connect:
+    local: true
+
+# Loft service options
+service:
+  type: ClusterIP
+  # labels: {}            # {key: value} map of labels for the service
+  # annotations: {}       # {key: value} map of annotations for the service
+
+# Ingress options to use loft behind an ingress
+ingress:
+  enabled: false
+  name: loft-ingress
+  # labels: {}            # {key: value} map of labels for the ingress
+  # annotations: {}       # {key: value} map of annotations for the ingress
+  host: loft.mydomain.tld
+  ingressClass: nginx
+  path: /
+  tls:
+    enabled: true
+    secret: tls-loft
+    clusterIssuer: lets-encrypt-http-issuer
+
+# TLS configuration with a custom cert and key
+# Make sure the secret exists prior to deploying loft,
+# otherwise the loft pod will not be able to start
+tls:
+  enabled: false
+  secret: loft-tls
+  crtKey: tls.crt
+  keyKey: tls.key
+
+# Additional annotations for the loft deployment
+# annotations: {}
+
+# Additional labels for the loft deployment
+# labels: {}
+
+# Additional annotations for the loft pod
+# podAnnotations: {}
+
+# Additional labels for the loft pod
+# podLabels: {}
+
 # Default values for loft deployment.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -16,68 +70,6 @@ env: {}
 #     key: username
 envValueFrom: {}
 
-# Additional volumes that should be mounted to the loft deployment
-volumes: []
-
-# Additional volume mounts that should be mounted into the loft container
-volumeMounts: []
-
-# Prometheus Service Monitor Configuration
-serviceMonitor:
-  enabled: false
-  jobLabel: loft
-  targetPort: 80
-  path: /metrics
-  interval: 60s
-  scrapeTimeout: 30s
-  labels: {}
-
-# TLS configuration with a custom cert and key
-# Make sure the secret exists prior to deploying loft,
-# otherwise the loft pod will not be able to start
-tls:
-  enabled: false
-  secret: loft-tls
-  crtKey: tls.crt
-  keyKey: tls.key
-
-# If the readinessProbe should be enabled
-readinessProbe:
-  enabled: true
-
-# If the livenessProbe should be enabled
-livenessProbe:
-  enabled: true
-
-# This option automatically connects the local
-# cluster to loft and creates an admin account 
-# in there
-cluster:
-  connect:
-    local: true
-
-# If an admin user should be created during deployment
-admin:
-  create: true
-  username: admin
-  password: "my-password"
-
-# Ingress options to use loft behind an ingress
-ingress:
-  enabled: false
-  name: loft-ingress
-  host: loft.mydomain.tld
-  ingressClass: nginx
-  path: /
-  tls:
-    enabled: true
-    secret: tls-loft
-    clusterIssuer: lets-encrypt-http-issuer
-
-# Loft service options
-service:
-  type: ClusterIP
-
 # Replica amount of the loft deployment
 replicaCount: 1
 
@@ -89,6 +81,20 @@ resources:
   limits:
     memory: 2Gi
     cpu: "2"
+
+# Additional volumes that should be mounted to the loft deployment
+volumes: []
+
+# Additional volume mounts that should be mounted into the loft container
+volumeMounts: []
+
+# If the readinessProbe should be enabled
+readinessProbe:
+  enabled: true
+
+# If the livenessProbe should be enabled
+livenessProbe:
+  enabled: true
 
 # If an extension api service should be registered for 
 # the loft apis in kubernetes
@@ -116,21 +122,19 @@ certIssuer:
     ingressClass: nginx
   resolvers: []
 
-# Additional annotations for the loft deployment
-# annotations: {}
-
-# Additional labels for the loft deployment
-# labels: {}
-
-# Additional annotations for the loft pod
-# podAnnotations: {}
-
-# Additional labels for the loft pod
-# podLabels: {}
-
 # Additional options for audit logging
 audit:
   enableSideCar: false
   image: library/alpine:3.13.1
   # Audit log level to use, valid log levels are 1, 2 or 3
   level: 0
+
+# Prometheus Service Monitor Configuration
+serviceMonitor:
+  enabled: false
+  jobLabel: loft
+  targetPort: 80
+  path: /metrics
+  interval: 60s
+  scrapeTimeout: 30s
+  labels: {}
