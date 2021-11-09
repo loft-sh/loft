@@ -1,0 +1,14 @@
+{{- if .Values.audit }}
+{{- if .Values.audit.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "loft.fullname" . }}-audit
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: {{ .Values.audit.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.audit.persistence.size }}
+{{- end }}
+{{- end }}
