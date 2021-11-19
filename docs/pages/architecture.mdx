@@ -8,7 +8,7 @@ Loft consists of several components:
 - **Kubernetes API Server**: The local Kubernetes API server contains the business logic of Loft and introduces a new API group `management.loft.sh`.
 - **Kubernetes Operator**: This component watches for changes to User, Team and Cluster objects in the management cluster.
 
-The Loft pod itself is stateless and everything that is stored is stored within Kubernetes custom resource definitions. Most communication (except some OIDC and authentication routes) is done via Kubernetes requests that access the local Loft Kubernetes API server.
+The Loft pod itself is stateless and everything that is stored within Kubernetes custom resource definitions. Most communication (except some OIDC and authentication routes) is done via Kubernetes requests that access the local Loft Kubernetes API server.
 
 <figure>
   <img src="/docs/media/loft-architecture.svg" alt="loft Architecture" />
