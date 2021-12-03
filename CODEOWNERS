@@ -1,0 +1,8 @@
+# Default code owner team (other rules below take precendence)
+*                                   @loft-sh/code-maintainers
+
+# Owned by docs team
+/docs/                              @loft-sh/docs-maintainers
+/README.md                          @loft-sh/docs-maintainers
+Chart.yaml                          @loft-sh/docs-maintainers
+netlify.toml                        @loft-sh/docs-maintainers
