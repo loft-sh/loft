@@ -1,0 +1,61 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'CLI', value: 'cli', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/v1/ui/vclusters/create-vcluster.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Create Virtual Cluster</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="cli">
+
+Run this command to create a virtual cluster:
+```bash
+loft create vcluster [VCLUSTER_NAME]   # optional flag: --cluster=[CLUSTER_NAME]
+```
+
+Creating a virtual cluster using the CLI will automatically configure a kube-context on your local machine for this vcluster.
+
+With the kube-context of the vcluster, you can run any kubectl command within the virtual cluster:
+```bash
+kubectl get namespaces
+```
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create the file `vcluster.yaml`:
+```yaml
+apiVersion: storage.loft.sh/v1
+kind: VirtualCluster
+metadata:
+  name: [VCLUSTER_NAME]                     # REPLACE THIS
+  namespace: [VCLUSTER_NAMESPACE]           # REPLACE THIS
+spec:
+  helmRelease:
+    values: >-
+      virtualCluster:
+        image: rancher/k3s:v1.21.2-k3s1
+        extraArgs:
+          - --service-cidr=[VCLUSTER_SERVICE_CIDR] # REPLACE THIS
+```
+
+Create the virtual cluster using `kubectl`:
+```bash
+kubectl apply -f vcluster.yaml
+```
+
+</TabItem>
+</Tabs>

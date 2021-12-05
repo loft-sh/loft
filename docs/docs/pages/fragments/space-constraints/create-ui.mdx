@@ -1,0 +1,34 @@
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Input from '@site/src/components/Input'
+import Expander from '@site/src/components/Expander'
+
+import CreateSpaceStep1 from '@site/static/media/ui/screenshots/auth/login/login.png'
+import CreateSpaceStep2 from '@site/static/media/ui/screenshots/spaces/create-space/button-open-drawer.png'
+
+
+<Flow id="create-space-constraints-ui">
+  <Step>
+    Go to the <NavStep>Clusters</NavStep> view using the menu on the left
+  </Step>
+  <Step>
+    Switch to the <Label>Space Constraints</Label> tab
+  </Step>
+  <Step>
+    Click the <Button>Create Space Constraints</Button> button to create a new space constraints object
+  </Step>
+  <Step>
+    In the drawer that appears on the right, use the field <Label>Display Name</Label> to specify a <Input>Name</Input> for your space constraints object
+  </Step>
+  <Step>
+    Expand the <Expander>Enforce Resources</Expander> section to specify manifests that should be deployed to and enforced in each namespace that is affected by these space constraints
+  </Step>
+  <Step>
+    Expand the <Expander>Enforce Space Settings</Expander> section to specify other space settings such as sleep mode, auto-delete, labels and annotations that should be enforced for each namespace that is affected by these space constraints
+  </Step>
+  <Step>
+    On the very bottom, click on the <Button>Create</Button> button to create this space constraints object
+  </Step>
+</Flow>

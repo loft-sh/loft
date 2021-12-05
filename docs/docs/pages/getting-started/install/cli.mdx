@@ -1,0 +1,45 @@
+---
+title: Install via Loft CLI
+sidebar_label: via Loft CLI
+pagination_next: getting-started/cluster-access
+---
+
+import Image from '@site/src/components/Image'
+import InstallCLIFragment from '../../fragments/cli/install.mdx'
+import FragmentHintWarningAcceptInsecureCert from '../../fragments/hints/warning-accept-insecure-cert.mdx'
+import ImageLoginPage from '@site/static/media/ui/screenshots/auth/login/login.png'
+
+Loft can be deployed via Helm, kubectl, Terraform, ArgoCD, Flux, and many other tools.
+
+Using Loft CLI is the easiest way to deploy Loft to a Kubernetes cluster. If you decide later on that you want to manage your Loft instance via GitOps, you can export the applied Kubernetes manifests or the Helm chart configuration and store this data in a git repository.
+
+
+## 1. Download CLI
+Use one of the following commands to download the Loft CLI binary from GitHub:
+
+<InstallCLIFragment/>
+
+
+## 2. Deploy Loft
+Make sure you are using the correct kube-context via `kubectl config current-context` and then run:
+```bash
+loft start
+```
+The CLI will ask for your email address to create the admin user and then deploy Loft via Helm to your cluster.
+
+:::tip Troubleshooting
+Your Loft pod is not starting or the UI is not showing up? View our **[Troubleshooting Guide](../../getting-started/install/troubleshooting.mdx)** if you have any issues.
+:::
+
+
+## 3. Login
+While `loft start` is running in the background, open a second terminal window and sign in via the CLI:
+```bash
+loft login https://localhost:9898  --insecure     # See `loft start` output for login credentials
+```
+
+This command will open the browser where you can sign in using the login data shown in the output of `loft start`.
+
+<FragmentHintWarningAcceptInsecureCert/>
+
+<Image src={ImageLoginPage} />

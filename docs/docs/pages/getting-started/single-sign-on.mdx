@@ -1,0 +1,48 @@
+---
+title: Configure Single Sign-On For Loft
+sidebar_label: 5. Add Single Sign-On
+---
+
+import FragmentAuthOkta from '../fragments/auth/sso/okta.mdx'
+import FragmentAuthSAML from '../fragments/auth/sso/saml.mdx'
+import FragmentAuthLDAP from '../fragments/auth/sso/ldap.mdx'
+import FragmentAuthGitHub from '../fragments/auth/sso/github.mdx'
+import FragmentAuthGitLab from '../fragments/auth/sso/gitlab.mdx'
+import FragmentAuthOther from '../fragments/auth/sso/generic.mdx'
+
+
+Loft supports all major SSO providers.
+
+:::caution Domain Required
+Most SSO provider connections do not allow `localhost` and require that you [set up a domain for your Loft instance](../getting-started/domain.mdx) first.
+:::
+
+<details>
+  <summary>Okta</summary>
+  <FragmentAuthOkta/>
+</details>
+
+<details>
+  <summary>SAML 2.0</summary>
+  <FragmentAuthSAML/>
+</details>
+
+<details>
+  <summary>LDAP</summary>
+  <FragmentAuthLDAP/>
+</details>
+
+<details>
+  <summary>GitHub</summary>
+  <FragmentAuthGitHub/>
+</details>
+
+<details>
+  <summary>GitLab</summary>
+  <FragmentAuthGitLab/>
+</details>
+
+<details>
+  <summary>Other (OIDC, Google, Microsoft, ...)</summary>
+  <FragmentAuthOther/>
+</details>

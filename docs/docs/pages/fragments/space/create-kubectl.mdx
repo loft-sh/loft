@@ -1,0 +1,40 @@
+import Flow, { Step } from '@site/src/components/Flow'
+
+
+<Flow id="create-space-kubectl">
+  <Step>
+
+If you do not have a kube-context for the cluster where this space should be created in, you can set up a kube-context using:
+```bash
+loft use cluster [cluster-name]
+```
+
+  </Step>
+  <Step>
+
+Create a file named `space.yaml` with the following content:
+```yaml {4}
+apiVersion: cluster.loft.sh/v1
+kind: Space
+metadata:
+  name: space-name        # Set the name for your space here
+```
+
+  </Step>
+  <Step>
+
+Create the space using kubectl:
+```bash
+kubectl apply -f space.yaml
+```
+
+  </Step>
+  <Step>
+
+Retrieve a kube-context for this space using Loft CLI:
+```bash
+loft use space [space-name]
+```
+
+  </Step>
+</Flow>

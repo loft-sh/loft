@@ -1,0 +1,8 @@
+To create a virtual cluster using Loft CLI, run:
+```bash
+loft create vcluster [vcluster-name]
+```
+
+:::info Kube-Context
+Running `loft create vcluster` will automatically add a kube-context to your kube-config file, so you can immediately run `kubectl` commands right after creating a virtual cluster.
+:::

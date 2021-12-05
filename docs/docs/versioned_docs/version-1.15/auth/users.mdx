@@ -1,0 +1,89 @@
+---
+title: Users
+sidebar_label: Users
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+import CreateUserFragment from '../fragments/auth/create-user.mdx'
+import ImagePullSecrets from '../fragments/sharedsecrets/image-pull-secrets.mdx'
+
+Loft provides different [authentication mechanisms including password-based authentication and several single sign-on (SSO) options](../getting-started/auth.mdx).
+
+## Workflows
+
+### Add Users
+
+<CreateUserFragment/>
+
+
+### Reset Passwords
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/v1/ui/auth/reset-password.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Reset Password</figcaption>
+</figure>
+
+
+### Delete Users
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    { label: 'UI', value: 'ui', },
+    { label: 'kubectl', value: 'kubectl', },
+  ]
+}>
+<TabItem value="ui">
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/v1/ui/auth/delete-user.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Delete User</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete a user using `kubectl`:
+```bash
+# IMPORTANT: Make sure to switch to the context of the Loft management cluster!
+kubectl delete user [USER_NAME]
+```
+
+</TabItem>
+</Tabs>
+
+:::warning Data Loss
+Deleting a user will also delete all cluster accounts that are owned solely by this user. [Deleting these accounts in turn will also delete other related objects](../multi-tenancy/accounts.mdx#delete-accounts) such as account quotas and spaces.
+:::
+
+
+### Disable Users
+
+Its possible to disable users that will prevent them from accessing Loft. You can disable an user in the UI under the Users tab. Disabled users will not be able to login anymore and all there currently active sessions will be terminated. However, all spaces, accounts and other user related objects will not be changed.
+
+<figure class="frame">
+  <img src="/docs/media/v1/ui/auth/disable-user.png" alt="Disable User" />
+  <figcaption>Disable an User in Loft</figcaption>
+</figure>
+
+## Cluster Roles
+Loft provides an ClusterRole named `loft-management-admin` that can be assigned to users. This role will allow users to manage all Loft-related ressources within the Loft cluster, i.e. user, cluster, team etc.
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/v1/ui/auth/user-loft-cluster-roles.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Loft ClusterRoles</figcaption>
+</figure>
+
+## Image Pull Secrets
+
+Image pull secrets can be used to automatically login users to specified container image registries as soon as they run `loft login` (no locally installed docker needed). 
+
+<ImagePullSecrets />

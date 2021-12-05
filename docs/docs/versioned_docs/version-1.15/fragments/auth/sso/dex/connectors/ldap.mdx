@@ -1,0 +1,77 @@
+Create the file `dex-config.yaml` with the following dex configuration:
+```yaml {4,6,12,23-24,26-42,44-58,61-64}
+ingress:
+  enabled: true
+  hosts:
+  - dex.yourcompany.tld                                   # Use $DEX_HOSTNAME
+config:
+  issuer: https://dex.yourcompany.tld                     # "https://" + $DEX_HOSTNAME
+  connectors:
+  - type: ldap
+    id: ldap
+    name: LDAP
+    config:
+      host: myldap.company.tld:636                        # Your LDAP server hostname:port
+      # insecureNoSSL: true                               # Not recommended but required if not using TLS (port 389)
+      # insecureSkipVerify: true                          # Not recommended but required for self-signed certificates
+      # rootCAData: ( base64 encoded PEM file )
+      # startTLS: true                                    # Use ldap:// instead of ldaps:// protocol
+
+      # The DN and password for an application service account. The connector uses
+      # these credentials to search for users and groups. Not required if the LDAP
+      # server provides access for anonymous auth.
+      # Please note that if the bind password contains a `$`, it has to be saved in an
+      # environment variable which should be given as the value to `bindPW`.
+      bindDN: uid=serviceaccount,cn=users,dc=example,dc=com
+      bindPW: password
+
+      # User search maps a username and password entered by a user to a LDAP entry.
+      userSearch:
+        # BaseDN to start the search from. It will translate to the query
+        # "(&(objectClass=person)(uid=<username>))".
+        baseDN: cn=users,dc=example,dc=com
+        # Optional filter to apply when searching the directory.
+        filter: "(objectClass=person)"
+        # username attribute used for comparing user entries. This will be translated
+        # and combined with the other filter as "(<attr>=<username>)".
+        username: uid
+        # The following three fields are direct mappings of attributes on the user entry.
+        # String representation of the user.
+        idAttr: uid
+        # Required. Attribute to map to Email.
+        emailAttr: mail
+        # Maps to display name of users. No default value.
+        nameAttr: name
+
+      # Group search queries for groups given a user entry.
+      groupSearch:
+        # BaseDN to start the search from. It will translate to the query
+        # "(&(objectClass=group)(member=<user uid>))".
+        baseDN: cn=groups,dc=freeipa,dc=example,dc=com
+        # Optional filter to apply when searching the directory.
+        filter: "(objectClass=group)"
+        # Represents group name.
+        nameAttr: name
+        # Following list contains field pairs that are used to match a user to a group. It adds an additional
+        # requirement to the filter that an attribute in the group must match the user's
+        # attribute value.
+        userMatchers:
+        - userAttr: uid
+          groupAttr: member
+  staticClients:
+  - name: Loft
+    id: loft                                              # Define a $DEX_CLIENT_ID
+    secret: XXXXXXXXXXXXXX                                # Define a $DEX_CLIENT_SECRET (can be any secret key)
+    redirectURIs:
+    - 'https://loft.mycompany.tld/auth/oidc/callback'     # Loft URL + /auth/oidc/callback
+  oauth2:
+    skipApprovalScreen: true
+  web:
+    http: 0.0.0.0:5556
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+```
+
+For details about configuring dex for LDAP, take a look at the [dex documentation for LDAP](https://dexidp.io/docs/connectors/ldap/).

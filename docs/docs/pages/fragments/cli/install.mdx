@@ -1,0 +1,69 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+
+<Tabs
+  groupId="platform"
+  defaultValue="mac"
+  values={[
+  //  { label: 'npm', value: 'npm', },
+  //  { label: 'yarn', value: 'yarn', },
+    { label: 'Mac Terminal', value: 'mac', },
+    { label: 'Linux Bash', value: 'linux', },
+    { label: 'Windows Powershell', value: 'windows', },
+  ]
+}>
+<TabItem value="npm">
+
+```bash
+npm install -g loft.sh
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn global add loft.sh
+```
+
+</TabItem>
+<TabItem value="mac">
+
+```bash
+curl -s -L "https://github.com/loft-sh/loft/releases/latest" | sed -nE 's!.*"([^"]*loft-darwin-amd64)".*!https://github.com\1!p' | xargs -n 1 curl -L -o loft && chmod +x loft;
+sudo mv loft /usr/local/bin;
+```
+
+</TabItem>
+<TabItem value="linux">
+
+```bash
+curl -s -L "https://github.com/loft-sh/loft/releases/latest" | sed -nE 's!.*"([^"]*loft-linux-amd64)".*!https://github.com\1!p' | xargs -n 1 curl -L -o loft && chmod +x loft;
+sudo mv loft /usr/local/bin;
+```
+
+</TabItem>
+<TabItem value="windows">
+
+```powershell {4}
+md -Force "$Env:APPDATA\loft"; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls,Tls11,Tls12';
+Invoke-WebRequest -UseBasicParsing ((Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/latest" -UseBasicParsing).Content -replace "(?ms).*`"([^`"]*loft-windows-amd64.exe)`".*","https://github.com/`$1") -o $Env:APPDATA\loft\loft.exe;
+$env:Path += ";" + $Env:APPDATA + "\loft";
+[Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::User);
+```
+
+:::info Check Environment Variable $PATH
+Line 4 of this install script adds the install directory `%APPDATA%\loft` to the `$PATH` environment variable. This is only effective for the current Powershell session, i.e., when opening a new terminal window, `loft` may not be found.
+
+**Make sure to add the folder `%APPDATA%\loft` to the `PATH` environment variable after installing Loft CLI via Powershell. Afterward, a reboot might be necessary.**
+
+To confirm that Loft CLI is successfully installed, reboot and test via:
+```bash
+loft --version
+```
+:::
+
+</TabItem>
+</Tabs>
+
+Alternatively, you can download the binary for your platform from the [GitHub Releases](https://github.com/loft-sh/loft/releases) page and add this binary to your PATH.

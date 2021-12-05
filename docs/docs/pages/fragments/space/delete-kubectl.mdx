@@ -1,0 +1,24 @@
+import Flow, { Step } from '@site/src/components/Flow'
+
+
+<Flow id="delete-space-kubectl">
+  <Step>
+
+If you do not have a kube-context for the cluster where this space is located in, you can set up a kube-context using:
+```bash
+loft use cluster [cluster-name]
+```
+
+  </Step>
+  <Step>
+
+Delete the space using kubectl:
+```bash
+kubectl delete space [space-name]
+
+# Alternatively:
+# kubectl delete -f space.yaml
+```
+
+  </Step>
+</Flow>
