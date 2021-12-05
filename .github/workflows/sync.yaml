@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Sync code to loft-sh/loft-enterprise
-        uses: loft-sh/action-repo-sync@main
+        uses: loft-sh/action-repo-sync@v1
         with:
           target_repo: 'loft-sh/loft-enterprise'
           path_mapping: 'docs;netlify.toml;api;charts'
