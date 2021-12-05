@@ -1,0 +1,113 @@
+---
+title: Users
+sidebar_label: Users
+---
+
+import Field from '@site/src/components/Field'
+import APISpec from '@theme/ApiSchema'
+
+import Image from '@site/src/components/Image'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Input from '@site/src/components/Input'
+import Flow, { Step } from '@site/src/components/Flow'
+
+import FragmentImpersonateUI from '../fragments/user/impersonate-ui.mdx'
+import FragmentImpersonateCLI from '../fragments/user/impersonate-cli.mdx'
+
+
+Core functionality of Loft is giving other people self-service access to Kubernetes clusters. Everyone who should get access to a Kubernetes cluster, must be an authenticated user in Loft.
+
+
+## Working with Users
+
+### Create User (manual)
+Loft lets you connect a variety of SSO providers for authentication but you can also manually create users who can sign in via username and password:
+
+<details>
+  <summary>Create a User</summary>
+  <Flow id="create-user">
+    <Step>
+      Go to the <NavStep>Users</NavStep> view using the main menu on the left
+    </Step>
+    <Step>
+      Click on the <Button>Add User</Button> button
+    </Step>
+    <Step>
+      Use the field <Label>Display Name</Label> to enter the <Input>Username</Input> for your user
+    </Step>
+    <Step image="">
+      Click on the <Button>Create</Button> button at the very bottom
+    </Step>
+    <Step image="">
+      Close the popup using the button <Button>Copy & Close</Button>
+    </Step>
+  </Flow>
+</details>
+
+
+
+### Impersonate User
+Loft allows admins with appropriate RBAC permissions to impersonate users.
+
+<details>
+  <summary>Impersonate User</summary>
+  <FragmentImpersonateUI/>
+  <FragmentImpersonateCLI/>
+</details>
+
+
+## Configuration
+
+### Metadata
+
+#### Display Name
+<Field crd="User" jsonPath="spec.displayName" img={require('@site/static/media/v2/screenshots/users/field-display-name.png').default} />
+
+#### Kubernetes Name
+<Field crd="User" jsonPath="metadata.name" img={require('@site/static/media/v2/screenshots/users/field-name.png').default} />
+
+#### Labels
+<Field crd="User" jsonPath="metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/users/field-labels.png').default} />
+
+#### Annotations
+<Field crd="User" jsonPath="metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/users/field-annotations.png').default} />
+
+
+### User Information
+
+#### Username
+<Field crd="User" jsonPath="spec.username" img={require('@site/static/media/v2/screenshots/users/field-username.png').default} />
+
+#### Email
+<Field crd="User" jsonPath="spec.email" img={require('@site/static/media/v2/screenshots/users/field-email.png').default} />
+
+#### Password
+<Field crd="User" jsonPath="spec.passwordRef" type="SecretRef" img={require('@site/static/media/v2/screenshots/users/field-password.png').default} />
+
+
+### Team Memberships
+<Field crd="Team" jsonPath="$team.spec.users" type="string[]" img={require('@site/static/media/v2/screenshots/users/field-teams.png').default} />
+
+
+### Advanced Options
+
+#### Kubernetes Groups
+<Field crd="User" jsonPath="spec.groups" type="string[]" img={require('@site/static/media/v2/screenshots/users/field-groups.png').default} />
+
+#### Cluster Roles
+<Field crd="User" jsonPath="spec.clusterRoles" type="ClusterRoleRef[]" img={require('@site/static/media/v2/screenshots/users/field-clusterroles.png').default} />
+
+#### Image Pull Secrets
+<Field crd="User" jsonPath="spec.imagePullSecrets" type="SecretRef[]" img={require('@site/static/media/v2/screenshots/users/field-pull-secrets.png').default} />
+
+
+### Access To User
+<Field crd="User" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/users/field-access.png').default} />
+
+
+## CRDs
+
+### `User`
+<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.User" />

@@ -1,0 +1,21 @@
+import Flow, { Step } from '@site/src/components/Flow'
+
+
+<Flow id="list-spaces-kubectl">
+  <Step>
+
+If you do not have a kube-context for the cluster where you want to list spaces in, you can set up a kube-context using:
+```bash
+loft use cluster [cluster-name]
+```
+
+  </Step>
+  <Step>
+
+Run this kubectl command to get a list of spaces:
+```bash
+kubectl get spaces
+```
+
+  </Step>
+</Flow>

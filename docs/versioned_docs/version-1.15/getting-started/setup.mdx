@@ -1,0 +1,213 @@
+---
+title: Install Loft
+sidebar_label: 1. Install Loft
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Step from '@site/src/components/Step'
+import InstallCLIFragment from '../fragments/install/cli.mdx'
+
+:::note About This Guide
+**Goal**: Install Loft to a remote Kubernetes cluster, connect your auth provider, and onboard your team  
+**Estimated time**: 20 minutes  
+**Requirements:**
+- **any *remote* Kubernetes cluster** (GKE, EKS, AKS, Rancher/RKE, ...)
+- `kubectl` (check via `kubectl version`)
+- `helm` v3 (check with `helm version`)
+- a kube-context with admin access to this Kubernetes cluster (check with `kubectl auth can-i create clusterrole -A`)
+:::
+
+:::warning Air-gapped Cluster
+If you want to install loft into an air-gapped cluster, please take a look at the **[Air-Gapped Installation Guide](../guides/administration/air-gapped-installation.mdx)** instead.
+:::
+
+:::warning Remote Cluster Required
+The guide requires you to install Loft to a remote cluster (e.g. GKE, EKS, AKS, Rancher/RKS, self-managed in your private cloud). If you just want to evaluate Loft with a local test cluster such as minikube, kind or Docker Desktop, take a look at the **[Quickstart Guide](../quickstart.mdx)** instead. 
+:::
+
+
+## 1. Download Loft CLI
+Use one of the following commands to download the Loft CLI binary from GitHub:
+
+<InstallCLIFragment/>
+
+
+## 2. Deploy Loft
+The first step to giving anyone access to your Kubernetes clusters via Loft is to make your Loft instance available on a domain, i.e. reachable for others via an ingress. This obviously does **not** work if you are running Loft on a localhost cluster such as minikube or Docker Desktop. 
+
+So, make sure your current kube-context points to a remote cluster (GKE, EKS, AKS, RKE, ...) and run:
+```bash
+loft start      # use the --reset flag if you want to uninstall and re-install Loft
+```
+
+:::caution Choose Ingress / Domain
+When Loft CLI asks you `How do you want to access loft?`, answer with `via ingress` and then for the next question, provide a domain or subdomain that you can change the DNS configuration of.
+:::
+
+The output of `loft start` will look like this:
+```text {7-8,10}
+[info]   Welcome to the Loft installation.
+[info]   This installer will guide you through the installation.
+
+? Seems like your cluster is running remotely (GKE, EKS, AKS, etc). Is that correct?
+  > Yes
+
+? How do you want to access Loft?
+  > via ingress (multiple users can access Loft via domain)
+
+? Enter a hostname for your loft instance (e.g. loft.my-domain.tld): loft.company.tld
+
+? Enter an email address for your admin user: admin@example.com
+
+? Ingress controller required. Should the nginx-ingress controller be installed?
+  > Yes
+
+[info]   Executing command: helm install ingress-nginx ingress-nginx ...
+[info]   Executing command: helm install loft -n loft ...
+[done] √ Successfully deployed Loft to your kubernetes cluster!
+[done] √ Loft pod has successfully started
+...
+```
+
+:::warning Websocket Support Required
+If you choose to install loft with another ingress controller, please make sure you have websocket support for the loft ingress enabled. Without websocket support, certain kubernetes requests such as port forwarding (`kubectl port-forward`) and terminal proxying (`kubectl exec`) will not work.
+:::
+
+## 3. Configure DNS
+After Loft has been deployed, the CLI will tell you to configure DNS:
+```bash {6}
+###################################     DNS CONFIGURATION REQUIRED     ##################################       
+
+Create a DNS A-record for test123.loft.sh with the EXTERNAL-IP of your nginx-ingress controller.
+To find this EXTERNAL-IP, run the following command and look at the output:
+
+> kubectl get services -n ingress-nginx
+                                                     |---------------|
+NAME                       TYPE           CLUSTER-IP | EXTERNAL-IP   |  PORT(S)                      AGE
+ingress-nginx-controller   LoadBalancer   10.0.0.244 | XX.XXX.XXX.XX |  80:30984/TCP,443:31758/TCP   19m
+                                                     |^^^^^^^^^^^^^^^|
+
+EXTERNAL-IP may be 'pending' for a while until your cloud provider has created a new load balancer.
+
+#########################################################################################################
+```
+
+To configure DNS, do the following:
+1. Leave `loft start` running and open a second terminal window
+2. Run `kubectl get services -n ingress-nginx` in the second terminal window
+3. If the `EXTERNAL-IP` is pending, wait a bit and go back to 2., otherwise:
+4. Copy the `EXTERNAL-IP` of your ingress controller service 
+5. Open the DNS settings of your domain (in AWS Route 53, Google Cloud DNS, Godaddy etc.)
+6. If the `EXTERNAL-IP` is
+   - **an IP address**, set an **A-record** for your Loft subdomain pointing to your `EXTERNAL-IP`  
+   - **a subdomain**, set a **CNAME-record** for your Loft subdomain pointing to your `EXTERNAL-IP`
+
+
+## 4. Add SSL
+Because `kubectl` and many other tools that connect to the Kubernetes API require TLS, we need a certificate for our Loft instance.
+
+<Tabs
+  defaultValue="cert-manager"
+  values={[
+    { label: 'Cert-Manager (recommended)', value: 'cert-manager', },
+    { label: 'Custom Certificate', value: 'custom', },
+  ]
+}>
+<TabItem value="cert-manager">
+
+The easiest way to add SSL to your Loft instance is to install cert-manager which will use Let's Encrypt to automatically create an SSL certificate for your Loft subdomain.
+
+<Step>1</Step>
+
+**Install cert-manager to your cluster:**
+```bash
+helm install cert-manager cert-manager --repo https://charts.jetstack.io \
+  --set installCRDs=true \
+  --namespace cert-manager \
+  --create-namespace \
+  --wait
+```
+
+<Step>2</Step>
+
+**Upgrade your Loft instance via Helm:**
+```bash {5}
+helm upgrade loft loft --repo https://charts.loft.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set certIssuer.create=true \
+  --set certIssuer.email=youremail@yourdomain.com    # <--- make sure to add your email here!
+```
+
+<Step>3</Step>
+
+**Check the certificate and wait for it to be ready**
+```bash
+kubectl get certificates -n loft -w
+```
+```bash
+NAME       READY   SECRET     AGE
+tls-loft   True    tls-loft   74s      # <--- Wait for READY to be True
+```
+
+<Step>4</Step>
+
+**Optional: Mark cert-manager Helm release to manage it in the Loft UI**
+```bash
+curl -L "https://raw.githubusercontent.com/loft-sh/loft/master/hack/import-helm-release.sh" | bash -s -- "cert-manager" "https://charts.jetstack.io/"
+```
+
+</TabItem>
+<TabItem value="custom">
+
+If you are using a non-public domain or a company policy is forbidding the use of cert-manager or Let's Encrypt in general, you can also add a custom certificate. If you have a custom certificate pair (private key + cert), you can create a Kubernetes secret with name `tls-loft` in the namespace `loft` and everything should work as expected.
+
+To create a certificate secret for your Loft ingress, run:
+```bash
+kubectl create secret tls -n loft tls-loft \
+  --cert=tls.crt \                              # File containing your custom cert
+  --key=tls.key                                 # Private key file of your cert
+```
+
+:::caution Self-Signed Certificates
+If you are using a self-signed certificate, make sure that everyone either adds the CA/root certificate to their computer's trusted certificate store OR:
+- use `--insecure` for `loft login`
+- use `--insecure-skip-tls-verify` for every `kubectl` command
+- accept insecure certificate in your browser when accessing Loft UI
+:::
+
+</TabItem>
+</Tabs>
+
+
+## 5. Login
+After Loft has been deployed, your DNS is configured, and you added a SSL certificate, `loft start` will terminate with the following output:
+```bash {2-3}
+##########################   LOGIN   ############################
+Username: admin
+Password: XXXX-XXXX-XXXX-XXXX        <-- COPY THIS, YOU WILL NEED IT IN THE NEXT STEP
+
+Login via UI:  https://loft.company.tld
+Login via CLI: loft login --insecure https://loft.company.tld
+#################################################################
+
+Loft was successfully installed and can now be reached at: https://loft.company.tld
+Thanks for using loft!
+```
+
+Now run the following command to log in to your Loft instance:
+```bash
+loft login https://loft.company.tld     # use the --insecure flag for self-signed SSL certs
+```
+
+The CLI will then open the browser, so you can log in with the admin password shown in the output of `loft start` (see step 2 above).
+
+<figure class="frame">
+  <video controls loop autoplay="true" muted>
+    <source src="/docs/media/v1/ui/auth/create-admin-user.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Loft UI - Login via Loft UI</figcaption>
+</figure>
+
+After you logged in via the UI, you will also be logged in via the CLI because you started the login process via `loft login`.

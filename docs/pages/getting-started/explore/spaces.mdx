@@ -1,0 +1,214 @@
+---
+title: Self-Service Namespaces in Loft
+sidebar_label: Spaces
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+import FragmentSpaceDiagramNamespace from '../../fragments/space/diagrams/namespace.mdx'
+import FragmentSpaceCreateUI from '../../fragments/space/create-ui.mdx'
+import FragmentSpaceCreateCLI from '../../fragments/space/create-cli.mdx'
+import FragmentSpaceCreateKubectl from '../../fragments/space/create-kubectl.mdx'
+import FragmentSpaceDeleteUI from '../../fragments/space/delete-ui.mdx'
+import FragmentSpaceDeleteCLI from '../../fragments/space/delete-cli.mdx'
+import FragmentSpaceDeleteKubectl from '../../fragments/space/delete-kubectl.mdx'
+import FragmentSpaceListUI from '../../fragments/space/list-ui.mdx'
+import FragmentSpaceListCLI from '../../fragments/space/list-cli.mdx'
+import FragmentSpaceListKubectl from '../../fragments/space/list-kubectl.mdx'
+import FragmentSleepConfigureUI from '../../fragments/sleep/configure-ui.mdx'
+import FragmentSleepEnforceUI from '../../fragments/sleep/enforce-ui.mdx'
+import FragmentSleepManualUI from '../../fragments/sleep/manual-ui.mdx'
+import FragmentSleepManualCLI from '../../fragments/sleep/manual-cli.mdx'
+import FragmentSleepScheduleUI from '../../fragments/sleep/schedule-ui.mdx'
+import FragmentSleepWakeUI from '../../fragments/sleep/wake-ui.mdx'
+import FragmentSleepWakeCLI from '../../fragments/sleep/wake-cli.mdx'
+import FragmentSleepWakeKubectl from '../../fragments/sleep/wake-kubectl.mdx'
+import FragmentAutoDeleteConfigureUI from '../../fragments/auto-delete/configure-ui.mdx'
+import FragmentAutoDeleteEnforceUI from '../../fragments/auto-delete/enforce-ui.mdx'
+import FragmentSpaceTemplateCreateUI from '../../fragments/space-template/create-ui.mdx'
+import FragmentSpaceTemplateInstantiateUI from '../../fragments/space-template/instantiate-ui.mdx'
+import FragmentSpaceTemplateInstantiateCLI from '../../fragments/space-template/instantiate-cli.mdx'
+import FragmentSpaceContraintsCreateUI from '../../fragments/space-constraints/create-ui.mdx'
+import FragmentSpaceContraintsEnforceUI from '../../fragments/space-constraints/enforce-ui.mdx'
+import FragmentSpaceShareUI from '../../fragments/space/share-ui.mdx'
+import FragmentSpaceShareCLI from '../../fragments/space/share-cli.mdx'
+
+
+Spaces are virtual resources that represent regular Kubernetes namespaces. Typically, non-admin users to not have the permission to list, create or delete namespaces in a shared Kubernetes clusters. That's why Loft adds the space resource to Kubernetes. Spaces are not stored in etcd but rather abstract from regular namespaces. Deleting a space will effectively delete the underlying namespace, for example. In turn, any labels and annotations set on a namespace will show up on the corresponding space as well. 
+
+<FragmentSpaceDiagramNamespace/>
+
+
+## Working with Spaces
+Space and namespaces are directly coupled via a 1:1 relationship. But unlike with namespaces, it is safe to give non-admin users the permission to create and manage their own spaces.
+
+<details>
+  <summary>Create Spaces</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><FragmentSpaceCreateUI/></TabItem>
+    <TabItem value="cli"><FragmentSpaceCreateCLI/></TabItem>
+    <TabItem value="kubectl"><FragmentSpaceCreateKubectl/></TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>Delete Spaces</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><FragmentSpaceDeleteUI/></TabItem>
+    <TabItem value="cli"><FragmentSpaceDeleteCLI/></TabItem>
+    <TabItem value="kubectl"><FragmentSpaceDeleteKubectl/></TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>List Spaces</summary>
+  <Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><FragmentSpaceListUI/></TabItem>
+    <TabItem value="cli"><FragmentSpaceListCLI/></TabItem>
+    <TabItem value="kubectl"><FragmentSpaceListKubectl/></TabItem>
+  </Tabs>
+</details>
+
+
+## Sleep Mode
+With sleep mode, you can put Kubernetes namespaces to sleep which means that Loft will set `replicas: 0` for all replica-controlled resources such as `Deployments` and `StatefulSets`. This means that Kubernetes will delete all pods but the entire configuration of resources within the namespace is still there.
+
+<details>
+  <summary>Start Sleep (manual)</summary>
+  <Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui"><FragmentSleepManualUI/></TabItem>
+    <TabItem value="cli"><FragmentSleepManualCLI/></TabItem>
+  </Tabs>
+
+:::tip Automatic Wakeup
+Note that the space will automatically wake up again, once you run a kubectl command within the space.
+:::
+
+</details>
+
+<details>
+  <summary>Wake up space</summary>
+  <Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><FragmentSleepWakeUI/></TabItem>
+    <TabItem value="cli"><FragmentSleepWakeCLI/></TabItem>
+    <TabItem value="kubectl"><FragmentSleepWakeKubectl/></TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>Automatic Sleep Mode (individual space)</summary>
+  <FragmentSleepConfigureUI/>
+</details>
+
+<details>
+  <summary>Scheduled Sleep & Wake-Up (individual space)</summary>
+  <FragmentSleepScheduleUI/>
+</details>
+
+<details>
+  <summary>Enforce Sleep Mode For <u>All</u> Spaces Created By User/Team</summary>
+  <FragmentSleepEnforceUI/>
+</details>
+
+
+## Auto-Delete
+Loft lets you configure an auto-delete for namespaces that have not been used for a certain period of time (inactivity).
+
+<details>
+  <summary>Configure Auto-Delete Timeout (individual space)</summary>
+  <FragmentAutoDeleteConfigureUI/>
+</details>
+
+<details>
+  <summary>Enforce Auto-Delete Timeout For <u>All</u> Space Created By User/Team</summary>
+  <FragmentAutoDeleteEnforceUI/>
+</details>
+
+
+## Space Templates
+Loft allows you to create templates for spaces. Unlike [Space Constraints](#space-constraints) which are enforced for a space, space templates are optional templates that a user can choose to apply when creating a space.
+
+Common use cases for space templates may be:
+- Adding development tooling to a namespace
+- Deploying pre-populated databases with test data
+- Equipping new namespaces with optional credentials such as image pull secrets
+
+:::caution Security Templates
+Do **not** use space templates for setting up security-related resources such as NetworkPolicies or LimitRanges. Instead, use **[Space Constraints](#space-constraints)** to enforce tenant isolation and other security measures.
+:::
+
+<details>
+  <summary>1. Create Space Template</summary>
+  <FragmentSpaceTemplateCreateUI/>
+</details>
+
+<details>
+  <summary>2. Use Space Template To Create A Space</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui"><FragmentSpaceTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><FragmentSpaceTemplateInstantiateCLI/></TabItem>
+  </Tabs>
+</details>
+
+
+## Space Constraints
+Space Constraints allow you to define restrictions for namespaces such as enforced resources that will be deployed to each new namespace a user creates (e.g. NetworkPolicies) or other enforced settings such as mandatory labels, annotations, or any sleep mode configurations.
+
+<details>
+  <summary>1. Create Space Constraints</summary>
+  <FragmentSpaceContraintsCreateUI/>
+</details>
+
+<details>
+  <summary>2. Enforce Space Constraints For Users & Teams</summary>
+  <FragmentSpaceContraintsEnforceUI/>
+</details>
+
+
+## Access Permissions
+Loft makes it easy to give other users or even entire teams access to one of your namespaces.
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'UI', value: 'ui'},
+    {label: 'CLI', value: 'cli'},
+  ]}>
+  <TabItem value="ui"><FragmentSpaceShareUI/></TabItem>
+  <TabItem value="cli"><FragmentSpaceShareCLI/></TabItem>
+</Tabs>

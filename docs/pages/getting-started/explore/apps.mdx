@@ -1,0 +1,80 @@
+---
+title: Pre-Packaging Applications in Loft
+sidebar_label: Apps
+---
+
+import FragmentAppDeploySpaceUI from '../../fragments/app/deploy-space-ui.mdx'
+import FragmentAppDeployVirtualClusterUI from '../../fragments/app/deploy-vcluster-ui.mdx'
+import FragmentSpaceTemplateCreateUI from '../../fragments/space-template/create-ui.mdx'
+import FragmentVirtualClusterTemplateCreateUI from '../../fragments/vcluster-template/create-ui.mdx'
+import FragmentAppKubectlAppCreateUI from '../../fragments/app/create-kubectl-app-ui.mdx'
+import FragmentAppHelmAppCreateUI from '../../fragments/app/create-helm-app-ui.mdx'
+import FragmentAppBashAppCreateUI from '../../fragments/app/create-bash-app-ui.mdx'
+import FragmentAppAccessUI from '../../fragments/app/access-ui.mdx'
+
+
+Apps in Loft allow you to package applications and scripts to share them with other members of your organization.
+
+
+## Creating Apps
+Loft lets you create 3 types of apps:
+- [`kubectl` Apps](#kubectl-apps)
+- [`helm` Apps](#helm-apps)
+- [`bash` Apps](#bash-apps)
+
+<details>
+  <summary>
+
+### `kubectl` Apps
+
+  </summary>
+  <FragmentAppKubectlAppCreateUI/>
+</details>
+
+<details>
+  <summary>
+
+### `helm` Apps
+
+  </summary>
+  <FragmentAppHelmAppCreateUI/>
+</details>
+
+<details>
+  <summary>
+
+### `bash` Apps
+
+  </summary>
+  <FragmentAppBashAppCreateUI/>
+</details>
+
+
+## Deploying Apps
+Loft users can deploy apps directly to spaces and virtual clusters, or they can use them in templates for spaces and virtual clusters.
+
+<details>
+  <summary>Deploy Apps to Spaces</summary>
+  <FragmentAppDeploySpaceUI/>
+</details>
+
+<details>
+  <summary>Deploy Apps to Virtual Clusters</summary>
+  <FragmentAppDeployVirtualClusterUI/>
+</details>
+
+<details>
+  <summary>Add Apps to Space Templates</summary>
+  <FragmentSpaceTemplateCreateUI/>
+</details>
+
+<details>
+  <summary>Add Apps to Virtual Cluster Templates</summary>
+  <FragmentVirtualClusterTemplateCreateUI/>
+</details>
+
+
+## Access Permissions
+Loft makes it easy for users to configure who can instantiate, view, or edit an app.
+
+<FragmentAppAccessUI/>

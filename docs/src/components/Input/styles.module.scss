@@ -1,0 +1,28 @@
+.input {
+  display: inline-block;
+  margin: 0 0.1em;
+  padding: 0.3em 1em 0.3em 0.5em;
+  border: 1px solid rgb(233, 230, 255);
+  border-radius: 3px;
+  cursor: text;
+  white-space: nowrap;
+
+  &::after {
+    display: inline-block;
+    content: " |";
+    margin-left: 0.15em;
+    color: rgb(189, 189, 189);
+    transform: translateY(-0.15em);
+    animation: blinker 2s linear infinite;
+    opacity: 0;
+  }
+}
+
+@keyframes blinker {
+  30% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+}

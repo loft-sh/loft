@@ -1,0 +1,27 @@
+name: Repo-Sync
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "api/**"
+      - "charts/**"
+      - "docs/**"
+      - "/netlify.toml"
+      - ".github/workflows/sync.yaml"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Sync code to loft-sh/loft-enterprise
+        uses: loft-sh/action-repo-sync@main
+        with:
+          target_repo: 'loft-sh/loft-enterprise'
+          path_mapping: 'docs;netlify.toml;api;charts'
+          github_token: ${{ secrets.GH_ACCESS_TOKEN }}
