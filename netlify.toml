@@ -2,6 +2,8 @@
   base = "docs/"
   publish = "build/"
   command = """
+    set -e
+    
     export OUT_DIR="build/"
     export TARGET_OUT_DIR="build/docs"
 
