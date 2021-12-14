@@ -3,8 +3,7 @@
 /docs                                           /docs/getting-started/install/cli                   302!
 
 # Short links
-/install-cli                                    /docs/getting-started/install/cli                   302!
-/upgrade/*                                      /docs/getting-started/install/cli                   302!
+/docs/install-cli                               /docs/getting-started/install/cli                   302!
 
 # SEO Redirects v1 -> v2
 /docs/introduction                              /docs/getting-started/install/cli                   301!
