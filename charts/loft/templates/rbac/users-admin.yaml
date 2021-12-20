@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: loft-users-admin
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    loft.sh/management-default-role: "true"
+rules:
+  - apiGroups: ["management.loft.sh", "storage.loft.sh"]
+    resources: ["users", "users/accesskeys", "users/clusters", "users/profile", "users/quotas", "users/spaces", "users/teams", "users/virtualclusters", "users/clusterroles"]
+    verbs: ["*"]
+  - apiGroups: ["management.loft.sh"]
+    resources: ["clusterroles"]
+    verbs: ["list"]

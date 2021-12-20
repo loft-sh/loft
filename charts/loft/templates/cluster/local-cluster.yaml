@@ -4,9 +4,8 @@ kind: Cluster
 metadata:
   name: loft-cluster
   annotations:
+    helm.sh/resource-policy: keep
     helm.sh/hook: pre-install
 spec:
-  displayName: "Local Cluster"
-  description: "This is the local Kubernetes cluster where Loft is installed in"
   local: true
 {{- end }}

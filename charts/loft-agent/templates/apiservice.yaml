@@ -3,6 +3,19 @@
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
+  name: v1alpha1.tenancy.kiosk.sh
+spec:
+  version: v1alpha1
+  versionPriority: 1000
+  group: tenancy.kiosk.sh
+  groupPriorityMinimum: 10000
+  service:
+    name: loft-agent-apiservice
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: apiregistration.k8s.io/v1
+kind: APIService
+metadata:
   name: v1.cluster.loft.sh
 spec:
   version: v1

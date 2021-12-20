@@ -113,9 +113,3 @@ webhook:
 # If the api service should be created
 apiservice:
   create: true
-  
-# Additional options for audit logging
-audit:
-  enableSideCar: false
-  image: library/alpine:3.13.1
-  
