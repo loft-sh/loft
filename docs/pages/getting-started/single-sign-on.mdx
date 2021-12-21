@@ -10,6 +10,7 @@ import FragmentAuthGitHub from '../fragments/auth/sso/github.mdx'
 import FragmentAuthGitLab from '../fragments/auth/sso/gitlab.mdx'
 import FragmentAuthMicrosoft from '../fragments/auth/sso/microsoft.mdx'
 import FragmentAuthGoogle from '../fragments/auth/sso/google.mdx'
+import FragmentAuthOIDC from '../fragments/auth/sso/oidc.mdx'
 import FragmentAuthOther from '../fragments/auth/sso/generic.mdx'
 
 
@@ -20,28 +21,18 @@ Most SSO provider connections do not allow `localhost` and require that you [set
 :::
 
 <details>
-  <summary>Okta</summary>
-  <FragmentAuthOkta/>
+    <summary>GitHub</summary>
+    <FragmentAuthGitHub/>
 </details>
 
 <details>
-  <summary>SAML 2.0</summary>
-  <FragmentAuthSAML/>
+    <summary>OIDC</summary>
+    <FragmentAuthOIDC/>
 </details>
 
 <details>
-  <summary>LDAP</summary>
-  <FragmentAuthLDAP/>
-</details>
-
-<details>
-  <summary>GitHub</summary>
-  <FragmentAuthGitHub/>
-</details>
-
-<details>
-  <summary>GitLab</summary>
-  <FragmentAuthGitLab/>
+    <summary>GitLab</summary>
+    <FragmentAuthGitLab/>
 </details>
 
 <details>
@@ -52,6 +43,21 @@ Most SSO provider connections do not allow `localhost` and require that you [set
 <details>
     <summary>Google</summary>
     <FragmentAuthGoogle/>
+</details>
+
+<details>
+  <summary>Okta</summary>
+  <FragmentAuthOkta/>
+</details>
+
+<details>
+    <summary>SAML 2.0</summary>
+    <FragmentAuthSAML/>
+</details>
+
+<details>
+  <summary>LDAP</summary>
+  <FragmentAuthLDAP/>
 </details>
 
 <details>
