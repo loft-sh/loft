@@ -1,0 +1,64 @@
+
+import Step from '@site/src/components/Step';
+import DisablePasswordAuthFragment from '../disable-password-auth.mdx';
+
+<Step>1</Step>
+
+**Create Loft Config For Microsoft**
+
+Loft is able to use Microsoft OAuth2 flow to identify the end user through their Microsoft account.
+
+To tell Loft to use Microsoft for SSO, navigate to `Admin > Config` in Loft and adjust your config as shown below:
+
+```yaml
+auth:
+  # Tell loft to use microsoft authentication
+  microsoft:
+    # 
+    # 
+    # REQUIRED CONFIGURATION
+    #
+    #
+    # ClientID of the microsoft application. Can be string literal or pulled from the environment.
+    clientId: $CLIENTID
+    # ClientSecret of the microsoft application. Can be string literal or pulled from the environment.
+    clientSecret: $CLIENTSECRET
+    # Callback URL in the form of https://your-loft-domain/auth/microsoft/callback
+    redirectURI: https://loft.my.domain/auth/microsoft/callback
+    # 
+    # 
+    # OPTIONAL CONFIGURATION
+    #
+    #
+    # (Optional) tenant configuration parameter controls what kinds of accounts 
+    # may be authenticated in loft. By default, all types of Microsoft 
+    # accounts (consumers and organizations) can authenticate in loft via Microsoft. 
+    # To change this, set the tenant parameter to one of the following:
+    # common - both personal and business accounts can authenticate via Microsoft (default)
+    # consumers - only personal accounts can authenticate in loft
+    # organizations - only business/school accounts can authenticate in loft
+    # 'tenant uuid' or 'tenant name' - only accounts belonging to specific tenant 
+    # identified by either 'tenant uuid' or 'tenant name' can authenticate in loft
+    tenant: common
+    # (Optional) It is possible to require a user to be a member of a particular 
+    # group in order to be successfully authenticated in loft.
+    groups: []
+    # (Optional) Configuration option restricts the list to include only security groups. 
+    # By default all groups (security, Office 365, mailing lists) are included.
+    onlySecurityGroups: false
+    # (Optional) Restrict the groups claims to include only the user’s groups
+    # that are in the configured groups
+    useGroupsAsWhitelist: false
+```
+
+<Step>2</Step>
+
+**Authenticate via Microsoft**
+
+After saving the new Loft configuration, Loft will restart itself and you should be able to log in via Microsoft.
+
+<Step>3</Step>
+
+**Disable Username + Password Authentication** (optional)
+
+<DisablePasswordAuthFragment/>

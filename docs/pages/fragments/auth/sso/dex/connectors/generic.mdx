@@ -3,7 +3,9 @@ Create the file `dex-config.yaml` with the following dex configuration:
 ingress:
   enabled: true
   hosts:
-  - dex.yourcompany.tld                                   # Use $DEX_HOSTNAME
+  - host: dex.yourcompany.tld                             # Use $DEX_HOSTNAME
+    paths:
+      - path: /
 config:
   issuer: https://dex.yourcompany.tld                     # "https://" + $DEX_HOSTNAME
   connectors:
@@ -23,6 +25,8 @@ config:
     config:
       inCluster: true
 ```
+
+Check the official [artifacthub.io](https://artifacthub.io/packages/helm/dex/dex) page for all available options.
 
 To fill the `connectors` section shown above, go to the appropriate docs page for the auth provider you want to use in combination with dex:
 - [Microsoft](https://dexidp.io/docs/connectors/microsoft/)
