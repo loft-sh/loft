@@ -1,6 +1,6 @@
 After creating the file `dex-config.yaml`, you can now install dex via helm:
 ```bash
-helm install dex dex --repo https://wiremind.github.com/wiremind-helm-charts \
+helm install dex dex --repo https://charts.dexidp.io \
   --create-namespace --namespace dex \
   -f dex-config.yaml \
   --wait

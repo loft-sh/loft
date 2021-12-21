@@ -8,6 +8,8 @@ import FragmentAuthSAML from '../fragments/auth/sso/saml.mdx'
 import FragmentAuthLDAP from '../fragments/auth/sso/ldap.mdx'
 import FragmentAuthGitHub from '../fragments/auth/sso/github.mdx'
 import FragmentAuthGitLab from '../fragments/auth/sso/gitlab.mdx'
+import FragmentAuthMicrosoft from '../fragments/auth/sso/microsoft.mdx'
+import FragmentAuthGoogle from '../fragments/auth/sso/google.mdx'
 import FragmentAuthOther from '../fragments/auth/sso/generic.mdx'
 
 
@@ -43,6 +45,16 @@ Most SSO provider connections do not allow `localhost` and require that you [set
 </details>
 
 <details>
-  <summary>Other (OIDC, Google, Microsoft, ...)</summary>
+    <summary>Microsoft</summary>
+    <FragmentAuthMicrosoft/>
+</details>
+
+<details>
+    <summary>Google</summary>
+    <FragmentAuthGoogle/>
+</details>
+
+<details>
+  <summary>Other (OpenShift, LinkedIn ...)</summary>
   <FragmentAuthOther/>
 </details>
