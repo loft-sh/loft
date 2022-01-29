@@ -18,7 +18,7 @@
     "docusaurus-gtm-plugin": "^0.0.2",
     "docusaurus-plugin-sass": "^0.2.1",
     "mdx-link-checker": "^0.1.1",
-    "mdx-mermaid": "^1.1.1",
+    "mdx-mermaid": "^1.2.0",
     "mermaid": "^8.13.3",
     "plugin-image-zoom": "ataft/plugin-image-zoom",
     "react": "^16.8.4",
