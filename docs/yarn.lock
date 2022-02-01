@@ -6351,10 +6351,10 @@ mdx-link-checker@^0.1.1:
     fs-walk "^0.0.2"
     remark-slug "^5.1.2"
 
-mdx-mermaid@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/mdx-mermaid/-/mdx-mermaid-1.1.1.tgz#d014d12acda0a2a069ae3fa0a9e3f9a5a18b4bcf"
-  integrity sha512-3Dc6zFRBaqxJ0S0cEKrbDSJEjdlJ/OUfTHFLY8uBwoDrTnF7+Dn8ukVPeVL10gNqqTvaPmQ1KGdgyx9wMuktEA==
+mdx-mermaid@^1.2.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/mdx-mermaid/-/mdx-mermaid-1.2.1.tgz#4860987bfb97e1cf50f68616c576e953476dc699"
+  integrity sha512-RYmrUJodWDNy9S0A++Fex3vr5+Q2vLMDakjpw7cQjd8Owhg98eYe+AePpmMx6Y/wLHjWKIGv2wvHWj2qdaZN7w==
 
 media-typer@0.3.0:
   version "0.3.0"
