@@ -1217,6 +1217,10 @@
     },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.VirtualClusterSpec": {
       "properties": {
+        "access": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccess",
+          "description": "Access defines the access of users and teams to the virtual cluster."
+        },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterHelmRelease",
           "description": "The helm release configuration for the virtual cluster. This is optional, but when filled, loft will deploy the specified chart for the given"
@@ -1824,6 +1828,49 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccess": {
+      "properties": {
+        "defaultClusterRole": {
+          "description": "Specifies which cluster role should get applied to users or teams that do not match a rule below.",
+          "type": "string"
+        },
+        "disableServiceAccountsAuth": {
+          "description": "If enabled, service account tokens will not be allowed to access this virtual cluster through the Loft gateway.",
+          "type": "boolean"
+        },
+        "rules": {
+          "description": "Rules defines which users and teams should have which access to the virtual cluster. If no rule matches an authenticated incoming user, the user will get cluster admin access.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccessRule"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccessRule": {
+      "properties": {
+        "clusterRole": {
+          "description": "ClusterRole is the cluster role that should be assigned to the",
+          "type": "string"
+        },
+        "teams": {
+          "description": "Teams that this rule matches.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "users": {
+          "description": "Users this rule matches. * means all users.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterHelmChart": {
       "properties": {
         "name": {
@@ -1877,6 +1924,10 @@
     },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterSpec": {
       "properties": {
+        "access": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccess",
+          "description": "Access defines the access of users and teams to the virtual cluster."
+        },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterHelmRelease",
           "description": "The helm release configuration for the virtual cluster. This is optional, but when filled, loft will deploy the specified chart for the given"
@@ -7133,6 +7184,10 @@
     },
     "com.github.loft-sh.api.v2.pkg.apis.storage.v1.VirtualClusterCreationTask": {
       "properties": {
+        "access": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccess",
+          "description": "The virtual cluster access"
+        },
         "apps": {
           "description": "Apps specifies the apps that should get deployed by this template",
           "items": {
@@ -7184,6 +7239,10 @@
     },
     "com.github.loft-sh.api.v2.pkg.apis.storage.v1.VirtualClusterTemplateDefinition": {
       "properties": {
+        "access": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.VirtualClusterAccess",
+          "description": "The virtual cluster access"
+        },
         "apps": {
           "description": "Apps specifies the apps that should get deployed by this template",
           "items": {
