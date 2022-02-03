@@ -4075,6 +4075,59 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthToken": {
+      "description": "IngressAuthToken holds the object information",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthTokenSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthTokenStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "IngressAuthToken",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthTokenSpec": {
+      "description": "IngressAuthTokenSpec holds the object specification",
+      "properties": {
+        "host": {
+          "description": "Host is the host where the UI should get redirected",
+          "type": "string"
+        },
+        "signature": {
+          "description": "Signature is the signature of the agent for the host",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthTokenStatus": {
+      "description": "IngressAuthTokenStatus holds the object status",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v2.pkg.apis.management.v1.Kiosk": {
       "description": "Kiosk holds the kiosk types",
       "properties": {
@@ -15662,6 +15715,84 @@
           "uniqueItems": true
         }
       ]
+    },
+    "/apis/management.loft.sh/v1/ingressauthtokens": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+          "in": "query",
+          "name": "fieldManager",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "If 'true', then the output is pretty printed.",
+          "in": "query",
+          "name": "pretty",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create an IngressAuthToken",
+        "operationId": "createManagementLoftShV1IngressAuthToken",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthToken"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthToken"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthToken"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.IngressAuthToken"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "IngressAuthToken",
+          "version": "v1"
+        }
+      }
     },
     "/apis/management.loft.sh/v1/kiosk/{name}": {
       "get": {
