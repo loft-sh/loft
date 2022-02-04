@@ -718,6 +718,10 @@
           "description": "APIGroup is the api group that was used for the request",
           "type": "string"
         },
+        "host": {
+          "description": "Host is the host where this activity was recorded",
+          "type": "string"
+        },
         "name": {
           "description": "Name is the name of the resource",
           "type": "string"
@@ -3687,6 +3691,10 @@
         "auth": {
           "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.Authentication",
           "description": "Authentication holds the information for authentication"
+        },
+        "loftHost": {
+          "description": "Host holds the domain where the loft instance is hosted",
+          "type": "string"
         },
         "oidc": {
           "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.management.v1.OIDC",
