@@ -22,6 +22,10 @@ spec:
       targetPort: 443
       nodePort: {{ .Values.service.httpsNodePort }}
       protocol: TCP
+    - name: wakeup
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}
     release: {{ .Release.Name }}
