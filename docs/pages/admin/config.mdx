@@ -1,0 +1,342 @@
+---
+title: Loft Configuration
+sidebar_label: Loft Config
+---
+
+Config Reference for the Loft config that can be found in the Loft UI at `Admin` > `Config`.
+
+```yaml
+# Authentication Options for loft
+auth:
+  # Tell loft to allow OIDC for authentication
+  oidc:
+    # IssuerURL is the URL the provider signs ID Tokens as.
+    issuerUrl: https://accounts.google.com 
+    # ClientID the JWT must be issued for, the "sub" field.
+    clientId: my-client
+    # ClientSecret to issue tokens from the OIDC provider
+    clientSecret: my-client-secret
+    # Callback URL in the form of https://your-loft-domain/auth/oidc/callback
+    redirectURI: https://loft.my.domain/auth/oidc/callback
+    # (Optional) Path to a PEM encoded root certificate of the provider. 
+    caFile: /tmp/ca-file.crt
+    # (Optional) Specify whether to communicate without validating SSL certificates
+    insecureCa: false
+    # (Optional) UsernameClaim is the JWT field to use as the user's username. 
+    # If not set defaults to email.
+    usernameClaim: email
+    # (Optional) If specified, causes claims mapping to username to be prefix with
+	# the provided value.  
+    usernamePrefix: my-prefix-
+    # (Optional) If specified, causes the OIDCAuthenticator to try to populate the user's
+	# groups with an ID Token field.
+	groupsClaim: groups
+	# (Optional) If specified, causes claims mapping to group names to be prefixed with the
+	# value.
+	groupsPrefix: group-prefix-
+	# (Optional) If groups is non empty, access is denied if the user is not part of at least one 
+	# of the specified groups.
+	groups: ["my-oidc-group"]
+	# (Optional) If specified, tells the OIDCAuthenticator to try to populate the user's
+	# information from the UserInfo. This might be necessary for slim tokens such as used
+	# by Okta
+	getUserInfo: false
+	# (Optional) Cluster Account Templates that will be automatically added for new users 
+	# logging in through this authentication
+	clusterAccountTemplates: 
+	  # The name of the cluster account template
+	- name: my-cluster-account-template
+	  sync: true
+	# (Optional) A mapping between groups and cluster account templates. 
+	# If the user has a certain group, the cluster account template 
+	# will be added during creation
+	groupClusterAccountTemplates:
+	  # Name of the group from the token
+	  - group: my-group
+	    # Names of the cluster account templates to apply
+	    clusterAccountTemplates: 
+	    - name: my-cluster-account-template
+	      sync: true
+  # Tell loft to use github authentication
+  github:
+    # ClientID of the github application
+    clientId: my-client
+    # ClientSecret of the github application
+    clientSecret: my-client-secret
+    # Callback URL in the form of https://your-loft-domain/auth/github/callback
+    redirectURI: https://loft.my.domain/auth/github/callback
+    # (Optional) Loft queries the following organizations for group information. 
+	# Group claims are formatted as "(org):(team)".
+	# For example if a user is part of the "engineering" team of the "coreos"
+	# org, the group claim would include "coreos:engineering".
+	#
+	# If orgs are specified in the config then user MUST be a member of at least one
+	# of the specified orgs to authenticate with loft.
+	orgs:
+	  # Organization name in github (not slug, full name)
+	- name: My Organization
+	  # (Optional) Names of teams in a github organization. A user will be able to
+	  # authenticate if they are members of at least one of these teams.
+	  teams:
+	  - myteam
+    # (Optional) Required ONLY for GitHub Enterprise.
+    # This is the Hostname of the GitHub Enterprise account listed on the
+	# management console.
+    hostName: my-github.org
+    # (Optional) Required ONLY for GitHub Enterprise.
+    # Used to support self-signed or untrusted CA root certificates.
+    rootCA: /certs/github.ca
+    # (Optional) Cluster Account templates that will get applied to new users
+    # Check auth.oidc for more details.
+    clusterAccountTemplates: ...
+    groupClusterAccountTemplates: ...
+  # Tell loft to use gitlab authentication
+  gitlab:
+    # ClientID for the gitlab authentication
+    clientId: my-client
+    # ClientSecret for the gitlab authentication
+    clientSecret: my-client-secret
+    # Callback URL in the form of https://your-loft-domain/auth/gitlab/callback
+    redirectURI: https://loft.my.domain/auth/gitlab/callback
+    # (Optional) BaseURL of the gitlab instance, 
+    # default = https://gitlab.com
+    baseURL: https://my-gitlab-instance.com
+    # (Optional) Optional groups whitelist, communicated through the "groups" scope.
+	# If groups is omitted, all of the user's GitLab groups are returned.
+	# If groups is provided, this acts as a whitelist - only the user's GitLab 
+	# groups that are in the configured groups below will go into the groups claim. 
+	# Conversely, if the user is not in any of the configured groups, the user will
+	# not be authenticated.
+	groups:
+	- my-group
+    # (Optional) Cluster Account templates that will get applied to new users
+    # Check auth.oidc for more details.
+    clusterAccountTemplates: ...
+    groupClusterAccountTemplates: ...
+  # Tell loft to use google authentication
+  google:
+    # ClientID for the google authentication
+    clientId: my-client
+    # ClientSecret for the google authentication
+    clientSecret: my-client-secret
+    # Callback URL in the form of https://your-loft-domain/auth/google/callback
+    redirectURI: https://loft.my.domain/auth/google/callback
+    # (Optional) defaults to "profile" and "email"
+    scopes: ["profile", "email"]
+    # (Optional) list of whitelisted domains. If this field is nonempty, 
+	# only users from a listed domain will be allowed to log in
+	hostedDomains: []
+	# (Optional) list of whitelisted groups. If this field is nonempty, 
+	# only users from a listed group will be allowed to log in
+	groups: []
+	# (Optional) path to service account json. If nonempty, 
+	# and groups claim is made, will use authentication from file to
+	# check groups with the admin directory api
+	serviceAccountFilePath: /path/to/service/account.json
+	# (Optional) Required if serviceAccountFilePath is set. The email of
+	# a GSuite super user which the service account will impersonate
+	# when listing groups
+	adminEmail: myuser@mydomain.com
+    # (Optional) Cluster Account templates that will get applied to new users
+    # Check auth.oidc for more details.
+    clusterAccountTemplates: ...
+    groupClusterAccountTemplates: ...
+  # Tell loft to use microsoft authentication
+  microsoft:
+    # ClientID of the microsoft application. 
+    clientId: my-client
+    # ClientSecret of the microsoft application
+    clientSecret: my-client-secret
+    # Callback URL in the form of https://your-loft-domain/auth/microsoft/callback
+    redirectURI: https://loft.my.domain/auth/microsoft/callback
+    # (Optional) tenant configuration parameter controls what kinds of accounts 
+    # may be authenticated in loft. By default, all types of Microsoft 
+    # accounts (consumers and organizations) can authenticate in loft via Microsoft. 
+	# To change this, set the tenant parameter to one of the following:
+	# common - both personal and business accounts can authenticate via Microsoft (default)
+	# consumers - only personal accounts can authenticate in loft
+	# organizations - only business/school accounts can authenticate in loft
+	# 'tenant uuid' or 'tenant name' - only accounts belonging to specific tenant 
+	# identified by either 'tenant uuid' or 'tenant name' can authenticate in loft
+	tenant: common
+	# (Optional) It is possible to require a user to be a member of a particular 
+	# group in order to be successfully authenticated in loft.
+	groups: []
+	# (Optional) Configuration option restricts the list to include only security groups. 
+	# By default all groups (security, Office 365, mailing lists) are included.
+	onlySecurityGroups: false
+	# (Optional) Restrict the groups claims to include only the user’s groups
+	# that are in the configured groups
+	useGroupsAsWhitelist: false
+    # (Optional) Cluster Account templates that will get applied to new users
+    # Check auth.oidc for more details.
+    clusterAccountTemplates: ...
+    groupClusterAccountTemplates: ...
+  # Tell loft to disable password authentication
+  password:
+    # Whether password authentication should be disabled
+    disabled: false
+# 
+# Use loft as an OIDC Provider. If enabled you can use loft to login to services
+# that allow logging in through an OIDC provider (e.g. Harbor or Kubernetes)
+#
+oidc: 
+  # If this feature should be enabled
+  enabled: false
+  # The OIDC clients that are allowed to request tokens from loft
+  clients:
+    # Name of the client
+  - name: my-client
+    # The id of the client
+    clientId: my-client-id
+    # The secret of the client
+    clientSecret: my-client-secret
+    # When loft is presented with a redirect URL, the url must match one of these
+    redirectURIs:
+    - https://my-site/oidc/redirect
+# 
+# Specify additional app repositories and custom predefined apps. The predefined apps
+# are displayed in Spaces > Apps. After you change something here, loft will recrawl
+# all repositories and show them in the Apps views. Please be patient, this can take
+# some time.
+#
+apps:
+  # If this option is true, loft will not parse any default repositories
+  noDefault: false
+  # Additional repositories that should be parsed. Not affected by the noDefault option
+  repositories:
+      # The name of the repository. Charts will be shown as name/chart in the UI
+    - name: repo
+      # The url to the repository. The index.yaml will be appended automatically
+      url: http://url-to-repo.com
+      # The username of the repository. If prefixed with $ indicates an environment variable
+      username: $USERNAME
+      # The password of the repository. If prefixed with $ indicates an environment variable
+      password: $PASSWORD
+      # If the repository TLS should be verified
+      insecure: false
+  # Predefined Apps that are configured here will be displayed in the in the Spaces > Apps view
+  predefinedApps:
+    # Repo name and chart name of the helm chart to deploy
+  - chart: repo/chart
+    # (Optional) Title is the name that should be displayed for the predefined app. 
+    # If empty the chart name is used.
+    title: my-custom-app
+    # (Optional) The version that should be preselected in the create app drawer
+    initialVersion: 0.0.1
+    # (Optional) Values that should be prefilled when selecting the app. Several place holders can
+    # be used that will be replaced by loft:
+    # - ${"${loft.host}"} -> The current hostname (${window.location.host})
+    # - ${"${loft.cluster}"} -> The name of the cluster
+    # - ${"${loft.space}"} -> The name of the space / namespace
+    # - ${"${loft.user}"} -> The name of the user
+    initialValues: >
+      my-values:
+        host: ${"${loft.host}"}
+    # (Optional) iconUrl specifies an url to the icon that should be displayed for this app.
+	# If none is specified the icon from the chart metadata is used.
+    iconUrl: http://url-to-my-icon.com/icon.png
+    # (Optional) readmeUrl specifies an url to the readme page of this predefined app. 
+	# If empty an url will be constructed to artifact hub.
+	readmeUrl: http://url-to-readme.com/my-chart/readme
+    # (Optional) Cluster names in which the predefined app should be displayed under Space > Apps. 
+    # If ommitted it is shown in all clusters
+    clusters:
+    - my-local-cluster
+# 
+# Loft auditing provides a security-relevant, chronological set of records documenting the sequence
+# of actions in a cluster. Every action targeting the loft management API, that is forwarded to 
+# a connected kubernetes cluster or targets a virtual cluster is audited and recorded. 
+# Loft audits the activities generated by users and by applications that use loft kubernetes contexts.
+#
+audit:
+  # Whether auditing should be enabled
+  enabled: true
+  # The path where to save the audit log files. This is required if auditing is enabled. Backup log files will 
+  # be retained in the same directory.
+  path: /tmp/audit.log
+  # The audit policy to use and log requests. By default loft will not log anything. The policy structure 
+  # is the same as a kubernetes audit policy. 
+  # See also: https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy
+  policy:
+    # rules specify the audit Level a request should be recorded at.
+	# A request may match multiple rules, in which case the FIRST matching rule is used.
+	# The default audit level is None, but can be overridden by a catch-all rule at the end of the list.
+	# PolicyRules are strictly ordered.
+	rules: 
+	  # The Level that requests matching this rule are recorded at.
+	  # The available levels are: None, Metadata, Request & RequestResponse
+      level: None
+      # (Optional) The users (by authenticated user name) this rule applies to.
+      # An empty list implies every user.
+      users: []
+      # (Optional) The user groups this rule applies to. A user is considered matching
+      # if it is a member of any of the UserGroups.
+      # An empty list implies every user group.
+      userGroups: []
+      # (Optional) The verbs that match this rule.
+      # An empty list implies every verb.
+      verbs: ["create", "update"]
+      
+      # Rules can apply to API resources (such as "pods" or "secrets"),
+      # non-resource URL paths (such as "/api"), or neither, but not both.
+      # If neither is specified, the rule is treated as a default for all URLs.
+
+      # (Optional) Resources that this rule matches. An empty list implies all kinds in all API groups.
+      resources: ["pods"]
+      # (Optional) Namespaces that this rule matches.
+      # The empty string "" matches non-namespaced resources.
+      # An empty list implies every namespace.
+      namespaces: []
+
+      # (Optional) NonResourceURLs is a set of URL paths that should be audited.
+      # *s are allowed, but only as the full, final step in the path.
+      nonResourceURLs: []
+
+      # (Optional) OmitStages is a list of stages for which no events are created. Note that this can also
+      # be specified policy wide in which case the union of both are omitted.
+      # An empty list means no restrictions will apply.
+      omitStages: []
+
+      # (Optional) RequestTargets is a list of request targets for which events are created. 
+      # An empty list implies every request.
+      requestTargets: ["Management", "Cluster", "VCluster"]
+    
+      # (Optional) Clusters that this rule matches. Only applies to cluster requests.
+      # If this is set, no events for non-cluster requests will be created.
+      # An empty list means no restrictions will apply.
+      clusters: ["my-connected-cluster"]
+	# omitStages is a list of stages for which no events are created. Note that this can also
+	# be specified per rule in which case the union of both are omitted.
+	omitStages: ["RequestReceived", "ResponseComplete", "Panic"]
+  # (Optional) MaxAge is the maximum number of days to retain old log files based on the timestamp 
+  # encoded in their filename.
+  maxAge: 0
+  # (Optional) MaxBackups is the maximum number of old log files to retain.
+  maxBackups: 0
+  # (Optional) MaxSize is the maximum size in megabytes of the log file before it gets rotated. 
+  # It defaults to 100 megabytes.
+  maxSize: 0
+```
+
+<!--
+## Audit
+
+## Apps
+
+## Authentication
+
+### Password
+
+### OIDC
+
+### GitHub
+
+### GitLab
+
+### Google
+
+### Microsoft
+
+## OIDC Provider
+-->

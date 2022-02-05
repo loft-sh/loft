@@ -1,7 +1,68 @@
-/docs/spaces/sleep-mode  /docs/sleep-mode/basics  301!
+# Home Routes
+/                                               /docs/getting-started/install/cli                   302!
+/docs                                           /docs/getting-started/install/cli                   302!
 
+# Short links
+/docs/install-cli                               /docs/getting-started/install/cli                   302!
 
-# SEO Redirects
+# SEO Redirects v1 -> v2
+/docs/introduction                              /docs/getting-started/install/cli                   301!
+/docs/quickstart                                /docs/getting-started/install/cli                   301!
+/docs/getting-started/setup                     /docs/getting-started/install/cli                   301!
+/docs/getting-started/clusters                  /docs/getting-started/cluster-access                301!
+/docs/getting-started/auth                      /docs/getting-started/single-sign-on                301!
+/docs/getting-started/cluster-accounts          /docs/getting-started/cluster-access                301!
+/docs/getting-started/limits-isolation          /docs/getting-started/explore/restricting-access    301!
+/docs/self-service/namespaces                   /docs/getting-started/explore/spaces                301!
+/docs/self-service/virtual-clusters             /docs/getting-started/explore/virtual-clusters      301!
+/docs/self-service/sleep-mode                   /docs/getting-started/explore/sleep-mode            301!
+/docs/multi-tenancy/clusters                    /docs/clusters/clusters                             301!
+/docs/multi-tenancy/accounts                    /docs/clusters/access/cluster-access                301!
+/docs/multi-tenancy/account-quotas              /docs/getting-started/explore/restricting-access    301!
+/docs/multi-tenancy/policies                    /docs/clusters/guides/policies                      301!
+/docs/multi-tenancy/templates                   /docs/clusters/access/space-constraints             301!
+/docs/multi-tenancy/shared-secrets              /docs/secrets/secrets                               301!
+/docs/multi-tenancy/apps                        /docs/apps/apps                                     301!
+/docs/multi-tenancy/space-templates             /docs/spaces/templates                              301!
+/docs/multi-tenancy/virtual-cluster-templates   /docs/virtual-clusters/templates                    301!
+/docs/auth/users                                /docs/users/users                                   301!
+/docs/auth/teams                                /docs/users/teams                                   301!
+/docs/auth/profiles                             /docs/api/access-keys                               301!
+/docs/auth/access-keys                          /docs/api/access-keys                               301!
+/docs/auth/password                             /docs/users/users                                   301!
+/docs/auth/sso/github                           /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/gitlab                           /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/google                           /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/microsoft                        /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/oidc                             /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/okta                             /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/ldap                             /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/saml                             /docs/getting-started/single-sign-on                301!
+/docs/auth/sso/others                           /docs/getting-started/single-sign-on                301!
+/docs/auth/account-templates                    /docs/clusters/access/cluster-access                301!
+#/docs/guides/onboarding                         
+/docs/guides/exposing-loft                      /docs/getting-started/domain                        301!
+/docs/guides/api                                /docs/api/overview                                  301!
+/docs/guides/ci-cd-pipelines                    /docs/integrations/cicd/github                      301!
+/docs/guides/direct-cluster-endpoints           /docs/admin/guides/direct-cluster-endpoint          301!
+#/docs/guides/monitoring                         
+/docs/guides/oidc                               /docs/admin/guides/oidc-provider                    301!
+/docs/guides/administration/air-gapped-installation /docs/getting-started/install/troubleshooting   301!
+/docs/guides/administration/metrics             /docs/admin/guides/metrics                          301!
+/docs/guides/administration/auditing            /docs/auditing/overview                             301!
+/docs/guides/administration/high-availability   /docs/admin/guides/high-availability                301!
+/docs/guides/administration/self-signed-certificate     /docs/getting-started/domain                301!
+#/docs/guides/administration/reset-admin-password        
+/docs/guides/administration/config-reference    /docs/admin/config                                  301!
+#/docs/guides/administration/upgrade             
+/docs/guides/troubleshooting                    /docs/getting-started/install/troubleshooting       301!
+/docs/guides/administration/uninstall           /docs/admin/guides/uninstall                        301!
+/docs/integrations/harbor                       /docs/integrations/registries/harbor                301!
+/docs/integrations/dex                          /docs/getting-started/single-sign-on                301!
+#/docs/architecture                              
+
+# SEO Redirects v0 -> v1
+/docs/spaces/sleep-mode                 /docs/sleep-mode/basics                 301!
 /docs/getting-started/apps              /docs/multi-tenancy/apps                301!
 /docs/getting-started/spaces            /docs/self-service/namespaces           301!
 /docs/getting-started/users-limits      /docs/getting-started/limits-isolation  301!

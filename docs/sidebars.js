@@ -8,166 +8,375 @@
 module.exports = {
   adminSidebar: [
     {
-      type: 'doc',
-      id: 'introduction',
-    },
-    {
       type: 'category',
       label: 'Getting Started',
-      collapsed: false,
       items: [
         {
+          type: 'category',
+          label: '1. Install Loft',
+          collapsible: false,
+          items: [
+            {
+              type: 'doc',
+              id: 'getting-started/install/cli',
+            },
+            {
+              type: 'doc',
+              id: 'getting-started/install/helm',
+            },/*
+            {
+              type: 'category',
+              label: 'via GitOps, ...',
+              items: [
+                'getting-started/install/kubectl',
+                'getting-started/install/kustomize',
+                'getting-started/install/terraform',
+                'getting-started/install/argocd',
+                'getting-started/install/flux',
+              ],
+            },*/
+            {
+              type: 'doc',
+              id: 'getting-started/install/troubleshooting',
+            },
+          ],
+        },
+        {
           type: 'doc',
-          id: 'quickstart',
+          id: 'getting-started/cluster-access',
         },
         {
           type: 'category',
-          label: 'Full Setup Guide',
+          label: '3. Explore Loft',
+          collapsible: false,
           items: [
-            'getting-started/setup',
-            'getting-started/clusters',
-            'getting-started/auth',
-            'getting-started/cluster-accounts',
-            'getting-started/limits-isolation',
+            'getting-started/explore/spaces',
+            'getting-started/explore/virtual-clusters',
+            'getting-started/explore/sleep-mode',
+            'getting-started/explore/restricting-access',
+            'getting-started/explore/apps',
+            'getting-started/explore/secrets',
+          ],
+        },
+        {
+          type: 'doc',
+          id: 'getting-started/domain',
+        },
+        {
+          type: 'doc',
+          id: 'getting-started/single-sign-on',
+        },/*
+        {
+          type: 'doc',
+          id: 'getting-started/next-steps',
+        },*/
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Spaces',
+      items: [
+        {
+          type: 'doc',
+          id: 'spaces/spaces',
+        },
+        {
+          type: 'doc',
+          id: 'spaces/templates',
+        },
+        {
+          type: 'doc',
+          id: 'spaces/sleep-mode',
+        },/*
+        {
+          type: 'category',
+          label: 'Guides',
+          collapsible: false,
+          items: [
+            {
+              type: 'doc',
+              id: 'spaces/guides/development',
+            },
+            {
+              type: 'doc',
+              id: 'spaces/guides/cicd',
+            },
+          ],
+        },*/
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Virtual Clusters',
+      items: [
+        {
+          type: 'doc',
+          id: 'virtual-clusters/vclusters',
+        },
+        {
+          type: 'doc',
+          id: 'virtual-clusters/templates',
+        },
+        {
+          type: 'doc',
+          id: 'virtual-clusters/sleep-mode',
+        },/*
+        {
+          type: 'category',
+          label: 'Guides',
+          collapsible: false,
+          items: [
+            {
+              type: 'doc',
+              id: 'virtual-clusters/guides/local-cluster-alternative',
+            },
+            {
+              type: 'doc',
+              id: 'virtual-clusters/guides/cicd',
+            },
+          ],
+        },*/
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Clusters',
+      items: [
+        {
+          type: 'doc',
+          id: 'clusters/clusters',
+        },
+        {
+          type: 'category',
+          label: 'Cluster Access',
+          items: [
+            {
+              type: 'doc',
+              id: 'clusters/access/cluster-access',
+            },
+            {
+              type: 'doc',
+              id: 'clusters/access/cluster-roles',
+            },
+            {
+              type: 'doc',
+              id: 'clusters/access/space-constraints',
+            },/*
+            {
+              type: 'doc',
+              id: 'clusters/access/quotas',
+            },*/
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Guides',
+          collapsible: false,
+          items: [
+            {
+              type: 'doc',
+              id: 'clusters/guides/policies',
+            },
+            {
+              type: 'doc',
+              id: 'clusters/guides/monitoring',
+            },
           ],
         },
       ],
     },
     {
       type: 'category',
-      label: 'Self-Service',
-      collapsed: false,
+      label: 'Apps',
       items: [
+        'apps/apps',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Secrets',
+      items: [
+        'secrets/secrets',
+        'secrets/encryption',/*
         {
-          type: 'doc',
-          id: 'self-service/namespaces',
-        },
+          type: 'category',
+          label: 'Guides',
+          collapsible: false,
+          items: [
+            'secrets/guides/devspace',
+            'secrets/guides/pull-secrets',
+          ],
+        },*/
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Users + Teams',
+      items: [
+        'users/users',
+        'users/teams',
+        'users/management-roles',
+        'users/impersonation',
         {
-          type: 'doc',
-          id: 'self-service/virtual-clusters',
-        },
-        {
-          type: 'doc',
-          id: 'self-service/sleep-mode',
+          type: 'category',
+          label: 'Guides',
+          collapsible: false,
+          items: [
+            'users/guides/admin',/*
+            {
+              type: 'category',
+              label: 'Configure SSO',
+              items: [
+                'users/guides/sso/azure-ad',
+                'users/guides/sso/ldap',
+                'users/guides/sso/okta',
+                'users/guides/sso/oidc',
+                'users/guides/sso/saml',
+                'users/guides/sso/github',
+                'users/guides/sso/gitlab',
+                'users/guides/sso/google',
+                'users/guides/sso/microsoft',
+              ],
+            },*/
+          ],
         },
       ],
     },
     {
       type: 'category',
-      label: 'Multi-Tenancy',
-      collapsed: false,
+      label: 'Audit',
       items: [
-        'multi-tenancy/clusters',
-        'multi-tenancy/accounts',
-        'multi-tenancy/account-quotas',
-        'multi-tenancy/policies',
-        'multi-tenancy/templates',
-        'multi-tenancy/shared-secrets',
-        'multi-tenancy/apps',
-        'multi-tenancy/space-templates',
-        'multi-tenancy/virtual-cluster-templates'
+        'auditing/overview',/*
+        'auditing/activity-log',
+        'auditing/task-log',
+        'auditing/policy-violations',*/
       ],
     },
     {
       type: 'category',
-      label: 'Users & Authentication',
-      collapsed: false,
+      label: 'Administration',
       items: [
+        'admin/config',/*
+        'admin/license',
+        'admin/billing',*/
         {
           type: 'category',
-          label: 'User Management',
+          label: 'Guides',
+          collapsible: false,
           items: [
-            'auth/users',
-            'auth/teams',
-            'auth/profiles',
-            'auth/access-keys',
+            'admin/guides/high-availability',
+            'admin/guides/direct-cluster-endpoint',
+            'admin/guides/metrics',
+            'admin/guides/oidc-provider',
+            'admin/guides/uninstall',
           ],
         },
-        {
-          type: 'category',
-          label: 'Authentication + SSO',
-          items: [
-            'auth/password',
-            'auth/sso/github',
-            'auth/sso/gitlab',
-            'auth/sso/google',
-            'auth/sso/microsoft',
-            'auth/sso/oidc',
-            'auth/sso/okta',
-            'auth/sso/ldap',
-            'auth/sso/saml',
-            'auth/sso/others',
-          ],
-        },
-        'auth/account-templates',
       ],
-    },
+    },/*
+    {
+      type: 'category',
+      label: 'Architecture',
+      items: [
+        'architecture/overview',
+        {
+          type: 'category',
+          label: 'Reference Architectures',
+          collapsible: false,
+          items: [
+            'architecture/low-cost',
+            'architecture/large-teams',
+            'architecture/distributed-teams',
+            'architecture/self-servicing-teams',
+            'architecture/gitops-flows',
+          ],
+        },
+      ],
+    },*//*
     {
       type: 'category',
       label: 'Guides',
-      collapsed: false,
       items: [
         'guides/onboarding',
-        'guides/exposing-loft',
-        'guides/api',
-        'guides/ci-cd-pipelines',
-        'guides/direct-cluster-endpoints',
-        'guides/monitoring',
-        'guides/oidc',
-        'guides/administration/air-gapped-installation',
-        'guides/administration/metrics',
-        'guides/administration/auditing',
-        'guides/administration/high-availability',
-        'guides/administration/self-signed-certificate',
-        'guides/administration/reset-admin-password',
-        'guides/administration/config-reference',
-        'guides/administration/upgrade',
-        'guides/troubleshooting',
-        'guides/administration/uninstall',
+        'guides/cicd',
       ],
-    },
+    },*/
     {
       type: 'category',
       label: 'Integrations',
-      collapsed: false,
       items: [
-        'integrations/harbor',
-        'integrations/dex',
+        {
+          type: 'category',
+          label: 'CI/CD',
+          items: [/*
+            'integrations/cicd/terraform',*/
+            'integrations/cicd/github',
+            'integrations/cicd/gitlab',
+          ],
+        },/*
+        {
+          type: 'category',
+          label: 'Policies',
+          items: [
+            'integrations/policies/jspolicy',
+            'integrations/policies/opa',
+            'integrations/policies/kyverno',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Dev Tools',
+          items: [
+            'integrations/devtools/devspace',
+            'integrations/devtools/skaffold',
+            'integrations/devtools/tilt',
+          ],
+        },*/
+        {
+          type: 'category',
+          label: 'Registries',
+          items: [
+            'integrations/registries/harbor',
+          ],
+        },
       ],
     },
     {
-      type: 'doc',
-      id: 'architecture',
+      type: 'category',
+      label: 'API',
+      items: [
+        'api/access-keys',
+        {
+          type: 'category',
+          label: 'API Endpoints',
+          collapsible: false,
+          items: [
+            'api/overview',
+            'api/endpoints/management',
+            'api/endpoints/cluster',
+            'api/endpoints/virtual-cluster',
+          ],
+        },
+      ],
     },
     {
       type: 'category',
-      label: 'CLI Reference',
+      label: 'CLI',
       items: [
-        'commands/loft_connect_vcluster',
-        'commands/loft_create_space',
-        'commands/loft_create_vcluster',
-        'commands/loft_delete_space',
-        'commands/loft_delete_vcluster',
-        'commands/loft_generate_admin-kube-config',
-        'commands/loft_get_user',
-        'commands/loft_list_clusters',
-        'commands/loft_list_spaces',
-        'commands/loft_list_teams',
-        'commands/loft_list_vclusters',
-        'commands/loft_login',
-        'commands/loft_sleep',
-        'commands/loft_token',
-        'commands/loft_upgrade',
-        'commands/loft_use_cluster',
-        'commands/loft_use_space',
-        'commands/loft_use_vcluster',
-        'commands/loft_wakeup',
+        {
+          type: 'autogenerated',
+          dirName: 'cli',
+        }
       ],
     },
     {
       type: 'link',
-      label: '↗️ DevSpace',
+      label: 'DevSpace',
       href: 'https://devspace.sh/',
+    },
+    {
+      type: 'link',
+      label: 'jsPolicy',
+      href: 'https://jspolicy.com/',
     },
   ],
 };

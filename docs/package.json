@@ -6,16 +6,25 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "create-version": "docusaurus docs:version",
+    "serve": "npx -y nws -o -d build/ -b docs/ -p 8087"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.64",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.64",
+    "@docusaurus/core": "0.0.0-4175",
+    "@docusaurus/preset-classic": "0.0.0-4175",
+    "@saucelabs/theme-github-codeblock": "^0.1.1",
     "classnames": "^2.2.6",
     "docusaurus-gtm-plugin": "^0.0.2",
-    "mdx-link-checker": "^0.0.7",
+    "docusaurus-plugin-sass": "^0.2.1",
+    "mdx-link-checker": "^0.1.1",
+    "mdx-mermaid": "^1.1.1",
+    "mermaid": "^8.13.3",
+    "plugin-image-zoom": "ataft/plugin-image-zoom",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "redocusaurus": "^0.5.0",
+    "sass": "^1.43.4"
   },
   "browserslist": {
     "production": [

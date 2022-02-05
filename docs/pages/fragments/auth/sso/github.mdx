@@ -1,4 +1,4 @@
-import Step from '@site/src/components/Step/Step'
+import Step from '@site/src/components/Step'
 import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
 
 <Step>1</Step>
@@ -59,22 +59,6 @@ auth:
     # (Optional) Required ONLY for GitHub Enterprise.
     # Used to support self-signed or untrusted CA root certificates.
     rootCA: /certs/github.ca
-    # (Optional) Cluster Account Templates that will be automatically added for new users 
-	# logging in through this authentication
-	clusterAccountTemplates: 
-	  # The name of the cluster account template
-	- name: my-cluster-account-template
-      sync: true
-	# (Optional) A mapping between groups and cluster account templates. 
-	# If the user has a certain group, the cluster account template 
-	# will be added during creation
-	groupClusterAccountTemplates:
-	  # Name of the group from the token
-	  - group: my-group
-	    # Names of the cluster account templates to apply
-	    clusterAccountTemplates: 
-	    - name: my-cluster-account-template
-          sync: true
 ```
 
 <Step>3</Step>

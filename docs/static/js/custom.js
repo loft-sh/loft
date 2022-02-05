@@ -1,184 +1,62 @@
-var firstCall = true;
-
-const highlightDetailsOnActiveHash = function(activeHash, doNotOpen) {
-    const activeAnchors = document.querySelectorAll(".anchor[id='" + activeHash + "'");
-    const detailsElements = document.querySelectorAll("details");
-    const activeSectionElements = document.querySelectorAll(".active-section");
-    for (let i = 0; i < activeSectionElements.length; i++) {
-        activeSectionElements[i].classList.remove("active-section")
-    }
-
-    for (let i = 0; i < activeAnchors.length; i++) {
-        const headline = activeAnchors[i].parentElement;
-        const headlineRank = activeAnchors[i].parentElement.nodeName.substr(1);
-        let el = headline;
-
-        while (el) {
-            if (el.tagName != "BR" && el.tagName != "HR") {
-                el.classList.add("active-section");
-            }
-            el = el.nextElementSibling;
-
-            if (el) {
-                elRank = el.nodeName.substr(1)
-
-                if (elRank > 0 && elRank <= headlineRank) {
-                    break;
-                }
-            }
-        }
-    }
-
-    for (let i = 0; i < detailsElements.length; i++) {
-        let detailsElement = detailsElements[i];
-
-        detailsElement.classList.remove("active");
-    }
-
-    if (activeAnchors.length > 0) {
-        for (let i = 0; i < activeAnchors.length; i++) {
-            let element = activeAnchors[i];
-
-            for ( ; element && element !== document; element = element.parentElement ) {
-                if (element.tagName == "DETAILS") {
-                    element.classList.add("active");
-
-                    if (!doNotOpen) {
-                        element.open = true;
-                    }
-                }
-            }
-        }
-    }
+const simpleHash = function (str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash &= hash; // Convert to 32bit integer
+  }
+  return new Uint32Array([hash])[0].toString(36);
 };
 
-const highlightActiveOnPageLink = function() {
-    var activeHash;
+const preserveExpansionStates = function (skipEventListener) {
+  const state = new URLSearchParams(window.location.search.substring(1));
 
-    if (firstCall) {
-        firstCall = false;
+  if (document.querySelectorAll('.markdown').length == 0) {
+    return setTimeout(preserveExpansionStates, 100);
+  }
 
-        if (location.hash.length > 0) {
-            activeHash = location.hash.substr(1);
+  document.querySelectorAll('details, .tabs-container').forEach(function (el, index) {
+    const expansionKey = "x" + (el.id || index);
+    const stateChangeElAll = el.querySelectorAll(':scope > summary, :scope > [role="tablist"] > *');
 
-            highlightDetailsOnActiveHash(activeHash);
+    if (el.getAttribute("data-preserve-state") !== "true") {
+      el.setAttribute("data-preserve-state", "true")
+
+      const persistState = function (i) {
+        if (Number.isInteger(i)) {
+          const state = new URLSearchParams(window.location.search.substring(1));
+          if (el.open || el.classList.contains("tabs-container")) {
+            state.set(expansionKey, i);
+          } else {
+            state.delete(expansionKey);
+          }
+
+          window.history.replaceState(null, '', window.location.pathname + '?' + state.toString() + window.location.hash);
         }
-        window.addEventListener('scroll', highlightActiveOnPageLink);
+      }
+
+      el.addEventListener("toggle", persistState.bind(el, 1));
+      stateChangeElAll.forEach(function (stateChangeEl, i) {
+        stateChangeEl.addEventListener("click", persistState.bind(stateChangeEl, i + 1))
+      })
     }
 
-    setTimeout(function() {
-        if (!activeHash) {
-            const anchors = document.querySelectorAll("h2 > .anchor, h3 > .anchor");
-            
-            if (anchors.length > 0) {
-                if (document.scrollingElement.scrollTop < 100) {
-                    activeHash = anchors[0].attributes.id.value;
-                } else if (document.scrollingElement.scrollTop == document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight) {
-                    activeHash = anchors[anchors.length - 1].attributes.id.value;
-                } else {
-                    for (let i = 0; i < anchors.length; i++) {
-                        const anchor = anchors[i];
-        
-                        if (anchor.parentElement.getBoundingClientRect().top < window.screen.availHeight*0.5) {
-                            activeHash = anchor.attributes.id.value;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-            }
-    
-            if (!activeHash) {
-                const firstOnPageNavLink = document.querySelectorAll(".toc-headings:first-child > li:first-child > a");
-    
-                if (firstOnPageNavLink.attributes) {
-                    activeHash = firstOnPageNavLink.attributes.href.value.substr(1);
-                }
-            }
+    if (state.get(expansionKey) && el.open != true) {
+      el.open = true;
+      stateChangeElAll.forEach(function (stateChangeEl, i) {
+        if (state.get(expansionKey) === (i + 1).toString()) {
+          stateChangeEl.click();
         }
-    
-        const allLinks = document.querySelectorAll("a");
-        
-        for (let i = 0; i < allLinks.length; i++) {
-            const link = allLinks[i];
-            link.classList.remove("active");
-           
-            if (link.parentElement && link.parentElement.parentElement && link.parentElement.parentElement.tagName == "UL") {
-                link.parentElement.parentElement.classList.remove("active")
-            }
-        }
-    
-        const activeLinks = document.querySelectorAll("a[href='#" + activeHash + "'");
-    
-        for (let i = 0; i < activeLinks.length; i++) {
-            const link = activeLinks[i];
-            link.classList.add("active");
-           
-            if (link.parentElement && link.parentElement.parentElement && link.parentElement.parentElement.tagName == "UL") {
-                link.parentElement.parentElement.classList.add("active")
-            }
-        }
-    }, 100)
-};
-
-const hashLinkClickSet = false;
-
-const allowHashLinkClick = function() {
-    if (!hashLinkClickSet) {
-        const hashLinkIcons = document.querySelectorAll(".hash-link-icon");
-        
-        for (let i = 0; i < hashLinkIcons.length; i++) {
-            const hashLinkIcon = hashLinkIcons[i];
-            hashLinkIcon.addEventListener("mousedown", function() {
-                history.pushState(null, null, hashLinkIcon.parentElement.attributes.href.value);
-                highlightActiveOnPageLink();
-                highlightDetailsOnActiveHash(location.hash.substr(1), true);
-            });
-        }
+      })
     }
-};
+  });
 
-window.addEventListener('load', allowHashLinkClick);
-window.addEventListener('load', highlightActiveOnPageLink);
-window.addEventListener('popstate', function (event) {
-    highlightDetailsOnActiveHash(location.hash.substr(1));
-}, false);
-window.addEventListener("click", function (e) {
-    if (e.target.nodeName == "A" || e.target == document) {
-        setTimeout(function() {
-            highlightDetailsOnActiveHash(location.hash.substr(1));
-        }, 1000);
-    }
-});
-
-const fixCopyButtons = function(e){
-    if (e.target.nodeName == "A" || e.target == document) {
-        setTimeout(function() {
-            document.querySelectorAll('html body .markdown button[aria-label="Copy code to clipboard"]').forEach(function(el) {
-                const newEl = el.cloneNode(true);
-                el.parentNode.replaceChild(newEl, el);
-                newEl.addEventListener("click", function(e) {
-                    const selection = window.getSelection();
-                    const range = document.createRange();
-                    range.selectNodeContents(e.target.parentElement.querySelector(':scope > .prism-code'));
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                    
-                    document.execCommand('copy');
-                    selection.removeAllRanges();
-            
-                    const original = e.target.textContent;
-                    e.target.textContent = 'Copied';
-            
-                    setTimeout(() => {
-                        e.target.textContent = original;
-                    }, 1200);
-                })
-            });
-        }, 1000);
-    }
+  if (location.host.match(/^localhost(:[0-9]+)?$/)) {
+    setTimeout(function () {
+      preserveExpansionStates();
+    }, 500)
+  }
 }
 
-document.addEventListener("DOMContentLoaded", fixCopyButtons);
-window.addEventListener("popstate", fixCopyButtons);
-window.addEventListener("click", fixCopyButtons);
+preserveExpansionStates();
+window.addEventListener("popstate", preserveExpansionStates);
