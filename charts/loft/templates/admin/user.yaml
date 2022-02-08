@@ -12,6 +12,7 @@ spec:
   {{- end }}
   groups: ["loft:admins"]
   subject: admin
+  description: The Loft admin user that is allowed to do anything in all connected clusters
   {{- if ne .Values.admin.password "" }}
   passwordRef:
     secretName: loft-user-secret-admin
