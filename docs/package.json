@@ -23,7 +23,7 @@
     "plugin-image-zoom": "ataft/plugin-image-zoom",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "redocusaurus": "^0.5.0",
+    "redocusaurus": "^0.5.1",
     "sass": "^1.43.4"
   },
   "browserslist": {
