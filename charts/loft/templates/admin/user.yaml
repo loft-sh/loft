@@ -4,7 +4,7 @@ kind: User
 metadata:
   name: {{ include "loft.admin.name" . }}
   annotations:
-    helm.sh/hook: pre-install
+    helm.sh/resource-policy: keep
 spec:
   username: {{ .Values.admin.username }}
   {{- if .Values.admin.email }}
