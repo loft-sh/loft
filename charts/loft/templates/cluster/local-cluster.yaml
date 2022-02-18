@@ -5,6 +5,7 @@ metadata:
   name: loft-cluster
   annotations:
     helm.sh/hook: pre-install
+    helm.sh/resource-policy: keep
 spec:
   displayName: "Local Cluster"
   description: "This is the local Kubernetes cluster where Loft is installed in"
