@@ -16,7 +16,7 @@
     "@saucelabs/theme-github-codeblock": "^0.1.1",
     "classnames": "^2.2.6",
     "docusaurus-gtm-plugin": "^0.0.2",
-    "docusaurus-plugin-sass": "^0.2.1",
+    "docusaurus-plugin-sass": "^0.2.2",
     "mdx-link-checker": "^0.1.1",
     "mdx-mermaid": "^1.1.1",
     "mermaid": "^8.13.3",
