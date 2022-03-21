@@ -8,6 +8,41 @@ node_modules/
 .docusaurus
 .cache-loader
 
+# Currently unused files
+# Want to prevent these from being rendered and available for users
+/pages/getting-started/install/argocd.mdx
+/pages/getting-started/install/flux.mdx
+/pages/getting-started/install/kubectl.mdx
+/pages/getting-started/install/kustomize.mdx
+/pages/getting-started/install/terraform.mdx
+/pages/getting-started/next-steps.mdx
+
+/pages/spaces/guides/
+
+/pages/virtual-clusters/guides/
+
+/pages/clusters/access/quotas.mdx
+
+/pages/secrets/guides/devspace.mdx
+/pages/secrets/guides/pull-secrets.mdx
+
+/pages/users/guides/sso/
+
+/pages/auditing/activity-log.mdx
+/pages/auditing/policy-violations.mdx
+/pages/auditing/task-log.mdx
+
+/pages/admin/license.mdx
+/pages/admin/billing.mdx
+
+/pages/architecture/
+
+/pages/guides/
+
+/pages/integrations/cicd/terraform.mdx
+/pages/integrations/policies/
+/pages/integrations/devtools/
+
 # Misc
 .DS_Store
 .env.local

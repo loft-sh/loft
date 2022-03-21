@@ -13,7 +13,7 @@ module.exports = {
       items: [
         {
           type: 'category',
-          label: '1. Install Loft',
+          label: '1. Installation',
           collapsible: false,
           items: [
             {
@@ -22,26 +22,21 @@ module.exports = {
             },
             {
               type: 'doc',
-              id: 'getting-started/install/helm',
-            },/*
-            {
-              type: 'category',
-              label: 'via GitOps, ...',
-              items: [
-                'getting-started/install/kubectl',
-                'getting-started/install/kustomize',
-                'getting-started/install/terraform',
-                'getting-started/install/argocd',
-                'getting-started/install/flux',
-              ],
-            },*/
+              id: 'getting-started/domain',
+            },
             {
               type: 'doc',
+              id: 'getting-started/single-sign-on',
+            },
+            { /* Troubleshooting */
+              type: 'doc',
               id: 'getting-started/install/troubleshooting',
+              className: 'troubleshooting',
             },
           ],
         },
-        {
+        { /* 2. Configure Cluster Access */
+          /* Because this is a doc, the title has to be defined in the .mdx */
           type: 'doc',
           id: 'getting-started/cluster-access',
         },
@@ -58,18 +53,6 @@ module.exports = {
             'getting-started/explore/secrets',
           ],
         },
-        {
-          type: 'doc',
-          id: 'getting-started/domain',
-        },
-        {
-          type: 'doc',
-          id: 'getting-started/single-sign-on',
-        },/*
-        {
-          type: 'doc',
-          id: 'getting-started/next-steps',
-        },*/
       ],
     },
     {
@@ -87,22 +70,7 @@ module.exports = {
         {
           type: 'doc',
           id: 'spaces/sleep-mode',
-        },/*
-        {
-          type: 'category',
-          label: 'Guides',
-          collapsible: false,
-          items: [
-            {
-              type: 'doc',
-              id: 'spaces/guides/development',
-            },
-            {
-              type: 'doc',
-              id: 'spaces/guides/cicd',
-            },
-          ],
-        },*/
+        },
       ],
     },
     {
@@ -120,22 +88,7 @@ module.exports = {
         {
           type: 'doc',
           id: 'virtual-clusters/sleep-mode',
-        },/*
-        {
-          type: 'category',
-          label: 'Guides',
-          collapsible: false,
-          items: [
-            {
-              type: 'doc',
-              id: 'virtual-clusters/guides/local-cluster-alternative',
-            },
-            {
-              type: 'doc',
-              id: 'virtual-clusters/guides/cicd',
-            },
-          ],
-        },*/
+        },
       ],
     },
     {
@@ -161,11 +114,7 @@ module.exports = {
             {
               type: 'doc',
               id: 'clusters/access/space-constraints',
-            },/*
-            {
-              type: 'doc',
-              id: 'clusters/access/quotas',
-            },*/
+            },
           ],
         },
         {
@@ -197,16 +146,7 @@ module.exports = {
       label: 'Secrets',
       items: [
         'secrets/secrets',
-        'secrets/encryption',/*
-        {
-          type: 'category',
-          label: 'Guides',
-          collapsible: false,
-          items: [
-            'secrets/guides/devspace',
-            'secrets/guides/pull-secrets',
-          ],
-        },*/
+        'secrets/encryption',
       ],
     },
     {
@@ -222,22 +162,7 @@ module.exports = {
           label: 'Guides',
           collapsible: false,
           items: [
-            'users/guides/admin',/*
-            {
-              type: 'category',
-              label: 'Configure SSO',
-              items: [
-                'users/guides/sso/azure-ad',
-                'users/guides/sso/ldap',
-                'users/guides/sso/okta',
-                'users/guides/sso/oidc',
-                'users/guides/sso/saml',
-                'users/guides/sso/github',
-                'users/guides/sso/gitlab',
-                'users/guides/sso/google',
-                'users/guides/sso/microsoft',
-              ],
-            },*/
+            'users/guides/admin',
           ],
         },
       ],
@@ -246,19 +171,14 @@ module.exports = {
       type: 'category',
       label: 'Audit',
       items: [
-        'auditing/overview',/*
-        'auditing/activity-log',
-        'auditing/task-log',
-        'auditing/policy-violations',*/
+        'auditing/overview',
       ],
     },
     {
       type: 'category',
       label: 'Administration',
       items: [
-        'admin/config',/*
-        'admin/license',
-        'admin/billing',*/
+        'admin/config',
         {
           type: 'category',
           label: 'Guides',
@@ -272,34 +192,7 @@ module.exports = {
           ],
         },
       ],
-    },/*
-    {
-      type: 'category',
-      label: 'Architecture',
-      items: [
-        'architecture/overview',
-        {
-          type: 'category',
-          label: 'Reference Architectures',
-          collapsible: false,
-          items: [
-            'architecture/low-cost',
-            'architecture/large-teams',
-            'architecture/distributed-teams',
-            'architecture/self-servicing-teams',
-            'architecture/gitops-flows',
-          ],
-        },
-      ],
-    },*//*
-    {
-      type: 'category',
-      label: 'Guides',
-      items: [
-        'guides/onboarding',
-        'guides/cicd',
-      ],
-    },*/
+    },
     {
       type: 'category',
       label: 'Integrations',
@@ -307,30 +200,11 @@ module.exports = {
         {
           type: 'category',
           label: 'CI/CD',
-          items: [/*
-            'integrations/cicd/terraform',*/
+          items: [
             'integrations/cicd/github',
             'integrations/cicd/gitlab',
           ],
-        },/*
-        {
-          type: 'category',
-          label: 'Policies',
-          items: [
-            'integrations/policies/jspolicy',
-            'integrations/policies/opa',
-            'integrations/policies/kyverno',
-          ],
         },
-        {
-          type: 'category',
-          label: 'Dev Tools',
-          items: [
-            'integrations/devtools/devspace',
-            'integrations/devtools/skaffold',
-            'integrations/devtools/tilt',
-          ],
-        },*/
         {
           type: 'category',
           label: 'Registries',

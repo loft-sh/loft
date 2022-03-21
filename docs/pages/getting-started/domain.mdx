@@ -1,6 +1,6 @@
 ---
-title: Configure Domain & TLS For Loft
-sidebar_label: 4. Add Domain & TLS
+title: Configure Domain & TLS For Loft (Optional)
+sidebar_label: 1.2 Domain & TLS (Optional)
 ---
 
 import Tabs from '@theme/Tabs'
@@ -12,7 +12,7 @@ import FragmentAdminUpgrade from '../fragments/admin/upgrade.mdx'
 
 
 :::caution Remote Cluster Required
-Connecting a domain requires that you deployed Loft to a remote cluster.
+Connecting a domain requires that you have deployed Loft to a remote cluster.
 :::
 
 
@@ -110,7 +110,7 @@ curl https://loft.mydomain.tld/version --insecure
   </Step>
   <Step>
 
-Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
+Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with the following content:
 ```yaml
 ingress:
   enabled: true
@@ -142,7 +142,7 @@ ingress:
 <Flow id="domain-lb">
   <Step>
 
-Then create a file named `loft-loadbalancer.yaml` with the following content:
+Create a file named `loft-loadbalancer.yaml` with the following content:
 
 <Tabs
   defaultValue="elb"
@@ -227,7 +227,7 @@ loft-loadbalancer       LoadBalancer   10.112.2.142    x.x.x.x          443:3093
   </Step>
   <Step>
 
-Make sure Loft is reachable at the external ip via:
+Make sure Loft is reachable at the external ip address via:
 ```
 curl https://x.x.x.x/version --insecure
 {"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
@@ -239,7 +239,7 @@ curl https://x.x.x.x/version --insecure
 </details>
 
 :::caution AWS Load Balancers
-If you are using AWS, please make sure you are using a NLB to route traffic as other load balancers do not support the SPDY protocol Kubernetes requires
+If you are using AWS, make sure you are using a Network Load Balancer (NLB) to route traffic, since other load balancers do not support the SPDY protocol Kubernetes requires.
 :::
 
 
@@ -268,11 +268,11 @@ helm upgrade --install  cert-manager cert-manager  --repository-config=''\
   </Step>
   <Step>
 
-Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
+Edit your existing `loft.yaml` file, or create a new file named `loft.yaml` with content:
 ```yaml {3-4}
 ingress:
   annotations:
-    # Make sure the following line matches the name of your issuer (or use section below to create one)
+    # Make sure the following line matches the name of your issuer (or use the section below to create one)
     cert-manager.io/cluster-issuer: lets-encrypt-http-issuer
   tls:
     enabled: true
@@ -331,7 +331,7 @@ loft-ingress   <none>   loft.mydomain.tld    x.x.x.x          80, 443   10m
   </Step>
   <Step>
 
-Find the AWS ELB Load Blaner for this IP address in the AWS console
+Find the AWS Elastic Load Balancer(ELB) for this IP address in the AWS console
 
   </Step>
   <Step>
@@ -346,7 +346,7 @@ In the column "SSL Certificates", click on the link `View/edit certificates`
   </Step>
   <Step>
 
-Click on the `+` Synbol next to the tab `Certificates` and add your ACM managed certificate to the ingress controller's Load Balancer
+Click on the `+` Synbol next to the tab `Certificates` and add your Access Control Manager (ACM) managed certificate to the ingress controller's Load Balancer
 
   </Step>
 </Flow>
@@ -381,7 +381,7 @@ kubectl create secret generic tls-loft -n loft --type=kubernetes.io/tls \
   </Step>
   <Step>
 
-Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
+Edit your existing `loft.yaml` file, or create a new file named `loft.yaml` with content:
 
 <Tabs
   defaultValue="ingress"
@@ -516,7 +516,7 @@ kubectl create secret generic tls-loft -n loft --type=kubernetes.io/tls \
   </Step>
   <Step>
 
-Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
+Edit your existing `loft.yaml` file, or create a new file named `loft.yaml` with content:
 
 <Tabs
   defaultValue="ingress"
