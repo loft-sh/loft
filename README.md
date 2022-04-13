@@ -19,6 +19,6 @@
 
 ## Architecture
 
-![loft architecture](docs/static/media/loft-architecture.svg)
+![loft architecture](docs/static/media/v1/loft-architecture.svg)
 
 <br>
