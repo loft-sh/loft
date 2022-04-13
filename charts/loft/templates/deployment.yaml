@@ -94,6 +94,12 @@ spec:
         {{- end }}
         {{- end }}
         env:
+        - name: ADMIN_EMAIL
+          value: {{ .Values.admin.email | quote }}
+        {{- if .Values.admin.password }}
+        - name: ADMIN_PASSWORD_HASH
+          value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
         {{- range $key, $value := .Values.envValueFrom }}
         - name: {{ $key | quote }}
           valueFrom:

@@ -4,13 +4,6 @@ admin:
   username: admin
   password: "my-password"
 
-# This option automatically connects the local
-# cluster to loft and creates an admin account 
-# in there
-cluster:
-  connect:
-    local: true
-
 # Loft service options
 service:
   type: ClusterIP
