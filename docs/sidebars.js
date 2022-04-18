@@ -10,6 +10,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Getting Started',
+      collapsible: true,
       items: [
         {
           type: 'category',
@@ -58,11 +59,8 @@ module.exports = {
     {
       type: 'category',
       label: 'Spaces',
+      link: {type: 'doc', id: 'spaces/spaces',},
       items: [
-        {
-          type: 'doc',
-          id: 'spaces/spaces',
-        },
         {
           type: 'doc',
           id: 'spaces/templates',
@@ -76,11 +74,8 @@ module.exports = {
     {
       type: 'category',
       label: 'Virtual Clusters',
+      link: {type: 'doc', id: 'virtual-clusters/vclusters'},
       items: [
-        {
-          type: 'doc',
-          id: 'virtual-clusters/vclusters',
-        },
         {
           type: 'doc',
           id: 'virtual-clusters/templates',
@@ -94,19 +89,14 @@ module.exports = {
     {
       type: 'category',
       label: 'Clusters',
+      link: {type: 'doc', id: 'clusters/clusters'},
       items: [
-        {
-          type: 'doc',
-          id: 'clusters/clusters',
-        },
         {
           type: 'category',
           label: 'Cluster Access',
+          link: {type: 'doc', id: 'clusters/access/cluster-access'},
+          collapsible: false,
           items: [
-            {
-              type: 'doc',
-              id: 'clusters/access/cluster-access',
-            },
             {
               type: 'doc',
               id: 'clusters/access/cluster-roles',
@@ -137,23 +127,22 @@ module.exports = {
     {
       type: 'category',
       label: 'Apps',
-      items: [
-        'apps/apps',
-      ],
+      link: {type: 'doc', id: 'apps/apps'},
+      items: [],
     },
     {
       type: 'category',
       label: 'Secrets',
+      link: {type: 'doc', id: 'secrets/secrets'},
       items: [
-        'secrets/secrets',
         'secrets/encryption',
       ],
     },
     {
       type: 'category',
       label: 'Users + Teams',
+      link: {type: 'doc', id: 'users/users'},
       items: [
-        'users/users',
         'users/teams',
         'users/management-roles',
         'users/impersonation',
@@ -170,15 +159,14 @@ module.exports = {
     {
       type: 'category',
       label: 'Audit',
-      items: [
-        'auditing/overview',
-      ],
+      link: {type: 'doc', id: 'auditing/overview'},
+      items: [],
     },
     {
       type: 'category',
       label: 'Administration',
+      link: {type: 'doc', id: 'admin/config'},
       items: [
-        'admin/config',
         {
           type: 'category',
           label: 'Guides',
@@ -222,9 +210,9 @@ module.exports = {
         {
           type: 'category',
           label: 'API Endpoints',
+          link: {type: 'doc', id: 'api/overview'},
           collapsible: false,
           items: [
-            'api/overview',
             'api/endpoints/management',
             'api/endpoints/cluster',
             'api/endpoints/virtual-cluster',

@@ -1,5 +1,7 @@
 __webpack_public_path__ = "/docs/"
 
+const resolveGlob = require('resolve-glob');
+
 module.exports = {
     title: 'Loft',
     tagline: 'The tagline of my site',
@@ -119,7 +121,7 @@ module.exports = {
                     ],
                 },
                 theme: {
-                    customCss: require.resolve('./src/css/custom.scss'),
+                    customCss: resolveGlob.sync(['./src/css/**/*.scss']),
                 },
             },
         ],
