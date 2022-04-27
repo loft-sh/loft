@@ -42,6 +42,12 @@ tls:
 # Additional annotations for the loft pod
 # podAnnotations: {}
 
+# Additional common annotations for all resources
+# commonAnnotations: {}
+
+# Annotations for the loft-config secret
+# secretAnnotations: {}
+
 # Additional labels for the loft pod
 # podLabels: {}
 
@@ -99,6 +105,7 @@ serviceAccount:
   name: loft
   create: true
   clusterRole: cluster-admin
+  annotations: {}
 
 nameOverride: ""
 fullnameOverride: ""
