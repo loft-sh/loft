@@ -4,10 +4,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ template "loft.fullname" . }}-audit
-  {{- if .Values.commonAnnotations }}
-  annotations:
-    {{- toYaml .Values.commonAnnotations | nindent 4 }}
-  {{- end }}
 spec:
   accessModes: ["ReadWriteOnce"]
   storageClassName: {{ .Values.audit.persistence.storageClassName }}

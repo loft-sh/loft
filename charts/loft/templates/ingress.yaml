@@ -26,9 +26,6 @@ metadata:
     {{- with .Values.ingress.annotations }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- with .Values.commonAnnotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
 spec:
   rules:
     - host: {{ .Values.ingress.host }}

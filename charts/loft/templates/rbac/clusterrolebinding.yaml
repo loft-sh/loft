@@ -7,10 +7,6 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-  {{- if .Values.commonAnnotations }}
-  annotations:
-    {{- toYaml .Values.commonAnnotations | nindent 4 }}
-  {{- end }}
 subjects:
 - kind: ServiceAccount
   name: {{ template "loft.serviceAccountName" . }}
