@@ -62,6 +62,7 @@ module.exports = {
             appId: 'JMCOHI0J0S',
             indexName: "loft-sh",
             placeholder: "Search...",
+            algoliaOptions: {},
         },
         footer: {
             style: 'light',
