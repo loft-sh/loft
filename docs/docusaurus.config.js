@@ -58,7 +58,7 @@ module.exports = {
             ],
         },
         algolia: {
-            apiKey: "044d3602ef54884ee5061ee6bc6a397b",
+            apiKey: "48f3f2cd9c1f0fef9a903a6b784a8286",
             appId: 'JMCOHI0J0S',
             indexName: "loft-sh",
             placeholder: "Search...",
