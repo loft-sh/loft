@@ -1282,6 +1282,10 @@
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.SecretRef",
           "description": "A reference to the cluster admin kube config. This is needed for the cli & ui to access the virtual clusters"
         },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
+          "type": "string"
+        },
         "pod": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.PodSelector",
           "description": "A label selector to select the virtual cluster pod to route incoming requests to."
@@ -1992,6 +1996,10 @@
         "kubeConfigRef": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.SecretRef",
           "description": "A reference to the cluster admin kube config. This is needed for the cli & ui to access the virtual clusters"
+        },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
+          "type": "string"
         },
         "pod": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.PodSelector",
@@ -7102,6 +7110,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
           "description": "Metadata of the space"
         },
+        "objects": {
+          "description": "Objects are objects to put into the space",
+          "type": "string"
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner defines the space owner"
@@ -7121,6 +7133,10 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
           "description": "The space metadata"
+        },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
+          "type": "string"
         }
       },
       "type": "object"
@@ -7317,6 +7333,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
           "description": "The virtual cluster metadata"
         },
+        "objects": {
+          "description": "Objects is the optional objects configuration for the virtual cluster",
+          "type": "string"
+        },
         "spaceCreation": {
           "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.SpaceCreationTask",
           "description": "SpaceCreationTask creates a new space if defined for the virtual cluster"
@@ -7371,6 +7391,10 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
           "description": "The virtual cluster metadata"
+        },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
+          "type": "string"
         }
       },
       "type": "object"
