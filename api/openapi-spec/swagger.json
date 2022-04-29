@@ -1094,7 +1094,7 @@
           "description": "AppliedMetadata is the metadata that was applied on the space"
         },
         "appliedObjects": {
-          "description": "AppliedObjects are the objects that were applied on this namespace",
+          "description": "AppliedObjects are the objects that were applied on this namespace by the space constraint",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.AppliedObject"
           },
@@ -1132,6 +1132,30 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceObjectsNamespaceStatus": {
+      "properties": {
+        "appliedObjects": {
+          "description": "AppliedObjects are the objects that were applied on this namespace by the space spec objects",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.AppliedObject"
+          },
+          "type": "array"
+        },
+        "message": {
+          "description": "Message is the human-readable message why this space is in this phase",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase the namespace is in",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason why this namespace is in the current phase",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceSpec": {
       "description": "SpaceSpec defines the desired state of Space",
       "properties": {
@@ -1141,6 +1165,10 @@
             "type": "string"
           },
           "type": "array"
+        },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the space",
+          "type": "string"
         },
         "team": {
           "description": "Team is the owning team of the space",
@@ -1179,6 +1207,27 @@
         "spaceConstraintStatus": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceConstraintNamespaceStatus",
           "description": "SpaceConstraintStatus describes the space constraint status."
+        },
+        "spaceObjectsStatus": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceObjectsNamespaceStatus",
+          "description": "SpaceObjectsStatus describes the status of applying space objects."
+        },
+        "templateSyncStatus": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.TemplateSyncStatus",
+          "description": "TemplateSyncStatus describes the template sync status"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.TemplateSyncStatus": {
+      "properties": {
+        "phase": {
+          "description": "Phase indicates the current phase the template is in",
+          "type": "string"
+        },
+        "template": {
+          "description": "Template is the json string of the template that was applied",
+          "type": "string"
         }
       },
       "type": "object"
@@ -1285,6 +1334,10 @@
         "syncerPod": {
           "$ref": "#/definitions/io.k8s.api.core.v1.Pod",
           "description": "SyncerPod is the syncer pod"
+        },
+        "templateSyncStatus": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.TemplateSyncStatus",
+          "description": "TemplateSyncStatus describes the template sync status"
         }
       },
       "type": "object"
@@ -1439,6 +1492,24 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.ConstraintSpaceTemplate": {
+      "description": "ConstraintSpaceTemplate defines properties how many spaces can be owned by the account and how they should be created",
+      "properties": {
+        "clusterRole": {
+          "description": "This defines the cluster role that will be used for the rolebinding when creating a new space for the selected subjects",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
+          "description": "The enforced metadata of the space to create. Currently, only annotations and labels are supported"
+        },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the space",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterAccess": {
       "description": "LocalClusterAccess holds the cluster access information",
       "properties": {
@@ -1591,7 +1662,7 @@
           "type": "string"
         },
         "spaceTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.SpaceTemplate",
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.ConstraintSpaceTemplate",
           "description": "SpaceTemplate holds the space configuration"
         },
         "sync": {
@@ -1773,24 +1844,6 @@
           "type": "string"
         },
         "secretNamespace": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.SpaceTemplate": {
-      "description": "SpaceTemplate defines properties how many spaces can be owned by the account and how they should be created",
-      "properties": {
-        "clusterRole": {
-          "description": "This defines the cluster role that will be used for the rolebinding when creating a new space for the selected subjects",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
-          "description": "The enforced metadata of the space to create. Currently only annotations and labels are supported"
-        },
-        "objects": {
-          "description": "Objects are Kubernetes style yamls that should get deployed into the space",
           "type": "string"
         }
       },
@@ -3693,7 +3746,7 @@
           "description": "Authentication holds the information for authentication"
         },
         "loftHost": {
-          "description": "Host holds the domain where the loft instance is hosted",
+          "description": "LoftHost holds the domain where the loft instance is hosted",
           "type": "string"
         },
         "oidc": {
