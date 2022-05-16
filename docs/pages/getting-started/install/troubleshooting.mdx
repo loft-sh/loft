@@ -146,7 +146,7 @@ Run `push-images.sh` to push all downloaded images to your private registry:
 
 Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
 ```yaml
-image=${REGISTRY}/loftsh/loft:${VERSION}    # Replace ${REGISTRY} and ${VERSION}
+image: ${REGISTRY}/loftsh/loft:${VERSION}    # Replace ${REGISTRY} and ${VERSION}
 env:
   DEFAULT_IMAGE_REGISTRY: ${REGISTRY}       # Replace ${REGISTRY}
 ```
