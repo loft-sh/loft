@@ -8,9 +8,9 @@ import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
 import APISpec from '@theme/ApiSchema'
 
-import FragmentVirtualClusterTemplateCreateUI from '../fragments/vcluster-template/create-ui.mdx'
-import FragmentVirtualClusterTemplateInstantiateUI from '../fragments/vcluster-template/instantiate-ui.mdx'
-import FragmentVirtualClusterTemplateInstantiateCLI from '../fragments/vcluster-template/instantiate-cli.mdx'
+import PartialVirtualClusterTemplateCreateUI from './_partials/vcluster-template/create-ui.mdx'
+import PartialVirtualClusterTemplateInstantiateUI from './_partials/vcluster-template/instantiate-ui.mdx'
+import PartialVirtualClusterTemplateInstantiateCLI from './_partials/vcluster-template/instantiate-cli.mdx'
 
 Loft allows you to create templates for virtual clusters. Virtual cluster templates are optional templates that a user can choose to apply when creating a virtual cluster.
 
@@ -24,7 +24,7 @@ Common use cases for virtual cluster templates may be:
 
 <details>
   <summary>1. Create Virtual Cluster Template</summary>
-  <FragmentVirtualClusterTemplateCreateUI/>
+  <PartialVirtualClusterTemplateCreateUI/>
 </details>
 
 <details>
@@ -35,8 +35,8 @@ Common use cases for virtual cluster templates may be:
       {label: 'UI', value: 'ui'},
       {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><FragmentVirtualClusterTemplateInstantiateUI/></TabItem>
-    <TabItem value="cli"><FragmentVirtualClusterTemplateInstantiateCLI/></TabItem>
+    <TabItem value="ui"><PartialVirtualClusterTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><PartialVirtualClusterTemplateInstantiateCLI/></TabItem>
   </Tabs>
 </details>
 

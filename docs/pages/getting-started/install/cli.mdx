@@ -5,8 +5,8 @@ pagination_next: getting-started/cluster-access
 ---
 
 import Image from '@site/src/components/Image'
-import InstallCLIFragment from '../../fragments/cli/install.mdx'
-import FragmentHintWarningAcceptInsecureCert from '../../fragments/hints/warning-accept-insecure-cert.mdx'
+import InstallCLIPartial from '../../cli/_partials/install.mdx'
+import PartialHintWarningAcceptInsecureCert from '../../fragments/hints/warning-accept-insecure-cert.mdx'
 import ImageLoginPage from '@site/static/media/ui/screenshots/auth/login/login.png'
 
 Using Loft CLI is the preferred way to deploy Loft to a Kubernetes cluster.
@@ -16,7 +16,7 @@ If you decide later on you want to manage your Loft instance via GitOps, you may
 ## 1. Download CLI
 Use one of the following commands to download the Loft CLI binary from GitHub:
 
-<InstallCLIFragment/>
+<InstallCLIPartial/>
 
 
 ## 2. Deploy Loft
@@ -39,5 +39,5 @@ loft login https://localhost:9898  --insecure     # See `loft start` output for 
 
 This command will open the browser where you can sign in using the login data shown in the output of `loft start`.
 
-<FragmentHintWarningAcceptInsecureCert/>
+<PartialHintWarningAcceptInsecureCert/>
 <Image src={ImageLoginPage} />

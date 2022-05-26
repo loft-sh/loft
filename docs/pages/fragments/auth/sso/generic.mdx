@@ -1,9 +1,9 @@
 import Step from '@site/src/components/Step'
-import DexHostnameFragment from './dex/hostname.mdx'
-import DexInstallFragment from './dex/install.mdx'
-import DexConfigFragment from './dex/config.mdx'
-import GenericDexConfigFragment from './dex/connectors/generic.mdx'
-import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
+import DexHostnamePartial from './dex/hostname.mdx'
+import DexInstallPartial from './dex/install.mdx'
+import DexConfigPartial from './dex/config.mdx'
+import GenericDexConfigPartial from './dex/connectors/generic.mdx'
+import DisablePasswordAuthPartial from '../disable-password-auth.mdx'
 
 Loft supports a variety of other auth providers. You can follow this generic guide to configure SSO for any of the auth providers, including:
 - OpenShift
@@ -17,28 +17,28 @@ Loft supports a variety of other auth providers. You can follow this generic gui
 
 **Choose DEX_HOSTNAME And Configure DNS**
 
-<DexHostnameFragment/>
+<DexHostnamePartial/>
 
 
 <Step>2</Step>
 
 **Create Dex Config For $OTHER_PROVIDER**
 
-<GenericDexConfigFragment/>
+<GenericDexConfigPartial/>
 
 
 <Step>3</Step>
 
 **Deploy Dex via Helm**
 
-<DexInstallFragment/>
+<DexInstallPartial/>
 
 
 <Step>4</Step>
 
 **Configure Loft To Use Dex For Authentication**
 
-<DexConfigFragment/>
+<DexConfigPartial/>
 
 
 <Step>5</Step>
@@ -52,5 +52,5 @@ After saving the new Loft configuration, Loft will restart itself and you should
 
 **Disable Username + Password Authentication** (optional)
 
-<DisablePasswordAuthFragment/>
+<DisablePasswordAuthPartial/>
 

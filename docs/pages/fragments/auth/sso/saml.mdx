@@ -1,9 +1,9 @@
 import Step from '@site/src/components/Step'
-import DexHostnameFragment from './dex/hostname.mdx'
-import DexInstallFragment from './dex/install.mdx'
-import DexConfigFragment from './dex/config.mdx'
-import SAMLDexConfigFragment from './dex/connectors/saml.mdx'
-import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
+import DexHostnamePartial from './dex/hostname.mdx'
+import DexInstallPartial from './dex/install.mdx'
+import DexConfigPartial from './dex/config.mdx'
+import SAMLDexConfigPartial from './dex/connectors/saml.mdx'
+import DisablePasswordAuthPartial from '../disable-password-auth.mdx'
 
 :::caution Refresh Tokens
 The SAML 2.0 connector in Loft does **not** support refresh tokens "since the SAML 2.0 protocol doesn't provide a way to requery a provider without interaction" (see [dex documentation for SAML 2.0](https://dexidp.io/docs/connectors/saml/)).
@@ -90,4 +90,4 @@ After saving the new Loft configuration, Loft will restart itself and you should
 
 **Disable Username + Password Authentication** (optional)
 
-<DisablePasswordAuthFragment/>
+<DisablePasswordAuthPartial/>

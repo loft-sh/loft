@@ -10,7 +10,7 @@ import Input from '@site/src/components/Input'
 import Flow, { Step } from '@site/src/components/Flow'
 import CreateSpaceStep1 from '@site/static/media/ui/screenshots/auth/login/login.png';
 import CreateSpaceStep2 from '@site/static/media/ui/screenshots/spaces/create-space/button-open-drawer.png'
-import FragmentClusterAccessCreateUI from '../fragments/cluster-access/create-ui.mdx'
+import PartialClusterAccessCreateUI from '../clusters/_partials/cluster-access/create-ui.mdx'
 
 The core feature of Loft is to enable users to get self-service access to Kubernetes and allow them to create isolated namespaces and virtual clusters whenever they need them. 
 
@@ -100,7 +100,7 @@ loft login
 ## 3. Configure Cluster Access
 Let's give our test user Anna access to one of the clusters connected to this Loft instance:
 
-<FragmentClusterAccessCreateUI/>
+<PartialClusterAccessCreateUI/>
 
 :::note Single Sign-On + Cluster Access
 You can connect a variety of SSO providers to Loft. To automatically give users access to clusters based on their SSO user groups, you can switch to the <Label>Team Members</Label> tab to grant cluster access for each member of a team (e.g. for each member of a group in Active Directory, Okta, SAML, etc.)

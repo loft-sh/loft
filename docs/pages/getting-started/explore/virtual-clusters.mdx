@@ -6,20 +6,20 @@ sidebar_label: Virtual Clusters
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 
-import FragmentVirtualClusterCreateUI from '../../fragments/vcluster/create-ui.mdx'
-import FragmentVirtualClusterCreateCLI from '../../fragments/vcluster/create-cli.mdx'
-import FragmentVirtualClusterCreateKubectl from '../../fragments/vcluster/create-kubectl.mdx'
-import FragmentVirtualClusterDeleteUI from '../../fragments/vcluster/delete-ui.mdx'
-import FragmentVirtualClusterDeleteCLI from '../../fragments/vcluster/delete-cli.mdx'
-import FragmentVirtualClusterDeleteKubectl from '../../fragments/vcluster/delete-kubectl.mdx'
-import FragmentVirtualClusterListUI from '../../fragments/vcluster/list-ui.mdx'
-import FragmentVirtualClusterListCLI from '../../fragments/vcluster/list-cli.mdx'
-import FragmentVirtualClusterListKubectl from '../../fragments/vcluster/list-kubectl.mdx'
-import FragmentVirtualClusterTemplateCreateUI from '../../fragments/vcluster-template/create-ui.mdx'
-import FragmentVirtualClusterTemplateInstantiateUI from '../../fragments/vcluster-template/instantiate-ui.mdx'
-import FragmentVirtualClusterTemplateInstantiateCLI from '../../fragments/vcluster-template/instantiate-cli.mdx'
-import FragmentVirtualClusterShareUI from '../../fragments/vcluster/share-ui.mdx'
-import FragmentVirtualClusterShareCLI from '../../fragments/vcluster/share-cli.mdx'
+import PartialVirtualClusterCreateUI from '../../virtual-clusters/_partials/vcluster/create-ui.mdx'
+import PartialVirtualClusterCreateCLI from '../../virtual-clusters/_partials/vcluster/create-cli.mdx'
+import PartialVirtualClusterCreateKubectl from '../../virtual-clusters/_partials/vcluster/create-kubectl.mdx'
+import PartialVirtualClusterDeleteUI from '../../virtual-clusters/_partials/vcluster/delete-ui.mdx'
+import PartialVirtualClusterDeleteCLI from '../../virtual-clusters/_partials/vcluster/delete-cli.mdx'
+import PartialVirtualClusterDeleteKubectl from '../../virtual-clusters/_partials/vcluster/delete-kubectl.mdx'
+import PartialVirtualClusterListUI from '../../virtual-clusters/_partials/vcluster/list-ui.mdx'
+import PartialVirtualClusterListCLI from '../../virtual-clusters/_partials/vcluster/list-cli.mdx'
+import PartialVirtualClusterListKubectl from '../../virtual-clusters/_partials/vcluster/list-kubectl.mdx'
+import PartialVirtualClusterTemplateCreateUI from '../../virtual-clusters/_partials/vcluster-template/create-ui.mdx'
+import PartialVirtualClusterTemplateInstantiateUI from '../../virtual-clusters/_partials/vcluster-template/instantiate-ui.mdx'
+import PartialVirtualClusterTemplateInstantiateCLI from '../../virtual-clusters/_partials/vcluster-template/instantiate-cli.mdx'
+import PartialVirtualClusterShareUI from '../../virtual-clusters/_partials/vcluster/share-ui.mdx'
+import PartialVirtualClusterShareCLI from '../../virtual-clusters/_partials/vcluster/share-cli.mdx'
 
 A virtual cluster is a fully functional Kubernetes cluster that runs inside the namespace of another Kubernetes cluster (host cluster). Virtual clusters are very useful if you are hitting the limits of namespaces and do not want to make special exceptions to the multi-tenancy configuration of the underlying cluster, e.g. a user needs their own CRD or user needs pods from 2 namespaces to communicate with each other but your standard NetworkPolicy does not allow this, then a virtual cluster may be perfect for this user.
 
@@ -63,13 +63,13 @@ Unlike "real" clusters, virtual clusters are much more lightweight and much fast
       {label: 'kubectl', value: 'kubectl'},
     ]}>
     <TabItem value="ui">
-      <FragmentVirtualClusterCreateUI/>
+      <PartialVirtualClusterCreateUI/>
     </TabItem>
     <TabItem value="cli">
-      <FragmentVirtualClusterCreateCLI/>
+      <PartialVirtualClusterCreateCLI/>
     </TabItem>
     <TabItem value="kubectl">
-      <FragmentVirtualClusterCreateKubectl/>
+      <PartialVirtualClusterCreateKubectl/>
     </TabItem>
   </Tabs>
 </details>
@@ -84,13 +84,13 @@ Unlike "real" clusters, virtual clusters are much more lightweight and much fast
       {label: 'kubectl', value: 'kubectl'},
     ]}>
     <TabItem value="ui">
-      <FragmentVirtualClusterDeleteUI/>
+      <PartialVirtualClusterDeleteUI/>
     </TabItem>
     <TabItem value="cli">
-      <FragmentVirtualClusterDeleteCLI/>
+      <PartialVirtualClusterDeleteCLI/>
     </TabItem>
     <TabItem value="kubectl">
-      <FragmentVirtualClusterDeleteKubectl/>
+      <PartialVirtualClusterDeleteKubectl/>
     </TabItem>
   </Tabs>
 </details>
@@ -105,13 +105,13 @@ Unlike "real" clusters, virtual clusters are much more lightweight and much fast
       {label: 'kubectl', value: 'kubectl'},
     ]}>
   <TabItem value="ui">
-    <FragmentVirtualClusterListUI/>
+    <PartialVirtualClusterListUI/>
   </TabItem>
   <TabItem value="cli">
-    <FragmentVirtualClusterListCLI/>
+    <PartialVirtualClusterListCLI/>
   </TabItem>
   <TabItem value="kubectl">
-    <FragmentVirtualClusterListKubectl/></TabItem>
+    <PartialVirtualClusterListKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -126,7 +126,7 @@ Common use cases for virtual cluster templates may be:
 
 <details>
   <summary>1. Create Virtual Cluster Template</summary>
-  <FragmentVirtualClusterTemplateCreateUI/>
+  <PartialVirtualClusterTemplateCreateUI/>
 </details>
 
 <details>
@@ -137,8 +137,8 @@ Common use cases for virtual cluster templates may be:
       {label: 'UI', value: 'ui'},
       {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><FragmentVirtualClusterTemplateInstantiateUI/></TabItem>
-    <TabItem value="cli"><FragmentVirtualClusterTemplateInstantiateCLI/></TabItem>
+    <TabItem value="ui"><PartialVirtualClusterTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><PartialVirtualClusterTemplateInstantiateCLI/></TabItem>
   </Tabs>
 </details>
 
@@ -164,6 +164,6 @@ Loft makes it easy to give other users or even entire teams access to one of you
     {label: 'UI', value: 'ui'},
     {label: 'CLI', value: 'cli'},
   ]}>
-  <TabItem value="ui"><FragmentVirtualClusterShareUI/></TabItem>
-  <TabItem value="cli"><FragmentVirtualClusterShareCLI/></TabItem>
+  <TabItem value="ui"><PartialVirtualClusterShareUI/></TabItem>
+  <TabItem value="cli"><PartialVirtualClusterShareCLI/></TabItem>
 </Tabs>

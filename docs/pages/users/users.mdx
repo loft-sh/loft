@@ -13,8 +13,8 @@ import Label from '@site/src/components/Label'
 import Input from '@site/src/components/Input'
 import Flow, { Step } from '@site/src/components/Flow'
 
-import FragmentImpersonateUI from '../fragments/user/impersonate-ui.mdx'
-import FragmentImpersonateCLI from '../fragments/user/impersonate-cli.mdx'
+import PartialImpersonateUI from './_partials/user/impersonate-ui.mdx'
+import PartialImpersonateCLI from './_partials/user/impersonate-cli.mdx'
 
 
 Core functionality of Loft is giving other people self-service access to Kubernetes clusters. Everyone who should get access to a Kubernetes cluster, must be an authenticated user in Loft.
@@ -53,8 +53,8 @@ Loft allows admins with appropriate RBAC permissions to impersonate users.
 
 <details>
   <summary>Impersonate User</summary>
-  <FragmentImpersonateUI/>
-  <FragmentImpersonateCLI/>
+  <PartialImpersonateUI/>
+  <PartialImpersonateCLI/>
 </details>
 
 

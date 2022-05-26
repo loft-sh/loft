@@ -7,8 +7,8 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import Flow, { Step } from '@site/src/components/Flow'
 
-import FragmentAdminSetVersion from '../fragments/admin/set-version.mdx'
-import FragmentAdminUpgrade from '../fragments/admin/upgrade.mdx'
+import PartialAdminSetVersion from '../admin/_partials/set-version.mdx'
+import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
 
 
 :::caution Remote Cluster Required
@@ -44,10 +44,10 @@ loft start --host=loft.mydomain.tld     # Make sure to change `loft.mydomain.tld
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
   <Step>
 
@@ -120,10 +120,10 @@ ingress:
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 
@@ -292,10 +292,10 @@ certIssuer:
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 
@@ -419,10 +419,10 @@ This must be configured outside of the Loft deployment
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 
@@ -554,10 +554,10 @@ This must be configured outside of the Loft deployment
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 

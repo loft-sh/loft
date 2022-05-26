@@ -5,8 +5,8 @@ sidebar_label: Space Constraints
 
 import Field from '@site/src/components/Field'
 import APISpec from '@theme/ApiSchema'
-import FragmentSpaceContraintsCreateUI from '../../fragments/space-constraints/create-ui.mdx'
-import FragmentSpaceContraintsEnforceUI from '../../fragments/space-constraints/enforce-ui.mdx'
+import PartialSpaceContraintsCreateUI from '../../spaces/_partials/space-constraints/create-ui.mdx'
+import PartialSpaceContraintsEnforceUI from '../../spaces/_partials/space-constraints/enforce-ui.mdx'
 
 
 Space Constraints allow you to define restrictions for namespaces such as enforced resources that will be deployed to each new namespace a user creates (e.g. NetworkPolicies) or other enforced settings such as mandatory labels, annotations, or any sleep mode configurations.
@@ -15,12 +15,12 @@ Space Constraints allow you to define restrictions for namespaces such as enforc
 
 <details>
   <summary>1. Create Space Constraints</summary>
-  <FragmentSpaceContraintsCreateUI/>
+  <PartialSpaceContraintsCreateUI/>
 </details>
 
 <details>
   <summary>2. Enforce Space Constraints For Users & Teams</summary>
-  <FragmentSpaceContraintsEnforceUI/>
+  <PartialSpaceContraintsEnforceUI/>
 </details>
 
 

@@ -6,14 +6,14 @@ sidebar_label: Apps
 import Field from '@site/src/components/Field'
 import APISpec from '@theme/ApiSchema'
 
-import FragmentAppDeploySpaceUI from '../fragments/app/deploy-space-ui.mdx'
-import FragmentAppDeployVirtualClusterUI from '../fragments/app/deploy-vcluster-ui.mdx'
-import FragmentSpaceTemplateCreateUI from '../fragments/space-template/create-ui.mdx'
-import FragmentVirtualClusterTemplateCreateUI from '../fragments/vcluster-template/create-ui.mdx'
-import FragmentAppKubectlAppCreateUI from '../fragments/app/create-kubectl-app-ui.mdx'
-import FragmentAppHelmAppCreateUI from '../fragments/app/create-helm-app-ui.mdx'
-import FragmentAppBashAppCreateUI from '../fragments/app/create-bash-app-ui.mdx'
-import FragmentAppAccessUI from '../fragments/app/access-ui.mdx'
+import PartialAppDeploySpaceUI from './_partials/app/deploy-space-ui.mdx'
+import PartialAppDeployVirtualClusterUI from './_partials/app/deploy-vcluster-ui.mdx'
+import PartialSpaceTemplateCreateUI from '../spaces/_partials/space-template/create-ui.mdx'
+import PartialVirtualClusterTemplateCreateUI from '../virtual-clusters/_partials/vcluster-template/create-ui.mdx'
+import PartialAppKubectlAppCreateUI from './_partials/app/create-kubectl-app-ui.mdx'
+import PartialAppHelmAppCreateUI from './_partials/app/create-helm-app-ui.mdx'
+import PartialAppBashAppCreateUI from './_partials/app/create-bash-app-ui.mdx'
+import PartialAppAccessUI from './_partials/app/access-ui.mdx'
 
 
 Apps in Loft allow you to package applications and scripts to share them with other members of your organization.
@@ -30,7 +30,7 @@ Loft lets you create 3 types of apps:
 #### `kubectl` Apps
 
   </summary>
-  <FragmentAppKubectlAppCreateUI/>
+  <PartialAppKubectlAppCreateUI/>
 </details>
 
 <details>
@@ -39,7 +39,7 @@ Loft lets you create 3 types of apps:
 #### `helm` Apps
 
   </summary>
-  <FragmentAppHelmAppCreateUI/>
+  <PartialAppHelmAppCreateUI/>
 </details>
 
 <details>
@@ -48,7 +48,7 @@ Loft lets you create 3 types of apps:
 #### `bash` Apps
 
   </summary>
-  <FragmentAppBashAppCreateUI/>
+  <PartialAppBashAppCreateUI/>
 </details>
 
 
@@ -57,29 +57,29 @@ Loft users can deploy apps directly to spaces and virtual clusters, or they can 
 
 <details>
   <summary>Deploy Apps to Spaces</summary>
-  <FragmentAppDeploySpaceUI/>
+  <PartialAppDeploySpaceUI/>
 </details>
 
 <details>
   <summary>Deploy Apps to Virtual Clusters</summary>
-  <FragmentAppDeployVirtualClusterUI/>
+  <PartialAppDeployVirtualClusterUI/>
 </details>
 
 <details>
   <summary>Add Apps to Space Templates</summary>
-  <FragmentSpaceTemplateCreateUI/>
+  <PartialSpaceTemplateCreateUI/>
 </details>
 
 <details>
   <summary>Add Apps to Virtual Cluster Templates</summary>
-  <FragmentVirtualClusterTemplateCreateUI/>
+  <PartialVirtualClusterTemplateCreateUI/>
 </details>
 
 
 ### Control Access To Apps
 Loft makes it easy for users to configure who can instantiate, view, or edit an app.
 
-<FragmentAppAccessUI/>
+<PartialAppAccessUI/>
 
 
 ## Configuration
