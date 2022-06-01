@@ -146,3 +146,10 @@ serviceMonitor:
 config:
   audit:
     enabled: true
+
+# Enables running loft agent with a security context that:
+# - disables privileged escalation
+# - drops all capabilities
+# - runs as non-root
+securityContext:
+  enabled: true
