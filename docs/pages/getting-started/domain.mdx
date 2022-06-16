@@ -6,6 +6,8 @@ sidebar_label: 1.2 Domain & TLS (Optional)
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import Flow, { Step } from '@site/src/components/Flow'
+import Label from '@site/src/components/Label'
+import Expander from '@site/src/components/Expander'
 
 import PartialAdminSetVersion from '../admin/_partials/set-version.mdx'
 import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
@@ -15,6 +17,7 @@ import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
 Connecting a domain requires that you have deployed Loft to a remote cluster.
 :::
 
+After installing Loft, you may also choose to configure Domain and Transport Layer Security (TLS). Configuring Domain and TLS enables you to use Loft together with other members of your team who do not have direct access to Kubernetes, but want a common trusted endpoint for their Loft instance.
 
 ## Configure Domain
 
