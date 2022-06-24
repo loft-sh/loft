@@ -73,15 +73,17 @@ spec:
         {{- end }}
         ports:
         - name: http
-          containerPort: 80
+          containerPort: 8080
         - name: https
+          containerPort: 10443
+        - name: https-priv
           containerPort: 443
         {{- if .Values.livenessProbe }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
           httpGet:
             path: /healthz
-            port: 80
+            port: 8080
           failureThreshold: 20
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -92,7 +94,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /healthz
-            port: 80
+            port: 8080
           failureThreshold: 20
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -144,6 +146,18 @@ spec:
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+      {{- if .Values.securityContext }}
+      {{- if .Values.securityContext.enabled }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+            add:
+              - NET_BIND_SERVICE
+          runAsNonRoot: true
+      {{- end }}
+      {{- end }}
       {{- if .Values.audit }}
       {{- if .Values.audit.enableSideCar }}
       - name: audit

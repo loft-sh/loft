@@ -118,4 +118,10 @@ apiservice:
 audit:
   enableSideCar: false
   image: library/alpine:3.13.1
-  
+
+# Enables running loft agent with a security context that:
+# - disables privileged escalation
+# - drops all capabilities
+# - runs as non-root
+securityContext:
+  enabled: true
