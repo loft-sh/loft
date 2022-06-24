@@ -5,7 +5,7 @@ sidebar_label: Cluster Access
 
 import Field from '@site/src/components/Field'
 import APISpec from '@theme/ApiSchema'
-import FragmentClusterAccessCreateUI from '../../fragments/cluster-access/create-ui.mdx'
+import PartialClusterAccessCreateUI from '../_partials/cluster-access/create-ui.mdx'
 
 The core feature of Loft is to enable users to get self-service access to Kubernetes and allow them to create isolated namespaces and virtual clusters whenever they need them. 
 
@@ -29,7 +29,7 @@ flowchart LR;
 
 <details>
   <summary>Create Cluster Access For Individual Users</summary>
-  <FragmentClusterAccessCreateUI/>
+  <PartialClusterAccessCreateUI/>
 
 :::note Single Sign-On + Cluster Access
 You can connect a variety of SSO providers to Loft. To automatically give users access to clusters based on their SSO user groups, you can switch to the <Label>Team Members</Label> tab to grant cluster access for each member of a team (e.g. for each member of a group in Active Directory, Okta, SAML, etc.)

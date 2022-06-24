@@ -2,9 +2,9 @@
 
 ## Define Loft Credentials
 ```bash
-export CYPRESS_PASSWORD=XXXX                      # required
-# export CYPRESS_baseUrl=http://localhost:3000    # optional
-# export CYPRESS_user=admin                       # optional
+export CYPRESS_LOFT_URL=http://localhost:3000
+export CYPRESS_LOFT_USER=admin
+export CYPRESS_LOFT_PASSWORD=XXXX
 ```
 
 ## Interactive Mode

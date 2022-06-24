@@ -1,9 +1,16 @@
 # Home Routes
-/                                               /docs/getting-started/install/cli                   302!
-/docs                                           /docs/getting-started/install/cli                   302!
+/                                               /docs/getting-started/install/cli                   301!
+/docs                                           /docs/getting-started/install/cli                   301!
 
 # Short links
-/docs/install-cli                               /docs/getting-started/install/cli                   302!
+/docs/install-cli                               /docs/getting-started/install/cli                   301!
+
+# SEO Redirects 2022.06.08
+
+/docs/guides/onboarding                         /docs/getting-started/install/cli                   301!
+/docs/users/users                               /docs/users/                                        301!
+/docs/apps/apps                                 /docs/apps/                                         301!
+/docs/secrets/secrets                           /docs/secrets/                                      301!
 
 # SEO Redirects v1 -> v2
 /docs/introduction                              /docs/getting-started/install/cli                   301!

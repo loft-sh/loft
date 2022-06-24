@@ -7,9 +7,9 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
 import APISpec from '@theme/ApiSchema'
-import FragmentSpaceTemplateCreateUI from '../fragments/space-template/create-ui.mdx'
-import FragmentSpaceTemplateInstantiateUI from '../fragments/space-template/instantiate-ui.mdx'
-import FragmentSpaceTemplateInstantiateCLI from '../fragments/space-template/instantiate-cli.mdx'
+import PartialSpaceTemplateCreateUI from './_partials/space-template/create-ui.mdx'
+import PartialSpaceTemplateInstantiateUI from './_partials/space-template/instantiate-ui.mdx'
+import PartialSpaceTemplateInstantiateCLI from './_partials/space-template/instantiate-cli.mdx'
 
 
 Loft allows you to create templates for spaces. Unlike [Space Constraints](../clusters/access/space-constraints.mdx) which are enforced for a space, space templates are optional templates that a user can choose to apply when creating a space.
@@ -27,7 +27,7 @@ Do **not** use space templates for setting up security-related resources such as
 
 <details>
   <summary>1. Create Space Template</summary>
-  <FragmentSpaceTemplateCreateUI/>
+  <PartialSpaceTemplateCreateUI/>
 </details>
 
 <details>
@@ -38,8 +38,8 @@ Do **not** use space templates for setting up security-related resources such as
       {label: 'UI', value: 'ui'},
       {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceTemplateInstantiateUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceTemplateInstantiateCLI/></TabItem>
+    <TabItem value="ui"><PartialSpaceTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceTemplateInstantiateCLI/></TabItem>
   </Tabs>
 </details>
 

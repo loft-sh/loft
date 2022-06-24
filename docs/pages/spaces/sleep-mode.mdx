@@ -6,16 +6,16 @@ sidebar_label: Sleep Mode
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 
-import FragmentSleepConfigureUI from '../fragments/sleep/configure-ui.mdx'
-import FragmentSleepEnforceUI from '../fragments/sleep/enforce-ui.mdx'
-import FragmentSleepManualUI from '../fragments/sleep/manual-ui.mdx'
-import FragmentSleepManualCLI from '../fragments/sleep/manual-cli.mdx'
-import FragmentSleepScheduleUI from '../fragments/sleep/schedule-ui.mdx'
-import FragmentSleepWakeUI from '../fragments/sleep/wake-ui.mdx'
-import FragmentSleepWakeCLI from '../fragments/sleep/wake-cli.mdx'
-import FragmentSleepWakeKubectl from '../fragments/sleep/wake-kubectl.mdx'
-import FragmentAutoDeleteEnforceUI from '../fragments/auto-delete/enforce-ui.mdx'
-import FragmentAutoDeleteConfigureUI from '../fragments/auto-delete/configure-ui.mdx'
+import PartialSleepConfigureUI from './_partials/sleep/configure-ui.mdx'
+import PartialSleepEnforceUI from './_partials/sleep/enforce-ui.mdx'
+import PartialSleepManualUI from './_partials/sleep/manual-ui.mdx'
+import PartialSleepManualCLI from './_partials/sleep/manual-cli.mdx'
+import PartialSleepScheduleUI from './_partials/sleep/schedule-ui.mdx'
+import PartialSleepWakeUI from './_partials/sleep/wake-ui.mdx'
+import PartialSleepWakeCLI from './_partials/sleep/wake-cli.mdx'
+import PartialSleepWakeKubectl from './_partials/sleep/wake-kubectl.mdx'
+import PartialAutoDeleteEnforceUI from './_partials/auto-delete/enforce-ui.mdx'
+import PartialAutoDeleteConfigureUI from './_partials/auto-delete/configure-ui.mdx'
 
 
 Loft provides two powerful features to reduce Kubernetes cost:
@@ -44,8 +44,8 @@ Sleep mode can be:
       {label: 'UI', value: 'ui'},
       {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><FragmentSleepManualUI/></TabItem>
-    <TabItem value="cli"><FragmentSleepManualCLI/></TabItem>
+    <TabItem value="ui"><PartialSleepManualUI/></TabItem>
+    <TabItem value="cli"><PartialSleepManualCLI/></TabItem>
   </Tabs>
 
 :::tip Automatic Wakeup
@@ -56,7 +56,7 @@ Note that the space will automatically wake up again, once you run a kubectl com
 
 <details>
   <summary>Automatic Sleep Mode (individual space)</summary>
-  <FragmentSleepConfigureUI/>
+  <PartialSleepConfigureUI/>
 </details>
 
 <details>
@@ -68,9 +68,9 @@ Note that the space will automatically wake up again, once you run a kubectl com
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSleepWakeUI/></TabItem>
-    <TabItem value="cli"><FragmentSleepWakeCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSleepWakeKubectl/></TabItem>
+    <TabItem value="ui"><PartialSleepWakeUI/></TabItem>
+    <TabItem value="cli"><PartialSleepWakeCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSleepWakeKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -79,7 +79,7 @@ Note that the space will automatically wake up again, once you run a kubectl com
 
 <details>
   <summary>Scheduled Sleep & Wake-Up (individual space)</summary>
-  <FragmentSleepScheduleUI/>
+  <PartialSleepScheduleUI/>
 </details>
 
 
@@ -87,7 +87,7 @@ Note that the space will automatically wake up again, once you run a kubectl com
 
 <details>
   <summary>Enforce Sleep Mode For <u>All</u> Spaces Created By User/Team</summary>
-  <FragmentSleepEnforceUI/>
+  <PartialSleepEnforceUI/>
 </details>
 
 
@@ -96,12 +96,12 @@ Loft lets you configure an auto-delete for namespaces that have not been used fo
 
 <details>
   <summary>Configure Auto-Delete Timeout (individual space)</summary>
-  <FragmentAutoDeleteConfigureUI/>
+  <PartialAutoDeleteConfigureUI/>
 </details>
 
 <details>
   <summary>Enforce Auto-Delete Timeout For <u>All</u> Space Created By User/Team</summary>
-  <FragmentAutoDeleteEnforceUI/>
+  <PartialAutoDeleteEnforceUI/>
 </details>
 
 

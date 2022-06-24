@@ -6,38 +6,38 @@ sidebar_label: Spaces
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 
-import FragmentSpaceDiagramNamespace from '../../fragments/space/diagrams/namespace.mdx'
-import FragmentSpaceCreateUI from '../../fragments/space/create-ui.mdx'
-import FragmentSpaceCreateCLI from '../../fragments/space/create-cli.mdx'
-import FragmentSpaceCreateKubectl from '../../fragments/space/create-kubectl.mdx'
-import FragmentSpaceDeleteUI from '../../fragments/space/delete-ui.mdx'
-import FragmentSpaceDeleteCLI from '../../fragments/space/delete-cli.mdx'
-import FragmentSpaceDeleteKubectl from '../../fragments/space/delete-kubectl.mdx'
-import FragmentSpaceListUI from '../../fragments/space/list-ui.mdx'
-import FragmentSpaceListCLI from '../../fragments/space/list-cli.mdx'
-import FragmentSpaceListKubectl from '../../fragments/space/list-kubectl.mdx'
-import FragmentSleepConfigureUI from '../../fragments/sleep/configure-ui.mdx'
-import FragmentSleepEnforceUI from '../../fragments/sleep/enforce-ui.mdx'
-import FragmentSleepManualUI from '../../fragments/sleep/manual-ui.mdx'
-import FragmentSleepManualCLI from '../../fragments/sleep/manual-cli.mdx'
-import FragmentSleepScheduleUI from '../../fragments/sleep/schedule-ui.mdx'
-import FragmentSleepWakeUI from '../../fragments/sleep/wake-ui.mdx'
-import FragmentSleepWakeCLI from '../../fragments/sleep/wake-cli.mdx'
-import FragmentSleepWakeKubectl from '../../fragments/sleep/wake-kubectl.mdx'
-import FragmentAutoDeleteConfigureUI from '../../fragments/auto-delete/configure-ui.mdx'
-import FragmentAutoDeleteEnforceUI from '../../fragments/auto-delete/enforce-ui.mdx'
-import FragmentSpaceTemplateCreateUI from '../../fragments/space-template/create-ui.mdx'
-import FragmentSpaceTemplateInstantiateUI from '../../fragments/space-template/instantiate-ui.mdx'
-import FragmentSpaceTemplateInstantiateCLI from '../../fragments/space-template/instantiate-cli.mdx'
-import FragmentSpaceContraintsCreateUI from '../../fragments/space-constraints/create-ui.mdx'
-import FragmentSpaceContraintsEnforceUI from '../../fragments/space-constraints/enforce-ui.mdx'
-import FragmentSpaceShareUI from '../../fragments/space/share-ui.mdx'
-import FragmentSpaceShareCLI from '../../fragments/space/share-cli.mdx'
+import PartialSpaceDiagramNamespace from '../../spaces/_partials/diagrams/namespace.mdx'
+import PartialSpaceCreateUI from '../../spaces/_partials/space/create-ui.mdx'
+import PartialSpaceCreateCLI from '../../spaces/_partials/space/create-cli.mdx'
+import PartialSpaceCreateKubectl from '../../spaces/_partials/space/create-kubectl.mdx'
+import PartialSpaceDeleteUI from '../../spaces/_partials/space/delete-ui.mdx'
+import PartialSpaceDeleteCLI from '../../spaces/_partials/space/delete-cli.mdx'
+import PartialSpaceDeleteKubectl from '../../spaces/_partials/space/delete-kubectl.mdx'
+import PartialSpaceListUI from '../../spaces/_partials/space/list-ui.mdx'
+import PartialSpaceListCLI from '../../spaces/_partials/space/list-cli.mdx'
+import PartialSpaceListKubectl from '../../spaces/_partials/space/list-kubectl.mdx'
+import PartialSleepConfigureUI from '../../spaces/_partials/sleep/configure-ui.mdx'
+import PartialSleepEnforceUI from '../../spaces/_partials/sleep/enforce-ui.mdx'
+import PartialSleepManualUI from '../../spaces/_partials/sleep/manual-ui.mdx'
+import PartialSleepManualCLI from '../../spaces/_partials/sleep/manual-cli.mdx'
+import PartialSleepScheduleUI from '../../spaces/_partials/sleep/schedule-ui.mdx'
+import PartialSleepWakeUI from '../../spaces/_partials/sleep/wake-ui.mdx'
+import PartialSleepWakeCLI from '../../spaces/_partials/sleep/wake-cli.mdx'
+import PartialSleepWakeKubectl from '../../spaces/_partials/sleep/wake-kubectl.mdx'
+import PartialAutoDeleteConfigureUI from '../../spaces/_partials/auto-delete/configure-ui.mdx'
+import PartialAutoDeleteEnforceUI from '../../spaces/_partials/auto-delete/enforce-ui.mdx'
+import PartialSpaceTemplateCreateUI from '../../spaces/_partials/space-template/create-ui.mdx'
+import PartialSpaceTemplateInstantiateUI from '../../spaces/_partials/space-template/instantiate-ui.mdx'
+import PartialSpaceTemplateInstantiateCLI from '../../spaces/_partials/space-template/instantiate-cli.mdx'
+import PartialSpaceContraintsCreateUI from '../../spaces/_partials/space-constraints/create-ui.mdx'
+import PartialSpaceContraintsEnforceUI from '../../spaces/_partials/space-constraints/enforce-ui.mdx'
+import PartialSpaceShareUI from '../../spaces/_partials/space/share-ui.mdx'
+import PartialSpaceShareCLI from '../../spaces/_partials/space/share-cli.mdx'
 
 
 Spaces are virtual resources that represent regular Kubernetes namespaces. Typically, non-admin users to not have the permission to list, create or delete namespaces in a shared Kubernetes clusters. That's why Loft adds the space resource to Kubernetes. Spaces are not stored in etcd but rather abstract from regular namespaces. Deleting a space will effectively delete the underlying namespace, for example. In turn, any labels and annotations set on a namespace will show up on the corresponding space as well. 
 
-<FragmentSpaceDiagramNamespace/>
+<PartialSpaceDiagramNamespace/>
 
 
 ## Working with Spaces
@@ -52,9 +52,9 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceCreateUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceCreateCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSpaceCreateKubectl/></TabItem>
+    <TabItem value="ui"><PartialSpaceCreateUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceCreateCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceCreateKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -67,9 +67,9 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceDeleteUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceDeleteCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSpaceDeleteKubectl/></TabItem>
+    <TabItem value="ui"><PartialSpaceDeleteUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceDeleteCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceDeleteKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -82,9 +82,9 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceListUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceListCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSpaceListKubectl/></TabItem>
+    <TabItem value="ui"><PartialSpaceListUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceListCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceListKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -100,8 +100,8 @@ With sleep mode, you can put Kubernetes namespaces to sleep which means that Lof
       {label: 'UI', value: 'ui'},
       {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><FragmentSleepManualUI/></TabItem>
-    <TabItem value="cli"><FragmentSleepManualCLI/></TabItem>
+    <TabItem value="ui"><PartialSleepManualUI/></TabItem>
+    <TabItem value="cli"><PartialSleepManualCLI/></TabItem>
   </Tabs>
 
 :::tip Automatic Wakeup
@@ -119,25 +119,25 @@ Note that the space will automatically wake up again, once you run a kubectl com
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSleepWakeUI/></TabItem>
-    <TabItem value="cli"><FragmentSleepWakeCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSleepWakeKubectl/></TabItem>
+    <TabItem value="ui"><PartialSleepWakeUI/></TabItem>
+    <TabItem value="cli"><PartialSleepWakeCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSleepWakeKubectl/></TabItem>
   </Tabs>
 </details>
 
 <details>
   <summary>Automatic Sleep Mode (individual space)</summary>
-  <FragmentSleepConfigureUI/>
+  <PartialSleepConfigureUI/>
 </details>
 
 <details>
   <summary>Scheduled Sleep & Wake-Up (individual space)</summary>
-  <FragmentSleepScheduleUI/>
+  <PartialSleepScheduleUI/>
 </details>
 
 <details>
   <summary>Enforce Sleep Mode For <u>All</u> Spaces Created By User/Team</summary>
-  <FragmentSleepEnforceUI/>
+  <PartialSleepEnforceUI/>
 </details>
 
 
@@ -146,12 +146,12 @@ Loft lets you configure an auto-delete for namespaces that have not been used fo
 
 <details>
   <summary>Configure Auto-Delete Timeout (individual space)</summary>
-  <FragmentAutoDeleteConfigureUI/>
+  <PartialAutoDeleteConfigureUI/>
 </details>
 
 <details>
   <summary>Enforce Auto-Delete Timeout For <u>All</u> Space Created By User/Team</summary>
-  <FragmentAutoDeleteEnforceUI/>
+  <PartialAutoDeleteEnforceUI/>
 </details>
 
 
@@ -169,7 +169,7 @@ Do **not** use space templates for setting up security-related resources such as
 
 <details>
   <summary>1. Create Space Template</summary>
-  <FragmentSpaceTemplateCreateUI/>
+  <PartialSpaceTemplateCreateUI/>
 </details>
 
 <details>
@@ -180,8 +180,8 @@ Do **not** use space templates for setting up security-related resources such as
       {label: 'UI', value: 'ui'},
       {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceTemplateInstantiateUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceTemplateInstantiateCLI/></TabItem>
+    <TabItem value="ui"><PartialSpaceTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceTemplateInstantiateCLI/></TabItem>
   </Tabs>
 </details>
 
@@ -191,12 +191,12 @@ Space Constraints allow you to define restrictions for namespaces such as enforc
 
 <details>
   <summary>1. Create Space Constraints</summary>
-  <FragmentSpaceContraintsCreateUI/>
+  <PartialSpaceContraintsCreateUI/>
 </details>
 
 <details>
   <summary>2. Enforce Space Constraints For Users & Teams</summary>
-  <FragmentSpaceContraintsEnforceUI/>
+  <PartialSpaceContraintsEnforceUI/>
 </details>
 
 
@@ -209,6 +209,6 @@ Loft makes it easy to give other users or even entire teams access to one of you
     {label: 'UI', value: 'ui'},
     {label: 'CLI', value: 'cli'},
   ]}>
-  <TabItem value="ui"><FragmentSpaceShareUI/></TabItem>
-  <TabItem value="cli"><FragmentSpaceShareCLI/></TabItem>
+  <TabItem value="ui"><PartialSpaceShareUI/></TabItem>
+  <TabItem value="cli"><PartialSpaceShareCLI/></TabItem>
 </Tabs>

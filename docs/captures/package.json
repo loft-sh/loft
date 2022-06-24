@@ -14,6 +14,6 @@
     "selenium-webdriver": "^4.0.0-rc-1"
   },
   "devDependencies": {
-    "cypress": "8.7.0"
+    "cypress": "^10.0.3"
   }
 }

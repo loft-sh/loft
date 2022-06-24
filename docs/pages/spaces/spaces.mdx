@@ -8,20 +8,20 @@ import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
 import APISpec from '@theme/ApiSchema'
 
-import FragmentSpaceDiagramNamespace from '../fragments/space/diagrams/namespace.mdx'
-import FragmentSpaceCreateUI from '../fragments/space/create-ui.mdx'
-import FragmentSpaceCreateCLI from '../fragments/space/create-cli.mdx'
-import FragmentSpaceCreateKubectl from '../fragments/space/create-kubectl.mdx'
-import FragmentSpaceDeleteUI from '../fragments/space/delete-ui.mdx'
-import FragmentSpaceDeleteCLI from '../fragments/space/delete-cli.mdx'
-import FragmentSpaceDeleteKubectl from '../fragments/space/delete-kubectl.mdx'
-import FragmentSpaceListUI from '../fragments/space/list-ui.mdx'
-import FragmentSpaceListCLI from '../fragments/space/list-cli.mdx'
-import FragmentSpaceListKubectl from '../fragments/space/list-kubectl.mdx'
+import PartialSpaceDiagramNamespace from './_partials/diagrams/namespace.mdx'
+import PartialSpaceCreateUI from './_partials/space/create-ui.mdx'
+import PartialSpaceCreateCLI from './_partials/space/create-cli.mdx'
+import PartialSpaceCreateKubectl from './_partials/space/create-kubectl.mdx'
+import PartialSpaceDeleteUI from './_partials/space/delete-ui.mdx'
+import PartialSpaceDeleteCLI from './_partials/space/delete-cli.mdx'
+import PartialSpaceDeleteKubectl from './_partials/space/delete-kubectl.mdx'
+import PartialSpaceListUI from './_partials/space/list-ui.mdx'
+import PartialSpaceListCLI from './_partials/space/list-cli.mdx'
+import PartialSpaceListKubectl from './_partials/space/list-kubectl.mdx'
 
 Spaces are virtual resources that represent regular Kubernetes namespaces. Typically, non-admin users to not have the permission to list, create or delete namespaces in a shared Kubernetes clusters. That's why Loft adds the space resource to Kubernetes. Spaces are not stored in etcd but rather abstract from regular namespaces. Deleting a space will effectively delete the underlying namespace, for example. In turn, any labels and annotations set on a namespace will show up on the corresponding space as well. 
 
-<FragmentSpaceDiagramNamespace/>
+<PartialSpaceDiagramNamespace/>
 
 
 ## Working with Spaces
@@ -36,9 +36,9 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceCreateUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceCreateCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSpaceCreateKubectl/></TabItem>
+    <TabItem value="ui"><PartialSpaceCreateUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceCreateCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceCreateKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -51,9 +51,9 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceDeleteUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceDeleteCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSpaceDeleteKubectl/></TabItem>
+    <TabItem value="ui"><PartialSpaceDeleteUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceDeleteCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceDeleteKubectl/></TabItem>
   </Tabs>
 </details>
 
@@ -66,9 +66,9 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
       {label: 'CLI', value: 'cli'},
       {label: 'kubectl', value: 'kubectl'},
     ]}>
-    <TabItem value="ui"><FragmentSpaceListUI/></TabItem>
-    <TabItem value="cli"><FragmentSpaceListCLI/></TabItem>
-    <TabItem value="kubectl"><FragmentSpaceListKubectl/></TabItem>
+    <TabItem value="ui"><PartialSpaceListUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceListCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceListKubectl/></TabItem>
   </Tabs>
 </details>
 

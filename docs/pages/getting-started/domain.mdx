@@ -6,15 +6,18 @@ sidebar_label: 1.2 Domain & TLS (Optional)
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import Flow, { Step } from '@site/src/components/Flow'
+import Label from '@site/src/components/Label'
+import Expander from '@site/src/components/Expander'
 
-import FragmentAdminSetVersion from '../fragments/admin/set-version.mdx'
-import FragmentAdminUpgrade from '../fragments/admin/upgrade.mdx'
+import PartialAdminSetVersion from '../admin/_partials/set-version.mdx'
+import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
 
 
 :::caution Remote Cluster Required
 Connecting a domain requires that you have deployed Loft to a remote cluster.
 :::
 
+After installing Loft, you may also choose to configure Domain and Transport Layer Security (TLS). Configuring Domain and TLS enables you to use Loft together with other members of your team who do not have direct access to Kubernetes, but want a common trusted endpoint for their Loft instance.
 
 ## Configure Domain
 
@@ -44,10 +47,10 @@ loft start --host=loft.mydomain.tld     # Make sure to change `loft.mydomain.tld
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
   <Step>
 
@@ -120,10 +123,10 @@ ingress:
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 
@@ -292,10 +295,10 @@ certIssuer:
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 
@@ -419,10 +422,10 @@ This must be configured outside of the Loft deployment
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 
@@ -554,10 +557,10 @@ This must be configured outside of the Loft deployment
 
   </Step>
   <Step>
-    <FragmentAdminSetVersion/>
+    <PartialAdminSetVersion/>
   </Step>
   <Step>
-    <FragmentAdminUpgrade/>
+    <PartialAdminUpgrade/>
   </Step>
 </Flow>
 

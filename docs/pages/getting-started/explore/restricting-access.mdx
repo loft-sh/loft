@@ -3,10 +3,10 @@ title: Quotas & Space Constraints
 sidebar_label: Restrict Users
 ---
 
-import FragmentQuotasEnforceUI from '../../fragments/quotas/enforce-ui.mdx'
-import FragmentSpaceContraintsCreateUI from '../../fragments/space-constraints/create-ui.mdx'
-import FragmentSpaceContraintsEnforceUI from '../../fragments/space-constraints/enforce-ui.mdx'
-import FragmentSleepEnforceUI from '../../fragments/sleep/enforce-ui.mdx'
+import PartialQuotasEnforceUI from '../../clusters/_partials/quotas/enforce-ui.mdx'
+import PartialSpaceContraintsCreateUI from '../../spaces/_partials/space-constraints/create-ui.mdx'
+import PartialSpaceContraintsEnforceUI from '../../spaces/_partials/space-constraints/enforce-ui.mdx'
+import PartialSleepEnforceUI from '../../spaces/_partials/sleep/enforce-ui.mdx'
 
 
 A key aspect of Loft is establishing secure multi-tenancy when sharing clusters among multiple users and teams. To guarantee fair use for every tenant and to isolate tenants from each other, Loft provides two features:
@@ -15,19 +15,19 @@ A key aspect of Loft is establishing secure multi-tenancy when sharing clusters 
 
 
 ## Quotas
-<FragmentQuotasEnforceUI/>
+<PartialQuotasEnforceUI/>
 
 ## Space Constraints
 Space Constraints allow you to define restrictions for namespaces such as enforced resources that will be deployed to each new namespace a user creates (e.g. NetworkPolicies) or other enforced settings such as mandatory labels, annotations, or any sleep mode configurations.
 
 <details>
   <summary>1. Create Space Constraints</summary>
-  <FragmentSpaceContraintsCreateUI/>
+  <PartialSpaceContraintsCreateUI/>
 </details>
 
 <details>
   <summary>2. Enforce Space Constraints For Users & Teams</summary>
-  <FragmentSpaceContraintsEnforceUI/>
+  <PartialSpaceContraintsEnforceUI/>
 </details>
 
 
@@ -35,5 +35,5 @@ Space Constraints allow you to define restrictions for namespaces such as enforc
 
 <details>
   <summary>Enforce Sleep Mode For <u>All</u> Spaces Created By User/Team</summary>
-  <FragmentSleepEnforceUI/>
+  <PartialSleepEnforceUI/>
 </details>

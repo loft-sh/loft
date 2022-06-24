@@ -16,7 +16,7 @@
 }
 
 .markdown figure.stretch,
-.markdown figure.stretch img {
+.markdown figure img {
   width: 100%;
 }
 
@@ -27,6 +27,10 @@
   border: 1.5px solid #c6cbd1;
   border-radius: 4px;
 }
+
+figure img {
+    max-width: 100%;
+  }
 
 .markdown figcaption {
   position: relative;
