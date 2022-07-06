@@ -63,6 +63,7 @@ module.exports = {
             indexName: "loft-sh",
             placeholder: "Search...",
             algoliaOptions: {},
+            contextualSearch: false,
         },
         footer: {
             style: 'light',
