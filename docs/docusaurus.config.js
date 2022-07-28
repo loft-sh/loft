@@ -63,6 +63,7 @@ module.exports = {
             indexName: "loft-sh",
             placeholder: "Search...",
             algoliaOptions: {},
+            contextualSearch: false,
         },
         footer: {
             style: 'light',
@@ -83,7 +84,7 @@ module.exports = {
                     lastVersion: "current",
                     versions: {
                         current: {
-                            label: "2.0 (Latest)",
+                            label: "2.2 (Latest)",
                             path: ""
                         }
                     },
