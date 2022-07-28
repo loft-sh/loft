@@ -131,6 +131,8 @@ audit:
     size: 10Gi
     # Optional storage class
     #storageClassName: my-storage-class
+    # Optional custom accessModes
+    #accessModes: ["ReadWriteOnce"]
 
 # Prometheus Service Monitor Configuration
 serviceMonitor:

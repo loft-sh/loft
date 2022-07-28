@@ -9,7 +9,12 @@ metadata:
     {{- toYaml .Values.commonAnnotations | nindent 4 }}
   {{- end }}
 spec:
+  {{- if .Values.audit.persistence.accessModes }}
+  accessModes:
+{{ toYaml .Values.audit.persistence.accessModes | indent 4 }}
+  {{- else }}
   accessModes: ["ReadWriteOnce"]
+  {{- end }}
   storageClassName: {{ .Values.audit.persistence.storageClassName }}
   resources:
     requests:
