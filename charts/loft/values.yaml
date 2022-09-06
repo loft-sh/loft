@@ -138,7 +138,7 @@ audit:
 serviceMonitor:
   enabled: false
   jobLabel: loft
-  targetPort: 80
+  targetPort: 8080
   path: /metrics
   interval: 60s
   scrapeTimeout: 30s
