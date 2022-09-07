@@ -76,8 +76,6 @@ spec:
           containerPort: 8080
         - name: https
           containerPort: 10443
-        - name: https-priv
-          containerPort: 443
         {{- if .Values.livenessProbe }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
@@ -153,8 +151,6 @@ spec:
           capabilities:
             drop:
               - ALL
-            add:
-              - NET_BIND_SERVICE
           runAsNonRoot: true
       {{- end }}
       {{- end }}
