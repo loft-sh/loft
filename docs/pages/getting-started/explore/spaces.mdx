@@ -35,7 +35,7 @@ import PartialSpaceShareUI from '../../spaces/_partials/space/share-ui.mdx'
 import PartialSpaceShareCLI from '../../spaces/_partials/space/share-cli.mdx'
 
 
-Spaces are virtual resources that represent regular Kubernetes namespaces. Typically, non-admin users do not have the permission to list, create or delete namespaces in a shared Kubernetes clusters. That's why Loft adds the space resource to Kubernetes. Spaces are not stored in etcd but rather abstract from regular namespaces. Deleting a space will effectively delete the underlying namespace, for example. In turn, any labels and annotations set on a namespace will show up on the corresponding space as well. 
+Spaces are virtual resources that represent regular Kubernetes namespaces. Typically, non-admin users to not have the permission to list, create or delete namespaces in a shared Kubernetes clusters. That's why Loft adds the space resource to Kubernetes. Spaces are not stored in etcd but rather abstract from regular namespaces. Deleting a space will effectively delete the underlying namespace, for example. In turn, any labels and annotations set on a namespace will show up on the corresponding space as well. 
 
 <PartialSpaceDiagramNamespace/>
 
