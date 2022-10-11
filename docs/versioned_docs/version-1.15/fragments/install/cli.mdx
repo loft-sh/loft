@@ -30,16 +30,14 @@ yarn global add loft.sh
 <TabItem value="mac">
 
 ```bash
-curl -s -L "https://github.com/loft-sh/loft/releases/latest" | sed -nE 's!.*"([^"]*loft-darwin-amd64)".*!https://github.com\1!p' | xargs -n 1 curl -L -o loft && chmod +x loft;
-sudo mv loft /usr/local/bin;
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-darwin-amd64" && sudo install -c -m 0755 loft /usr/local/bin
 ```
 
 </TabItem>
 <TabItem value="linux">
 
 ```bash
-curl -s -L "https://github.com/loft-sh/loft/releases/latest" | sed -nE 's!.*"([^"]*loft-linux-amd64)".*!https://github.com\1!p' | xargs -n 1 curl -L -o loft && chmod +x loft;
-sudo mv loft /usr/local/bin;
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-linux-amd64" && sudo install -c -m 0755 loft /usr/local/bin
 ```
 
 </TabItem>
@@ -47,7 +45,7 @@ sudo mv loft /usr/local/bin;
 
 ```powershell {4}
 md -Force "$Env:APPDATA\loft"; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls,Tls11,Tls12';
-Invoke-WebRequest -UseBasicParsing ((Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/latest" -UseBasicParsing).Content -replace "(?ms).*`"([^`"]*loft-windows-amd64.exe)`".*","https://github.com/`$1") -o $Env:APPDATA\loft\loft.exe;
+Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/latest/download/loft-windows-amd64.exe" -o $Env:APPDATA\loft\loft.exe;
 $env:Path += ";" + $Env:APPDATA + "\loft";
 [Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::User);
 ```
