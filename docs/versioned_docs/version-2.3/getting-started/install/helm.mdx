@@ -1,0 +1,90 @@
+---
+title: Install Loft with Helm
+sidebar_label: via Helm
+---
+
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Input from '@site/src/components/Input'
+import Flow, { Step } from '@site/src/components/Flow'
+import Image from '@site/src/components/Image'
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+import InstallCLIPartial from '../../cli/_partials/install.mdx'
+import PartialHintWarningAcceptInsecureCert from '../../fragments/hints/warning-accept-insecure-cert.mdx'
+import ImageLoginPage from '@site/static/media/ui/screenshots/auth/login/login.png'
+
+
+<Flow id="install-helm">
+  <Step>
+
+Deploy Loft via Helm v3:
+```bash
+helm upgrade --install loft loft --repository-config='' \
+  --repo https://charts.loft.sh/ \
+  --create-namespace \
+  --namespace loft \
+  --wait \
+  --set admin.email=$EMAIL \        # Make sure to replace this variable
+  --set admin.password=$PASSWORD    # Make sure to replace this variable
+```
+
+:::warning Common Helm Issues
+Make sure that your current workdir does not contain a file or folder called `loft` because otherwise Helm will run into an odd error and try to use the local folder or file as the Helm chart and the installation will fail. Check using: `ls -l`
+:::
+
+  </Step>
+  <Step>
+
+Start port-forwarding to your Loft instance:
+```bash
+kubectl port-forward service/loft 9898:443 --namespace loft
+```
+
+  </Step>
+  <Step>
+
+While port-forwarding is running in the background, sign in to your Loft instance that should be running on `localhost:9898`
+
+<Tabs
+  defaultValue="ui"
+  values={[
+      { label: 'via UI', value: 'ui', },
+      { label: 'via CLI', value: 'cli', },
+  ]
+  }>
+<TabItem value="ui">
+
+Open the url `https://localhost:9898` in your browser to access Loft UI via port-forwarding. To get a kube-context for your spaces or virtual clusters, we recommend that you install and use Loft CLI.
+
+</TabItem>
+<TabItem value="cli">
+
+<Flow id="login-cli">
+  <Step>
+
+Use one of the following commands to download the Loft CLI binary from GitHub:
+<InstallCLIPartial/>
+
+  </Step>
+  <Step>
+
+After Loft CLI is installed on your computer, you can use it to log in:
+```bash
+loft login https://localhost:9898 --insecure
+```
+
+  </Step>
+</Flow>
+
+</TabItem>
+</Tabs>
+
+  </Step>
+</Flow>
+
+<PartialHintWarningAcceptInsecureCert/>
+
+<Image src={ImageLoginPage} />

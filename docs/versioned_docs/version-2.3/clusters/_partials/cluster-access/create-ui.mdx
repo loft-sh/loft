@@ -1,0 +1,36 @@
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Input from '@site/src/components/Input'
+import Flow, { Step } from '@site/src/components/Flow'
+
+
+<Flow id="create-cluster-access-individual">
+  <Step>
+    If you are still impersonating, click <Button>Stop Impersonation</Button>
+  </Step>
+  <Step>
+    Go to the <NavStep>Clusters</NavStep> view using the main menu on the left
+  </Step>
+  <Step>
+    Switch to the tab <NavStep>Cluster Access</NavStep>
+  </Step>
+  <Step image="">
+    Click on the <Button>Create Cluster Access</Button> button
+  </Step>
+  <Step image="">
+    Use the field <Label>Display Name</Label> and enter a <Input>Name</Input> for the cluster access
+  </Step>
+  <Step image="">
+    In the <Label>Users & Teams</Label> section, make sure the <NavStep>Users</NavStep> tab is selected because we want to give an individual user access to a cluster
+  </Step>
+  <Step image="">
+    Use the field <Label>Select Individual Users</Label> and select the <Input>User(s)</Input> you want to create this cluster access for
+  </Step>
+  <Step image="">
+    In the <Label>Clusters</Label> section, either select <Input>All Clusters</Input> or the specific cluster that you want to make accessible for the user(s) you selected in the previous step
+  </Step>
+  <Step image="">
+    Click the button <Button>Create</Button> at the bottom of the drawer
+  </Step>
+</Flow>

@@ -1,0 +1,169 @@
+---
+title: Virtual Clusters in Loft
+sidebar_label: Virtual Clusters
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+import PartialVirtualClusterCreateUI from '../../virtual-clusters/_partials/vcluster/create-ui.mdx'
+import PartialVirtualClusterCreateCLI from '../../virtual-clusters/_partials/vcluster/create-cli.mdx'
+import PartialVirtualClusterCreateKubectl from '../../virtual-clusters/_partials/vcluster/create-kubectl.mdx'
+import PartialVirtualClusterDeleteUI from '../../virtual-clusters/_partials/vcluster/delete-ui.mdx'
+import PartialVirtualClusterDeleteCLI from '../../virtual-clusters/_partials/vcluster/delete-cli.mdx'
+import PartialVirtualClusterDeleteKubectl from '../../virtual-clusters/_partials/vcluster/delete-kubectl.mdx'
+import PartialVirtualClusterListUI from '../../virtual-clusters/_partials/vcluster/list-ui.mdx'
+import PartialVirtualClusterListCLI from '../../virtual-clusters/_partials/vcluster/list-cli.mdx'
+import PartialVirtualClusterListKubectl from '../../virtual-clusters/_partials/vcluster/list-kubectl.mdx'
+import PartialVirtualClusterTemplateCreateUI from '../../virtual-clusters/_partials/vcluster-template/create-ui.mdx'
+import PartialVirtualClusterTemplateInstantiateUI from '../../virtual-clusters/_partials/vcluster-template/instantiate-ui.mdx'
+import PartialVirtualClusterTemplateInstantiateCLI from '../../virtual-clusters/_partials/vcluster-template/instantiate-cli.mdx'
+import PartialVirtualClusterShareUI from '../../virtual-clusters/_partials/vcluster/share-ui.mdx'
+import PartialVirtualClusterShareCLI from '../../virtual-clusters/_partials/vcluster/share-cli.mdx'
+
+A virtual cluster is a fully functional Kubernetes cluster that runs inside the namespace of another Kubernetes cluster (host cluster). Virtual clusters are very useful if you are hitting the limits of namespaces and do not want to make special exceptions to the multi-tenancy configuration of the underlying cluster, e.g. a user needs their own CRD or user needs pods from 2 namespaces to communicate with each other but your standard NetworkPolicy does not allow this, then a virtual cluster may be perfect for this user.
+
+```bash
+# 1. Create virtual cluster
+loft create vcluster dev-anna
+✓ Creating namespace 'vcluster-dev-anna'
+✓ Applying security templates to namespace
+✓ Starting virtual cluster inside namespace
+✓ Virtual cluster 'dev-anna' successfully started.
+Loft has created a kube-context on your local machine to access this virtual cluster. It is your current kube-context now.
+
+# 2. Work within virtual cluster
+kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   5s
+kube-system       Active   5s
+kube-public       Active   5s
+kube-node-lease   Active   5s
+
+kubectl create deployment nginx-deployment --image=nginx
+deployment.apps/nginx-deployment created
+
+kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-deployment-mnvzz   1/1     Running   0          3s
+```
+
+
+
+## Working with Virtual Clusters
+Unlike "real" clusters, virtual clusters are much more lightweight and much faster to spin up and tear down again.
+
+<details>
+  <summary>Create Virtual Clusters</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui">
+      <PartialVirtualClusterCreateUI/>
+    </TabItem>
+    <TabItem value="cli">
+      <PartialVirtualClusterCreateCLI/>
+    </TabItem>
+    <TabItem value="kubectl">
+      <PartialVirtualClusterCreateKubectl/>
+    </TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>Delete Virtual Clusters</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui">
+      <PartialVirtualClusterDeleteUI/>
+    </TabItem>
+    <TabItem value="cli">
+      <PartialVirtualClusterDeleteCLI/>
+    </TabItem>
+    <TabItem value="kubectl">
+      <PartialVirtualClusterDeleteKubectl/>
+    </TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>List Virtual Clusters</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+  <TabItem value="ui">
+    <PartialVirtualClusterListUI/>
+  </TabItem>
+  <TabItem value="cli">
+    <PartialVirtualClusterListCLI/>
+  </TabItem>
+  <TabItem value="kubectl">
+    <PartialVirtualClusterListKubectl/></TabItem>
+  </Tabs>
+</details>
+
+
+## Virtual Cluster Templates
+Loft allows you to create templates for virtual clusters. Virtual cluster templates are optional templates that a user can choose to apply when creating a virtual cluster.
+
+Common use cases for virtual cluster templates may be:
+- Adding development tooling to a virtual cluster
+- Deploying pre-populated databases with test data
+- Equipping new virtual clusters with optional credentials, CRDs, etc.
+
+<details>
+  <summary>1. Create Virtual Cluster Template</summary>
+  <PartialVirtualClusterTemplateCreateUI/>
+</details>
+
+<details>
+  <summary>2. Create Virtual Cluster Based On Template</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui"><PartialVirtualClusterTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><PartialVirtualClusterTemplateInstantiateCLI/></TabItem>
+  </Tabs>
+</details>
+
+
+## Sleep Mode
+Loft's sleep allows you to configure an inactivity timeout for virtual clusters after which the virtual cluster will be put to sleep automatically. Technically, the sleep mode does not work directly on the virtual cluster itself but rather on the host namespace where the virtual cluster is running inside of.
+
+[Learn more about configuring sleep mode for spaces.](../../getting-started/explore/spaces#sleep-mode)
+
+
+## Auto-Delete
+Loft's auto-delete feature allows you to configure an inactivity timeout for virtual clusters after which the virtual cluster will be deleted automatically. Technically, auto-delete does not work directly on the virtual cluster itself but rather on the host namespace where the virtual cluster is running inside of.
+
+[Learn more about configuring auto-delete for spaces.](../../getting-started/explore/spaces#auto-delete)
+
+
+## Access Permissions
+Loft makes it easy to give other users or even entire teams access to one of your virtual clusters.
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'UI', value: 'ui'},
+    {label: 'CLI', value: 'cli'},
+  ]}>
+  <TabItem value="ui"><PartialVirtualClusterShareUI/></TabItem>
+  <TabItem value="cli"><PartialVirtualClusterShareCLI/></TabItem>
+</Tabs>

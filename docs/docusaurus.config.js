@@ -81,12 +81,11 @@ module.exports = {
                     sidebarPath: require.resolve('./sidebars.js'),
                     showLastUpdateTime: true,
                     editUrl: 'https://github.com/loft-sh/loft/edit/master/docs/',
-                    lastVersion: "current",
                     versions: {
                         current: {
-                            label: "2.3 (Latest)",
-                            path: ""
-                        }
+                            label: "3.0 (beta)",
+                            path: "3.0"
+                        },
                     },
                     remarkPlugins: [
                         [

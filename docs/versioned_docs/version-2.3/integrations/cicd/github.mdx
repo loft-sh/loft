@@ -1,0 +1,296 @@
+---
+title: Using Loft in GitHub Actions
+sidebar_label: GitHub Actions
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+
+Loft provides the following GitHub Actions for use in workflows:
+- [Setup DevSpace](https://github.com/loft-sh/setup-devspace): Installs the `devspace` CLI
+- [Setup Loft](https://github.com/loft-sh/setup-loft): Installs the `loft` CLI and logs in to the Loft instance
+- [Create Space](https://github.com/loft-sh/create-space): Creates a Space
+- [Delete Space](https://github.com/loft-sh/delete-space): Deletes a Space
+- [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster): Creates a Virtual Cluster
+- [Delete Virtual Cluster](https://github.com/loft-sh/delete-vcluster): Deletes a Virtual Cluster
+
+#### Spaces for Pull Requests
+
+These examples show how to create and delete Spaces for pull requests.
+
+<Tabs
+    defaultValue="manual"
+    values={[
+        { label: 'Basic', value: 'manual', },
+        { label: 'Automatic Cleanup', value: 'automatic', },
+        { label: 'DevSpace', value: 'devspace', },
+    ]
+    }>
+<TabItem value="manual">
+
+This example shows how to create and delete a space to test an application named `my-app` for pull requests.
+
+```yaml
+# .github/workflows/prs.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Space for PR
+        uses: loft-sh/create-space@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+      - name: Deploy Application
+        run: kubectl apply -Rf ./kubernetes
+      - name: Wait for Deployment
+        run: kubectl rollout status -n pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }} deployments/my-app
+      - name: Run Tests
+        run: make e2e
+      - name: Delete PR Space
+        uses: loft-sh/delete-space@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+```
+
+**Explanation:**
+1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+2. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps.
+3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
+4. Before running tests, we use `kubectl` to wait for the `my-app` deployment to become ready.
+5. Now we run the end-to-end tests. In this example we're using `make` to run tests, but the command should be customized for your testing framework.
+6. Finally, the [Delete Space](https://github.com/loft-sh/delete-space) GitHub Action is used to delete the pull request's space.
+
+</TabItem>
+<TabItem value="automatic">
+
+This example shows how to automatically delete a Space after testing an application named `my-app` for pull requests.
+
+```yaml {20}
+# .github/workflows/prs.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Space for PR
+        uses: loft-sh/create-space@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+          auto-cleanup: true
+      - name: Deploy Application
+        run: kubectl apply -Rf ./kubernetes
+      - name: Wait for Deployment
+        run: kubectl rollout status -n pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }} deployments/my-app
+      - name: Run Tests
+        run: make e2e
+```
+
+**Explanation:**
+1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+2. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the space after the job completes.
+3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
+4. Before running tests, we use `kubectl` to wait for the `my-app` deployment to become ready.
+5. Finally we run the end-to-end tests. In this example we're using `make` to run tests, but the command should be customized for your testing framework. There's no need to delete the space since the `auto-cleanup` option was used when creating the space.
+
+</TabItem>
+<TabItem value="devspace">
+
+This example shows how use the [Setup Devspace](https://github.com/loft-sh/setup-devspace) GitHub Action to install the DevSpace CLI and [DevSpace commands](https://devspace.sh/cli/docs/configuration/commands/basics) to run tests.
+
+```yaml {11-12,23-24}
+# .github/workflows/prs.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install DevSpace CLI
+        uses: loft-sh/setup-devspace@main
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Space for PR
+        uses: loft-sh/create-space@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+          auto-cleanup: true
+      - name: Run Tests
+        run: devspace run e2e
+```
+
+**Explanation:**
+1. The [Setup DevSpace](https://github.com/loft-sh/setup-devspace) action installs the DevSpace CLI.
+2. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+3. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the space after the job completes.
+4. Finally we use `devspace run e2e` to perform the needed steps to deploy and test `my-app`.
+
+</TabItem>
+</Tabs>
+
+#### Virtual Clusters for Pull Requests
+
+These examples show how to create and delete Virtual Clusters for pull requests.
+
+<Tabs
+    defaultValue="manual"
+    values={[
+        { label: 'Basic', value: 'manual', },
+        { label: 'Automatic Cleanup', value: 'automatic', },
+        { label: 'DevSpace', value: 'devspace', },
+    ]
+    }>
+<TabItem value="manual">
+
+This example shows how to create and delete a virtual cluster for testing an application named `my-app` on pull requests.
+
+```yaml
+# .github/workflows/vclusters.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Virtual Cluster for PR
+        uses: loft-sh/create-vcluster@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+      - name: Deploy Application
+        run: kubectl apply -Rf ./kubernetes
+      - name: Wait for Deployment
+        run: kubectl rollout status deployments/my-app
+      - name: Run Tests
+        run: make e2e
+      - name: Delete PR Virtual Cluster
+        uses: loft-sh/delete-vcluster@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+```
+
+**Explanation:**
+1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+2. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps.
+3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
+4. Before running tests, we use `kubectl` to wait for the `my-app` deployment to become ready.
+5. Now we run the end-to-end tests. In this example we're using `make` to run tests, but the command should be customized for your testing framework.
+6. Finally, the [Delete Virtual Cluster](https://github.com/loft-sh/delete-vcluster) GitHub Action is used to delete the virtual cluster.
+
+</TabItem>
+
+<TabItem value="automatic">
+
+This example shows how to automatically delete a Virtual Cluster after testing an application named my-app for pull requests.
+
+```yaml {20}
+# .github/workflows/vclusters.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Virtual Cluster for PR
+        uses: loft-sh/create-vcluster@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+          auto-cleanup: true
+      - name: Deploy Application
+        run: kubectl apply -Rf ./kubernetes
+      - name: Wait for Deployment
+        run: kubectl rollout status deployments/my-app
+      - name: Run Tests
+        run: make e2e
+```
+
+**Explanation:**
+1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+2. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the virtual cluster after the job completes.
+3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
+4. Before running tests, we use `kubectl` to wait for the `my-app` deployment to become ready.
+5. Finally we run the end-to-end tests. In this example we're using `make` to run tests, but the command should be customized for your testing framework. There's no need to delete the virtual cluster since the `auto-cleanup` option was used when creating the virtual cluster.
+
+</TabItem>
+
+<TabItem value="devspace">
+
+This example shows how use the [Setup Devspace](https://github.com/loft-sh/setup-devspace) GitHub Action to install the DevSpace CLI and [DevSpace commands](https://devspace.sh/cli/docs/configuration/commands/basics) to run tests.
+
+```yaml {11-12,23-24}
+# .github/workflows/vclusters.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install DevSpace CLI
+        uses: loft-sh/setup-devspace@main
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Virtual Cluster for PR
+        uses: loft-sh/create-vcluster@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+          auto-cleanup: true
+      - name: Run Tests
+        run: devspace run e2e
+```
+
+**Explanation:**
+1. The [Setup DevSpace](https://github.com/loft-sh/setup-devspace) action installs the DevSpace CLI.
+2. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+3. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the virtual cluster after the job completes.
+4. Finally we use `devspace run e2e` to perform the needed steps to deploy and test `my-app`.
+
+</TabItem>
+
+
+</Tabs>

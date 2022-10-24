@@ -1,0 +1,34 @@
+---
+title: Using Managment API in Loft
+sidebar_label: Management
+---
+
+The Loft management API is a Kubernetes API server that only serves virtual resources (not persisted in etcd) that facilitate interaction with Loft. These resources are primarily used by the Loft UI and CLI to change state in the Kubernetes cluster where Loft is installed in, without the need to have cluster wide access.
+
+In order to access the Loft management api, you'll need a Loft access key. See [access keys](../../api/access-keys.mdx) for more information how to create a new access key.
+
+With the access key, you can then query the Loft management API like any other kubernetes API server by prefixing `/kubernetes/management/`:
+```bash
+# Retrieve all users (use --insecure if you are using a self signed certificate)
+$ curl https://my-loft.com/kubernetes/management/apis/management.loft.sh/v1/users \
+        -H "Authorization: Bearer $ACCESS_KEY"
+{
+  "kind": "UserList",
+  "apiVersion": "management.loft.sh/v1",
+  "metadata": {
+    
+  },
+  "items": [
+    {
+      "kind": "User",
+      "apiVersion": "management.loft.sh/v1",
+      "metadata": {
+        "name": "admin",
+...
+```
+
+:::warning
+The Loft management API does only support resources in the API group `management.loft.sh` and you won't be able to query any pods, namespaces or other kubernetes resources from it. 
+:::
+
+To view what resources are available in the management API Kubernetes server, take a look at the [loft API repository](https://github.com/loft-sh/api/tree/master/pkg/apis/management/v1).

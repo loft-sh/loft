@@ -1,0 +1,83 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+
+<Tabs
+  groupId="platform"
+  defaultValue="mac"
+  values={[
+  //  { label: 'npm', value: 'npm', },
+  //  { label: 'yarn', value: 'yarn', },
+    { label: 'Mac (Intel/AMD)', value: 'mac', },
+    { label: 'Mac (Silicon/ARM)', value: 'mac-arm', },
+    { label: 'Linux (AMD)', value: 'linux', },
+    { label: 'Linux (ARM)', value: 'linux-arm', },
+    { label: 'Windows Powershell', value: 'windows', },
+  ]
+}>
+<TabItem value="npm">
+
+```bash
+npm install -g loft.sh
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn global add loft.sh
+```
+
+</TabItem>
+<TabItem value="mac">
+
+```bash
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-darwin-amd64" && sudo install -c -m 0755 loft /usr/local/bin
+```
+
+</TabItem>
+<TabItem value="mac-arm">
+
+```bash
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-darwin-arm64" && sudo install -c -m 0755 loft /usr/local/bin
+```
+
+</TabItem>
+<TabItem value="linux">
+
+```bash
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-linux-amd64" && sudo install -c -m 0755 loft /usr/local/bin
+```
+
+</TabItem>
+<TabItem value="linux-arm">
+
+```bash
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-linux-arm64" && sudo install -c -m 0755 loft /usr/local/bin
+```
+
+</TabItem>
+<TabItem value="windows">
+
+```powershell {4}
+md -Force "$Env:APPDATA\loft"; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls,Tls11,Tls12';
+Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/latest/download/loft-windows-amd64.exe" -o $Env:APPDATA\loft\loft.exe;
+$env:Path += ";" + $Env:APPDATA + "\loft";
+[Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::User);
+```
+
+:::info Check Environment Variable $PATH
+Line 4 of this install script adds the install directory `%APPDATA%\loft` to the `$PATH` environment variable. This is only effective for the current Powershell session, i.e., when opening a new terminal window, `loft` may not be found.
+
+**Make sure to add the folder `%APPDATA%\loft` to the `PATH` environment variable after installing Loft CLI via Powershell. Afterward, a reboot might be necessary.**
+
+To confirm that Loft CLI is successfully installed, reboot and test via:
+```bash
+loft --version
+```
+:::
+
+</TabItem>
+</Tabs>
+
+Alternatively, you can download the binary for your platform from the [GitHub Releases](https://github.com/loft-sh/loft/releases) page and add this binary to your PATH.
