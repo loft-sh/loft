@@ -1,22 +1,5 @@
 {
   "definitions": {
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.AppliedMetadata": {
-      "properties": {
-        "annotations": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        },
-        "labels": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.AppliedObject": {
       "properties": {
         "apiVersion": {
@@ -445,9 +428,6 @@
     },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.LocalClusterAccessStatus": {
       "properties": {
-        "spaceConstraint": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.EntityInfo"
-        },
         "teams": {
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.EntityInfo"
@@ -739,55 +719,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceConstraintNamespaceStatus": {
-      "properties": {
-        "appliedClusterRole": {
-          "description": "AppliedClusterRole is the cluster role that was bound to this namespace",
-          "type": "string"
-        },
-        "appliedMetadata": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.AppliedMetadata",
-          "description": "AppliedMetadata is the metadata that was applied on the space"
-        },
-        "appliedObjects": {
-          "description": "AppliedObjects are the objects that were applied on this namespace by the space constraint",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.AppliedObject"
-          },
-          "type": "array"
-        },
-        "message": {
-          "description": "Message is the human-readable message why this space is in this phase",
-          "type": "string"
-        },
-        "observedGeneration": {
-          "description": "ObservedGeneration of the space constraint",
-          "format": "int64",
-          "type": "integer"
-        },
-        "phase": {
-          "description": "Phase the namespace is in",
-          "type": "string"
-        },
-        "reason": {
-          "description": "Reason why this namespace is in the current phase",
-          "type": "string"
-        },
-        "spaceConstraint": {
-          "description": "SpaceConstraint are the applied space constraints",
-          "type": "string"
-        },
-        "team": {
-          "description": "Team that was used to apply the space constraints",
-          "type": "string"
-        },
-        "user": {
-          "description": "User that was used to apply the space constraints",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceObjectsNamespaceStatus": {
       "properties": {
         "appliedObjects": {
@@ -855,14 +786,6 @@
         "sleepModeConfig": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SleepModeConfig",
           "description": "SleepModeConfig is the sleep mode config of the space"
-        },
-        "spaceConstraint": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.EntityInfo",
-          "description": "SpaceConstraint describes the space constraint of the space."
-        },
-        "spaceConstraintStatus": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceConstraintNamespaceStatus",
-          "description": "SpaceConstraintStatus describes the space constraint status."
         },
         "spaceObjectsStatus": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.SpaceObjectsNamespaceStatus",
@@ -954,7 +877,7 @@
         },
         "kubeConfigRef": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.SecretRef",
-          "description": "A reference to the cluster admin kube config. This is needed for the cli & ui to access the virtual clusters"
+          "description": "DEPRECATED: don't use anymore A reference to the cluster admin kube config. This is needed for the cli & ui to access the virtual clusters"
         },
         "objects": {
           "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
@@ -962,7 +885,7 @@
         },
         "pod": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.PodSelector",
-          "description": "A label selector to select the virtual cluster pod to route incoming requests to."
+          "description": "DEPRECATED: don't use anymore A label selector to select the virtual cluster pod to route incoming requests to."
         }
       },
       "type": "object"
@@ -1196,26 +1119,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.ClusterRoleTemplateTemplate": {
-      "properties": {
-        "aggregationRule": {
-          "$ref": "#/definitions/io.k8s.api.rbac.v1.AggregationRule",
-          "description": "AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
-          "description": "Standard object's metadata."
-        },
-        "rules": {
-          "description": "Rules holds all the PolicyRules for this ClusterRole",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.rbac.v1.PolicyRule"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.Condition": {
       "description": "Condition defines an observation of a Cluster API resource operational state.",
       "properties": {
@@ -1248,24 +1151,6 @@
         "type",
         "status"
       ],
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.ConstraintSpaceTemplate": {
-      "description": "ConstraintSpaceTemplate defines properties how many spaces can be owned by the account and how they should be created",
-      "properties": {
-        "clusterRole": {
-          "description": "This defines the cluster role that will be used for the rolebinding when creating a new space for the selected subjects",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
-          "description": "The enforced metadata of the space to create. Currently, only annotations and labels are supported"
-        },
-        "objects": {
-          "description": "Objects are Kubernetes style yamls that should get deployed into the space",
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.InstanceAccess": {
@@ -1379,98 +1264,6 @@
     },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterAccessStatus": {
       "description": "LocalClusterAccessStatus holds the status of a user access",
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplate": {
-      "description": "LocalClusterRoleTemplate holds a cluster role configuration",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplateSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplateStatus"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplateSpec": {
-      "properties": {
-        "clusterRoleTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.ClusterRoleTemplateTemplate",
-          "description": "ClusterRoleTemplate holds the cluster role template"
-        },
-        "description": {
-          "description": "Description is the description of this object in human-readable text.",
-          "type": "string"
-        },
-        "displayName": {
-          "description": "DisplayName is the name that should be shown in the UI",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplateStatus": {
-      "description": "LocalClusterRoleTemplateStatus holds the status of a user access",
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraint": {
-      "description": "LocalSpaceConstraint holds the space constraints",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraintSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraintStatus"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraintSpec": {
-      "properties": {
-        "description": {
-          "description": "Description is the description of this object in human-readable text.",
-          "type": "string"
-        },
-        "displayName": {
-          "description": "DisplayName is the name that should be shown in the UI",
-          "type": "string"
-        },
-        "spaceTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.ConstraintSpaceTemplate",
-          "description": "SpaceTemplate holds the space configuration"
-        },
-        "sync": {
-          "description": "Sync specifies if spaces that were created through this space constraint object should get synced with this object.",
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraintStatus": {
-      "description": "LocalSpaceConstraintStatus holds the status of a user access",
       "type": "object"
     },
     "com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalTeam": {
@@ -1853,7 +1646,7 @@
         },
         "kubeConfigRef": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.SecretRef",
-          "description": "A reference to the cluster admin kube config. This is needed for the cli & ui to access the virtual clusters"
+          "description": "DEPRECATED: don't use anymore A reference to the cluster admin kube config. This is needed for the cli & ui to access the virtual clusters"
         },
         "objects": {
           "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
@@ -1861,7 +1654,7 @@
         },
         "pod": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.PodSelector",
-          "description": "A label selector to select the virtual cluster pod to route incoming requests to."
+          "description": "DEPRECATED: don't use anymore A label selector to select the virtual cluster pod to route incoming requests to."
         }
       },
       "type": "object"
@@ -3307,6 +3100,10 @@
           },
           "type": "array"
         },
+        "clusterRoleTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.ClusterRoleTemplateTemplate",
+          "description": "ClusterRoleTemplate holds the cluster role template"
+        },
         "clusters": {
           "description": "Clusters are the clusters this template should be applied on.",
           "items": {
@@ -3324,7 +3121,7 @@
         },
         "localClusterRoleTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.LocalClusterRoleTemplate",
-          "description": "LocalClusterRoleTemplate holds the cluster role template"
+          "description": "DEPRECATED: Use ClusterRoleTemplate instead LocalClusterRoleTemplate holds the cluster role template"
         },
         "management": {
           "description": "Management defines if this cluster role should be created in the management instance.",
@@ -4027,15 +3824,9 @@
         "localClusterAccess": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.LocalClusterAccess"
         },
-        "localClusterRoleTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplate"
-        },
-        "localSpaceConstraint": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraint",
-          "description": "storage.loft.sh"
-        },
         "localStorageClusterAccess": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterAccess"
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterAccess",
+          "description": "storage.loft.sh"
         },
         "localTeam": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalTeam"
@@ -7838,6 +7629,26 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.ClusterRoleTemplateTemplate": {
+      "properties": {
+        "aggregationRule": {
+          "$ref": "#/definitions/io.k8s.api.rbac.v1.AggregationRule",
+          "description": "AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
+          "description": "Standard object's metadata."
+        },
+        "rules": {
+          "description": "Rules holds all the PolicyRules for this ClusterRole",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.rbac.v1.PolicyRule"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v2.pkg.apis.storage.v1.ClusterSpec": {
       "description": "ClusterSpec holds the cluster specification",
       "properties": {
@@ -7885,6 +7696,24 @@
           "type": "string"
         },
         "reason": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.ConstraintSpaceTemplate": {
+      "description": "ConstraintSpaceTemplate defines properties how many spaces can be owned by the account and how they should be created",
+      "properties": {
+        "clusterRole": {
+          "description": "This defines the cluster role that will be used for the rolebinding when creating a new space for the selected subjects",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta",
+          "description": "The enforced metadata of the space to create. Currently, only annotations and labels are supported"
+        },
+        "objects": {
+          "description": "Objects are Kubernetes style yamls that should get deployed into the space",
           "type": "string"
         }
       },
@@ -8080,8 +7909,46 @@
           "description": "Metadata is the metadata of the cluster role template object"
         },
         "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalClusterRoleTemplateSpec",
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.LocalClusterRoleTemplateSpec",
           "description": "LocalClusterRoleTemplateSpec holds the spec of the cluster role template in the cluster"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.LocalClusterRoleTemplateSpec": {
+      "properties": {
+        "clusterRoleTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.ClusterRoleTemplateTemplate",
+          "description": "ClusterRoleTemplate holds the cluster role template"
+        },
+        "description": {
+          "description": "Description is the description of this object in human-readable text.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be shown in the UI",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.LocalSpaceConstraintSpec": {
+      "properties": {
+        "description": {
+          "description": "Description is the description of this object in human-readable text.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be shown in the UI",
+          "type": "string"
+        },
+        "spaceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.ConstraintSpaceTemplate",
+          "description": "SpaceTemplate holds the space configuration"
+        },
+        "sync": {
+          "description": "Sync specifies if spaces that were created through this space constraint object should get synced with this object.",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -8093,7 +7960,7 @@
           "description": "Metadata is the metadata of the space constraint object"
         },
         "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.storage.v1.LocalSpaceConstraintSpec",
+          "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.LocalSpaceConstraintSpec",
           "description": "LocalSpaceConstraintSpec holds the spec of the space constraint in the cluster"
         }
       },
