@@ -1918,6 +1918,10 @@
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.HelmReleaseConfig",
           "description": "Config is the helm config to use to deploy the helm release"
         },
+        "defaultNamespace": {
+          "description": "DefaultNamespace is the default namespace this app should installed in.",
+          "type": "string"
+        },
         "description": {
           "description": "Description describes an app",
           "type": "string"
@@ -7394,6 +7398,10 @@
         "config": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v2.pkg.apis.loft.cluster.v1.HelmReleaseConfig",
           "description": "Config is the helm config to use to deploy the helm release"
+        },
+        "defaultNamespace": {
+          "description": "DefaultNamespace is the default namespace this app should installed in.",
+          "type": "string"
         },
         "icon": {
           "description": "Icon holds an URL to the app icon",
