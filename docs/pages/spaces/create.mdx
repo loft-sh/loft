@@ -1,0 +1,41 @@
+---
+title: Create
+sidebar_label: Create
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Field from '@site/src/components/Field';
+import APISpec from '@theme/ApiSchema';
+
+import PartialSpaceCreateUI from './_partials/space/create-ui.mdx'
+import PartialSpaceCreateCLI from './_partials/space/create-cli.mdx'
+import PartialSpaceCreateUINoTemplate from './_partials/space/create-ui-no-template.mdx'
+
+Each space that is created in Loft belongs to a project. There are two ways how spaces can be created inside Loft:
+1. For regular project users: spaces can only be created by template that are allowed on project level.
+2. For project admins: spaces can be created without template.
+
+## Create From Template
+
+Project members can create a new space through the Loft UI or CLI:
+
+<Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui">
+      <PartialSpaceCreateUI/>
+    </TabItem>
+    <TabItem value="cli">
+      <PartialSpaceCreateCLI/>
+    </TabItem>
+  </Tabs>
+
+## Create Without Template
+
+Only Project admins can create a virtual cluster without a template:
+
+<PartialSpaceCreateUINoTemplate/>

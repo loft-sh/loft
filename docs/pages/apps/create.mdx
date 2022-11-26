@@ -1,0 +1,51 @@
+---
+title: Create
+sidebar_label: Create
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+As outlined in the 'What are Apps' section, Apps are helm charts, kubernetes manifests, or bash
+scripts, with optional parameters, that define an "application" that can be deployed into a
+cluster, space, or virtual cluster.
+
+Creating Apps is done via the Loft UI.
+
+<Flow id="create-app">
+    <Step>
+        Select the <NavStep>Templates</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        Click the <NavStep>Apps</NavStep> option on the templates pane.
+    </Step>
+    <Step>
+        Click the <Button>Add App</Button>.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, give your new app a name by replacing the
+        'my-app' placeholder name, or by updating the manifest YAML 'metadata.name' field.
+    </Step>
+    <Step>
+        On the <Label>Definition</Label> configuration pane, select the type of app you would
+        like to create (kubectl, helm, or bash), and enter the appropriate information for the
+        given app type. This section is largely an exercise for the user as each type of
+        application has different required fields, and the contents will be specific to each
+        users environment.
+    </Step>
+    <Step>
+        <b>[Optional]</b> select the <Label>Display Options</Label> configuration pane and
+        provide an icon for your app. This icon will be displayed on the "Apps" page of clusters,
+        spaces and virtual clusters.
+    </Step>
+    <Step>
+        <b>[Optional]</b> select the <Label>Display Options</Label> configuration pane, from the
+        <Label>Recommended App</Label> drop down box, select one of the choices. This choice
+        affects where the App will show up as "recommended" in the UI.
+    </Step>
+    <Step>
+        Click the <Button>Create App</Button> button.
+    </Step>
+</Flow>

@@ -1,7 +1,8 @@
-import Step from '@site/src/components/Step';
+import Flow, { Step } from '@site/src/components/Flow'
 import DisablePasswordAuthPartial from '../disable-password-auth.mdx'
 
-<Step>1</Step>
+<Flow id="sso-google">
+<Step>
 
 **Create Loft Config For Google**
 
@@ -46,15 +47,17 @@ auth:
     # when listing groups
     adminEmail: myuser@mydomain.com
 ```
-
-<Step>2</Step>
+</Step>
+<Step>
 
 **Authenticate via Google**
 
 After saving the new Loft configuration, Loft will restart itself and you should be able to log in via Google.
-
-<Step>3</Step>
+</Step>
+<Step>
 
 **Disable Username + Password Authentication** (optional)
 
 <DisablePasswordAuthPartial/>
+</Step>
+</Flow>

@@ -1,0 +1,37 @@
+This example shows how to automatically delete a Virtual Cluster after testing an application named my-app for pull requests.
+
+```yaml {20}
+# .github/workflows/vclusters.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Virtual Cluster for PR
+        uses: loft-sh/create-vcluster@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+          auto-cleanup: true
+      - name: Deploy Application
+        run: kubectl apply -Rf ./kubernetes
+      - name: Wait for Deployment
+        run: kubectl rollout status deployments/my-app
+      - name: Run Tests
+        run: make e2e
+```
+
+**Explanation:**
+1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+2. The [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster) action is used to create a unique virtual cluster using information about the pull request. This will automatically configure the kube context for the following steps. Additionally, we have enabled the `auto-cleanup` option, which will delete the virtual cluster after the job completes.
+3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
+4. Before running tests, we use `kubectl` to wait for the `my-app` deployment to become ready.
+5. Finally we run the end-to-end tests. In this example we're using `make` to run tests, but the command should be customized for your testing framework. There's no need to delete the virtual cluster since the `auto-cleanup` option was used when creating the virtual cluster.

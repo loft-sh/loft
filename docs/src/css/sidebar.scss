@@ -123,8 +123,6 @@ body .menu {
 
         /* 3rd level links that are categories */
         .menu__list-item-collapsible .menu__link {
-          text-decoration: underline;
-
           /* Prevent attribute propagation to next level */
           .menu__link {
             text-decoration: none;
@@ -142,6 +140,27 @@ body .menu {
             }
           }
         }
+      }
+    }
+  }
+}
+
+.menu__list-item {
+  > .menu__list-item-collapsible {
+    position: relative;
+
+    ::after {
+      position: absolute;
+      content: " ";
+      transform: scale(0.7) rotate(180deg);
+      right: 10px;
+    }
+  }
+
+  &.menu__list-item--collapsed {
+    > .menu__list-item-collapsible {
+      ::after {
+        transform: scale(0.7) rotate(90deg);
       }
     }
   }

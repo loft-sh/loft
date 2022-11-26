@@ -1,0 +1,52 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to retrieve Virtual Cluster Templates.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+### Retrieve a list of Virtual Cluster Templates
+Run the following command to list all Virtual Cluster Templates:
+```bash
+kubectl get virtualclustertemplates.management.loft.sh  -o yaml
+```
+
+### Retrieve a single Virtual Cluster Template by name
+Run the following kubectl command to get Virtual Cluster Template `my-virtual-cluster-template`:
+```bash
+kubectl get virtualclustertemplates.management.loft.sh my-virtual-cluster-template  -o yaml
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+### Retrieve a list of Virtual Cluster Templates
+Run the following curl command to list all Virtual Cluster Templates:
+```bash
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/virtualclustertemplates" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+### Get a single Virtual Cluster Template by name
+Run the following curl command to get Virtual Cluster Template `my-virtual-cluster-template`:
+```bash
+# Exchange my-virtual-cluster-template in the url below with the name of the Virtual Cluster Template
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/virtualclustertemplates/my-virtual-cluster-template" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

@@ -8,237 +8,489 @@
 module.exports = {
   adminSidebar: [
     {
-      type: 'category',
-      label: 'Getting Started',
+      type: "category",
+      label: "Getting Started",
       collapsible: true,
       items: [
         {
-          type: 'category',
-          label: '1. Installation',
+          type: "category",
+          label: "Installation",
           collapsible: false,
           items: [
             {
-              type: 'doc',
-              id: 'getting-started/install/cli',
+              type: "doc",
+              id: "getting-started/install",
             },
             {
-              type: 'doc',
-              id: 'getting-started/domain',
+              type: "doc",
+              id: "getting-started/domain",
             },
             {
-              type: 'doc',
-              id: 'getting-started/single-sign-on',
+              type: "doc",
+              id: "getting-started/single-sign-on",
             },
-            { /* Troubleshooting */
-              type: 'doc',
-              id: 'getting-started/install/troubleshooting',
-              className: 'troubleshooting',
+            {
+              type: "doc",
+              id: "getting-started/troubleshooting",
             },
           ],
         },
-        { /* 2. Configure Cluster Access */
-          /* Because this is a doc, the title has to be defined in the .mdx */
-          type: 'doc',
-          id: 'getting-started/cluster-access',
-        },
         {
-          type: 'category',
-          label: '3. Explore Loft',
-          collapsible: false,
-          items: [
-            'getting-started/explore/spaces',
-            'getting-started/explore/virtual-clusters',
-            'getting-started/explore/sleep-mode',
-            'getting-started/explore/restricting-access',
-            'getting-started/explore/apps',
-            'getting-started/explore/secrets',
-          ],
+          type: "doc",
+          id: "getting-started/explore",
         },
       ],
     },
     {
-      type: 'category',
-      label: 'Spaces',
-      link: {type: 'doc', id: 'spaces/spaces',},
+      type: "category",
+      label: "Projects",
+      collapsible: true,
       items: [
         {
-          type: 'doc',
-          id: 'spaces/templates',
+          type: "doc",
+          id: "projects/what-are-projects",
         },
         {
-          type: 'doc',
-          id: 'spaces/sleep-mode',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Virtual Clusters',
-      link: {type: 'doc', id: 'virtual-clusters/vclusters'},
-      items: [
-        {
-          type: 'doc',
-          id: 'virtual-clusters/templates',
-        },
-        {
-          type: 'doc',
-          id: 'virtual-clusters/sleep-mode',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Clusters',
-      link: {type: 'doc', id: 'clusters/clusters'},
-      items: [
-        {
-          type: 'category',
-          label: 'Cluster Access',
-          link: {type: 'doc', id: 'clusters/access/cluster-access'},
+          type: "category",
+          label: "Using Projects",
           collapsible: false,
           items: [
             {
-              type: 'doc',
-              id: 'clusters/access/cluster-roles',
+              type: "doc",
+              id: "projects/create",
             },
             {
-              type: 'doc',
-              id: 'clusters/access/space-constraints',
+              type: "doc",
+              id: "projects/members",
+            },
+            {
+              type: "doc",
+              id: "projects/templates",
+            },
+            {
+              type: "doc",
+              id: "projects/clusters",
             },
           ],
         },
         {
-          type: 'category',
-          label: 'Guides',
+          type: "category",
+          label: "Integrations",
+          items: [
+            {
+              type: "doc",
+              id: "projects/argocd",
+            },
+          ],
+        },
+        {
+          type: "doc",
+          id: "projects/secrets",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Virtual Clusters",
+      items: [
+        {
+          type: "doc",
+          id: "virtual-clusters/what-are-virtual-clusters",
+        },
+        {
+          type: "category",
+          label: "Using Virtual Clusters",
           collapsible: false,
           items: [
             {
-              type: 'doc',
-              id: 'clusters/guides/policies',
+              type: "doc",
+              id: "virtual-clusters/create",
             },
             {
-              type: 'doc',
-              id: 'clusters/guides/monitoring',
+              type: "doc",
+              id: "virtual-clusters/retrieve-kube-config",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/manage-access",
+            },
+          ],
+        },
+        {
+          type: "doc",
+          id: "virtual-clusters/templates",
+        },
+        {
+          type: "doc",
+          id: "virtual-clusters/sleep-mode",
+        },
+        {
+          type: "category",
+          label: "Integrations",
+          items: [
+            {
+              type: "doc",
+              id: "virtual-clusters/argocd",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/github-actions",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/gitlab-ci",
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "Advanced Topics",
+          items: [
+            {
+              type: "doc",
+              id: "virtual-clusters/import-vclusters",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/ingress-access",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/apps",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/isolation",
+            },
+            {
+              type: "doc",
+              id: "virtual-clusters/virtual-cluster-config",
             },
           ],
         },
       ],
     },
     {
-      type: 'category',
-      label: 'Apps',
-      link: {type: 'doc', id: 'apps/apps'},
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'Secrets',
-      link: {type: 'doc', id: 'secrets/secrets'},
+      type: "category",
+      label: "Clusters",
       items: [
-        'secrets/encryption',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Users + Teams',
-      link: {type: 'doc', id: 'users/users'},
-      items: [
-        'users/teams',
-        'users/management-roles',
-        'users/impersonation',
         {
-          type: 'category',
-          label: 'Guides',
+          type: "doc",
+          id: "clusters/what-are-clusters",
+        },
+        {
+          type: "category",
+          label: "Using Clusters",
           collapsible: false,
           items: [
-            'users/guides/admin',
+            {
+              type: "doc",
+              id: "clusters/connect-cluster",
+            },
+          ],
+        },
+        {
+          type: "doc",
+          id: "clusters/cluster-roles",
+        },
+        {
+          type: "doc",
+          id: "clusters/cluster-access",
+        },
+        {
+          type: "category",
+          label: "Advanced Topics",
+          items: [
+            {
+              type: "doc",
+              id: "clusters/direct-cluster-endpoints",
+            },
+            {
+              type: "doc",
+              id: "clusters/ingress-suffix",
+            },
+            {
+              type: "doc",
+              id: "clusters/agent-config",
+            },
           ],
         },
       ],
     },
     {
-      type: 'category',
-      label: 'Audit',
-      link: {type: 'doc', id: 'auditing/overview'},
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'Administration',
-      link: {type: 'doc', id: 'admin/config'},
+      type: "category",
+      label: "Spaces",
       items: [
         {
-          type: 'category',
-          label: 'Guides',
+          type: "doc",
+          id: "spaces/what-are-spaces",
+        },
+        {
+          type: "category",
+          label: "Using Spaces",
           collapsible: false,
           items: [
-            'admin/guides/high-availability',
-            'admin/guides/direct-cluster-endpoint',
-            'admin/guides/metrics',
-            'admin/guides/oidc-provider',
-            'admin/guides/uninstall',
+            {
+              type: "doc",
+              id: "spaces/create",
+            },
+            {
+              type: "doc",
+              id: "spaces/retrieve-kube-config",
+            },
+            {
+              type: "doc",
+              id: "spaces/manage-access",
+            },
+          ],
+        },
+        {
+          type: "doc",
+          id: "spaces/sleep-mode",
+        },
+        {
+          type: "doc",
+          id: "spaces/templates",
+        },
+        {
+          type: "category",
+          label: "Integrations",
+          items: [
+            {
+              type: "doc",
+              id: "spaces/github-actions",
+            },
+            {
+              type: "doc",
+              id: "spaces/gitlab-ci",
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "Advanced Topics",
+          items: [
+            {
+              type: "doc",
+              id: "spaces/import-namespaces",
+            },
+            {
+              type: "doc",
+              id: "spaces/apps",
+            },
+            {
+              type: "doc",
+              id: "spaces/isolation",
+            },
           ],
         },
       ],
     },
+
     {
-      type: 'category',
-      label: 'Integrations',
+      type: "category",
+      label: "Apps",
       items: [
         {
-          type: 'category',
-          label: 'CI/CD',
-          items: [
-            'integrations/cicd/github',
-            'integrations/cicd/gitlab',
-          ],
+          type: "doc",
+          id: "apps/what-are-apps",
         },
         {
-          type: 'category',
-          label: 'Registries',
-          items: [
-            'integrations/registries/harbor',
-          ],
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'API',
-      items: [
-        'api/access-keys',
-        {
-          type: 'category',
-          label: 'API Endpoints',
-          link: {type: 'doc', id: 'api/overview'},
+          type: "category",
+          label: "Using Apps",
           collapsible: false,
           items: [
-            'api/endpoints/management',
-            'api/endpoints/cluster',
-            'api/endpoints/virtual-cluster',
+            {
+              type: "doc",
+              id: "apps/create",
+            },
+            {
+              type: "doc",
+              id: "apps/use-in-templates",
+            },
+            {
+              type: "doc",
+              id: "apps/use-on-demand",
+            },
+          ],
+        },
+        {
+          type: "doc",
+          id: "apps/versioning",
+        },
+        {
+          type: "doc",
+          id: "apps/parameters",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Secrets",
+      items: [
+        "secrets/what-are-secrets",
+        {
+          type: "category",
+          label: "Using Project Secrets",
+          collapsible: false,
+          items: [
+            "secrets/create-project-secrets",
+            "secrets/retrieve-project-secrets",
+          ],
+        },
+        {
+          type: "category",
+          label: "Using Global Secrets",
+          collapsible: false,
+          items: ["secrets/create-global-secrets", "secrets/use-in-projects"],
+        },
+        "secrets/secret-sync",
+      ],
+    },
+    {
+      type: "category",
+      label: "Users + Teams",
+      items: [
+        "users/what-are-users-and-teams",
+        {
+          type: "category",
+          label: "Managing Users",
+          collapsible: false,
+          items: [
+            "users/create-users",
+            "users/suspend-users",
+            "users/impersonate",
+          ],
+        },
+        {
+          type: "category",
+          label: "Managing Teams",
+          collapsible: false,
+          items: ["users/create-teams", "users/sso-group-sync"],
+        },
+        {
+          type: "category",
+          label: "SSO",
+          items: [
+            "users/openid-connect",
+            "users/saml",
+            "users/okta",
+            "users/github",
+            "users/gitlab",
+            "users/google",
+            "users/microsoft",
+            "users/ldap",
+            "users/other-dex",
+          ],
+        },
+        {
+          type: "category",
+          label: "Advanced Topics",
+          items: ["users/access-keys", "users/loft-management-roles"],
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Administration",
+      items: [
+        {
+          type: "doc",
+          id: "admin/config",
+        },
+        "admin/guides/install-with-helm",
+        {
+          type: "doc",
+          id: "admin/uninstall",
+        },
+        {
+          type: "category",
+          label: "Advanced Topics",
+          collapsible: true,
+          items: [
+            "admin/guides/high-availability",
+            "admin/guides/direct-cluster-endpoint",
+            "admin/guides/metrics",
+            "admin/audit",
+            "admin/guides/oidc-provider",
+            "admin/guides/offline-installations",
           ],
         },
       ],
     },
     {
-      type: 'category',
-      label: 'CLI',
+      type: "category",
+      label: "API",
       items: [
+        "api/authentication",
+        "api/use-api",
         {
-          type: 'autogenerated',
-          dirName: 'cli',
-        }
+          type: "category",
+          label: "Reference",
+          items: [
+            {
+              type: "category",
+              label: "Projects",
+              items: [
+                "api/resources/project/project",
+                "api/resources/project/importvcluster",
+                "api/resources/project/importspace",
+                "api/resources/project/migratevirtualclusterinstance",
+                "api/resources/project/migratespaceinstance",
+                "api/resources/project/members",
+                "api/resources/project/templates",
+                "api/resources/project/clusters",
+              ],
+            },
+            {
+              type: "category",
+              label: "Virtual Clusters",
+              items: [
+                "api/resources/virtualclusterinstance/virtualclusterinstance",
+                "api/resources/virtualclusterinstance/kubeconfig",
+              ],
+            },
+            "api/resources/virtualclustertemplate",
+            {
+              type: "category",
+              label: "Spaces",
+              items: ["api/resources/spaceinstance/spaceinstance"],
+            },
+            "api/resources/spacetemplate",
+            "api/resources/apps",
+            {
+              type: "category",
+              label: "Clusters",
+              items: [
+                "api/resources/clusters/clusters",
+                "api/resources/clusters/clusterconnect",
+              ],
+            },
+            "api/resources/clusteraccess",
+            "api/resources/user",
+            "api/resources/team",
+            "api/resources/sharedsecret",
+            "api/resources/ownedaccesskey",
+            "api/resources/directclusterendpointtoken",
+            "api/resources/config",
+          ],
+        },
       ],
     },
     {
-      type: 'link',
-      label: 'DevSpace',
-      href: 'https://devspace.sh/',
+      type: "category",
+      label: "CLI",
+      items: [
+        {
+          type: "autogenerated",
+          dirName: "cli",
+        },
+      ],
     },
     {
-      type: 'link',
-      label: 'jsPolicy',
-      href: 'https://jspolicy.com/',
+      type: "link",
+      label: "DevSpace",
+      href: "https://devspace.sh/",
     },
   ],
 };

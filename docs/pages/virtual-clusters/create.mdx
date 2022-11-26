@@ -1,0 +1,47 @@
+---
+title: Create
+sidebar_label: Create
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+import PartialVirtualClusterCreateUI from './_partials/vcluster/create-ui.mdx'
+import PartialVirtualClusterCreateCLI from './_partials/vcluster/create-cli.mdx'
+import PartialVirtualClusterCreateUINoTemplate from './_partials/vcluster/create-ui-no-template.mdx'
+
+Each virtual cluster that is created in Loft belongs to a Project. There are two primary ways which
+virtual clusters can be created inside Loft: from a template, and manually.
+
+Virtual clusters created from a [template](../virtual-clusters/templates) inherit all template
+settings. Regular project users (non project admins) are only allowed to create virtual clusters
+from templates that the project administrator has allowed. This ensures that virtual clusters in
+each project adhere to the standards set by the project owner.
+
+Project owners and Loft admins can create virtual clusters manually, that is without a template.
+
+
+## Create From Template
+
+Project members can create a new virtual cluster through the Loft UI or CLI:
+
+<Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui">
+      <PartialVirtualClusterCreateUI/>
+    </TabItem>
+    <TabItem value="cli">
+      <PartialVirtualClusterCreateCLI/>
+    </TabItem>
+  </Tabs>
+
+
+## Create Without Template
+
+Only Project admins can create a virtual cluster without a template:
+
+<PartialVirtualClusterCreateUINoTemplate/>

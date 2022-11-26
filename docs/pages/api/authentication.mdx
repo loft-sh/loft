@@ -1,0 +1,67 @@
+---
+title: Authentication
+sidebar_label: Authentication
+---
+
+import PartialAccessKeyCreateUI from './_partials/access-key/create-ui.mdx'
+
+## Access Keys
+
+Access keys let you authenticate with Loft API endpoints and Loft CLI in non-interactive environments such as from within CI/CD pipelines.
+
+
+## Create Access Key
+
+<PartialAccessKeyCreateUI/>
+
+
+## Use Access Key
+
+### Log in via CLI
+
+You can use an access key to log into Loft from non-interactive environments:
+```bash
+loft login [domain] --access-key=[ACCESS_KEY]
+
+# Retrieve management API kube-context afterwards:
+loft use management
+
+# Retrieve users
+kubectl get users
+```
+
+### Optional: Create Kube-Context manually
+
+You can create the kube config also manually by creating an access key for
+your user first and then using the following template, with the following placeholders:
+
+* **$LOFT_HOST**: the loft host you connect to
+* **$ACCESS_KEY**: the access key to use
+
+Then replace these placeholders in the following template and save it as `my-kube-config.yaml`:
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    server: https://$LOFT_URL/kubernetes/management
+    # Optional: if the server uses an insecure certificate
+    # insecure-skip-tls-verify: true
+  name: loft
+contexts:
+- context:
+    cluster: loft
+    user: loft
+  name: loft
+current-context: loft
+users:
+- name: loft
+  user:
+    token: $ACCESS_KEY
+```
+
+You can then access your virtual cluster by using the freshly created kube config file:
+```bash
+KUBECONFIG=my-kube-config.yaml kubectl get users
+```

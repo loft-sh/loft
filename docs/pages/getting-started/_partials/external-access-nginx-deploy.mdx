@@ -1,0 +1,11 @@
+Deploy `nginx-ingress` controller to your cluster:
+
+```bash
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repository-config='' \
+  -n ingress-nginx \
+  --create-namespace \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --set-string controller.config.hsts=false \
+  --wait
+```

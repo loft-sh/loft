@@ -1,0 +1,37 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+If ingress endpoint is configured for the virtual cluster, you can retrieve the kube config for a virtual cluster like shown below.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Run the following command:
+```bash
+# Exchange my-object in the url below with the name of the Virtual Cluster Kube Config
+kubectl get --raw "/kubernetes/management/apis/management.loft.sh/v1/virtualclusterinstances/my-object/kubeconfig"
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Run the following curl command:
+```bash
+# Exchange my-object in the url below with the name of the Virtual Cluster Kube Config
+curl -s -X GET --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/virtualclusterinstances/my-object/kubeconfig" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>
