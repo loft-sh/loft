@@ -84,10 +84,6 @@ html body pre.prism-code > button {
   box-shadow: 0 0 0 8px #292d3e;
 }
 
-.markdown * {
-  position: relative;
-}
-
 .markdown :target,
 .markdown :target ~ *:not(h2:not(:target), h3:not(:target), h4:not(:target), :target ~ h2:not(:target) ~ *, :target ~ h3:not(:target) ~ *, :target ~ h4:not(:target) ~ *) {
   &::before {

@@ -1,7 +1,6 @@
 .mermaid {
   display: flex;
   flex-direction: column;
-  align-items: left;
   margin: 3em 0 3.5em;
 }
 
@@ -34,15 +33,12 @@ img {
 
 // Loft logo
 .node.loft img {
-  max-width: none;
   padding-top: 5px;
   padding-left: 5px;
-  filter: grayscale(1) brightness(100);
 }
 
 // right side of diagram
 .node.yaml foreignObject {
-  align-items: left;
   padding-top: 0.2em;
   display: block;
 }
@@ -60,12 +56,8 @@ img {
 }
 
 .node.yaml pre {
-  display: center;
-  background: 0 0;
   background-color: #6c89ad;
   border: none;
-  //padding: 0;
-  //margin: 0;
   text-align: left;
   align-items: center;
 }
@@ -87,7 +79,6 @@ img {
 
 // Left side of diagram
 .node.code code::before {
-  display: inline-block;
   content: '$';
   font-weight: bold;
   color: #00bdff;
