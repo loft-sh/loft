@@ -396,24 +396,31 @@ module.exports = {
       items: [
         {
           type: "doc",
+          id: "admin/upgrade-loft",
+        },
+        {
+          type: "doc",
           id: "admin/config",
         },
-        "admin/guides/install-with-helm",
         {
           type: "doc",
           id: "admin/uninstall",
+        },
+        {
+          type: "doc",
+          id: "admin/billing-and-licensing",
         },
         {
           type: "category",
           label: "Advanced Topics",
           collapsible: true,
           items: [
-            "admin/guides/high-availability",
-            "admin/guides/direct-cluster-endpoint",
-            "admin/guides/metrics",
-            "admin/audit",
-            "admin/guides/oidc-provider",
+            "admin/guides/install-with-helm",
             "admin/guides/offline-installations",
+            "admin/guides/high-availability",
+            "admin/guides/metrics",
+            "admin/guides/oidc-provider",
+            "admin/audit",
           ],
         },
       ],

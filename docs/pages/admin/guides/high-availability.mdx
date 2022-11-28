@@ -5,6 +5,10 @@ sidebar_label: High Availability
 
 By default, loft will run in a cluster as a single replica without high availability. 
 
+:::warning Licensed Feature
+Running Loft in high availability mode is a licensed feature!
+:::
+
 ## Enable High-Availability and run loft with multiple replicas
 To configure loft to be highly available, you only have to set the environment variable `LEADER_ELECTION_ENABLED` to `true` on the loft deployment. Then you can then scale up the replicas and loft will start with leader election mode. You can do that via helm on an existing loft installation:
 ```

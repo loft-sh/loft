@@ -46,7 +46,11 @@ Audit policy defines rules about what events should be recorded and what data th
 - `Request` - log event metadata and request body but not response body. This does not apply for non-resource requests.
 - `RequestResponse` - log event metadata, request and response bodies. This does not apply for non-resource requests.
 
-Since Loft acts as an API Gateway, it might be useful to record only events that target the Loft management API, connected Kubernetes clusters or [virtual clusters](../virtual-clusters/what-are-virtual-clusters.mdx). You can define that in a policy rule by specifying the `requestTarget`:
+
+Since Loft acts as an API Gateway, it might be useful to record only events that target the Loft
+management API, connected Kubernetes clusters or [virtual clusters](../virtual-clusters/what-are-virtual-clusters.mdx). You can define that in a policy rule by
+specifying the `requestTarget`:
+
 - `Management` - requests that target the loft management API.
 - `Cluster` - requests that target a connected Kubernetes cluster. You can select specific connected clusters via the `rules[*].clusters` field.
 - `VCluster` - requests that target virtual Kubernetes clusters.
