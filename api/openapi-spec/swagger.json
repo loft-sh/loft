@@ -2437,7 +2437,7 @@
           "type": "string"
         },
         "tenant": {
-          "description": "tenant configuration parameter controls what kinds of accounts may be authenticated in loft. By default, all types of Microsoft accounts (consumers and organizations) can authenticate in loft via Microsoft. To change this, set the tenant parameter to one of the following:\n\ncommon - both personal and business/school accounts can authenticate in loft via Microsoft (default) consumers - only personal accounts can authenticate in loft organizations - only business/school accounts can authenticate in loft <tenant uuid> or <tenant name> - only accounts belonging to specific tenant identified by either <tenant uuid> or <tenant name> can authenticate in loft",
+          "description": "tenant configuration parameter controls what kinds of accounts may be authenticated in loft. By default, all types of Microsoft accounts (consumers and organizations) can authenticate in loft via Microsoft. To change this, set the tenant parameter to one of the following:\n\ncommon - both personal and business/school accounts can authenticate in loft via Microsoft (default) consumers - only personal accounts can authenticate in loft organizations - only business/school accounts can authenticate in loft tenant uuid or tenant name - only accounts belonging to specific tenant identified by either tenant uuid or tenant name can authenticate in loft",
           "type": "string"
         },
         "useGroupsAsWhitelist": {
@@ -4171,6 +4171,10 @@
     },
     "com.github.loft-sh.api.v2.pkg.apis.management.v1.OwnedAccessKeySpec": {
       "properties": {
+        "description": {
+          "description": "Description describes an app",
+          "type": "string"
+        },
         "disabled": {
           "description": "If this field is true, the access key is still allowed to exist, however will not work to access the api",
           "type": "boolean"
@@ -5081,6 +5085,10 @@
     },
     "com.github.loft-sh.api.v2.pkg.apis.management.v1.ResetAccessKeySpec": {
       "properties": {
+        "description": {
+          "description": "Description describes an app",
+          "type": "string"
+        },
         "disabled": {
           "description": "If this field is true, the access key is still allowed to exist, however will not work to access the api",
           "type": "boolean"
@@ -7136,12 +7144,42 @@
     },
     "com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScope": {
       "properties": {
+        "projects": {
+          "description": "Projects specifies the projects the access key should have access to.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeProject"
+          },
+          "type": "array"
+        },
         "rules": {
-          "description": "Rules specifies the rules that should apply to the access key.",
+          "description": "DEPRECATED: Use Projects, Spaces and VirtualClusters instead Rules specifies the rules that should apply to the access key.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeRule"
           },
           "type": "array"
+        },
+        "spaces": {
+          "description": "Spaces specifies the spaces the access key is allowed to access.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeSpace"
+          },
+          "type": "array"
+        },
+        "virtualClusters": {
+          "description": "VirtualClusters specifies the virtual clusters the access key is allowed to access.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeVirtualCluster"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeProject": {
+      "properties": {
+        "project": {
+          "description": "Project is the name of the project. You can specify * to select all projects.",
+          "type": "string"
         }
       },
       "type": "object"
@@ -7194,6 +7232,32 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyVirtualCluster"
           },
           "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeSpace": {
+      "properties": {
+        "project": {
+          "description": "Project is the name of the project.",
+          "type": "string"
+        },
+        "space": {
+          "description": "Space is the name of the space. You can specify * to select all spaces.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v2.pkg.apis.storage.v1.AccessKeyScopeVirtualCluster": {
+      "properties": {
+        "project": {
+          "description": "Project is the name of the project.",
+          "type": "string"
+        },
+        "virtualCluster": {
+          "description": "VirtualCluster is the name of the virtual cluster to access. You can specify * to select all virtual clusters.",
+          "type": "string"
         }
       },
       "type": "object"
@@ -8310,15 +8374,15 @@
     "com.github.loft-sh.api.v2.pkg.apis.storage.v1.TemplateRef": {
       "properties": {
         "name": {
-          "description": "Name holds the space template reference",
+          "description": "Name holds the name of the template to reference.",
           "type": "string"
         },
         "syncOnce": {
-          "description": "SyncOnce tells the controller to sync the template once.",
+          "description": "SyncOnce tells the controller to sync the instance once with the template. This is useful if you want to sync an instance after a template was changed. To automatically sync an instance with a template, use 'x.x.x' as version instead.",
           "type": "boolean"
         },
         "version": {
-          "description": "Version holds the template version to use",
+          "description": "Version holds the template version to use. Version is expected to be in semantic versioning format. Alternatively, you can also exchange major, minor or patch with an 'x' to tell Loft to automatically select the latest major, minor or patch version.",
           "type": "string"
         }
       },
@@ -8372,9 +8436,11 @@
     "com.github.loft-sh.api.v2.pkg.apis.storage.v1.UserOrTeam": {
       "properties": {
         "team": {
+          "description": "Team specifies a Loft team.",
           "type": "string"
         },
         "user": {
+          "description": "User specifies a Loft user.",
           "type": "string"
         }
       },
