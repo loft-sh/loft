@@ -34,6 +34,27 @@ Project members can create a new space through the Loft UI or CLI:
     </TabItem>
   </Tabs>
 
+:::tip Template Version Strings
+Regardless of how you create a space from a template, either by the UI or the CLI, Loft
+allows you to provide a template version string. If you do not provide this string, the latest
+version will be automatically selected for you. If you *do* provide the string though, you can
+do something very neat -- you can set any of the MAJOR, MINOR, PATCH version components to an
+`X` wildcard character. This allows the space to be automatically updated to a more recent
+template version that matches your provided template string.
+
+For example, given a template with a version of 1.0.0, and a space created from this
+template with a version string "1.X.X". Adding a new template version "1.1.0", will cause this
+space to be automatically updated. Whereas adding a new version "2.0.0", will *not*
+cause the space to be upgraded.
+
+This is a very handy way to keep spaces up to date with the latest templates without
+having to manually upgrade them!
+
+Note that you can even set the version to "X.X.X" to *always* have your space updated to the
+latest template version!
+:::
+
+
 ## Create Without Template
 
 Only Project admins can create a virtual cluster without a template:
