@@ -124,10 +124,6 @@ spec:
               key: {{ .Values.tls.keyKey }}
         {{- end }}
         {{- end }}
-        {{- if not .Values.apiService.enabled }}
-        - name: APISERVICE_DISABLED
-          value: "true"
-        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
