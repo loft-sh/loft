@@ -1,0 +1,41 @@
+---
+title: Use API
+sidebar_label: Use API
+---
+
+The Loft management API is a Kubernetes API server that only serves virtual resources (not persisted in etcd) that facilitate interaction with Loft.
+These resources are primarily used by the Loft UI and CLI to change state in the Kubernetes cluster where Loft is installed in, without the need to have cluster wide access.
+
+In order to access the Loft management api, you'll need a Loft access key. See [access keys](./authentication.mdx) for more information how to create a new access key.
+
+After you have obtained an access key, login into Loft and connect to the management API:
+
+```
+loft login [domain] --access-key=[ACCESS_KEY]
+
+# Retrieve management API kube-context afterwards:
+loft use management
+```
+
+:::warning
+The Loft management API does only support resources in the API group `management.loft.sh` and you won't be able to query any pods, namespaces or other kubernetes resources from it.
+:::
+
+To view what resources are available in the management API Kubernetes server, you can take a look at the API reference.
+
+## Optional: Connect to the Kubernetes Cluster Loft is installed in
+
+Since the Loft API server doesn't contain resources such as `pods`, `services` etc., some tools get confused and won't work with the Loft API server directly (such as ArgoCD). Instead of using `loft use management` to access the resources, you can run the following command instead:
+
+```
+# Get a context to the cluster where loft is installed in instead
+loft use cluster loft-cluster
+
+# You can also query the management.loft.sh resources here through kubectl
+kubectl get users.management.loft.sh
+
+# Other resources also exist here
+kubectl get pods
+```
+
+The main difference between this approach and `loft use management` is that all requests are routed through an actual Kubernetes cluster, which can be wanted if other resources are needed, but also expose all APIs to the requester, which is why we recommend to use `loft use management` if possible.

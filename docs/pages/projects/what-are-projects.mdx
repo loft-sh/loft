@@ -1,0 +1,33 @@
+---
+title: What are Projects
+sidebar_label: What are Projects
+---
+
+Projects are the highest level organizational unit in Loft. In the simplest form, projects can be thought of as
+containers for virtual resources (spaces and virtual clusters), however, they also also play an important role in
+enforcing role based access and quotas within Loft.
+
+### Members
+
+Perhaps the most important aspect of projects is that they contain members, that is, users and teams that are a part
+of the given project. Only users and teams that are part of the project (and Loft admins) will have access to the
+project. Moreover, each user or team can be given specific roles that define their role, and access, within the
+project. See the [Members](members) section for more information.
+
+### Templates
+
+Projects contain a list of allowed templates that can be used by members to create space instances and virtual
+cluster instances. Administrators can configure default templates, or simply allow all templates for the project.
+See the [Templates](templates) section for more information.
+
+### Clusters
+
+Each project may define specific clusters that members of the project have access to. The member users and teams
+will have their roles propagated to each allowed cluster. See the [Clusters](clusters) section for more information.
+
+### Argo CD Integration
+
+To help in managing Virtual Clusters, Loft Projects also integrate with Argo CD. Using the integration you can
+configure Loft as a Single Sign On (SSO) provider for Argo CD. Users will then be able to log in to Argo CD. As
+Virtual Clusters are added to the Project they can be registered as a destination for Argo CD
+Apps to be installed. Read more about the Argo CD integration [here](argocd).

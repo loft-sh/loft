@@ -1,0 +1,45 @@
+---
+title: GitHub Actions
+sidebar_label: GitHub Actions
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+import PartialIntegrationsVclusterPullRequestAutomatic  from './_partials/integrations/github-actions-vclusters-pull-request-automatic.mdx'
+import PartialIntegrationsVclusterPullRequestManual  from './_partials/integrations/github-actions-vclusters-pull-request-manual.mdx'
+import PartialIntegrationsVclusterPullRequestDevspace  from './_partials/integrations/github-actions-vclusters-pull-request-devspace.mdx'
+
+Loft provides the following GitHub Actions for use in workflows:
+- [Setup DevSpace](https://github.com/loft-sh/setup-devspace): Installs the `devspace` CLI
+- [Setup Loft](https://github.com/loft-sh/setup-loft): Installs the `loft` CLI and logs in to the Loft instance
+- [Create Virtual Cluster](https://github.com/loft-sh/create-vcluster): Creates a Virtual Cluster
+- [Delete Virtual Cluster](https://github.com/loft-sh/delete-vcluster): Deletes a Virtual Cluster
+
+:::tip Spaces Too!
+Check out the Spaces Integration [section](../spaces/github-actions) for
+examples of using the Space create/delete GitHub Actions plugins.
+:::
+
+
+#### Virtual Clusters for Pull Requests
+
+These examples show how to create and delete Virtual Clusters for pull requests.
+
+<Tabs
+    defaultValue="manual"
+    values={[
+        {label: 'Basic', value: 'manual',},
+        {label: 'Automatic Cleanup', value: 'automatic',},
+        {label: 'DevSpace', value: 'devspace',},
+    ]}>
+    <TabItem value="manual">
+        <PartialIntegrationsVclusterPullRequestManual/>
+    </TabItem>
+    <TabItem value="automatic">
+        <PartialIntegrationsVclusterPullRequestAutomatic/>
+    </TabItem>
+    <TabItem value="devspace">
+        <PartialIntegrationsVclusterPullRequestDevspace/>
+    </TabItem>
+</Tabs>

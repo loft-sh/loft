@@ -1,7 +1,8 @@
-import Step from '@site/src/components/Step'
+import Flow, { Step } from '@site/src/components/Flow'
 import DisablePasswordAuthPartial from '../disable-password-auth.mdx'
 
-<Step>1</Step>
+<Flow id="sso-okta">
+<Step>
 
 **Create A New App In Okta**
 
@@ -29,9 +30,9 @@ https://${my-loft-domain.com}/auth/oidc/callback
   <img src="/docs/media/v1/ui/auth/okta-app-settings.png" alt="Create App for loft" />
   <figcaption>Okta - The App settings for Loft</figcaption>
 </figure>
+</Step>
 
-
-<Step>2</Step>
+<Step>
 
 **Enable Refresh Tokens**
 
@@ -43,8 +44,8 @@ After creating an Okta app for Loft, ensure that "Refresh Token" is checked unde
 </figure>
 
 
-
-<Step>3</Step>
+</Step>
+<Step>
 
 **Enable Group Claims**
 
@@ -55,8 +56,8 @@ If you want to propagate the users groups to Loft, then make sure the Group Filt
   <figcaption>Okta - Propagate User Groups To Loft</figcaption>
 </figure>
 
-
-<Step>4</Step>
+</Step>
+<Step>
 
 **Configure Loft To Use Okta**
 
@@ -84,8 +85,8 @@ auth:
   <figcaption>Loft - Configure Loft To Use Okta</figcaption>
 </figure>
 
-
-<Step>5</Step>
+</Step>
+<Step>
 
 **Add Users via Okta Assigments**
 
@@ -102,11 +103,12 @@ After users or their groups are assigned to Loft, they will be able to log in vi
   <img src="/docs/media/v1/ui/auth/okta-loft-login.png" alt="Okta Assign Peoples" />
   <figcaption>Loft - SSO via Okta</figcaption>
 </figure>
+</Step>
 
-
-<Step>6</Step>
+<Step>
 
 **Disable Username + Password Authentication** (optional)
 
 <DisablePasswordAuthPartial/>
-
+</Step>
+</Flow>

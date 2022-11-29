@@ -3,29 +3,36 @@ import NavStep from '@site/src/components/NavStep'
 import Button from '@site/src/components/Button'
 import Label from '@site/src/components/Label'
 
-import CreateSpaceStep1 from '@site/static/media/ui/screenshots/auth/login/login.png'
-import CreateSpaceStep2 from '@site/static/media/ui/screenshots/spaces/create-space/button-open-drawer.png'
-
 
 <Flow id="create-space-ui">
-  <Step image={require("@site/static/media/v2/screenshots/spaces/create/button-create.png").default} hoverStyle={{transform: "scale(2.5) translate(30%, 30%)"}}>
-    Go to the <NavStep>Spaces</NavStep> view using the menu on the left
+  <Step>
+    Go to the <NavStep>Projects</NavStep> view using the menu on the left
   </Step>
-  <Step image={require("@site/static/media/v2/screenshots/spaces/create/button-create.png").default} hoverStyle={{transform: "scale(2.5) translate(-30%, 20%)"}}>
-    Click on the <Button>Create Space</Button> button
+  <Step>
+    Click on Spaces and the <Button>Create Space</Button> button
   </Step>
-  <Step image={require("@site/static/media/v2/screenshots/spaces/create/drawer-open.png").default} hoverStyle={{transform: "scale(2) translate(-24%, 17%)"}}>
-    Use the field <Label>Kubernetes Name</Label> to define the name of this space and optionally specify other settings
+  <Step>
+    In the popup select the space template and click the <Button>Select</Button> button
   </Step>
-  <Step hoverStyle={{transform: "scale(2) translate(-24%, -25%)"}}>
+  <Step>
+    Optional: Select a cluster where to create the space in. If no cluster is specified, Loft will automatically select one for you.
+  </Step>
+  <Step>
+    Specify a name of the space at the top and optionally configure the template parameters and space access.
+  </Step>
+  <Step>
     Click on the <Button>Create</Button> button at the very bottom
   </Step>
   <Step>
 
 Retrieve a kube-context for this space using Loft CLI:
 ```bash
-loft use space [space-name]
+loft use space [space-name] --project my-project
 ```
 
   </Step>
 </Flow>
+
+:::info
+The Kubernetes namespace in the underlying cluster this space points to usually has a different name than the space inside the project to avoid conflicts, you can adjust the space name pattern within a project.
+:::

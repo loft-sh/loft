@@ -1,8 +1,6 @@
-To use a space template to create a space using Loft CLI, run:
-```bash
-loft create space [space-name] --template [template-name]
-```
+When creating a space from the Loft CLI, you will need to provide the name of the
+project in which to deploy the space, and the name of template to use:
 
-:::info Kube-Context
-Running `loft create space` will automatically add a kube-context to your kube-config file, so you can immediately run `kubectl` commands right after creating a space.
-:::
+```bash
+loft create space [vcluster-name] --project [project-name] --template [template-name]
+```

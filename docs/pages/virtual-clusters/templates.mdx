@@ -1,96 +1,196 @@
 ---
-title: Virtual Cluster Templates
-sidebar_label: Virtual Cluster Templates
+title: Templates
+sidebar_label: Templates
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
-import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import PartialVirtualClusterCreateCLI  from './_partials/vcluster/create-cli.mdx'
+import PartialVirtualClusterCreateUI from './_partials/vcluster/create-ui.mdx'
+import PartialVirtualClusterCreateOptionalUI from './_partials/vcluster/create-ui-optional-fields.mdx'
 
-import PartialVirtualClusterTemplateCreateUI from './_partials/vcluster-template/create-ui.mdx'
-import PartialVirtualClusterTemplateInstantiateUI from './_partials/vcluster-template/instantiate-ui.mdx'
-import PartialVirtualClusterTemplateInstantiateCLI from './_partials/vcluster-template/instantiate-cli.mdx'
+Virtual cluster templates are, as the name implies, templates that you can create which can then
+be applied when creating a virtual cluster. These templates can be used to configure any virtual
+cluster settings that you would configure on an individual virtual cluster.
 
-Loft allows you to create templates for virtual clusters. Virtual cluster templates are optional templates that a user can choose to apply when creating a virtual cluster.
+Virtual cluster templates are used for creating a standard developer environment for a
+given team or organization or to template out pre-built environments to be used in continuous
+integration and testing.
 
-Common use cases for virtual cluster templates may be:
-- Adding development tooling to a virtual cluster
-- Deploying pre-populated databases with test data
-- Equipping new virtual clusters with optional credentials, CRDs, etc.
+As regular project users can only deploy new virtual clusters via template, templates provide a mechanism to
+isolate virtual clusters from each other.
+
+Templates can include settings such as:
+
+- Isolation relevant objects in the host namespace, such as resource quotas, limit ranges and network policies.
+- Helm values for configuring the virtual cluster itself
+- Kubernetes objects (including CRDs!). This could include development tooling, pre-populated databases with test data, or any other useful resources.
+- Custom defined [Apps](../apps/what-are-apps)
+
+## Create Virtual Cluster Template
+
+Virtual cluster templates can be created directly in the Loft UI.
+
+<Flow id="create-vcluster-template-ui">
+    <Step>
+        In the Loft UI, select the <NavStep>Templates</NavStep> field on the left-most menu bar.
+    </Step>
+    <Step>
+        From the Templates sub-menu, select the <Button>Virtual Clusters</Button> button.
+    </Step>
+    <Step>
+        Click <Button>Add Virtual Cluster Template</Button> button.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, give your virtual cluster template a
+        name by replacing the 'my-template' placeholder name, or by updating the
+        manifest YAML 'metadata.name' field.
+    </Step>
+    <Step>
+        <b>[Optional]</b> Update the template with any additional desired
+        configuration options.
+        <PartialVirtualClusterCreateOptionalUI/>
+    </Step>
+    <Step>
+        Click on the <Button>Create Template</Button> button at the very bottom.
+    </Step>
+</Flow>
 
 
-## Working with Virtual Cluster Templates
+## Using Templates (UI & CLI)
 
-<details>
-  <summary>1. Create Virtual Cluster Template</summary>
-  <PartialVirtualClusterTemplateCreateUI/>
-</details>
+Once you have created a virtual cluster template you can then refer to that template when
+creating a new virtual cluster. All template configurations will be automatically applied to the
+newly created virtual cluster. Virtual clusters referring to templates can be created in the UI
+or via the Loft CLI.
 
-<details>
-  <summary>2. Create Virtual Cluster Based On Template</summary>
-  <Tabs
-    defaultValue="cli"
+<Tabs
+    defaultValue="ui"
     values={[
-      {label: 'UI', value: 'ui'},
-      {label: 'CLI', value: 'cli'},
+        {label: 'UI', value: 'ui'},
+        {label: 'CLI', value: 'cli'},
     ]}>
-    <TabItem value="ui"><PartialVirtualClusterTemplateInstantiateUI/></TabItem>
-    <TabItem value="cli"><PartialVirtualClusterTemplateInstantiateCLI/></TabItem>
-  </Tabs>
-</details>
+    <TabItem value="ui">
+        <PartialVirtualClusterCreateUI/>
+    </TabItem>
+    <TabItem value="cli">
+        <PartialVirtualClusterCreateCLI/>
+    </TabItem>
+</Tabs>
 
 
-## Configuration
+## Versioning
 
-### Metadata
-
-#### Display Name
-<Field crd="VirtualClusterTemplate" jsonPath="spec.displayName" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-display-name.png').default} />
-
-#### Kubernetes Name
-<Field crd="VirtualClusterTemplate" jsonPath="metadata.name" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-name.png').default} />
-
-#### Description
-<Field crd="VirtualClusterTemplate" jsonPath="spec.description" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-description.png').default} />
-
-#### Labels
-<Field crd="VirtualClusterTemplate" jsonPath="metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-labels.png').default} />
-
-#### Annotations
-<Field crd="VirtualClusterTemplate" jsonPath="metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-annotations.png').default} />
+Virtual cluster templates can be <i>versioned</i>. Versioning a virtual cluster template allows you
+to make changes over time to a template while retaining the current version/iteration. Virtual
+clusters that are deployed with templates that have updated versions will show up with a warning
+indicating that a newer template version is available.
 
 
-### Template For Virtual Clusters
+### Creating A New Virtual Cluster Template Version
 
-#### Labels
-<Field crd="VirtualClusterTemplate" jsonPath="spec.template.metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-vcluster-labels.png').default} />
+You can add new versions to your virtual cluster templates via the Loft UI.
 
-#### Annotations
-<Field crd="VirtualClusterTemplate" jsonPath="spec.template.metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-vcluster-annotations.png').default} />
+<Flow id="create-virtual-cluster-template-version">
+    <Step>
+        Select the <NavStep>Templates</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        Click the <NavStep>Virtual Clusters</NavStep> option on the templates pane.
+    </Step>
+    <Step>
+        Find the virtual cluster template you would like to add a new version to in the list of
+        virtual cluster templates. Click the small drop down button next to the name of your
+        desired virtual cluster template. From the drop down menu, click the <Label>Add A New
+        Version</Label> button.
+    </Step>
+    <Step>
+        In the pop up box, enter the new version string for your App. Once done, click the
+        <Button>Add New Version</Button>.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, make any modifications desired for your new
+        virtual cluster template version.
+    </Step>
+    <Step>
+        Click the <Button>Save Changes</Button> button.
+    </Step>
+</Flow>
 
 
-#### Version
-<Field crd="VirtualClusterTemplate" jsonPath="spec.template.helmRelease.chart.version" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-vcluster-version.png').default} />
+### Updating a Virtual Cluster's Template Version
 
-#### Helm Values
-<Field crd="VirtualClusterTemplate" jsonPath="spec.template.helmRelease.values" type="{}" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-vcluster-values.png').default} />
+You can change the virtual cluster template or virtual cluster template version in the Loft UI.
 
-#### Apps
-<Field img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-apps.png').default} />
+<Flow id="change-vcluster-template-ui">
+    <Step>
+        Select the <NavStep>Projects</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        From the project drop-down menu, select the project containing the virtual cluster you'd
+        like to upgrade.
+    </Step>
+    <Step>
+        Click the <NavStep>Virtual Clusters</NavStep> option on the project pane.
+    </Step>
+    <Step>
+        Click the dropdown arrow next to the name of hte virtual cluster you'd like to modify.
+    </Step>
+    <Step>
+        In the dropdown menu, select <Label>Change Template</Label>.
+    </Step>
+    <Step>
+        In the pop-up window, select the name of the template from the drop down menu -- the
+        currently applied template will already be selected, so if you are just changing the
+        template version you don't need to do anything for this step!
+    </Step>
+    <Step>
+        If the template you are selecting has multiple versions, you will see an additional
+        version dropdown menu next to the template selector dropdown, select your desired
+        template version from this menu.
+    </Step>
+    <Step>
+        Click the <Button>Change Template</Button> button.
+    </Step>
+</Flow>
 
-##### Namespaces For Apps
-<Field img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-app-namespace.png').default} />
 
-#### Space Template
-<Field crd="VirtualClusterTemplate" jsonPath="spec.spaceTemplateRef" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-space-template.png').default} />
+## Parameters
 
+Parameters are a very powerful component of virtual cluster templates. These parameters allow
+for giving users that may consume your virtual cluster template a bit of flexibility with
+configuration options for certain applications, while still maintaining control over the
+possible values the users can select.
 
-### Access To Virtual Cluster Template
-<Field crd="VirtualClusterTemplate" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-access.png').default} />
+When deploying a virtual cluster referring to a template with parameters configured, Loft will
+prompt the user for their selection for the given parameters. For example, with a parameters
+configuration as shown below, the user will get a dialog box where they can select 'one' or
+'two' as the value for the `mylabelvalue` variable.
 
+```yaml
+- variable: mylabelvalue
+  label: StatefulSet Label
+  description: Please select the value for the vCluster statefulset "my-label" key
+  options:
+    - one
+    - two
+  section: Labels
+```
 
-## CRDs
+The final value of this variable can then be used throughout the template. For example, this
+value can be used within the helm values of the vCluster chart. In the example below, this value
+is being set as a label on the vcluster statefulset.
 
-### `VirtualClusterTemplate`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.VirtualClusterTemplate" />
+```yaml
+labels:
+  my-label: "{{ .Values.mylabelvalue }}"
+```
+
+:::tip Apps & Parameters
+Check out the Apps section of the docs, especially the [Parameters](../apps/parameters) section for
+more details on Parameters generally, and in relation to Apps
+:::

@@ -1,250 +1,89 @@
 ---
-title: Configure Domain & TLS For Loft (Optional)
-sidebar_label: 1.2 Domain & TLS (Optional)
+title: "Configure External Access & TLS"
+sidebar_label: "Optional: Domain & TLS"
 ---
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import Flow, { Step } from '@site/src/components/Flow'
-import Label from '@site/src/components/Label'
-import Expander from '@site/src/components/Expander'
-
+import PartialExposeNginx  from './_partials/external-access-nginx.mdx'
+import PartialExposeNginxManual  from './_partials/external-access-nginx-manual.mdx'
+import PartialExposeLoadBalancerAWS from './_partials/external-access-loadbalancer-aws.mdx'
+import PartialExposeLoadBalancerOther from './_partials/external-access-loadbalancer-other.mdx'
+import PartialExposeLoadBalancerApply from './_partials/external-access-loadbalancer-apply.mdx'
 import PartialAdminSetVersion from '../admin/_partials/set-version.mdx'
+import PartialExposeLoadBalancerExternalIP from './_partials/external-access-loadbalancer-get-external-ip.mdx'
+import PartialExposeLoadBalancerValidate from './_partials/external-access-loadbalancer-validate.mdx'
 import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
 
 
-:::caution Remote Cluster Required
-Connecting a domain requires that you have deployed Loft to a remote cluster.
+After deploying Loft, you may want to be able to access the deployment via a routable IP address
+or a resolvable domain name. You may also wish to secure the deployment with a TLS certificate.
+This is of course extra useful for sharing Loft access with other members of your team who may
+or may not have direct access to Kubernetes!
+
+:::tip Requirements
+Getting Loft set up to be accessed via routable IP or domain name, and to be secured via TLS
+requires the cluster that Loft is deployed in to have an available load balancer or ingress
+controller, appropriate DNS settings to be in place, and some mechanism for assigning TLS
+certificates (i.e. cert-manager).
 :::
 
-After installing Loft, you may also choose to configure Domain and Transport Layer Security (TLS). Configuring Domain and TLS enables you to use Loft together with other members of your team who do not have direct access to Kubernetes, but want a common trusted endpoint for their Loft instance.
 
-## Configure Domain
+## External Access
 
-<details>
-  <summary>
-
-### NGINX Ingress Controller
-
-  </summary>
-
-<Tabs
-  defaultValue="auto"
-  values={[
-    { label: 'Automatic or Existing Installation', value: 'auto', },
-    { label: 'Manual Ingress Controller Installation', value: 'manual', },
-  ]
-}>
-<TabItem value="auto">
-
-<Flow id="nginx-ingress-automatic-install">
-  <Step>
-
-Run the command:
-```yaml
-loft start --host=loft.mydomain.tld     # Make sure to change `loft.mydomain.tld`
-```
-
-  </Step>
-  <Step>
-    <PartialAdminSetVersion/>
-  </Step>
-  <Step>
-    <PartialAdminUpgrade/>
-  </Step>
-  <Step>
-
-Determine the External-IP address:
-```
-kubectl get ingress -n loft
-NAME           CLASS    HOSTS                ADDRESS          PORTS     AGE
-loft-ingress   <none>   loft.mydomain.tld    x.x.x.x          80, 443   10m
-```
-
-  </Step>
-  <Step>
-
-[Set up a DNS A record](https://www.google.com/search?q=set+up+a+record+dns) to the ingress address (x.x.x.x). Make sure Loft is reachable at the address via:
-
-```
-curl https://loft.mydomain.tld/version --insecure
-{"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
-```
-
-  </Step>
-</Flow>
-
-</TabItem>
-<TabItem value="manual">
-
-<Flow id="nginx-ingress-manual-install">
-  <Step>
-
-Deploy `nginx-ingress` controller to your cluster:
-```bash
-helm upgrade --install ingress-nginx ingress-nginx --repository-config='' \
-  -n ingress-nginx --create-namespace \
-  --repo https://kubernetes.github.io/ingress-nginx \
-  --set-string controller.config.hsts=false \
-  --wait
-```
-
-  </Step>
-  <Step>
-
-Determine the External-IP address:
-```
-kubectl get ingress -n loft
-NAME           CLASS    HOSTS                ADDRESS          PORTS     AGE
-loft-ingress   <none>   loft.mydomain.tld    x.x.x.x          80, 443   10m
-                                             ^^^^^^^
-```
-
-  </Step>
-  <Step>
-
-[Set up a DNS A record](https://www.google.com/search?q=set+up+a+record+dns) to the ingress address (x.x.x.x). Make sure Loft is reachable at the address via:
-
-```
-curl https://loft.mydomain.tld/version --insecure
-{"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
-```
-
-  </Step>
-  <Step>
-
-Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with the following content:
-```yaml
-ingress:
-  enabled: true
-  host: "loft.mydomain.tld"   # Make sure to change this
-  ingressClass: "nginx"       # Optional
-```
-
-  </Step>
-  <Step>
-    <PartialAdminSetVersion/>
-  </Step>
-  <Step>
-    <PartialAdminUpgrade/>
-  </Step>
-</Flow>
-
-</TabItem>
-</Tabs>
-
-</details>
+Loft, like any other service in Kubernetes, can be exposed in a few ways -- in this section
+we'll outline how to expose Loft via an ingress controller (nginx ingress controller in this
+example), as well as by a `LoadBalancer`.
 
 <details>
-  <summary>
-
-### Load Balancer
-
-  </summary>
-
-<Flow id="domain-lb">
-  <Step>
-
-Create a file named `loft-loadbalancer.yaml` with the following content:
-
+    <summary>External Access via NGINX Ingress Controller</summary>
 <Tabs
-  defaultValue="elb"
-  values={[
-    { label: 'AWS ELB + ACM', value: 'elb', },
-    { label: 'Other Load Balancers', value: 'other', },
-  ]
-}>
-<TabItem value="elb">
-
-```yaml {5-6}
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    # Make sure to adjust the next line:
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:eu-west-2:xxx:certificate/xxx"
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-  name: loft-loadbalancer
-  namespace: loft
-spec:
-  type: LoadBalancer
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 80
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: 80
-  selector:
-    app: loft
-    release: loft
-```
-
-</TabItem>
-<TabItem value="other">
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: loft-loadbalancer
-  namespace: loft
-spec:
-  type: LoadBalancer
-  ports:
-    - name: https
-      port: 443
-      targetPort: 443
-      protocol: TCP
-  selector:
-    app: loft
-    release: loft
-```
-
-</TabItem>
+    defaultValue="automatic"
+    values={[
+        {label: 'Automatic or Existing Installation', value: 'automatic'},
+        {label: 'Manual Ingress Controller Installation', value: 'manual'},
+    ]}>
+    <TabItem value="automatic">
+        <PartialExposeNginx/>
+    </TabItem>
+    <TabItem value="manual">
+        <PartialExposeNginxManual/>
+    </TabItem>
 </Tabs>
-
-  </Step>
-  <Step>
-
-Create the load balancer with this command:
-```
-kubectl apply -f loft-loadbalancer.yaml
-```
-
-  </Step>
-  <Step>
-
-Wait until the load balancer receives an External-IP address:
-```
-kubectl get svc loft-loadbalancer -n loft
-NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)          AGE
-loft-loadbalancer       LoadBalancer   10.112.2.142    x.x.x.x          443:30933/TCP    3m16s
-                                                       ^^^^^^^
-```
-
-  </Step>
-  <Step>
-
-Make sure Loft is reachable at the external ip address via:
-```
-curl https://x.x.x.x/version --insecure
-{"kind":"Version","apiVersion":"version.loft.sh","metadata":{"creationTimestamp":null},"version":"v1.15.0","major":"1","minor":"15","instance":"","kubeVersion":"v1.21.3-gke.2001"}
-```
-
-  </Step>
-</Flow>
-
 </details>
 
-:::caution AWS Load Balancers
-If you are using AWS, make sure you are using a Network Load Balancer (NLB) to route traffic, since other load balancers do not support the SPDY protocol Kubernetes requires.
-:::
 
+<details>
+    <summary>External Access via LoadBalancer</summary>
+
+<Flow>
+    <Step>
+        <Tabs
+            defaultValue="aws"
+            values={[
+                {label: 'AWS ELB + ACM', value: 'aws'},
+                {label: 'Other Load Balancers', value: 'other'},
+            ]}>
+            <TabItem value="aws">
+                <PartialExposeLoadBalancerAWS/>
+            </TabItem>
+            <TabItem value="other">
+                <PartialExposeLoadBalancerOther/>
+            </TabItem>
+        </Tabs>
+    </Step>
+    <Step>
+        <PartialExposeLoadBalancerApply/>
+    </Step>
+    <Step>
+        <PartialExposeLoadBalancerExternalIP/>
+    </Step>
+    <Step>
+        <PartialExposeLoadBalancerValidate/>
+    </Step>
+</Flow>
+</details>
 
 
 ## Configure TLS

@@ -1,0 +1,139 @@
+---
+title: Argo CD
+sidebar_label: Argo CD
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Label from '@site/src/components/Label'
+
+Loft provides several points of integration with [Argo CD](https://argo-cd.readthedocs.io/), a popular GitOps tool
+for Kubernetes. This Argo CD integration is designed to help users take advantage not just of the speed and ease of
+creating virtual clusters, but also of Argo CD for managing and deploying applications within those virtual clusters.
+
+Argo CD integration is enabled on a *per-project* basis -- the project layer is where admins tell Loft where the
+Argo CD deployment lives. Once a project has been enabled for Argo CD integration, virtual clusters within that
+project can be selectively imported into Argo CD. Importing a virtual cluster means that the virtual cluster will
+show up as a registered cluster within Argo CD, that is, a valid destination to which Argo CD can deploy applications.
+
+Loft also provides the ability to use Loft as an SSO provider for Argo CD to allow users to authenticate via Loft.
+After enabling this setting users who browse to the Argo CD instance will see a button to login via Loft. All
+members of the project will be able to log in via Loft and gain access to Argo CD. For more information, see
+[Configuring SSO](#configuring-sso)
+
+Finally, Loft Projects can be imported into Argo CD's App Projects. This is an advanced feature allowing users to
+set metadata fields to apply the Argo CD App Project object, Argo CD RBAC roles to apply, and an array of
+permissible source repositories that may be accessed within the project.
+
+
+## Enable Argo CD for the Project
+
+To enable Argo CD for a Project and configure where the project's Argo CD instance is running, follow these instructions:
+
+<Flow id="create-vcluster-template-ui">
+    <Step>
+        Navigate to the <NavStep>Projects</NavStep> view using the menu on the left.
+    </Step>
+    <Step>
+        Select the project you'd like to configure using the drop down menu.
+    </Step>
+    <Step>
+        Click on <NavStep>Project Settings</NavStep>.
+    </Step>
+    <Step>
+        Click on <NavStep>Argo CD</NavStep>
+    </Step>
+    <Step>
+        Toggle the <Label>Enable Argo CD Integration</Label> switch to enable Argo CD for the project. Additional
+        configuration options will appear.
+    </Step>
+    <Step>
+        Under <Label>Where is Argo CD running?</Label> use the drop down to select whether Argo CD is installed on a
+        cluster or on a virtual Cluster.
+    </Step>
+    <Step>
+        In the <Label>Where is Argo CD running?</Label> input, select the cluster or virtual cluster where Argo CD
+        is installed.
+    </Step>
+    <Step>
+        In the <Label>ArgoCD Namespace</Label> input, type in the namespace where Argo CD is installed.
+    </Step>
+    <Step>
+        Optionally, toggle the slider <Label>Enable SSO Integration</Label> to configure whether Loft should be used
+        as the SSO provider for Argo CD. In addition to enabling Argo CD for the Project, the `loftHost` must be
+        configured in the Loft configuration. To set this:
+        <Flow id="set=loft-host">
+            <Step>
+                Navigate to the <NavStep>Admin</NavStep> view using the menu on the left.
+            </Step>
+            <Step>
+                Click on the <Label>Config</Label> tab.
+            </Step>
+            <Step>
+                Add the `loftHost` key to the <Label>Loft Configuration </Label> YAML, and set the value to your
+                Loft installation's URL. This URL must be publicly resolvable.
+            </Step>
+        </Flow>
+    </Step>
+</Flow>
+
+
+## Import a Virtual Cluster into Argo CD
+
+Importing a virtual cluster into Argo CD makes it available as a registered cluster in Argo CD. Once imported, Argo
+will be able to deploy and synchronize applications to the virtual cluster.
+
+To import a virtual cluster into Argo CD in a project with Argo CD enabled
+
+<Flow id="create-vcluster-template-ui">
+    <Step>
+        Navigate to the <NavStep>Projects</NavStep> view using the menu on the left.
+    </Step>
+    <Step>
+        Select the project you'd like to configure using the drop down menu.
+    </Step>
+    <Step>
+        Click on <NavStep>Virtual Clusters</NavStep>.
+    </Step>
+    <Step>
+       Toggle the <Label>Add to Argo CD</Label> slider to import the virtual cluster.
+    </Step>
+</Flow>
+
+:::note Import when creating the virtual cluster
+When creating virtual clusters within an Argo CD enabled project, you may also select the Add to Argo CD slider in
+the Argo CD section of the create window.
+:::
+
+:::note Manually Importing the virtual cluster
+Virtual clusters can be manually set to be imported into Argo CD (when in an Argo CD enabled project) by setting the
+loft.sh/import-argocd label to true.
+:::
+
+
+## Configuring SSO
+
+When configuring SSO
+
+<Flow id="create-vcluster-template-ui">
+    <Step>
+        From the <NavStep>Argo CD</NavStep> tab under <NavStep>Project Settings</NavStep>, toggle the <Label>Enable
+        SSO Integration</Label>. Additional configuration options will appear
+    </Step>
+    <Step>
+        In the <Label>ArgoCD Url</Label> input, add the URL where ArgoCD is available. This URL must be publicly
+        resolvable.
+    </Step>
+    <Step>
+        Under <Label>Assigned Roles</Label>, use the drop down to select the Argo CD roles that Loft will assigned
+        to members when logging in to Argo CD via SSO
+    </Step>
+</Flow>
+
+
+## Disable the  Argo CD Integration
+
+You may disable the Argo CD integration at a per virtual cluster or per project level by toggling the same sliders
+used to enable it. Disabling the integration at the  virtual cluster level simply removes it as a registered cluster
+in Argo CD. Disabling the integration at the project level removes all virtual clusters from Argo CD, so be careful
+when disabled Argo at this level.

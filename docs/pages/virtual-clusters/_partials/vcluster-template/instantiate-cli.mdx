@@ -1,6 +1,8 @@
-To use a virtual cluster template to create a virtual cluster using Loft CLI, run:
+When creating a virtual cluster from the Loft CLI, you will need to provide the name of the
+project in which to deploy the virtual cluster, and the name of template to use:
+
 ```bash
-loft create vcluster [vcluster-name] --template [template-name]
+loft create vcluster [vcluster-name] --project [project-name] --template [template-name]
 ```
 
 :::info Kube-Context
