@@ -63,22 +63,22 @@ func generateSchema(configInstance interface{}) *jsonschema.Schema {
 		commentMap = map[string]string{}
 
 		runInDir("staging/src", func() {
-			err := jsonschema.ExtractGoComments("", "github.com/loft-sh/api/v2/pkg/apis/management/v1", commentMap)
+			err := jsonschema.ExtractGoComments("", "github.com/loft-sh/api/v3/pkg/apis/management/v1", commentMap)
 			if err != nil {
 				panic(err)
 			}
 
-			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/api/v2/pkg/apis/storage/v1", commentMap)
+			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/api/v3/pkg/apis/storage/v1", commentMap)
 			if err != nil {
 				panic(err)
 			}
 
-			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/agentapi/v2/pkg/apis/loft/cluster/v1", commentMap)
+			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/agentapi/v3/pkg/apis/loft/cluster/v1", commentMap)
 			if err != nil {
 				panic(err)
 			}
 
-			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/agentapi/v2/pkg/apis/loft/storage/v1", commentMap)
+			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/agentapi/v3/pkg/apis/loft/storage/v1", commentMap)
 			if err != nil {
 				panic(err)
 			}
