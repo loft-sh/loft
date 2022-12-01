@@ -64,8 +64,8 @@ func main() {
 				Kind:       "VirtualClusterInstanceKubeConfig",
 				APIVersion: managementv1.SchemeGroupVersion.String(),
 			},
-			ObjectMeta:     metav1.ObjectMeta{},
-			RequestOptions: managementv1.VirtualClusterInstanceKubeConfigRequestOptions{},
+			ObjectMeta: metav1.ObjectMeta{},
+			Spec:       managementv1.VirtualClusterInstanceKubeConfigSpec{},
 			Status: managementv1.VirtualClusterInstanceKubeConfigStatus{
 				KubeConfig: `apiVersion: v1
 kind: Config
