@@ -104,6 +104,10 @@
     },
     "com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.ClusterQuotaSpec": {
       "properties": {
+        "project": {
+          "description": "Project is the project that this cluster quota should apply to",
+          "type": "string"
+        },
         "quota": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ResourceQuotaSpec",
           "description": "quota is the quota definition with all the limits and selectors"
@@ -1061,6 +1065,10 @@
     "com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ClusterQuotaSpec": {
       "description": "ClusterQuotaSpec defines the desired state of ClusterQuota",
       "properties": {
+        "project": {
+          "description": "Project is the project that this cluster quota should apply to",
+          "type": "string"
+        },
         "quota": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ResourceQuotaSpec",
           "description": "quota is the quota definition with all the limits and selectors"
@@ -8095,25 +8103,44 @@
         },
         "user": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusUser",
-          "description": "User is the quota status for each user / team"
+          "description": "User is the quota status for each user / team. An example status could look like this: status:\n  quotas:\n    user:\n      limit:\n        pods: \"10\"\n        spaces: \"5\"\n      users:\n        admin:\n          used:\n            spaces: \"3\"  # <- calculated in our apiserver\n            pods: \"8\"    # <- the sum calculated from clusters\n      clusters:\n        cluster-1:\n          users:\n            admin:\n              pods: \"3\"\n        cluster-2:\n          users:\n            admin:\n              pods: \"5\""
         }
       },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusProject": {
       "properties": {
+        "clusters": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusProjectCluster"
+          },
+          "description": "Clusters holds the used amount per cluster. Maps cluster name to used resources",
+          "type": "object"
+        },
         "limit": {
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Limit is the amount limited",
+          "description": "Limit is the amount limited, copied from spec.quotas.project",
           "type": "object"
         },
         "used": {
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Used is the amount currently used",
+          "description": "Used is the amount currently used across all clusters",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusProjectCluster": {
+      "properties": {
+        "used": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Used is the amount currently used. Maps resource name, such as pods, to their used amount.",
           "type": "object"
         }
       },
@@ -8121,6 +8148,13 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusUser": {
       "properties": {
+        "clusters": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusUserUsed"
+          },
+          "description": "Clusters holds the used amount per cluster. Maps cluster name to used resources",
+          "type": "object"
+        },
         "limit": {
           "additionalProperties": {
             "type": "string"
