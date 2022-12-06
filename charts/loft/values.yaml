@@ -48,6 +48,9 @@ tls:
 # Annotations for the loft-config secret
 # secretAnnotations: {}
 
+# Annotations for the loft-default-agent-values secret
+# agentSecretAnnotations: {}
+
 # Additional labels for the loft pod
 # podLabels: {}
 
@@ -144,7 +147,8 @@ serviceMonitor:
   scrapeTimeout: 30s
   labels: {}
 
-# Loft config to use initially
+# Loft config to use, all options can be seen at:
+# https://loft.sh/docs/admin/config
 config:
   audit:
     enabled: true
@@ -155,3 +159,8 @@ config:
 # - runs as non-root
 securityContext:
   enabled: true
+
+# Loft *agent* default values to use, options can be seen in the loft-agent chart values:
+# https://github.com/loft-sh/loft/blob/master/charts/loft-agent/values.yaml
+# agent values cluster annotations take precedent over these values
+agentValues: {}
