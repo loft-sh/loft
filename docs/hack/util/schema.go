@@ -422,7 +422,7 @@ func processSchemaField(
 		}
 	}
 
-	required := false
+	required := true
 	fieldDefault := ""
 
 	description := fieldSchema.Description
@@ -438,6 +438,12 @@ func processSchemaField(
 		newLines = append(newLines, line)
 	}
 	description = strings.Join(newLines, "\n")
+	if fieldName == "metadata" && prefix == "" {
+		required = false
+	}
+	if fieldName == "spec" && prefix == "" {
+		required = false
+	}
 	if fieldName == "status" && prefix == "" {
 		required = false
 	}
