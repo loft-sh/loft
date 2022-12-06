@@ -3941,6 +3941,9 @@
           },
           "type": "object"
         },
+        "isOffline": {
+          "type": "boolean"
+        },
         "license": {
           "type": "string"
         },
