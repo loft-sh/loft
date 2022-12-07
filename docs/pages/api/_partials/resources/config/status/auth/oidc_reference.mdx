@@ -1,6 +1,4 @@
 
-import PartialClusterAccountTemplatesreference from "./oidc/clusterAccountTemplates_reference.mdx"
-import PartialGroupClusterAccountTemplatesreference from "./oidc/groupClusterAccountTemplates_reference.mdx"
 import PartialIssuerUrl from "./oidc/issuerUrl.mdx"
 import PartialClientId from "./oidc/clientId.mdx"
 import PartialClientSecret from "./oidc/clientSecret.mdx"
@@ -14,39 +12,8 @@ import PartialGroups from "./oidc/groups.mdx"
 import PartialGetUserInfo from "./oidc/getUserInfo.mdx"
 import PartialGroupsPrefix from "./oidc/groupsPrefix.mdx"
 import PartialType from "./oidc/type.mdx"
-
-
-<details className="config-field" data-expandable="true">
-<summary>
-
-##### `clusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-oidc-clusterAccountTemplates}
-
-Cluster Account Templates that will be applied for users logging in through this authentication
-
-</summary>
-
-<PartialClusterAccountTemplatesreference />
-
-
-</details>
-
-
-
-<details className="config-field" data-expandable="true">
-<summary>
-
-##### `groupClusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-oidc-groupClusterAccountTemplates}
-
-A mapping between groups and cluster account templates. If the user has a certain group, the cluster
-account template will be added during creation
-
-</summary>
-
-<PartialGroupClusterAccountTemplatesreference />
-
-
-</details>
-
+import PartialClusterAccountTemplatesreference from "./oidc/clusterAccountTemplates_reference.mdx"
+import PartialGroupClusterAccountTemplatesreference from "./oidc/groupClusterAccountTemplates_reference.mdx"
 
 <PartialIssuerUrl />
 
@@ -85,3 +52,36 @@ account template will be added during creation
 
 
 <PartialType />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `clusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-oidc-clusterAccountTemplates}
+
+Cluster Account Templates that will be applied for users logging in through this authentication
+
+</summary>
+
+<PartialClusterAccountTemplatesreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `groupClusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-oidc-groupClusterAccountTemplates}
+
+A mapping between groups and cluster account templates. If the user has a certain group, the cluster
+account template will be added during creation
+
+</summary>
+
+<PartialGroupClusterAccountTemplatesreference />
+
+
+</details>

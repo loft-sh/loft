@@ -14,7 +14,7 @@ following the [installation guide](../getting-started/install).
 
 # Projects
 
-Projects are an organizational unit that Loft uses to help logically group resources by team or
+Projects are the highest organizational unit that Loft uses. They help logically group resources by team or
 division, and as a container to apply role based access controls (RBAC). Projects will be a
 central part of your Loft experience, so make sure to read more about them
 [here](../projects/what-are-projects).
@@ -58,7 +58,9 @@ Learn more about spaces [here](../spaces/what-are-spaces).
 Apps allow users to define applications that users can then be empowered to deploy in clusters,
 spaces, and virtual clusters they have appropriate access to. The idea here is nothing new,
 however, Loft's Apps interface allows for easily packaging applications, and critically,
-exposing parameters that users can then select or input at deployment time. Check out more about
+exposing parameters that users can then select or input at deployment time. Apps can be specified via Kubernetes Manifests,
+bash scripts, helm charts, etc.
+Check out more about
 Apps [here](../apps/what-are-apps), and be sure to learn about [versioning](../apps/versioning)
 and [parameters](../apps/parameters) while you're at it!
 

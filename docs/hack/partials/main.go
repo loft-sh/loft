@@ -1,11 +1,11 @@
 package main
 
 import (
-	clusterv1 "github.com/loft-sh/agentapi/v2/pkg/apis/loft/cluster/v1"
-	agentstoragev1 "github.com/loft-sh/agentapi/v2/pkg/apis/loft/storage/v1"
-	managementv1 "github.com/loft-sh/api/v2/pkg/apis/management/v1"
-	storagev1 "github.com/loft-sh/api/v2/pkg/apis/storage/v1"
-	"github.com/loft-sh/loft/v2/docs/hack/util"
+	clusterv1 "github.com/loft-sh/agentapi/v3/pkg/apis/loft/cluster/v1"
+	agentstoragev1 "github.com/loft-sh/agentapi/v3/pkg/apis/loft/storage/v1"
+	managementv1 "github.com/loft-sh/api/v3/pkg/apis/management/v1"
+	storagev1 "github.com/loft-sh/api/v3/pkg/apis/storage/v1"
+	"github.com/loft-sh/loft/v3/docs/hack/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"os"
 )
@@ -64,8 +64,8 @@ func main() {
 				Kind:       "VirtualClusterInstanceKubeConfig",
 				APIVersion: managementv1.SchemeGroupVersion.String(),
 			},
-			ObjectMeta:     metav1.ObjectMeta{},
-			RequestOptions: managementv1.VirtualClusterInstanceKubeConfigRequestOptions{},
+			ObjectMeta: metav1.ObjectMeta{},
+			Spec:       managementv1.VirtualClusterInstanceKubeConfigSpec{},
 			Status: managementv1.VirtualClusterInstanceKubeConfigStatus{
 				KubeConfig: `apiVersion: v1
 kind: Config
