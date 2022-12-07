@@ -769,10 +769,12 @@ clusters:
 			ObjectMeta: metav1.ObjectMeta{},
 			Status: managementv1.ConfigStatus{
 				Authentication: managementv1.Authentication{
-					Github: &managementv1.AuthenticationGithub{
-						ClientID:     "my-client-id",
-						ClientSecret: "my-client-secret",
-						RedirectURI:  "https://my-redirect-uri",
+					Connector: managementv1.Connector{
+						Github: &managementv1.AuthenticationGithub{
+							ClientID:     "my-client-id",
+							ClientSecret: "my-client-secret",
+							RedirectURI:  "https://my-redirect-uri",
+						},
 					},
 				},
 			},
