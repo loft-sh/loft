@@ -2315,6 +2315,13 @@
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.Authentication": {
       "description": "Authentication holds authentication relevant information",
       "properties": {
+        "connectors": {
+          "description": "Connectors are optional additional connectors for Loft.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ConnectorWithName"
+          },
+          "type": "array"
+        },
         "disableTeamCreation": {
           "description": "Prevents from team creation for the new groups associated with the user at the time of logging in through sso, Default behaviour is false, this means that teams will be created for new groups.",
           "type": "boolean"
@@ -3465,6 +3472,43 @@
         "oidc": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OIDC",
           "description": "OIDC holds oidc provider relevant information"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.ConnectorWithName": {
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is the name that should show up in the ui",
+          "type": "string"
+        },
+        "github": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationGithub",
+          "description": "Github holds github authentication configuration"
+        },
+        "gitlab": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationGitlab",
+          "description": "Gitlab holds gitlab authentication configuration"
+        },
+        "google": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationGoogle",
+          "description": "Google holds google authentication configuration"
+        },
+        "id": {
+          "description": "ID is the id that should show up in the url",
+          "type": "string"
+        },
+        "microsoft": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationMicrosoft",
+          "description": "Microsoft holds microsoft authentication configuration"
+        },
+        "oidc": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationOIDC",
+          "description": "OIDC holds oidc authentication configuration"
+        },
+        "saml": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationSAML",
+          "description": "SAML holds saml authentication configuration"
         }
       },
       "type": "object"
@@ -7177,20 +7221,24 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyIdentity": {
       "properties": {
-        "ConnectorData": {
+        "connector": {
+          "description": "Connector is the name of the connector this access key was created from",
+          "type": "string"
+        },
+        "connectorData": {
           "description": "ConnectorData holds data used by the connector for subsequent requests after initial authentication, such as access tokens for upstream providers.\n\nThis data is never shared with end users, OAuth clients, or through the API.",
           "format": "byte",
           "type": "string"
         },
-        "Email": {
+        "email": {
           "description": "The user email",
           "type": "string"
         },
-        "EmailVerified": {
+        "emailVerified": {
           "description": "If the user email was verified",
           "type": "boolean"
         },
-        "Groups": {
+        "groups": {
           "description": "The groups from the identity provider",
           "items": {
             "type": "string"
