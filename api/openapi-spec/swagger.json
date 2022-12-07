@@ -1713,6 +1713,98 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v3.pkg.apis.audit.v1.Event": {
+      "description": "Event holds the event information",
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations is an unstructured key value map stored with an audit event that may be set by plugins invoked in the request serving chain, including authentication, authorization and admission plugins. Note that these annotations are for the audit event, and do not correspond to the metadata.annotations of the submitted object. Keys should uniquely identify the informing component to avoid name collisions (e.g. podsecuritypolicy.admission.k8s.io/policy). Values should be short. Annotations are included in the Metadata level.",
+          "type": "object"
+        },
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "auditID": {
+          "description": "Unique audit ID, generated for each request.",
+          "type": "string"
+        },
+        "impersonatedUser": {
+          "$ref": "#/definitions/io.k8s.api.authentication.v1.UserInfo",
+          "description": "Impersonated user information."
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "level": {
+          "description": "AuditLevel at which event was generated",
+          "type": "string"
+        },
+        "objectRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.audit.v1.ObjectReference",
+          "description": "Object reference this request is targeted at. Does not apply for List-type requests, or non-resource requests."
+        },
+        "requestObject": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.Unknown",
+          "description": "API object from the request, in JSON format. The RequestObject is recorded as-is in the request (possibly re-encoded as JSON), prior to version conversion, defaulting, admission or merging. It is an external versioned object type, and may not be a valid object on its own. Omitted for non-resource requests.  Only logged at Request Level and higher."
+        },
+        "requestReceivedTimestamp": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.MicroTime",
+          "description": "Time the request reached the apiserver."
+        },
+        "requestURI": {
+          "description": "RequestURI is the request URI as sent by the client to a server.",
+          "type": "string"
+        },
+        "responseObject": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.Unknown",
+          "description": "API object returned in the response, in JSON. The ResponseObject is recorded after conversion to the external type, and serialized as JSON.  Omitted for non-resource requests.  Only logged at Response Level."
+        },
+        "responseStatus": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status",
+          "description": "The response status. For successful and non-successful responses, this will only include the Code and StatusSuccess. For panic type error responses, this will be auto-populated with the error Message."
+        },
+        "sourceIPs": {
+          "description": "Source IPs, from where the request originated and intermediate proxies.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "stage": {
+          "description": "Stage of the request handling when this event instance was generated.",
+          "type": "string"
+        },
+        "stageTimestamp": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.MicroTime",
+          "description": "Time the request reached current audit stage."
+        },
+        "user": {
+          "$ref": "#/definitions/io.k8s.api.authentication.v1.UserInfo",
+          "description": "Authenticated user information."
+        },
+        "userAgent": {
+          "description": "UserAgent records the user agent string reported by the client. Note that the UserAgent is provided by the client, and must not be trusted.",
+          "type": "string"
+        },
+        "verb": {
+          "description": "Verb is the kubernetes verb associated with the request. For non-resource requests, this is the lower-cased HTTP method.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "auditID",
+        "stage",
+        "requestURI",
+        "verb",
+        "user"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v3.pkg.apis.audit.v1.ObjectReference": {
       "description": "ObjectReference contains enough information to let you inspect or modify the referred object.",
       "properties": {
@@ -1743,6 +1835,53 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent": {
+      "description": "AgentAuditEvent holds an event",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEventSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEventStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "AgentAuditEvent",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEventSpec": {
+      "description": "AgentAuditEventSpec holds the specification",
+      "properties": {
+        "events": {
+          "description": "Events are the events the agent has recorded",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.audit.v1.Event"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEventStatus": {
+      "description": "AgentAuditEventStatus holds the status",
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.Analytics": {
@@ -2037,6 +2176,10 @@
           "description": "DataStoreMaxAge is the maximum number of hours to retain old log events in the datastore",
           "format": "int32",
           "type": "integer"
+        },
+        "disableAgentSyncBack": {
+          "description": "If true, the agent will not send back any audit logs to Loft itself.",
+          "type": "boolean"
         },
         "enabled": {
           "description": "If audit is enabled and incoming api requests will be logged based on the supplied policy.",
@@ -2546,29 +2689,35 @@
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationSAML": {
       "properties": {
         "allowedGroups": {
+          "description": "List of groups to filter access based on membership",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "ca": {
-          "description": "X509 CA file or raw data to verify XML signatures.",
+          "description": "CA to use when validating the signature of the SAML response.",
           "type": "string"
         },
         "caData": {
+          "description": "CAData is a base64 encoded string that holds the ca certificate for validating the signature of the SAML response. Either CAData, CA or InsecureSkipSignatureValidation needs to be defined.",
           "format": "byte",
           "type": "string"
         },
         "emailAttr": {
+          "description": "Name of attribute in the returned assertions to map to email",
           "type": "string"
         },
         "entityIssuer": {
+          "description": "When provided Loft will include this as the Issuer value during AuthnRequest. It will also override the redirectURI as the required audience when evaluating AudienceRestriction elements in the response.",
           "type": "string"
         },
         "filterGroups": {
+          "description": "If used with allowed groups, only forwards the allowed groups and not all groups specified.",
           "type": "boolean"
         },
         "groupsAttr": {
+          "description": "Name of attribute in the returned assertions to map to groups",
           "type": "string"
         },
         "groupsDelim": {
@@ -2576,6 +2725,7 @@
           "type": "string"
         },
         "insecureSkipSignatureValidation": {
+          "description": "Ignore the ca cert",
           "type": "boolean"
         },
         "nameIDPolicyFormat": {
@@ -2583,16 +2733,19 @@
           "type": "string"
         },
         "redirectURI": {
+          "description": "If the response assertion status value contains a Destination element, it must match this value exactly. Usually looks like https://your-loft-domain/auth/saml/callback",
           "type": "string"
         },
         "ssoIssuer": {
+          "description": "Issuer value expected in the SAML response. Optional.",
           "type": "string"
         },
         "ssoURL": {
+          "description": "SSO URL used for POST value.",
           "type": "string"
         },
         "usernameAttr": {
-          "description": "Assertion attribute names to lookup various claims with.",
+          "description": "Name of attribute in the returned assertions to map to username",
           "type": "string"
         }
       },
@@ -3279,38 +3432,6 @@
         }
       ]
     },
-    "com.github.loft-sh.api.v3.pkg.apis.management.v1.ConfigList": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "items": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
-          },
-          "type": "array"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
-        }
-      },
-      "required": [
-        "items"
-      ],
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "ConfigList",
-          "version": "v1"
-        }
-      ]
-    },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ConfigSpec": {
       "description": "ConfigSpec holds the specification",
       "properties": {
@@ -3979,38 +4100,6 @@
       ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseList": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "items": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.License"
-          },
-          "type": "array"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
-        }
-      },
-      "required": [
-        "items"
-      ],
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "LicenseList",
-          "version": "v1"
-        }
-      ]
-    },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseSpec": {
       "type": "object"
     },
@@ -4436,9 +4525,6 @@
           "type": "string"
         }
       },
-      "required": [
-        "chart"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.Project": {
@@ -6641,6 +6727,13 @@
         "passwordRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.SecretRef",
           "description": "A reference to the user password"
+        },
+        "ssoGroups": {
+          "description": "SSOGroups is used to remember groups that were added from sso.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "subject": {
           "description": "The user subject as presented by the token",
@@ -13136,6 +13229,91 @@
         ]
       }
     },
+    "/apis/management.loft.sh/v1/agentauditevents": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+          "in": "query",
+          "name": "fieldManager",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields, provided that the `ServerSideFieldValidation` feature gate is also enabled. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23 and is the default behavior when the `ServerSideFieldValidation` feature gate is disabled. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default when the `ServerSideFieldValidation` feature gate is enabled. - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "If 'true', then the output is pretty printed.",
+          "in": "query",
+          "name": "pretty",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create an AgentAuditEvent",
+        "operationId": "createManagementLoftShV1AgentAuditEvent",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "AgentAuditEvent",
+          "version": "v1"
+        }
+      }
+    },
     "/apis/management.loft.sh/v1/announcements": {
       "get": {
         "consumes": [
@@ -16095,104 +16273,28 @@
       ]
     },
     "/apis/management.loft.sh/v1/configs": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "list objects of kind Config",
-        "operationId": "listManagementLoftShV1Config",
-        "parameters": [
-          {
-            "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.",
-            "in": "query",
-            "name": "allowWatchBookmarks",
-            "type": "boolean",
-            "uniqueItems": true
-          },
-          {
-            "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
-            "in": "query",
-            "name": "continue",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
-            "in": "query",
-            "name": "fieldSelector",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
-            "in": "query",
-            "name": "labelSelector",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
-            "in": "query",
-            "name": "limit",
-            "type": "integer",
-            "uniqueItems": true
-          },
-          {
-            "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
-            "in": "query",
-            "name": "resourceVersion",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
-            "in": "query",
-            "name": "resourceVersionMatch",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
-            "in": "query",
-            "name": "timeoutSeconds",
-            "type": "integer",
-            "uniqueItems": true
-          },
-          {
-            "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
-            "in": "query",
-            "name": "watch",
-            "type": "boolean",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ConfigList"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "list",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Config",
-          "version": "v1"
-        }
-      },
       "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+          "in": "query",
+          "name": "fieldManager",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields, provided that the `ServerSideFieldValidation` feature gate is also enabled. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23 and is the default behavior when the `ServerSideFieldValidation` feature gate is disabled. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default when the `ServerSideFieldValidation` feature gate is enabled. - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
         {
           "description": "If 'true', then the output is pretty printed.",
           "in": "query",
@@ -16215,27 +16317,6 @@
             "schema": {
               "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
             }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
-            "in": "query",
-            "name": "fieldManager",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields, provided that the `ServerSideFieldValidation` feature gate is also enabled. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23 and is the default behavior when the `ServerSideFieldValidation` feature gate is disabled. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default when the `ServerSideFieldValidation` feature gate is enabled. - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
           }
         ],
         "produces": [
@@ -16804,112 +16885,6 @@
           "in": "query",
           "name": "pretty",
           "type": "string",
-          "uniqueItems": true
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/licenses": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "list objects of kind License",
-        "operationId": "listManagementLoftShV1License",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseList"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "list",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "License",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.",
-          "in": "query",
-          "name": "allowWatchBookmarks",
-          "type": "boolean",
-          "uniqueItems": true
-        },
-        {
-          "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
-          "in": "query",
-          "name": "continue",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
-          "in": "query",
-          "name": "fieldSelector",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
-          "in": "query",
-          "name": "labelSelector",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
-          "in": "query",
-          "name": "limit",
-          "type": "integer",
-          "uniqueItems": true
-        },
-        {
-          "description": "If 'true', then the output is pretty printed.",
-          "in": "query",
-          "name": "pretty",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
-          "in": "query",
-          "name": "resourceVersion",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
-          "in": "query",
-          "name": "resourceVersionMatch",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
-          "in": "query",
-          "name": "timeoutSeconds",
-          "type": "integer",
-          "uniqueItems": true
-        },
-        {
-          "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
-          "in": "query",
-          "name": "watch",
-          "type": "boolean",
           "uniqueItems": true
         }
       ]
