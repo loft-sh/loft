@@ -137,12 +137,12 @@ values can be seen in the public repository
 
 If you have deployed Loft with the default behavior of *not* disabling the Agent deployment, you
 can still provide values to influence the deployment of the Agent itself. This can be
-accomplished by providing any valid Agent values in the `agentHelmvalues` section of the *Loft*
+accomplished by providing any valid Agent values in the `agentValues` section of the *Loft*
 chart values. These values are received by the Loft deployment and used when deploying the Agent
-pods! Below is an example of the Loft values `agentHelmvalues` section.
+pods! Below is an example of the Loft values `agentValues` section.
 
 ```yaml
-agentHelmValues:
+agentValues:
     securityContext:
         enabled: true
 ```
