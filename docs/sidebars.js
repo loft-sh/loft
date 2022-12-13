@@ -427,6 +427,11 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Guides",
+      items: ["guides/preview-environments"],
+    },
+    {
+      type: "category",
       label: "API",
       items: [
         "api/authentication",

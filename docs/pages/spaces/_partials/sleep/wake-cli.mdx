@@ -1,4 +1,6 @@
-To wake up a sleeping space using Loft CLI, run:
-```bash
-loft wakeup space [name]
-```
+import CodeBlock from '@theme/CodeBlock';
+
+<p>To wake up a sleeping {props.name} using Loft CLI, run:</p>
+<CodeBlock>
+loft wakeup {props.name === "virtual cluster" ? "vcluster" : "space"} [name]
+</CodeBlock>

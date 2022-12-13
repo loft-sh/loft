@@ -11,8 +11,8 @@
     "serve": "npx -y nws -o -d build/ -b docs/ -p 8087"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.17",
-    "@docusaurus/preset-classic": "2.0.0-beta.17",
+    "@docusaurus/core": "^2.2.0",
+    "@docusaurus/preset-classic": "^2.2.0",
     "@saucelabs/theme-github-codeblock": "^0.1.1",
     "classnames": "^2.2.6",
     "docusaurus-plugin-sass": "^0.2.2",

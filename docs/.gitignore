@@ -37,8 +37,6 @@ node_modules/
 
 /pages/architecture/
 
-/pages/guides/
-
 /pages/integrations/cicd/terraform.mdx
 /pages/integrations/policies/
 /pages/integrations/devtools/
