@@ -78,8 +78,8 @@ replicaCount: 1
 # Resources of the loft deployment
 resources:
   requests:
-    memory: 1Gi
-    cpu: 800m
+    memory: 256Mi
+    cpu: 200m
   limits:
     memory: 4Gi
     cpu: "2"
