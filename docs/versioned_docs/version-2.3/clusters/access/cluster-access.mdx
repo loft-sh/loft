@@ -4,7 +4,6 @@ sidebar_label: Cluster Access
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 import PartialClusterAccessCreateUI from '../_partials/cluster-access/create-ui.mdx'
 
 The core feature of Loft is to enable users to get self-service access to Kubernetes and allow them to create isolated namespaces and virtual clusters whenever they need them. 
@@ -93,9 +92,3 @@ You can connect a variety of SSO providers to Loft. To automatically give users 
 
 ### Access To Cluster Access
 <Field crd="ClusterAccess" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/cluster-access/field-access.png').default} />
-
-
-## CRDs
-
-### `ClusterAccess`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.ClusterAccess" />

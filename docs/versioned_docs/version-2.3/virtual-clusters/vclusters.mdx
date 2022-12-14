@@ -6,7 +6,6 @@ sidebar_label: Virtual Clusters
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 import PartialVirtualClusterCreateUI from './_partials/vcluster/create-ui.mdx'
 import PartialVirtualClusterCreateCLI from './_partials/vcluster/create-cli.mdx'
@@ -142,9 +141,3 @@ Unlike "real" clusters, virtual clusters are much more lightweight and much fast
 
 ### Access To Virtual Cluster
 <Field crd="VirtualCluster" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/virtual-clusters/field-access.png').default} />
-
-
-## CRDs
-
-### `VirtualCluster`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.agentapi.pkg.apis.loft.cluster.v1.VirtualCluster" />

@@ -4,7 +4,6 @@ sidebar_label: Apps
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 import PartialAppDeploySpaceUI from './_partials/app/deploy-space-ui.mdx'
 import PartialAppDeployVirtualClusterUI from './_partials/app/deploy-vcluster-ui.mdx'
@@ -159,8 +158,3 @@ Loft makes it easy for users to configure who can instantiate, view, or edit an 
 ### Access To App
 <Field crd="App" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/apps/field-access.png').default} />
 
-
-## CRDs
-
-### `App`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.App" />

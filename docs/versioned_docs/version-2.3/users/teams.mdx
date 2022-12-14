@@ -4,7 +4,6 @@ sidebar_label: Teams
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 
 A team is a group of users (team members) and it can be granted access to clusters by creating cluster accounts for the team similar to cluster accounts of users.
@@ -55,8 +54,3 @@ If you have a single sign-on provider connected to Loft, the groups provided by 
 ### Access To Team
 <Field crd="Team" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/teams/field-access.png').default} />
 
-
-## CRDs
-
-### `Team`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.Team" />

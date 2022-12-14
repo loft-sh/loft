@@ -6,7 +6,6 @@ sidebar_label: Virtual Cluster Templates
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 import PartialVirtualClusterTemplateCreateUI from './_partials/vcluster-template/create-ui.mdx'
 import PartialVirtualClusterTemplateInstantiateUI from './_partials/vcluster-template/instantiate-ui.mdx'
@@ -89,8 +88,3 @@ Common use cases for virtual cluster templates may be:
 ### Access To Virtual Cluster Template
 <Field crd="VirtualClusterTemplate" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/virtual-cluster-templates/field-access.png').default} />
 
-
-## CRDs
-
-### `VirtualClusterTemplate`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.VirtualClusterTemplate" />

@@ -4,7 +4,6 @@ sidebar_label: Space Constraints
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 import PartialSpaceContraintsCreateUI from '../../spaces/_partials/space-constraints/create-ui.mdx'
 import PartialSpaceContraintsEnforceUI from '../../spaces/_partials/space-constraints/enforce-ui.mdx'
 
@@ -89,8 +88,3 @@ Space Constraints allow you to define restrictions for namespaces such as enforc
 ### Access To Space Constraints
 <Field crd="SpaceConstraint" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/space-constraints/field-access.png').default} />
 
-
-## CRDs
-
-### `SpaceConstraint`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.SpaceConstraint" />
