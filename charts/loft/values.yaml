@@ -78,10 +78,10 @@ replicaCount: 1
 # Resources of the loft deployment
 resources:
   requests:
-    memory: 128Mi
-    cpu: 50m
+    memory: 256Mi
+    cpu: 200m
   limits:
-    memory: 2Gi
+    memory: 4Gi
     cpu: "2"
 
 # Additional volumes that should be mounted to the loft deployment
@@ -101,7 +101,7 @@ livenessProbe:
 # If an extension api service should be registered for 
 # the loft apis in kubernetes
 apiservice:
-  create: false
+  create: true
 
 # Additional loft service account options
 serviceAccount:
