@@ -101,7 +101,7 @@ livenessProbe:
 # If an extension api service should be registered for 
 # the loft apis in kubernetes
 apiservice:
-  create: false
+  create: true
 
 # Additional loft service account options
 serviceAccount:
