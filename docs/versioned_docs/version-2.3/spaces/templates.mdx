@@ -6,7 +6,6 @@ sidebar_label: Space Templates
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 import PartialSpaceTemplateCreateUI from './_partials/space-template/create-ui.mdx'
 import PartialSpaceTemplateInstantiateUI from './_partials/space-template/instantiate-ui.mdx'
 import PartialSpaceTemplateInstantiateCLI from './_partials/space-template/instantiate-cli.mdx'
@@ -98,9 +97,3 @@ Do **not** use space templates for setting up security-related resources such as
 ### Access To Space Template
 <Field jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/space-templates/field-access.png').default} />
 
-
-
-## CRDs
-
-### `SpaceTemplate`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.SpaceTemplate" />

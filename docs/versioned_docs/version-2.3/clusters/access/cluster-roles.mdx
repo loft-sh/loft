@@ -4,7 +4,6 @@ sidebar_label: Cluster Roles
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 Cluster roles in Loft are defining templates for Kubernetes ClusterRoles that are intended to grant permissions to the clusters connected to Loft. The benefit of using Loft's cluster roles is that they are automatically synchronized to your connected clusters which means that multi-cluster RBAC configuration can be managed from a single source of truth to reduce complexity and management effort.
 
@@ -51,8 +50,3 @@ Cluster roles in Loft are defining templates for Kubernetes ClusterRoles that ar
 ### Access To Cluster Role
 <Field crd="ClusterRoleTemplate" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/cluster-roles/field-access.png').default} />
 
-
-## CRDs
-
-### `ClusterRoleTemplate`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.ClusterRoleTemplate" />

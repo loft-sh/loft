@@ -4,7 +4,6 @@ sidebar_label: Management Roles
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 
 Management roles are defining templates for ClusterRoles that are intended to grant permissions to Loft's Management API.
@@ -47,8 +46,3 @@ Management roles are defining templates for ClusterRoles that are intended to gr
 ### Access To Management Role
 <Field crd="ClusterRoleTemplate" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/management-role/field-access.png').default} />
 
-
-## CRDs
-
-### `ClusterRoleTemplate`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.ClusterRoleTemplate" />

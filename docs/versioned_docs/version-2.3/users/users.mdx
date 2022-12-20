@@ -4,7 +4,6 @@ sidebar_label: Users
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 import Image from '@site/src/components/Image'
 import NavStep from '@site/src/components/NavStep'
@@ -106,8 +105,3 @@ Loft allows admins with appropriate RBAC permissions to impersonate users.
 ### Access To User
 <Field crd="User" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/users/field-access.png').default} />
 
-
-## CRDs
-
-### `User`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.User" />

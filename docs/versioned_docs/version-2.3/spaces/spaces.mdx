@@ -6,7 +6,6 @@ sidebar_label: Spaces
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 import PartialSpaceDiagramNamespace from './_partials/diagrams/namespace.mdx'
 import PartialSpaceCreateUI from './_partials/space/create-ui.mdx'
@@ -127,8 +126,3 @@ Space and namespaces are directly coupled via a 1:1 relationship. But unlike wit
 ### Access To Space
 <Field jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/spaces/field-access.png').default} />
 
-
-## CRDs
-
-### `Space`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.agentapi.pkg.apis.loft.cluster.v1.Space" />

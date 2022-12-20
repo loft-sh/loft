@@ -4,7 +4,6 @@ sidebar_label: Clusters
 ---
 
 import Field from '@site/src/components/Field'
-import APISpec from '@theme/ApiSchema'
 
 
 Loft can be run in a single cluster but it can also run in one cluster but users work with other clusters that are connected to Loft.
@@ -81,8 +80,3 @@ flowchart LR;
 ### Access To Cluster
 <Field crd="Cluster" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/clusters/field-access.png').default} />
 
-
-## CRDs
-
-### `Cluster`
-<APISpec pointer="#/components/schemas/com.github.loft-sh.api.pkg.apis.management.v1.Cluster" />
