@@ -609,6 +609,10 @@
           "description": "IgnoreGroups are ignored user groups",
           "type": "string"
         },
+        "ignoreIngresses": {
+          "description": "IgnoreIngresses ignores all ingresses",
+          "type": "boolean"
+        },
         "ignoreResourceNames": {
           "description": "IgnoreResourceNames are ignored resources and names",
           "type": "string"
@@ -8247,7 +8251,7 @@
         },
         "user": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.QuotaStatusUser",
-          "description": "User is the quota status for each user / team. An example status could look like this: status:\n  quotas:\n    user:\n      limit:\n        pods: \"10\"\n        spaces: \"5\"\n      users:\n        admin:\n          used:\n            spaces: \"3\"  # <- calculated in our apiserver\n            pods: \"8\"    # <- the sum calculated from clusters\n      clusters:\n        cluster-1:\n          users:\n            admin:\n              pods: \"3\"\n        cluster-2:\n          users:\n            admin:\n              pods: \"5\""
+          "description": "User is the quota status for each user / team. An example status could look like this: status:\n  quotas:\n    user:\n      limit:\n        pods: \"10\"\n        spaces: \"5\"\n      users:\n        admin:\n          used:\n            spaces: \"3\"  # <- calculated in our apiserver\n            pods: \"8\"    # <- the sum calculated from clusters\n      clusters:\n        cluster-1:  # <- populated by agent from cluster-1\n          users:\n            admin:\n              pods: \"3\"\n        cluster-2:\n          users:\n            admin:\n              pods: \"5\""
         }
       },
       "type": "object"
@@ -21233,28 +21237,38 @@
       }
     },
     "/apis/management.loft.sh/v1/projects/{name}/status": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read status of the specified Project",
+        "operationId": "readManagementLoftShV1ProjectStatus",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Project",
+          "version": "v1"
+        }
+      },
       "parameters": [
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
-          "in": "query",
-          "name": "fieldManager",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields, provided that the `ServerSideFieldValidation` feature gate is also enabled. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23 and is the default behavior when the `ServerSideFieldValidation` feature gate is disabled. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default when the `ServerSideFieldValidation` feature gate is enabled. - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        },
         {
           "description": "name of the Project",
           "in": "path",
@@ -21271,6 +21285,84 @@
           "uniqueItems": true
         }
       ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/strategic-merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update status of the specified Project",
+        "operationId": "patchManagementLoftShV1ProjectStatus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).",
+            "in": "query",
+            "name": "fieldManager",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields, provided that the `ServerSideFieldValidation` feature gate is also enabled. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23 and is the default behavior when the `ServerSideFieldValidation` feature gate is disabled. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default when the `ServerSideFieldValidation` feature gate is enabled. - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "description": "Force is going to \"force\" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.",
+            "in": "query",
+            "name": "force",
+            "type": "boolean",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Project",
+          "version": "v1"
+        }
+      },
       "put": {
         "consumes": [
           "*/*"
@@ -21285,6 +21377,27 @@
             "schema": {
               "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
             }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+            "in": "query",
+            "name": "fieldManager",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields, provided that the `ServerSideFieldValidation` feature gate is also enabled. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23 and is the default behavior when the `ServerSideFieldValidation` feature gate is disabled. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default when the `ServerSideFieldValidation` feature gate is enabled. - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
           }
         ],
         "produces": [
