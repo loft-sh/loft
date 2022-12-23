@@ -420,6 +420,7 @@ module.exports = {
             "admin/guides/high-availability",
             "admin/guides/metrics",
             "admin/guides/oidc-provider",
+            "admin/guides/white-labelling",
             "admin/audit",
           ],
         },

@@ -1,0 +1,25 @@
+---
+title: White-labelling
+sidebar_label: White-labelling
+---
+
+Loft can be white-labelled to customize the UI according to your corporate design. 
+
+White-labelling can be configured via the Loft Config:
+```yaml
+uiSettings:
+  # Terms of Service, Privacy Policy etc. 
+  # Can be an html string.
+  legalTemplate: You agree to the <a href="http://acme.com/">Terms of Service</a> 
+  
+  # An **accessible** url. Can be in your cluster as long as you make sure the UI can find it
+  logoURL: https://acme.com/static/our-logo.svg
+
+  # Primary color
+  # Can be `hex`, `rgb` or `rgba` string
+  primaryColor: #1890ff
+
+  # Sidebar color
+  # Can be `hex`, `rgb` or `rgba` string
+  sidebarColor: #001529
+```
