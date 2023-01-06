@@ -429,7 +429,11 @@ module.exports = {
     {
       type: "category",
       label: "Guides",
-      items: ["guides/preview-environments"],
+      items: [
+          "guides/preview-environments",
+          "guides/upgrade-2-to-3",
+          "guides/gitops"
+      ],
     },
     {
       type: "category",
