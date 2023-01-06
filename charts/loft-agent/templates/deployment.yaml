@@ -4,7 +4,7 @@ metadata:
   name: {{ template "loft.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "loft.fullname" . }}
+    app: "loft-agent"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
