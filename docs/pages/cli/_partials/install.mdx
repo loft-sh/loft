@@ -1,20 +1,15 @@
-import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
+import OSTab from  '@site/src/components/OSTab'
 
-
-<Tabs
-  groupId="platform"
-  defaultValue="mac"
-  values={[
-  //  { label: 'npm', value: 'npm', },
-  //  { label: 'yarn', value: 'yarn', },
-    { label: 'Mac (Intel/AMD)', value: 'mac', },
-    { label: 'Mac (Silicon/ARM)', value: 'mac-arm', },
-    { label: 'Linux (AMD)', value: 'linux', },
-    { label: 'Linux (ARM)', value: 'linux-arm', },
-    { label: 'Windows Powershell', value: 'windows', },
-  ]
-}>
+<OSTab values={[
+        //  { label: 'npm', value: 'npm', },
+        //  { label: 'yarn', value: 'yarn', },
+        { label: "Mac (Intel/AMD)", value: "mac" },
+        { label: "Mac (Silicon/ARM)", value: "mac-arm" },
+        { label: "Linux (AMD)", value: "linux" },
+        { label: "Linux (ARM)", value: "linux-arm" },
+        { label: "Windows Powershell", value: "windows" },
+      ]}>
 <TabItem value="npm">
 
 ```bash
@@ -78,6 +73,8 @@ loft --version
 :::
 
 </TabItem>
-</Tabs>
+</OSTab>
 
 Alternatively, you can download the binary for your platform from the [GitHub Releases](https://github.com/loft-sh/loft/releases) page and add this binary to your PATH.
+
+
