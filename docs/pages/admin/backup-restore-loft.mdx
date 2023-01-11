@@ -1,0 +1,52 @@
+---
+title: Backup & Restore Loft
+sidebar_label: Backup & Restore Loft
+---
+
+As outlined in the 'Getting Started -> Explore Loft' section, Loft consists of a number of components that work together to provide you with all the exciting features. These components are part of the Loft Management plane.
+
+Loft CLI allows you to backup these components whenever required. Below Resources will be part of the backup:
+- ClusterRoleTemplates
+- ClusterAccesses
+- SpaceConstraints
+- Users
+- Teams
+- SharedSecrets
+- AccessKeys
+- Apps
+- SpaceTemplates
+- VirtualClusterTemplates
+- Clusters
+- Projects
+- VirtualClusterInstances
+- SpaceInstances
+- ProjectSecrets
+
+
+
+To take a backup using the defaults, you can run the following command. This will dump the manifests of all the above listed components to a file in the current directory named 'backup.yaml'
+```
+loft backup
+```
+
+Alternatively, you may specify the name for the backup file by running the command as:
+```
+loft backup --filename loft-backup.yaml
+```
+
+In some scenarios, Loft may have been installed in a different namespace instead of the default 'loft' namespace. You can provide this to the command as below:
+```
+loft backup --namespace my-namespace
+```
+
+You can also choose to exclude certain components from the backup by supplying the names as a comma-seperated string like below. This will exclude users and teams from the backup.
+```
+loft backup --skip users,teams
+```
+### Restoring Loft from backup
+
+The backup YAML file contains the manifests for the resources of the Loft Management plane. Hence, it can be used as any other Kubernetes manifest file. 
+To restore, simply apply the backup to your cluster using the below command: 
+```
+kubectl apply -f <backup-filename>.yaml
+```
