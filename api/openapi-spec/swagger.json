@@ -3476,6 +3476,10 @@
         "oidc": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OIDC",
           "description": "OIDC holds oidc provider relevant information"
+        },
+        "uiSettings": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsSpec",
+          "description": "UISettings holds the settings for modifying the Loft user interface"
         }
       },
       "type": "object"
@@ -3993,6 +3997,10 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.KioskSpec": {
       "properties": {
+        "UISettings": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettings",
+          "description": "ui.loft.sh"
+        },
         "chartInfo": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.ChartInfo"
         },
@@ -8867,6 +8875,64 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettings": {
+      "description": "UISettings holds the loft ui configuration settings",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsStatus"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsSpec": {
+      "description": "UISettingsSpec holds the specification",
+      "properties": {
+        "legalTemplate": {
+          "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
+          "type": "string"
+        },
+        "logoURL": {
+          "description": "LogoURL is url pointing to the logo to use in the Loft UI, this path must be accessible from clients accessing the Loft UI!",
+          "type": "string"
+        },
+        "primaryColor": {
+          "description": "PrimaryColor is the color value (ex: \"#12345\") to use as the primary color",
+          "type": "string"
+        },
+        "sidebarColor": {
+          "description": "SidebarColor is the color value (ex: \"#12345\") to use for the sidebar",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsStatus": {
+      "description": "UISettingsStatus holds the status",
+      "properties": {
+        "featureEnabled": {
+          "description": "FeatureEnabled indicates if the UI white label feature is enabled or disabled",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "featureEnabled"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.virtualcluster.v1.HelmRelease": {
