@@ -8903,6 +8903,10 @@
     "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsSpec": {
       "description": "UISettingsSpec holds the specification",
       "properties": {
+        "accentColor": {
+          "description": "AccentColor is the color value (ex: \"#12345\") to use for the accent",
+          "type": "string"
+        },
         "legalTemplate": {
           "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
           "type": "string"
