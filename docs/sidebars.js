@@ -166,6 +166,10 @@ module.exports = {
               type: "doc",
               id: "virtual-clusters/virtual-cluster-config",
             },
+            {
+              type: "doc",
+              id: "virtual-clusters/custom-links",
+            },
           ],
         },
       ],
@@ -281,6 +285,10 @@ module.exports = {
             {
               type: "doc",
               id: "spaces/isolation",
+            },
+            {
+              type: "doc",
+              id: "spaces/custom-links",
             },
           ],
         },
