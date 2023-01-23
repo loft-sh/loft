@@ -12,21 +12,19 @@ Loft can be configured to allow for user authentication via Single-Sign-On (SSO)
 allows for users who have a valid account on some other service (ex: GitHub), to authenticate
 and log into Loft via that service. This is a great way for administrators to not need to
 manage individual users, however administrators still need a mechanism in place to ensure that
-these users have appropriate permissions applied. That is where SSO groups come into play!
+these users have appropriate permissions applied. That is where SSO groups come into play.
 
 Most, if not all, SSO providers allow for administrators of that service to configure data that
 is shared with platforms authenticating against the provider. Perhaps most important of this
 shared data, is a list of groups of which the authenticating user is a part of. Upon
-authentication via SSO, this group data is inspected, the user is automatically joined to any
-Teams that include any of the provided group names in the `Kubernetes Groups as Members` field.
-Any SSO group names that are not set in any Team's `Kubernetes Groups as Members` field will be
-dynamically created as a new Team, with the group name automatically set in the `Kubernetes
-Groups as Members` field.
+authentication via SSO in Loft, this group data is inspected, the user is automatically joined to any
+Teams that include any of the provided group names in the `SSO Groups as Members` field.
+Any SSO group names that are not set in any Team's `SSO Groups as Members` field will be
+dynamically created as a new Team, with the group name automatically set in the `SSO Groups as Members` field.
 
-This group behavior allows administrators to create Teams in Loft that correspond to teams in
-the SSO identity provider, set the appropriate policy for those Team(s), and for users to be
+This group behavior allows administrators to create Teams in Loft that correspond to teams (groups) in
+the SSO identity provider, set the appropriate policy for those Team(s) in Loft, and for users to be
 automatically assigned the appropriate team, and thus privileges, upon logging in via SSO.
-
 
 ## Creating a Team With SSO Group Membership
 
@@ -45,8 +43,8 @@ automatically assigned the appropriate team, and thus privileges, upon logging i
         'my-team' placeholder name, or by updating the manifest YAML 'metadata.name' field.
     </Step>
     <Step>
-        In the <Label>Team Members</Label> tab enter any desired groups into the <Label>Kubernetes
-        Groups as Members</Label> field. You can add as many groups as you would like here. These group
+        In the <Label>Team Members</Label> tab enter any desired groups into the <Label>SSO Groups as Members</Label> field.
+        You can add as many groups as you would like here. These group
         names must exactly match the group name that the SSO provider shares with Loft during
         SSO authentication!
     </Step>

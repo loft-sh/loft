@@ -12,6 +12,7 @@ import PartialAuthMicrosoft from '../fragments/auth/sso/microsoft.mdx'
 import PartialAuthGoogle from '../fragments/auth/sso/google.mdx'
 import PartialAuthOIDC from '../fragments/auth/sso/oidc.mdx'
 import PartialAuthOther from '../fragments/auth/sso/generic.mdx'
+import PartialMultipleSSO from './_partials/multiple-sso.mdx'
 
 
 Loft supports all major Single-Sign-On (SSO) providers. To configure SSO for Loft, expand the
@@ -73,35 +74,4 @@ Most SSO provider connections do not allow `localhost` and require that you
 
 ## Multiple SSO Providers
 
-Note that you can configure *multiple* SSO providers! This can be a very handy feature if you
-have multiple groups using different authentication providers based on team or geographical
-region! If you want to configure multiple SSO providers *of the same type* you can also do that!
-The latter is configured by using "connectors" option. Below is an example Loft config "auth"
-section that contains three SSO providers (one OIDC, and two GitHub providers). When users log
-into Loft with such a configuration present, they will see three options for authentication as
-well as the default user/password box (which can be disabled if desired!).
-
-```yaml
-auth:
-  github:
-    clientId: test123
-    clientSecret: test123
-    redirectURI: https://my-loft-url/auth/github/callback
-  oidc:
-    clientId: test
-    clientSecret: test
-    issuerUrl: https://example-issuer.com
-    redirectURI: https://my-loft-url/auth/oidc/callback
-  # If you want to use multiple SSO configs of the same type you can use the connectors option
-  connectors:
-      # the id of the connector that will show up in the loft callback url
-    - id: test
-      # name to show in the UI
-      displayName: Test GitHub
-      # any regular sso config
-      github:
-        clientId: test
-        clientSecret: test
-        # Make sure to exchange test here with the connector id if you change that
-        redirectURI: https://my-loft-url/auth/test/callback
-```
+<PartialMultipleSSO />

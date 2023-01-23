@@ -3,9 +3,9 @@ title: Backup & Restore Loft
 sidebar_label: Backup & Restore Loft
 ---
 
-As outlined in the 'Getting Started -> Explore Loft' section, Loft consists of a number of components that work together to provide you with all the exciting features. These components are part of the Loft Management plane.
+This guide describes how to backup and restore the Loft management plane. For backing up the connected clusters, please reuse a regular Kubernetes backup solution such as [velero](https://velero.io/).
 
-Loft CLI allows you to backup these components whenever required. Below Resources will be part of the backup:
+Loft saves its state as Kubernetes CRD objects, these can be either backed up via [velero](https://velero.io) or through a special Loft CLI command that we have created for convenience that saves all relevant Kubernetes resources to a single file. Loft CLI allows you to backup these components whenever required. Below Resources will be part of the backup:
 - ClusterRoleTemplates
 - ClusterAccesses
 - SpaceConstraints
@@ -16,13 +16,11 @@ Loft CLI allows you to backup these components whenever required. Below Resource
 - Apps
 - SpaceTemplates
 - VirtualClusterTemplates
-- Clusters
+- Clusters & Cluster Secrets
 - Projects
 - VirtualClusterInstances
 - SpaceInstances
 - ProjectSecrets
-
-
 
 To take a backup using the defaults, you can run the following command. This will dump the manifests of all the above listed components to a file in the current directory named 'backup.yaml'
 ```
@@ -43,10 +41,17 @@ You can also choose to exclude certain components from the backup by supplying t
 ```
 loft backup --skip users,teams
 ```
+
 ### Restoring Loft from backup
 
 The backup YAML file contains the manifests for the resources of the Loft Management plane. Hence, it can be used as any other Kubernetes manifest file. 
 To restore, simply apply the backup to your cluster using the below command: 
+
 ```
 kubectl apply -f <backup-filename>.yaml
 ```
+
+:::warning Multiple Kubernetes Clusters with the same Loft Config
+Make sure that not 2 Kubernetes clusters run the same Loft resources at the same time as this can lead to conflicts in reconciliation and could cause problems.
+:::
+

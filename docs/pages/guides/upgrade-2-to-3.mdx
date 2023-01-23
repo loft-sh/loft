@@ -1,13 +1,24 @@
 ---
-title: v3 Quick Start
-sidebar_label: v3 Quick Start
+title: Upgrade v2 to v3
+sidebar_label: Upgrade v2 to v3
 ---
 
-This guide briefly covers a few topics that Loft admins may wish to review after upgrading
-to Loft version 3. While there are no additional steps required after upgrading Loft, we
-recommend taking a look at the topics in this section to ensure that you are getting the best
-experience with Loft version 3!
+This guide briefly covers a few topics that Loft admins may wish to review before upgrading
+to Loft version 3. We recommend taking a look at the topics in this section to ensure that you are getting the best
+experience with Loft version 3.
 
+
+## Breaking Changes in Loft v3
+
+* We removed all kiosk apis that were deprecated in Loft v2, please use the new project api instead. This includes:
+  * Account
+  * Security Templates
+  * Cluster Account Templates
+* `loft sleep` is now `loft sleep space`
+* `loft wakeup` is now `loft wakeup space`
+* Grafana integration was removed. We felt that this wasn't providing much benefit and users rarely used this. Please use Grafana directly if you were using this.
+* Template syncing in non project spaces / virtual clusters was removed, please import the spaces / virtual clusters into a project to sync the templates
+* Space Constraints are now deprecated, please use projects instead
 
 ## New Objects
 
@@ -26,14 +37,17 @@ Check out the "What Are Projects?" documentation [here](../projects/what-are-pro
 information.
 
 
-### Space and Virtualcluster Instances
+### Space and Virtual Cluster Instances
 
-Space and Virtualcluster instances are a new resource that further abstracts the space and
-virtualcluster types. The *instance* type contains not only information about the space or
-virtualcluster, but also information about which connected cluster the space or virtualcluster
-resides in. In general, you will want to migrate your spaces and virutalclusters to the new
+Space and Virtual Cluster instances are a new resource that further abstracts the space and
+virtual cluster types. The *instance* type contains not only information about the space or
+virtual cluster, but also information about which connected cluster the space or virtual cluster
+resides in. In general, you will want to migrate your spaces and virtual clusters to the new
 instance type, this process is outlined below in the [Import Legacy Spaces](#import-legacy-spaces)
 and [Import Legacy Virtualclusters](#import-legacy-virtualclusters) sections.
+
+This makes it possible to give users only access to a virtual cluster without giving them any access
+to the host cluster.
 
 
 ## A New Project
@@ -55,11 +69,11 @@ desired Project (as spaceinstances are always associated with a project!).
 The process for importing legacy spaces is documented [here](../spaces/import-namespaces).
 
 
-## Import Legacy Virtualclusters
+## Import Legacy Virtual Clusters
 
 Just like legacy spaces, legacy virtualclusters can be imported into a project. It is a good
 idea to get this done after the upgrade process!
 
 Follow the documentation [here](../virtual-clusters/import-vclusters) to import legacy
-virtualclusters.
+virtual clusters.
 
