@@ -47,8 +47,9 @@ Check out the Spaces [Advanced Topics ](../spaces/custom-links) for custom links
 <TabItem value="cli">
 
 ```bash
-loft create vcluster --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234'
-loft create vcluster --link 'https://loft.sh'
+loft create vcluster vcluster-1 --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234'
+loft create vcluster vcluster-1 --link 'https://loft.sh'
+loft create vcluster vcluster-1 --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234,documentation=https://example.com/docs'
 ``` 
 
 </TabItem>
