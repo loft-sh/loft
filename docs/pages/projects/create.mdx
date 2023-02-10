@@ -46,9 +46,13 @@ To get started creating a Project, in the Loft UI:
 ## Quotas
 
 Project Quotas allow you to set space instance and virtual cluster instance limits for each project. Quotas can be
-defined across the whole project or on a per-user basis. Optionally, you can set quotas on the number of times a
-template is used to create a Space or Virtual Cluster.
+defined across the whole project or on a per-user basis. Optionally, you may use qualifiers to apply the following limits on space instances and virtual cluster instances. 
 
+### Active Quotas
+An instance limit followed by `.active` will restrict the number of instances that can be active at the same time. These are enforced during instance creation, but also when a request is received to wake up a sleeping instance. This qualifier can be applied to either space instances or virtual cluster instances:
+
+### Template Quotas
+An instance limit containing `.template=template-name` will restrict the number of instances that are using the given template at the same time. These are enforced during instance creation. This qualifier can be applied to either space instances or virtual cluster instances.
 
 ### Project Quotas
 
@@ -71,7 +75,7 @@ To configure project quotas follow these steps:
         Click on the <Button>Add Quota</Button>. An entry in the quota table will appear.
     </Step>
     <Step>
-        For the <Label>Resource</Label> column, select either Virtual Clusters or Spaces.
+        For the <Label>Resource</Label> column, select the desired resource. If limiting space instances or virtual cluster instances, you may optionally select <Label>spaceinstance.active</Label> or <Label>virtualclusterinstance.active</Label> respectively.
     </Step>
     <Step>
         Optionally for the <Label>Template</Label> column, select the template on which you'd like to set a limit.
@@ -112,7 +116,7 @@ To configure quotas using the UI, follow these steps:
         Click on the <Button>Add Quota</Button>. An entry in the quota table will appear.
     </Step>
     <Step>
-        For the <Label>Resource</Label> column, select either Virtual Clusters or Spaces.
+        For the <Label>Resource</Label> column, select the desired resource. If limiting space instances or virtual cluster instances, you may optionally select <Label>spaceinstance.active</Label> or <Label>virtualclusterinstance.active</Label> respectively.
     </Step>
     <Step>
         Optionally for the <Label>Template</Label> column, select the template on which you'd like to set a limit.
