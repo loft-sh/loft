@@ -1,13 +1,14 @@
 package main
 
 import (
+	"os"
+
 	clusterv1 "github.com/loft-sh/agentapi/v3/pkg/apis/loft/cluster/v1"
 	agentstoragev1 "github.com/loft-sh/agentapi/v3/pkg/apis/loft/storage/v1"
 	managementv1 "github.com/loft-sh/api/v3/pkg/apis/management/v1"
 	storagev1 "github.com/loft-sh/api/v3/pkg/apis/storage/v1"
 	"github.com/loft-sh/loft/v3/docs/hack/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"os"
 )
 
 func main() {
@@ -769,6 +770,7 @@ clusters:
 			ObjectMeta: metav1.ObjectMeta{},
 			Status: managementv1.ConfigStatus{
 				Authentication: managementv1.Authentication{
+					AccessKeyMaxTTLSeconds: 10 * 60 * 60,
 					Connector: managementv1.Connector{
 						Github: &managementv1.AuthenticationGithub{
 							ClientID:     "my-client-id",

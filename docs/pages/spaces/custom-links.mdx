@@ -47,8 +47,9 @@ Check out the Virtual Clusters [Advanced Topics ](../virtual-clusters/custom-lin
 <TabItem value="cli">
 
 ```bash
-loft create space --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234'
-loft create space --link 'https://loft.sh'
+loft create space space-1 --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234'
+loft create space space-1 --link 'https://loft.sh'
+loft create space space-1 --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234,documentation=https://example.com/docs'
 ``` 
 
 </TabItem>

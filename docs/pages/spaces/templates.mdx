@@ -19,13 +19,13 @@ Space templates are used for creating a standard developer environment for a
 given team or organization or to template out pre-built environments to be used in continuous
 integration and testing.
 
-As regular project users can only deploy new spaces via template, templates provide a mechanism to
-isolate namespaces from each other.
+As regular project users can only deploy new spaces via template, templates provide a mechanism
+for Loft administrators to expose acceptable space configurations to end users.
 
 Templates can include settings such as:
 
 - Isolation relevant objects, such as resource quotas, limit ranges and network policies.
-- Kubernetes objects (including CRDs!). This could include development tooling, pre-populated databases with test data, or any other useful resources.
+- Kubernetes objects. This could include development tooling, pre-populated databases with test data, or any other useful resources.
 - Custom defined [Apps](../apps/what-are-apps?)
 
 ## Create Space Template
@@ -169,7 +169,7 @@ configuration as shown below, the user will get a dialog box where they can sele
 ```
 
 The final value of this variable can then be used throughout the template. For example, this
-value can be used within space label and annotaitons section. In the example below, this value
+value can be used within space label and annotations section. In the example below, this value
 is being set as a label on the created space object.
 
 ```yaml

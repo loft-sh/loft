@@ -104,6 +104,38 @@ audit:
 Below you can find a complete policy reference:
 <PolicyConfiguration />
 
+## Persisting Audit Logs
+
+There are 2 ways how to persist Loft audit logs. Either you can deploy Loft with a persistent volume claim or let Loft connect to a persistent database. The PVC approach does not work for HA mode for Loft.
+
+### Deploy Loft with a PVC to save Audit Logs
+
+Create a new `values.yaml` with the following values:
+```yaml
+audit:
+  persistence:
+    enabled: true
+    # size: 30Gi
+```
+
+Then apply the values via helm:
+```yaml
+helm upgrade loft -n loft --version $VERSION \
+                          --repo https://charts.loft.sh \
+                          --reuse-values \
+                          -f values.yaml
+```
+
+### Use a persistent database as Loft audit backend
+
+Go to Admin > Config and specify the following Loft config setting:
+```yaml
+audit:
+  dataStoreEndpoint: mysql://username:password@tcp(hostname:3306)/database-name
+```
+
+Then press Apply and wait until Loft is restarted.
+
 ## Viewing and Exporting Audit Logs
 
 By default, Loft will log audit events to the following locations:

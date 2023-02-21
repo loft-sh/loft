@@ -443,6 +443,7 @@ module.exports = {
         "guides/preview-environments",
         "guides/upgrade-2-to-3",
         "guides/gitops",
+        "guides/managing-permissions",
       ],
     },
     {
