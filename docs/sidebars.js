@@ -430,7 +430,7 @@ module.exports = {
             "admin/backup-restore-loft",
             "admin/guides/metrics",
             "admin/guides/oidc-provider",
-            "admin/guides/white-labelling",
+            "admin/guides/custom-branding",
             "admin/audit",
           ],
         },
