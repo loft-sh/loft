@@ -1,0 +1,90 @@
+---
+title: Central Hostpath Mapper
+sidebar_label: Central Hostpath Mapper
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+While it is possible to install a common logging solution such as FluentD or ELK stack on the host cluster and then use it inside the virtual cluster, there are certain use cases where you would want to install them directly on the virtual cluster. These solutions mount the node host paths directly to access the pod and container logs and rely on the filenames to be a certain format in order to map the logs to the appropriate pods. However inside a vcluster, this would not work as the vcluster rewrites the names of the pods to a vcluster specific format when it syncs the pods down to the host cluster.
+
+Hostpath mapper was developed to support this by resolving the correct virtual pod and container names to their physical counterparts via the use of symbolic links. It can be enabled per vcluster and is installed as a Daemonset. This works well for a smaller cluster with fewer nodes and virtual clusters. However, as the number of nodes and virtual cluster increases, the number of pods required just for the hostpath mapper increase as we would have one daemonset per vcluster per node.
+
+With Central Hostpath Mapper, this is optimized further where we now have just a one Central Hostpath Mapper daemonset installed on the host cluster that manages the hostpath remapping for all the vclusters created on this host cluster.
+
+:::info Pre-Requisites
+This feature requires the Central Hostpath Mapper to be present in the host cluster. It is available as a default Loft App under the Apps Section. Make sure to install it beforehand for all the features to work correctly.
+:::
+
+<Tabs
+    defaultValue="creation"
+    values={[
+        {label: 'During Virtual Cluster Creation', value: 'creation'},
+        {label: 'On Existing Virtual Cluster', value: 'existing'},
+    ]}>
+    <TabItem value="creation">
+        <Flow id="enable-central-hpm-virtualcluster-creation">
+            <Step>
+                Select the <NavStep>Projects</NavStep> field on the left menu bar.
+            </Step>
+            <Step>
+                From the project drop-down menu, select the project you'd like to create the
+                virtual cluster in.
+            </Step>
+            <Step>
+                Click the Virtual Clusters option on the project pane.
+            </Step>
+            <Step>
+                Click the <Button>Create Virtual Cluster</Button> button on the right side of
+                the page.
+            </Step>
+            <Step>
+                <b>[Optional]</b> select the cluster in which to create the virtual cluster.
+            </Step>
+            <Step>
+                Click the <Button>Select</Button> to continue.
+            </Step>
+            <Step>
+                Click the <Label>Advanced Options</Label> configuration tab and expand the 'Host Path Mapper' section.
+            </Step>
+            <Step>
+                Toggle the slider <Label>Enable</Label>. This will add the 'loft.sh/hpm-enabled' annotation to the template metadata which will be automatically synced to the virtual cluster on creation. Secondly, it will add the 'rewrite-host-paths=true' as extraArgs to the helm values for the syncer.
+            </Step>
+            <Step>
+                Finish configuring anything else you'd like on your virtual cluster, then click the
+                <Button>Create Virtual Cluster</Button> button.
+            </Step>
+        </Flow>
+    </TabItem>
+    <TabItem value="existing">
+        <Flow id="enable-central-hpm-virtualcluster-existing">
+            <Step>
+                Select the <NavStep>Projects</NavStep> field on the left menu bar.
+            </Step>
+            <Step>
+                From the project drop-down menu, select the project your
+                virtual cluster lies in.
+            </Step>
+            <Step>
+                Click the Virtual Clusters option on the project pane.
+            </Step>
+            <Step>
+                Click the drop down arrow next to the virtual cluster you wish to modify. In the drop down menu click the <Label>Edit</Label> button.
+            </Step>
+            <Step>
+                Click the <Label>Advanced Options</Label> configuration tab and expand the 'Host Path Mapper' section.
+            </Step>
+            <Step>
+                Toggle the slider <Label>Enable</Label>. This will add the 'loft.sh/hpm-enabled' annotation to the template metadata which will be automatically synced to the virtual cluster on creation. Secondly, it will add the 'rewrite-host-paths=true' as extraArgs to the helm values for the syncer.
+            </Step>
+            <Step>
+                Finish configuring anything else you'd like on your virtual cluster, then click the
+                <Button>Save Changes</Button> button.
+            </Step>
+        </Flow>
+    </TabItem>
+</Tabs>

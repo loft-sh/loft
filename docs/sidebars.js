@@ -170,6 +170,10 @@ module.exports = {
               type: "doc",
               id: "virtual-clusters/custom-links",
             },
+            {
+              type: "doc",
+              id: "virtual-clusters/central-hostpath-mapper"
+            },
           ],
         },
       ],
