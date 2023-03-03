@@ -13,7 +13,7 @@ If your cluster is air-gapped, within a VPC or restricts network connectivity in
 may run into issues validating the Loft license and pulling Loft images required for Loft.
 
 To solve the licensing issue, you can either use allow HTTP requests from the Loft pod(s) to
-`https://license.loft.sh/*` (this is the preferred option), or use an
+`https://admin.loft.sh/*` (this is the preferred option), or use an
 [offline license key](#offline-license-key).
 
 To solve not being able ot pull images from Docker hub, you can
@@ -104,7 +104,7 @@ DEFAULT_IMAGE_REGISTRY: ${REGISTRY}       # Replace ${REGISTRY}
 ### Offline License Key
 
 If your cluster does not allow the Loft pod to connect the Loft license server
-(`https://license.loft.sh/*`), you can contact [sales@loft.sh](mailto:sales@loft.sh) to purchase
+(`https://admin.loft.sh/*`), you can contact [sales@loft.sh](mailto:sales@loft.sh) to purchase
 an offline license key or to request a trial license key for offline use.
 
 You can edit Loft install values as follows to use your offline license key:
