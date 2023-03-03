@@ -170,6 +170,10 @@ module.exports = {
               type: "doc",
               id: "virtual-clusters/custom-links",
             },
+            {
+              type: "doc",
+              id: "virtual-clusters/central-hostpath-mapper"
+            },
           ],
         },
       ],
@@ -430,7 +434,7 @@ module.exports = {
             "admin/backup-restore-loft",
             "admin/guides/metrics",
             "admin/guides/oidc-provider",
-            "admin/guides/white-labelling",
+            "admin/guides/custom-branding",
             "admin/audit",
           ],
         },

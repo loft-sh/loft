@@ -59,21 +59,7 @@ To enable Argo CD for a Project and configure where the project's Argo CD instan
         In the <Label>ArgoCD Namespace</Label> input, type in the namespace where Argo CD is installed.
     </Step>
     <Step>
-        Optionally, toggle the slider <Label>Enable SSO Integration</Label> to configure whether Loft should be used
-        as the SSO provider for Argo CD. In addition to enabling Argo CD for the Project, the `loftHost` must be
-        configured in the Loft configuration. To set this:
-        <Flow id="set=loft-host">
-            <Step>
-                Navigate to the <NavStep>Admin</NavStep> view using the menu on the left.
-            </Step>
-            <Step>
-                Click on the <Label>Config</Label> tab.
-            </Step>
-            <Step>
-                Add the `loftHost` key to the <Label>Loft Configuration </Label> YAML, and set the value to your
-                Loft installation's URL. This URL must be publicly resolvable.
-            </Step>
-        </Flow>
+        Optionally, Enable SSO integration to login to your ArgoCD instance using Loft credentials. For more info, see the section Configuring SSO section below.
     </Step>
 </Flow>
 
@@ -113,8 +99,13 @@ loft.sh/import-argocd label to true.
 
 ## Configuring SSO
 
-When configuring SSO
+This allows users to login to the ArgoCD instance using their Loft credentials.
 
+:::caution Loft Host Config Required
+This requires `loftHost` key to be configured first. See docs under [Admin > Config](../admin/config.mdx).
+This is sometimes taken care of while [setting up the domain and configuring Extrernal Access](../getting-started/domain.mdx).
+The loft domain must be resolvable from the ArgoCD instance and the browsers of any user logging in via this method.
+:::
 <Flow id="create-vcluster-template-ui">
     <Step>
         From the <NavStep>Argo CD</NavStep> tab under <NavStep>Project Settings</NavStep>, toggle the <Label>Enable

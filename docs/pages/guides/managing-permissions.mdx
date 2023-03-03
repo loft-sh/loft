@@ -9,8 +9,8 @@ achieved by wrapping core Kubernetes RBAC (role-based access control) principles
 custom Loft resources to provide a more ergonomic way to manage access.
 
 This guide is intended to provide a simple, practical showcase of applying Loft RBAC policies in
-a relatively real-world example. This guide is by no means a complete picture of all possible
-RBAC configurations, but should provide some inspiration for crafting your RBAC architecture!
+a relatively real-world example. This guide does not give a complete picture of all possible
+RBAC configurations, but it should provide some inspiration for crafting your RBAC architecture!
 
 Before continuing, it would be a good idea to make sure you are familiar with Loft
 [Users and Teams](../users/what-are-users-and-teams), as well as
@@ -26,7 +26,7 @@ to do that, you can find those
 ### Use Case
 
 Without a clearly defined use case, any RBAC strategy (or any project!) is of course doomed to
-fail! For the purposes of this guide our general use case is as follows:
+fail! For this guide our general use case is as follows:
 
 - We have two connected clusters (the local cluster, and a second connected cluster)
 - We have a single "full" admin user (we'll just use the default admin account for this) that
@@ -64,7 +64,7 @@ group attribute received from the identity provider.
 
 ### Prerequisites
 
-For purposes of this guide, a fresh Loft instance has been installed and a second connected
+For guide, a fresh Loft instance has been installed and a second connected
 cluster "cluster-two" has been added. No other configurations have been made.
 
 
@@ -101,8 +101,8 @@ spec:
   displayName: dvader
 ```
 
-Next up, we can create the "racecar" and "acme" Team resources. For now, we'll include the
-corresponding users that were just created as members of their respective Team.
+Next, we can create the "racecar" and "acme" Team resources. For now, we'll include the
+corresponding users just created as members of their respective Team.
 
 ```yaml
 apiVersion: management.loft.sh/v1
@@ -129,9 +129,9 @@ With the basic User and Team setup out of the way we can set about creating our 
 Projects are one of the core organizational components to Loft. Introduced in Loft 3.0, Projects
 give us a simple cluster agnostic way to group, view, and apply policies to resources in Loft.
 
-Before we can create our Projects though, we need to first create Management Roles
+Before we can create our Projects though, we need first to create Management Roles
 (ClusterRoleTemplate resource) that define the special permissions that we want to apply to the
-"racecar" and "acme" teams. While we are creating these custom roles for purposes of this guide, we
+"racecar" and "acme" teams. While creating these custom roles for purposes of this guide, we
 recommend trying to stick to the built-in Management Roles wherever possible. Adding additional
 Management Roles and managing RBAC policies manually adds complexity that should generally be
 avoided unless required for your use case.
@@ -139,7 +139,7 @@ avoided unless required for your use case.
 
 ### Management Roles
 
-The following manifest represents a Management Role that we can apply for "racecar" Team
+The following manifest represents a Management Role we can apply for "racecar" Team
 members on the "racecar" Project. This role is copied from the default "Project Admin"
 Management Role and modified to remove permissions for SpaceInstance and ProjectSecret resources.
 Note the "loft.sh/project-role" label -- this label, when set to "true", ensures that this
@@ -292,7 +292,7 @@ The acme Project manifest can be found in the end of this guide (but it looks pr
 ## Validating
 
 The easiest way to validate your RBAC policies is to simply impersonate User(s) who you would
-like to check access for. In this guide, even though we wil shortly add SSO integration to pick
+like to check access for. In this guide, even though we will shortly add SSO integration to pick
 up Users for the "racecar" and "acme" Teams, we created simple test Users just for this purpose.
 
 Check out the [Impersonate](../users/impersonate) docs section for the basics of impersonation.
@@ -423,9 +423,8 @@ in the "Teams" column).
 ## Limiting Access To Specific Objects
 
 Typically, we advise against limiting access to individual objects and instead recommend Loft
-administrators use Projects to logically group resources in such a way that all required
-controls can be applied at the Project level. Sometimes, however, there are requirements that
-dictate otherwise!
+administrators use Projects to logically group resources so that all required
+controls can be applied at the Project level. Sometimes, however, some requirements dictate otherwise!
 
 In this guide so far we have seen that ClusterRoleTemplates are more or less "normal" Kubernetes
 RBAC policies; they refer to apigroups, they reference verbs, etc.. Just like "normal" Kubernetes
@@ -461,7 +460,7 @@ spec:
           - vci1
 ```
 
-In order to demonstrate this, we can create a new Project with two virtual clusters in it,
+To demonstrate this, we can create a new Project with two virtual clusters in it,
 "vci1" and "vci2" (manifests at the end of the guide). We also create a new user "epalpatine"
 with the above role applied.
 
@@ -2955,8 +2954,8 @@ spec:
 
 #### Realm Config Loader
 
-This is a simple shell script to load the above realm config JSON file to a keycloak instance
-running at "localhost:8081". Ensure you update the host and contents path variables (contents being
+This simple shell script loads the above realm config JSON file to a keycloak instance 
+running at "localhost:8081".Ensure you update the host and contents path variables (contents being
 the contents of the realm config JSON in the previous section) in the script to match your
 Keycloak instance before running!
 
