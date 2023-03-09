@@ -421,10 +421,6 @@
           "id": "admin/uninstall"
         },
         {
-          "type": "doc",
-          "id": "admin/billing-and-licensing"
-        },
-        {
           "type": "category",
           "label": "Advanced Topics",
           "collapsible": true,

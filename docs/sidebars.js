@@ -172,7 +172,7 @@ module.exports = {
             },
             {
               type: "doc",
-              id: "virtual-clusters/central-hostpath-mapper"
+              id: "virtual-clusters/central-hostpath-mapper",
             },
           ],
         },
@@ -418,10 +418,6 @@ module.exports = {
         {
           type: "doc",
           id: "admin/uninstall",
-        },
-        {
-          type: "doc",
-          id: "admin/billing-and-licensing",
         },
         {
           type: "category",
