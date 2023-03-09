@@ -1,0 +1,76 @@
+---
+title: What Are Virtual Clusters?
+sidebar_label: What Are Virtual Clusters?
+---
+
+A virtual cluster is a fully functional Kubernetes cluster that runs inside a namespace of
+another Kubernetes cluster. Typically, the cluster that the virtual cluster is installed in is
+referred to as the "host" cluster, or the "parent" cluster.
+
+Virtual clusters, being fully functional Kubernetes clusters in their own right, can be a very
+useful tool if you are running into issues with the limitations of traditional Kubernetes
+namespaces. Often administrator do not want to make, or cannot make any special exceptions to the
+multi-tenancy configuration of the underlying parent cluster in order to accommodate user requests.
+For example, some users may need to create their own Custom Resource Definitions (CRDs) which
+could potentially impact any other users in the cluster. Another user may need pods from two
+separate namespaces to communicate with each other, despite the standard NetworkPolicy not
+permitting this. In both of these (and many more!) scenarios, a virtual cluster may be a perfect
+solution!
+
+The diagram below briefly outlines the attributes of virtual clusters as compared to using
+namespaces or physical clusters for isolation and multi-tenancy.
+
+<figure>
+  <img src="/docs/media/v2/vcluster-comparison.png" alt="vcluster Comparison" />
+  <figcaption>vcluster - Comparison</figcaption>
+</figure>
+
+The virtual cluster functionality of Loft comes from the popular open-source project
+[vcluster](https://vcluster.com). Loft provides a centralized management layer for virtual
+clusters, allowing users to provision virtual clusters in any Loft managed cluster (or virtual
+cluster!). Loft also offers the capability to import existing virtual clusters such that they
+can then be managed from the central Loft instance!
+
+
+## Why use Virtual Kubernetes Clusters?
+
+Virtual clusters can be used to partition a single physical cluster into multiple logical,
+virtual clusters. This partitioning process still allows for leveraging the benefits of Kubernetes
+itself, such as optimal resource distribution and workload management.
+
+While partitioning via Kubernetes namespaces has always been an option, traditional namespaces
+are limited in terms of cluster-scoped resources and control-plane usage.
+
+* **Cluster-Scoped Resources**: Certain resources live globally in the cluster, and you can’t
+isolate them using namespaces. For example, installing an operator in different versions at the
+same time is not possible within a single cluster.
+
+* **Shared Kubernetes Control Plane**: the API server, etcd, scheduler, and controller-manager
+are shared in a single Kubernetes cluster across all namespaces. Request or storage
+rate-limiting based on a namespace is very hard to enforce and faulty configuration might bring
+down the whole cluster.
+
+Virtual clusters handily address these challenges by providing a dedicated Kubernetes API server
+per virtual cluster, thus bypassing the challenges of cluster-scoped resources and sharing a
+single control plane.
+
+Virtual clusters also provide more stability than namespaces in many situations. The virtual
+cluster creates its own Kubernetes resource objects, which are stored in its own data store. The
+host cluster has no knowledge of these resources.
+
+Isolation like this is excellent for resiliency. Engineers who use namespace-based isolation
+often still need access to cluster-scoped resources like cluster roles, shared CRDs or
+persistent volumes. If an engineer breaks something in one of these shared resources, it will
+likely fail for all the teams that rely on it.
+
+Virtual clusters are not only highly functional, they can often be a huge cost saver for
+organizations. Many teams scale to address the problems outlined here by simply adding
+additional physical Kubernetes clusters. With virtual clusters, administrators are able to have
+many virtual clusters within a single physical cluster, this results in big savings by not
+having to pay for multiple control planes, and more often than not results in vastly simplified
+cluster maintenance. This makes virtual clusters ideal for running experiments, continuous
+integration, and setting up sandbox environments.
+
+Finally, virtual clusters can be configured independently of the physical cluster. This is great
+for multi-tenancy, like giving your customers the ability to spin up a new environment or
+quickly setting up demo applications for your sales team.

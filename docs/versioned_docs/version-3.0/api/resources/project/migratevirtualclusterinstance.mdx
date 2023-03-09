@@ -1,0 +1,32 @@
+---
+title: Move VCluster To Other Project
+sidebar_label: Move VCluster To Other Project
+---
+import Reference from "../../_partials/resources/projects/migratevirtualclusterinstance/reference.mdx"
+import SubResourceCreate from "../../_partials/resources/projects/migratevirtualclusterinstance/subresourcecreate.mdx"
+
+This API can be used to move a virtual cluster from one project to another.
+
+## Example Move Virtual Cluster To Other Project
+
+An example Move Virtual Cluster To Other Project:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ProjectMigrateVirtualClusterInstance
+metadata:
+  creationTimestamp: null
+sourceVirtualClusterInstance:
+  name: my-virtual-cluster
+  namespace: loft-p-my-other-project
+
+```
+
+## Move Virtual Cluster To Other Project Reference
+
+<Reference />
+
+## Move Virtual Cluster To Other Project (Create)
+
+<SubResourceCreate />
+
+

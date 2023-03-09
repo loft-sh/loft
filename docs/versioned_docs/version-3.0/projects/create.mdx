@@ -1,0 +1,155 @@
+---
+title: Create
+sidebar_label: Create
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Link from "@docusaurus/Link"
+
+## Create A Project
+
+To get started creating a Project, in the Loft UI:
+
+<Flow id="create-project-ui">
+    <Step>
+        Navigate to the <NavStep>Projects</NavStep> view.
+    </Step>
+    <Step>
+        Next to the <Label>Project</Label> drop down, click the <Label>+</Label> button to open the create project drawer.
+    </Step>
+    <Step>
+        Click on <NavStep>Members</NavStep> and add your desired users or teams and their assigned project roles.
+        See the <Link to="./members">Members</Link> section for more details.
+    </Step>
+    <Step>
+        Next, click on <NavStep>Allowed Templates</NavStep> to set the templates allowed for the project's space and
+        virtual cluster instances. See <Link to="./templates">Templates</Link> for more details.
+    </Step>
+    <Step>
+        Next, click on <NavStep>Allowed Clusters</NavStep> to set the clusters that members should have access to.
+        See the <Link to="./clusters">Clusters</Link> section for further details.
+    </Step>
+    <Step>
+        Optionally, if you're an Argo CD user and want to enabled the Argo CD Integration, visit the <NavStep>Argo
+        CD</NavStep> section to configure. See the <Link to="./argocd">Argo CD</Link> documentation for further
+        details.
+    </Step>
+    <Step>
+        Once all project options have been specified, click the <Button>Save Changes</Button>.
+    </Step>
+</Flow>
+
+
+## Quotas
+
+Project Quotas allow you to set space instance and virtual cluster instance limits for each project. Quotas can be
+defined across the whole project or on a per-user basis. Optionally, you may use qualifiers to apply the following limits on space instances and virtual cluster instances. 
+
+### Active Quotas
+An instance limit followed by `.active` will restrict the number of instances that can be active at the same time. These are enforced during instance creation, but also when a request is received to wake up a sleeping instance. This qualifier can be applied to either space instances or virtual cluster instances:
+
+### Template Quotas
+An instance limit containing `.template=template-name` will restrict the number of instances that are using the given template at the same time. These are enforced during instance creation. This qualifier can be applied to either space instances or virtual cluster instances.
+
+### Project Quotas
+
+To configure project quotas follow these steps:
+
+<Flow id="create-project-quota-ui">
+    <Step>
+        Navigate to the <NavStep>Projects</NavStep> tab and select the project to configure from the drop down.
+    </Step>
+    <Step>
+        Click on <NavStep>Project Settings</NavStep>.
+    </Step>
+    <Step>
+        Click on <NavStep>Quotas</NavStep>.
+    </Step>
+    <Step>
+        Select the <Label>Per Project</Label> tab.
+    </Step>
+    <Step>
+        Click on the <Button>Add Quota</Button>. An entry in the quota table will appear.
+    </Step>
+    <Step>
+        For the <Label>Resource</Label> column, select the desired resource. If limiting space instances or virtual cluster instances, you may optionally select <Label>spaceinstance.active</Label> or <Label>virtualclusterinstance.active</Label> respectively.
+    </Step>
+    <Step>
+        Optionally for the <Label>Template</Label> column, select the template on which you'd like to set a limit.
+    </Step>
+    <Step>
+        For the <Label>Quota</Label> column, enter a number or use the step selector to increase or decrease to the
+        desired count.
+    </Step>
+    <Step>
+        Once all project options have been specified, click the <Button>Save Changes</Button>.
+    </Step>
+</Flow>
+
+
+### User and Team Quotas
+
+Quotas that apply for each user or team can be defined as well. These quotas apply to all users or teams and cannot
+be applied to specific users and teams. For example, this project defines a total space instance quota of 20, but
+prevents any user or team from using more than 5 spaces. By adjusting these quotas, you can ensure that no user or
+team uses more than their fair share of cluster resources.
+
+To configure quotas using the UI, follow these steps:
+
+<Flow id="create-project-quota-team-ui">
+    <Step>
+        Navigate to the <NavStep>Projects</NavStep> tab and select the project to configure from the drop down.
+    </Step>
+    <Step>
+        Click on <NavStep>Project Settings</NavStep>.
+    </Step>
+    <Step>
+        Click on <NavStep>Quotas</NavStep>.
+    </Step>
+    <Step>
+        Select the <Label>Per User / Team</Label> tab.
+    </Step>
+    <Step>
+        Click on the <Button>Add Quota</Button>. An entry in the quota table will appear.
+    </Step>
+    <Step>
+        For the <Label>Resource</Label> column, select the desired resource. If limiting space instances or virtual cluster instances, you may optionally select <Label>spaceinstance.active</Label> or <Label>virtualclusterinstance.active</Label> respectively.
+    </Step>
+    <Step>
+        Optionally for the <Label>Template</Label> column, select the template on which you'd like to set a limit.
+    </Step>
+    <Step>
+        For the <Label>Quota</Label> column, enter a number or use the step selector to increase or decrease to the
+        desired count.
+    </Step>
+    <Step>
+        Once all project options have been specified, click the <Button>Save Changes</Button>.
+    </Step>
+</Flow>
+
+:::note Team and Team Member Quotas
+If a team is the owner of a space or virtual cluster the usage will be counted by the team and not count against
+each member of the team, nor will the usage of a team member count towards the team's quota.
+:::
+
+
+### Exceeding Quotas
+
+Once the project quotas are defined, users and teams are free to create space instances and virtual cluster
+instances up to the defined limits. However, once the usage meets the limit, attempts to create a new virtual
+cluster instance or space instance will be rejected with an error message indicating the resource type and limit
+that would be exceeded. Here are examples of possible error messages:
+
+- `Error: metadata.name: Forbidden: cannot create spaceinstance, because project spaceinstances limit of 5 would be exceeded`
+- `Error: metadata.name: Forbidden: cannot create spaceinstance, because per-user spaceinstances limit of 5 would be exceeded`
+- `Error: metadata.name: Forbidden: cannot create virtualclusterinstance, because project virtualclusterinstances limit of 5 would be exceeded`
+- `Error: metadata.name: Forbidden: cannot create virtualclusterinstance, because per-user virtualclusterinstances limit of 5 would be exceeded`
+
+:::info Changing Quotas
+In order to avoid these errors in practice, quotas may be increased. Decreasing quotas, on the other hand, will not
+result in spaces being automatically deleted. In these cases, it is possible and expected that the number of spaces
+or virtual clusters will exceed limits.
+:::

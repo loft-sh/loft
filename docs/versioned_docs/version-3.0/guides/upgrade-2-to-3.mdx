@@ -1,0 +1,79 @@
+---
+title: Upgrade v2 to v3
+sidebar_label: Upgrade v2 to v3
+---
+
+This guide briefly covers a few topics that Loft admins may wish to review before upgrading
+to Loft version 3. We recommend taking a look at the topics in this section to ensure that you are getting the best
+experience with Loft version 3.
+
+
+## Breaking Changes in Loft v3
+
+* We removed all kiosk apis that were deprecated in Loft v2, please use the new project api instead. This includes:
+  * Account
+  * Security Templates
+  * Cluster Account Templates
+* `loft sleep` is now `loft sleep space`
+* `loft wakeup` is now `loft wakeup space`
+* Grafana integration was removed. We felt that this wasn't providing much benefit and users rarely used this. Please use Grafana directly if you were using this.
+* Template syncing in non project spaces / virtual clusters was removed, please import the spaces / virtual clusters into a project to sync the templates
+* Space Constraints are now deprecated, please use projects instead
+
+## New Objects
+
+One of the biggest changes in Loft version 3 is the addition of new object types. Take a quick
+read through the following sections (and the linked sections!) to get a feel for the most
+important new objects.
+
+
+### Projects
+
+Projects are an organizational unit in Loft, they are a place for you to group your resources,
+in Loft 3, you will almost certainly want to be working with Projects as they give you a simpler
+mechanism for applying policies to your resources.
+
+Check out the "What Are Projects?" documentation [here](../projects/what-are-projects) for more
+information.
+
+
+### Space and Virtual Cluster Instances
+
+Space and Virtual Cluster instances are a new resource that further abstracts the space and
+virtual cluster types. The *instance* type contains not only information about the space or
+virtual cluster, but also information about which connected cluster the space or virtual cluster
+resides in. In general, you will want to migrate your spaces and virtual clusters to the new
+instance type, this process is outlined below in the [Import Legacy Spaces](#import-legacy-spaces)
+and [Import Legacy Virtualclusters](#import-legacy-virtualclusters) sections.
+
+This makes it possible to give users only access to a virtual cluster without giving them any access
+to the host cluster.
+
+
+## A New Project
+
+One of the first things you may want to do when getting settled in with Loft version 3 is to
+create a new Project. You can use the default "Default" project of course, but we generally
+advise Loft admins to create projects that are meaningful to them and their environment rather
+than simply using the default/placeholder project.
+
+Read about creating projects [here](../projects/create).
+
+
+## Import Legacy Spaces
+
+Legacy spaces can be imported into the new improved space instance type from the Loft UI or via the
+Loft CLI. One advantage of importing legacy spaces is that they will properly show up in your
+desired Project (as spaceinstances are always associated with a project!).
+
+The process for importing legacy spaces is documented [here](../spaces/import-namespaces).
+
+
+## Import Legacy Virtual Clusters
+
+Just like legacy spaces, legacy virtualclusters can be imported into a project. It is a good
+idea to get this done after the upgrade process!
+
+Follow the documentation [here](../virtual-clusters/import-vclusters) to import legacy
+virtual clusters.
+

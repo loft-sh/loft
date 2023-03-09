@@ -1,0 +1,136 @@
+
+import PartialDisplayName from "./spec/displayName.mdx"
+import PartialDescription from "./spec/description.mdx"
+import PartialUser from "./spec/user.mdx"
+import PartialTeam from "./spec/team.mdx"
+import PartialSubject from "./spec/subject.mdx"
+import PartialGroups from "./spec/groups.mdx"
+import PartialKey from "./spec/key.mdx"
+import PartialDisabled from "./spec/disabled.mdx"
+import PartialTtl from "./spec/ttl.mdx"
+import PartialTtlAfterLastActivity from "./spec/ttlAfterLastActivity.mdx"
+import PartialScopereference from "./spec/scope_reference.mdx"
+import PartialType from "./spec/type.mdx"
+import PartialIdentityreference from "./spec/identity_reference.mdx"
+import PartialIdentityRefreshreference from "./spec/identityRefresh_reference.mdx"
+import PartialOidcProviderreference from "./spec/oidcProvider_reference.mdx"
+import PartialParent from "./spec/parent.mdx"
+import PartialOidcLoginreference from "./spec/oidcLogin_reference.mdx"
+
+<PartialDisplayName />
+
+
+<PartialDescription />
+
+
+<PartialUser />
+
+
+<PartialTeam />
+
+
+<PartialSubject />
+
+
+<PartialGroups />
+
+
+<PartialKey />
+
+
+<PartialDisabled />
+
+
+<PartialTtl />
+
+
+<PartialTtlAfterLastActivity />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `scope` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-scope}
+
+Scope defines the scope of the access key.
+
+</summary>
+
+<PartialScopereference />
+
+
+</details>
+
+
+<PartialType />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `identity` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-identity}
+
+If available, contains information about the sso login data for this
+access key
+
+</summary>
+
+<PartialIdentityreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `identityRefresh` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-identityRefresh}
+
+The last time the identity was refreshed
+
+</summary>
+
+<PartialIdentityRefreshreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `oidcProvider` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-oidcProvider}
+
+If the token is a refresh token, contains information about it
+
+</summary>
+
+<PartialOidcProviderreference />
+
+
+</details>
+
+
+<PartialParent />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `oidcLogin` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-oidcLogin}
+
+DEPRECATED: Use identity instead
+If available, contains information about the oidc login data for this
+access key
+
+</summary>
+
+<PartialOidcLoginreference />
+
+
+</details>

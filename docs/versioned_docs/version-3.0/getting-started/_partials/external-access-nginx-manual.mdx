@@ -1,0 +1,25 @@
+import Flow, { Step } from '@site/src/components/Flow'
+
+import PartialNGINXDeploy from './external-access-nginx-deploy.mdx'
+import PartialNGINXDeployValues from './external-access-nginx-loft-values.mdx'
+import PartialAdminUpgradeCLI from '../../admin/_partials/upgrade-cli.mdx'
+import PartialStartGetExternalIP from './external-access-nginx-get-external-ip.mdx'
+import PartialStartSetARecord from './external-access-nginx-set-a-record.mdx'
+
+<Flow id="nginx-ingress-manual-install">
+    <Step>
+        <PartialNGINXDeploy/>
+    </Step>
+    <Step>
+        <PartialNGINXDeployValues/>
+    </Step>
+    <Step>
+        <PartialAdminUpgradeCLI/>
+    </Step>
+    <Step>
+        <PartialStartGetExternalIP/>
+    </Step>
+    <Step>
+        <PartialStartSetARecord/>
+    </Step>
+</Flow>

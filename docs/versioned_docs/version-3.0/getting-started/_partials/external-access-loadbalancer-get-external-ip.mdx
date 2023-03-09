@@ -1,0 +1,7 @@
+Wait until the load balancer receives an External-IP address:
+
+```bash
+kubectl get svc loft-loadbalancer -n loft
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)          AGE
+loft-loadbalancer       LoadBalancer   10.112.2.142    x.x.x.x          443:30933/TCP    3m16s
+```

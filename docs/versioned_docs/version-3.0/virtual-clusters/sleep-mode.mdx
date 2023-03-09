@@ -1,0 +1,90 @@
+---
+title: Sleep Mode
+sidebar_label: Sleep Mode
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+import PartialActivityDetection from '../spaces/_partials/sleep/activity-detection.mdx'
+import PartialAdvancedConfiguration from '../spaces/_partials/sleep/advanced-configuration.mdx'
+import PartialWorkingWithSleepMode from '../spaces/_partials/sleep/working-with-sleep-mode.mdx'
+import PartialSleepConfigureUI from '../spaces/_partials/sleep/configure-ui.mdx'
+import PartialSleepManualUI from '../spaces/_partials/sleep/manual-ui.mdx'
+import PartialSleepManualCLI from '../spaces/_partials/sleep/manual-cli.mdx'
+import PartialSleepScheduleUI from '../spaces/_partials/sleep/schedule-ui.mdx'
+import PartialSleepWakeUI from '../spaces/_partials/sleep/wake-ui.mdx'
+import PartialSleepWakeCLI from '../spaces/_partials/sleep/wake-cli.mdx'
+import PartialAutoDeleteConfigureUI from '../spaces/_partials/auto-delete/configure-ui.mdx'
+
+
+Loft provides two powerful features to reduce Kubernetes cost:
+- Sleep Mode which puts virtual clusters to sleep when nobody is using them, i.e. purging all pods while keeping all resources inside the virtual clusters during periods of inactivity
+- Auto-Delete which deletes virtual clusters that have been idle for a while
+
+Both of these feature typically rely on Loft's [inactivity detection](#inactivity-detection).
+
+
+## Working with Sleep Mode
+
+<PartialWorkingWithSleepMode name="virtual cluster" />
+
+### Manual + Automatic Sleep / Wake-up
+
+<details>
+  <summary>Start Sleep (manual)</summary>
+  <Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui"><PartialSleepManualUI name="virtual cluster" kind="Virtual Cluster" /></TabItem>
+    <TabItem value="cli"><PartialSleepManualCLI name="virtual cluster"/></TabItem>
+  </Tabs>
+
+</details>
+
+<details>
+  <summary>Automatic Sleep Mode (individual virtual cluster)</summary>
+  <PartialSleepConfigureUI name="virtual cluster"/>
+</details>
+
+<details>
+  <summary>Wake up virtual cluster</summary>
+  <Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui"><PartialSleepWakeUI name="virtual cluster"/></TabItem>
+    <TabItem value="cli"><PartialSleepWakeCLI name="virtual cluster"/></TabItem>
+  </Tabs>
+</details>
+
+
+### Scheduled Sleep / Wake-up
+
+<details>
+  <summary>Scheduled Sleep & Wake-Up (individual space)</summary>
+  <PartialSleepScheduleUI name="virtual cluster"/>
+</details>
+
+
+## Working with Auto-Delete
+Loft lets you configure an auto-delete for virtual clusters that have not been used for a certain period of time (inactivity).
+
+<details>
+  <summary>Configure Auto-Delete Timeout</summary>
+  <PartialAutoDeleteConfigureUI name="virtual cluster"/>
+</details>
+
+
+## Inactivity Detection
+
+<PartialActivityDetection name="virtual cluster" />
+
+## Advanced Configuration
+
+<PartialAdvancedConfiguration name="virtual cluster" />

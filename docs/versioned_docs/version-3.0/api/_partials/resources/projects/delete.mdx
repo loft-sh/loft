@@ -1,0 +1,36 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to delete Projects.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Run the following command to delete Project `my-project`:
+```bash
+kubectl delete projects.management.loft.sh my-project 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Run the following curl command to delete Project `my-project`:
+```bash
+# Replace the my-project in the url below with the name of the Project you want to delete
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/projects/my-project" \
+     -X DELETE --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

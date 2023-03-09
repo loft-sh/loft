@@ -1,0 +1,56 @@
+---
+title: Custom Links
+sidebar_label: Custom Links
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+Loft lets you add custom links to space instances, for example to point to a github pull request or jira issue.
+
+:::tip Virtual Clusters Too!
+Check out the Virtual Clusters [Advanced Topics ](../virtual-clusters/custom-links) for custom links.
+:::
+
+<Tabs
+    defaultValue="ui"
+    values={[
+        {label: 'UI', value: 'ui'},
+        {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui">
+      <Step>
+        Go to the <NavStep>Spaces</NavStep> view using the menu on the left
+      </Step>
+      <Step>
+        Edit an existing Space or create a new one
+      </Step>
+      <Step>
+        Click <Label>Add Link</Label> to add a new link or <Label>Change</Label> to edit existing ones
+      </Step>
+      <Step>
+        Enter a URL and optionally a label for your link
+      </Step>
+      <Step>
+        Save your links by clicking <Label>Save</Label>
+      </Step>
+      <Step>
+        Click on the <Button>Create Space</Button>, 
+        or <Button>Save Changes</Button> if you're editing an existing space,
+        to apply all changes
+      </Step>
+    </TabItem>
+<TabItem value="cli">
+
+```bash
+loft create space space-1 --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234'
+loft create space space-1 --link 'https://loft.sh'
+loft create space space-1 --link 'my-issue=https://github.com/kubernetes/kubernetes/pull/1234,documentation=https://example.com/docs'
+``` 
+
+</TabItem>
+</Tabs>

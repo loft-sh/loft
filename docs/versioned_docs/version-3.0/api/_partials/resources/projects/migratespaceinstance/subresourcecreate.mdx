@@ -1,0 +1,39 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+Move a space into another project using this API.
+
+<Tabs
+    defaultValue="curl"
+    values={[
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ProjectMigrateSpaceInstance
+metadata:
+  creationTimestamp: null
+sourceSpaceInstance:
+  name: my-space
+  namespace: loft-p-my-other-project
+
+```
+
+Then run the following curl command:
+```bash
+# Exchange my-object in the url below with the name of the Move Space To Other Project
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/projects/my-object/migratespaceinstance" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

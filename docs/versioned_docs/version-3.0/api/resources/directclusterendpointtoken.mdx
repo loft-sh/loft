@@ -1,0 +1,32 @@
+---
+title: Direct Cluster Endpoint Token
+sidebar_label: Direct Cluster Endpoint Token
+---
+import Reference from "../_partials/resources/directclusterendpointtokens/reference.mdx"
+import Create from "../_partials/resources/directclusterendpointtokens/create.mdx"
+
+Direct Cluster Endpoints are a feature to avoid the central Loft instance and directly connect to a connected Loft cluster.
+
+## Example Direct Cluster Endpoint Token
+
+An example Direct Cluster Endpoint Token:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DirectClusterEndpointToken
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjV3RlZOcmU1Ty1ZazBMRmNoN3F1NzVlYlctdk5rdGJ5eTRlelJNQ3dKLVEifQ.eyJhdWQiOlsiaHR0cHM6V0ZXMuZGVmYXVsdCJdLCJleHAiOjE5ODMwNzXIubG...
+
+```
+
+## Direct Cluster Endpoint Token Reference
+
+<Reference />
+
+## Create: Direct Cluster Endpoint Token
+
+<Create />
+
+

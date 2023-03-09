@@ -1,0 +1,38 @@
+
+import PartialLimit from "./user/limit.mdx"
+import PartialUsedreference from "./user/used_reference.mdx"
+import PartialClustersreference from "./user/clusters_reference.mdx"
+
+<PartialLimit />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `used` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-quotas-user-used}
+
+Used is the used amount per user / team
+
+</summary>
+
+<PartialUsedreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `clusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">&lt;cluster_name&gt;:object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-quotas-user-clusters}
+
+Clusters holds the used amount per cluster. Maps cluster name to used resources
+
+</summary>
+
+<PartialClustersreference />
+
+
+</details>
