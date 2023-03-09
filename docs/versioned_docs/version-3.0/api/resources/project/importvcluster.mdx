@@ -1,0 +1,34 @@
+---
+title: Import Virtual Cluster
+sidebar_label: Import Virtual Cluster
+---
+import Reference from "../../_partials/resources/projects/importvirtualcluster/reference.mdx"
+import SubResourceCreate from "../../_partials/resources/projects/importvirtualcluster/subresourcecreate.mdx"
+
+This API can be used to import an existing vcluster from a connected cluster into the project.
+
+## Example Import Virtual Cluster
+
+An example Import Virtual Cluster:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ProjectImportVirtualCluster
+metadata:
+  creationTimestamp: null
+sourceVirtualCluster:
+  cluster: my-connected-cluster
+  importName: my-name-in-project
+  name: my-virtual-cluster-name
+  namespace: my-virtual-cluster-namespace
+
+```
+
+## Import Virtual Cluster Reference
+
+<Reference />
+
+## Import Virtual Cluster (Create)
+
+<SubResourceCreate />
+
+

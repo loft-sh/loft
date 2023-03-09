@@ -1,0 +1,21 @@
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `parent` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parent}
+
+DEPRECATED: do not use anymore
+Parent is used to share OIDC and external token information
+with multiple access keys. Since copying an OIDC refresh token
+would result in the other access keys becoming invalid after a refresh
+parent allows access keys to share that information.
+
+The use case for this is primarily user generated access keys,
+which will have the users current access key as parent if it contains
+an OIDC token.
+
+</summary>
+
+
+
+</details>

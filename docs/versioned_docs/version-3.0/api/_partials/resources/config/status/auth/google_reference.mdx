@@ -1,0 +1,67 @@
+
+import PartialClientId from "./google/clientId.mdx"
+import PartialClientSecret from "./google/clientSecret.mdx"
+import PartialRedirectURI from "./google/redirectURI.mdx"
+import PartialScopes from "./google/scopes.mdx"
+import PartialHostedDomains from "./google/hostedDomains.mdx"
+import PartialGroups from "./google/groups.mdx"
+import PartialServiceAccountFilePath from "./google/serviceAccountFilePath.mdx"
+import PartialAdminEmail from "./google/adminEmail.mdx"
+import PartialClusterAccountTemplatesreference from "./google/clusterAccountTemplates_reference.mdx"
+import PartialGroupClusterAccountTemplatesreference from "./google/groupClusterAccountTemplates_reference.mdx"
+
+<PartialClientId />
+
+
+<PartialClientSecret />
+
+
+<PartialRedirectURI />
+
+
+<PartialScopes />
+
+
+<PartialHostedDomains />
+
+
+<PartialGroups />
+
+
+<PartialServiceAccountFilePath />
+
+
+<PartialAdminEmail />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `clusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-google-clusterAccountTemplates}
+
+Cluster Account Templates that will be applied for users logging in through this authentication
+
+</summary>
+
+<PartialClusterAccountTemplatesreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `groupClusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-google-groupClusterAccountTemplates}
+
+A mapping between groups and cluster account templates. If the user has a certain group, the cluster
+account template will be added during creation
+
+</summary>
+
+<PartialGroupClusterAccountTemplatesreference />
+
+
+</details>

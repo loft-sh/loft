@@ -1,0 +1,24 @@
+
+import PartialRulesreference from "./policy/rules_reference.mdx"
+import PartialOmitStages from "./policy/omitStages.mdx"
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `rules` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-audit-policy-rules}
+
+Rules specify the audit Level a request should be recorded at.
+A request may match multiple rules, in which case the FIRST matching rule is used.
+The default audit level is None, but can be overridden by a catch-all rule at the end of the list.
+PolicyRules are strictly ordered.
+
+</summary>
+
+<PartialRulesreference />
+
+
+</details>
+
+
+<PartialOmitStages />

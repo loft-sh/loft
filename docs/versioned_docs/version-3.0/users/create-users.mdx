@@ -1,0 +1,52 @@
+---
+title: Create
+sidebar_label: Create
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+Users can be created manually in the Loft UI as follows.
+
+<Flow id="create-user">
+    <Step>
+        Select the <NavStep>Users</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        Click the <Button>Add User</Button> button.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, give your new user a name by replacing the
+        'my-user' placeholder name, or by updating the manifest YAML 'metadata.name' field.
+    </Step>
+    <Step>
+        <b>[Optional]</b> Update the user with any additional desired configuration options.
+        <Flow id="create-user-optional-ui">
+            <Step>
+                The <Label>Details</Label> tab contains user settings. The username is used to login and optionally you
+                can also set the default password in this tab. The e-mail address needs to be unique across users and can
+                also be used to login instead of using the username. The subject is used to map a user to a SSO provider.
+            </Step>
+            <Step>
+                The <Label>Team Memberships</Label> tab contains settings that govern which
+                teams the user is part of. The <Label>Teams</Label> selector
+                allows you to make user part of the selected teams.
+            </Step>
+            <Step>
+                <Label>Advanced Options</Label> allow for configuring cluster roles that apply
+                to this team, as well as Image Pull Secrets, that allow users in this team to
+                automatically receive the provided image pull secrets upon logging into Loft
+                (via the Loft CLI).
+            </Step>
+            <Step>
+                <Label>Access</Label> allows you to define which users and teams have access to
+                modify the team you are currently creating.
+            </Step>
+        </Flow>
+    </Step>
+    <Step>
+        Click on the <Button>Save Changes</Button> button.
+    </Step>
+</Flow>

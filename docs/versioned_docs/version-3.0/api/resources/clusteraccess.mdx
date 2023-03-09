@@ -1,0 +1,60 @@
+---
+title: Cluster Access
+sidebar_label: Cluster Access
+---
+import Reference from "../_partials/resources/clusteraccesses/reference.mdx"
+import Retrieve from "../_partials/resources/clusteraccesses/retrieve.mdx"
+import Create from "../_partials/resources/clusteraccesses/create.mdx"
+import Update from "../_partials/resources/clusteraccesses/update.mdx"
+import Delete from "../_partials/resources/clusteraccesses/delete.mdx"
+
+Globally defined cluster access. You can allow users or teams to access certain clusters here and define their cluster roles in those clusters.
+
+## Example Cluster Access
+
+An example Cluster Access:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ClusterAccess
+metadata:
+  creationTimestamp: null
+  name: my-cluster-access
+spec:
+  clusters:
+  - '*'
+  description: Defines cluster access for the global admins
+  displayName: Global Admins
+  localClusterAccessTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      clusterRoles:
+      - name: loft-cluster-admin
+      priority: 1000000
+      users:
+      - team: loft-admins
+status: {}
+
+```
+
+## Cluster Access Reference
+
+<Reference />
+
+## Retrieve: Cluster Accesses
+
+<Retrieve />
+
+## Create: Cluster Access
+
+<Create />
+
+## Update: Cluster Access
+
+<Update />
+
+## Delete: Cluster Access
+
+<Delete />
+
+

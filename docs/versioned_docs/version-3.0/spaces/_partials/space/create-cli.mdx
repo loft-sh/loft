@@ -1,0 +1,11 @@
+To create a space using Loft CLI, run:
+```bash
+loft create space [space-name] --project my-project
+```
+
+:::info Template
+If you omit specifying a template, Loft will automatically select one for you (if there is a default template in the project specified) or prompt you to select a template.
+:::
+:::info Kube-Context
+Running `loft create space` will automatically add a kube-context to your kube-config file, so you can immediately run `kubectl` commands right after creating a space.
+:::

@@ -1,0 +1,10 @@
+import CodeBlock from '@theme/CodeBlock';
+
+<p>To put a {props.name} to sleep using Loft CLI, run:</p>
+<CodeBlock>
+loft sleep {props.name === "virtual cluster" ? "vcluster" : "space"} [name]
+</CodeBlock>
+
+:::tip Automatic Wakeup
+<span>Note that the {props.name} will automatically wake up again, once you run a kubectl command or send a Kubernetes request via another tool to the {props.name}.</span>
+:::

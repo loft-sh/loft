@@ -1,0 +1,45 @@
+---
+title: Connect Cluster
+sidebar_label: Connect Cluster
+---
+import Reference from "../../_partials/resources/clusterconnect/reference.mdx"
+import Create from "../../_partials/resources/clusterconnect/create.mdx"
+
+You can connect a new cluster through this API, compared to the cluster api, this will also create the necessary secret and cluster access object within the newly connected cluster.
+
+## Example Cluster Connect
+
+An example Cluster Connect:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ClusterConnect
+metadata:
+  creationTimestamp: null
+  name: my-cluster
+spec:
+  adminUser: my-user
+  clusterTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      config: {}
+    status: {}
+  config: |-
+    apiVersion: v1
+    kind: Config
+    clusters:
+    - cluster:
+    ...
+status: {}
+
+```
+
+## Cluster Connect Reference
+
+<Reference />
+
+## Create: Cluster Connect
+
+<Create />
+
+

@@ -1,0 +1,52 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to retrieve Cluster Accesses.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+### Retrieve a list of Cluster Accesses
+Run the following command to list all Cluster Accesses:
+```bash
+kubectl get clusteraccesses.management.loft.sh  -o yaml
+```
+
+### Retrieve a single Cluster Access by name
+Run the following kubectl command to get Cluster Access `my-cluster-access`:
+```bash
+kubectl get clusteraccesses.management.loft.sh my-cluster-access  -o yaml
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+### Retrieve a list of Cluster Accesses
+Run the following curl command to list all Cluster Accesses:
+```bash
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/clusteraccesses" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+### Get a single Cluster Access by name
+Run the following curl command to get Cluster Access `my-cluster-access`:
+```bash
+# Exchange my-cluster-access in the url below with the name of the Cluster Access
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/clusteraccesses/my-cluster-access" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

@@ -1,0 +1,12 @@
+Determine the External-IP address:
+
+```bash
+kubectl get ingress -n loft
+NAME           CLASS    HOSTS                ADDRESS          PORTS     AGE
+loft-ingress   <none>   loft.mydomain.tld    x.x.x.x          80, 443   10m
+```
+
+:::info Address
+If you never get a valid IP Address in the ADDRESS column shown above, you will need to work
+with your Kubernetes administrator to ensure your ingress is properly configured!
+:::

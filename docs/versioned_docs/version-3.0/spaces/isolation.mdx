@@ -1,0 +1,20 @@
+---
+title: Isolation
+sidebar_label: Isolation
+---
+
+Spaces in Loft can be configured to provide moderate levels of isolation. This "isolation"
+typically includes applying ResourceQuotas, LimitRanges, and NetworkPolicies to a Space. These
+policies can be configured using the Space `Objects` option, to provide your desired quotas,
+limits and network policies. To make your life easier, Loft is deployed with a default Space
+Template called `Isolated Space Template`. This space template can give you a head start on
+configuring your own Space isolation policies, or you may find the template sufficient for your
+needs.
+
+The default `Isoalted Space Template` creates hard limits for resource types, sets rational
+default limit ranges, and deploys a rather restrictive NetworkPolicy limiting network traffic.
+
+:::warning CNIs and Network Policies
+Not all CNIs will support all network policies! Make sure you understand what capabilities your
+CNI supports when investigating space isolation!
+:::

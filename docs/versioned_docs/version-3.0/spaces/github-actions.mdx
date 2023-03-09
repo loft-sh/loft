@@ -1,0 +1,50 @@
+---
+title: GitHub Actions
+sidebar_label: GitHub Actions
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+
+import PartialIntegrationsSpacePullRequestAutomatic  from './_partials/integrations/github-actions-spaces-pull-request-automatic.mdx'
+import PartialIntegrationsSpacePullRequestManual  from './_partials/integrations/github-actions-spaces-pull-request-manual.mdx'
+import PartialIntegrationsSpacePullRequestDevspace  from './_partials/integrations/github-actions-spaces-pull-request-devspace.mdx'
+import PartialIntegrationsSpacePullRequestReuse  from './_partials/integrations/github-actions-spaces-pull-request-reuse.mdx'
+
+Loft provides the following GitHub Actions for use in workflows:
+- [Setup DevSpace](https://github.com/loft-sh/setup-devspace): Installs the `devspace` CLI
+- [Setup Loft](https://github.com/loft-sh/setup-loft): Installs the `loft` CLI and logs in to the Loft instance
+- [Create Space](https://github.com/loft-sh/create-space): Creates a Space
+- [Delete Space](https://github.com/loft-sh/delete-space): Deletes a Space
+
+:::tip Virtual Clusters Too!
+Check out the Virtual Cluster Integration [section](../virtual-clusters/github-actions) for
+examples of using the Virtual Cluster create/delete GitHub Actions plugins.
+:::
+
+
+#### Spaces for Pull Requests
+
+These examples show how to create and delete Spaces for pull requests.
+
+<Tabs
+    defaultValue="manual"
+    values={[
+        {label: 'Basic', value: 'manual',},
+        {label: 'Automatic Cleanup', value: 'automatic',},
+        {label: 'Reuse', value: 'use',},
+        {label: 'DevSpace', value: 'devspace',},
+    ]}>
+    <TabItem value="manual">
+        <PartialIntegrationsSpacePullRequestManual/>
+    </TabItem>
+    <TabItem value="automatic">
+        <PartialIntegrationsSpacePullRequestAutomatic/>
+    </TabItem>
+    <TabItem value="use">
+        <PartialIntegrationsSpacePullRequestReuse/>
+    </TabItem>
+    <TabItem value="devspace">
+        <PartialIntegrationsSpacePullRequestDevspace/>
+    </TabItem>
+</Tabs>

@@ -1,0 +1,41 @@
+This example shows how to create and delete a space to test an application named `my-app` for pull requests.
+
+```yaml
+# .github/workflows/prs.yaml
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Loft CLI
+        uses: loft-sh/setup-loft@main
+        with:
+          url: ${{ secrets.LOFT_URL }}
+          access-key: ${{ secrets.LOFT_ACCESS_KEY }}
+      - name: Create Space for PR
+        uses: loft-sh/create-space@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+      - name: Deploy Application
+        run: kubectl apply -Rf ./kubernetes
+      - name: Wait for Deployment
+        run: kubectl rollout status -n pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }} deployments/my-app
+      - name: Run Tests
+        run: make e2e
+      - name: Delete PR Space
+        uses: loft-sh/delete-space@main
+        with:
+          name: pr-${{ github.event.pull_request.number }}-${{ github.sha }}-${{ github.run_id }}
+```
+
+**Explanation:**
+1. The [Setup Loft](https://github.com/loft-sh/setup-loft) action is used to install the Loft CLI and login using the provided `url` and `access-key`.
+2. The [Create Space](https://github.com/loft-sh/create-space) action is used to create a unique space using information about the pull request. This will automatically configure the kube context for the following steps.
+3. The next step deploys the application using the runner provided `kubectl` and manifests located under `./kubernetes`.
+4. Before running tests, we use `kubectl` to wait for the `my-app` deployment to become ready.
+5. Now we run the end-to-end tests. In this example we're using `make` to run tests, but the command should be customized for your testing framework.
+6. Finally, the [Delete Space](https://github.com/loft-sh/delete-space) GitHub Action is used to delete the pull request's space.

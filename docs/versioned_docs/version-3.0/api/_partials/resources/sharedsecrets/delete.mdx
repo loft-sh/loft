@@ -1,0 +1,36 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to delete Global Secrets.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Run the following command to delete Global Secret `my-global-secret`in namespace `loft`:
+```bash
+kubectl delete sharedsecrets.management.loft.sh my-global-secret -n loft
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Run the following curl command to delete Global Secret `my-global-secret`in namespace `loft`:
+```bash
+# Replace the my-global-secret in the url below with the name of the Global Secret you want to delete
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/namespaces/loft/sharedsecrets/my-global-secret" \
+     -X DELETE --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

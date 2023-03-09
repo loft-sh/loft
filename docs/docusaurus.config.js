@@ -83,8 +83,8 @@ module.exports = {
           editUrl: "https://github.com/loft-sh/loft/edit/master/docs/",
           versions: {
             current: {
-              label: "3.0 (beta)",
-              path: "3.0",
+              label: "master",
+              path: "master",
             },
           },
           remarkPlugins: [
@@ -149,7 +149,21 @@ module.exports = {
       },
     ],
   ],
-  plugins: ["docusaurus-plugin-sass", "plugin-image-zoom"],
+  plugins: [
+    "docusaurus-plugin-sass",
+    "plugin-image-zoom",
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          {
+            to: "/getting-started/install",
+            from: "/getting-started/install/cli",
+          },
+        ],
+      },
+    ],
+  ],
   scripts: [
     {
       src: "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js",

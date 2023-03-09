@@ -1,0 +1,52 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to retrieve Projects.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+### Retrieve a list of Projects
+Run the following command to list all Projects:
+```bash
+kubectl get projects.management.loft.sh  -o yaml
+```
+
+### Retrieve a single Project by name
+Run the following kubectl command to get Project `my-project`:
+```bash
+kubectl get projects.management.loft.sh my-project  -o yaml
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+### Retrieve a list of Projects
+Run the following curl command to list all Projects:
+```bash
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/projects" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+### Get a single Project by name
+Run the following curl command to get Project `my-project`:
+```bash
+# Exchange my-project in the url below with the name of the Project
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/projects/my-project" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

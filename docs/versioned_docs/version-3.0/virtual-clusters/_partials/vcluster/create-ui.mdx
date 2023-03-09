@@ -1,0 +1,43 @@
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+import PartialVirtualClusterUseCLI from './use-vcluster.mdx'
+
+<Flow id="use-vcluster-template-ui">
+    <Step>
+        Select the <NavStep>Projects</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        From the project drop-down menu, select the project you'd like to create the
+        virtual cluster in.
+    </Step>
+    <Step>
+        Click the Virtual Clusters option on the project pane.
+    </Step>
+    <Step>
+        Click the <Button>Create Virtual Cluster</Button> button on the right side of
+        the page.
+    </Step>
+    <Step>
+        In the pop-up box, select your template from the template drop down menu.
+    </Step>
+    <Step>
+        <b>[Optional]</b> select the cluster in which to create the virtual cluster.
+    </Step>
+    <Step>
+        Click the <Button>Select</Button> to continue.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, give your virtual cluster a name by
+        replacing the <Label>my-vcluster</Label> placeholder name, or by updating the
+        manifest YAML <Label>metadata.name</Label> field.
+    </Step>
+    <Step>
+        Click the <Button>Create Virtual Cluster</Button> button.
+    </Step>
+    <Step>
+        <PartialVirtualClusterUseCLI/>
+    </Step>
+</Flow>
