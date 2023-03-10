@@ -61,6 +61,10 @@ module.exports = {
             },
             {
               type: "doc",
+              id: "projects/quotas",
+            },
+            {
+              type: "doc",
               id: "projects/members",
             },
             {
