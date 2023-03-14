@@ -10,7 +10,11 @@ import Label from '@site/src/components/Label'
 import Link from "@docusaurus/Link"
 
 Project Quotas allow you to set space instance and virtual cluster instance limits for each project. Quotas can be
-defined across the whole project or on a per-user basis. Optionally, you may use qualifiers to apply the following limits on space instances and virtual cluster instances. 
+defined across the whole project or on a per-user basis. Optionally, you may use qualifiers to apply the following limits on space instances and virtual cluster instances.
+
+:::info Project quotas with multiple virtual cluster
+Please be aware that when you create multiple virtual cluster instances, the individually used resources count toward the shared project quota.
+:::
 
 ### Active Quotas
 An instance limit followed by `.active` will restrict the number of instances that can be active at the same time. These are enforced during instance creation, but also when a request is received to wake up a sleeping instance. This qualifier can be applied to either space instances or virtual cluster instances:
