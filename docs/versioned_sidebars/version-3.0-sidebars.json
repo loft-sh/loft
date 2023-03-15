@@ -343,6 +343,7 @@
           "collapsible": false,
           "items": [
             "secrets/create-project-secrets",
+            "secrets/delete-project-secrets",
             "secrets/retrieve-project-secrets"
           ]
         },
@@ -352,6 +353,7 @@
           "collapsible": false,
           "items": [
             "secrets/create-global-secrets",
+            "secrets/delete-global-secrets",
             "secrets/use-in-projects"
           ]
         },
