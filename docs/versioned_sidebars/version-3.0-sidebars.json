@@ -54,6 +54,10 @@
             },
             {
               "type": "doc",
+              "id": "projects/quotas"
+            },
+            {
+              "type": "doc",
               "id": "projects/members"
             },
             {
@@ -339,6 +343,7 @@
           "collapsible": false,
           "items": [
             "secrets/create-project-secrets",
+            "secrets/delete-project-secrets",
             "secrets/retrieve-project-secrets"
           ]
         },
@@ -348,6 +353,7 @@
           "collapsible": false,
           "items": [
             "secrets/create-global-secrets",
+            "secrets/delete-global-secrets",
             "secrets/use-in-projects"
           ]
         },
@@ -419,10 +425,6 @@
         {
           "type": "doc",
           "id": "admin/uninstall"
-        },
-        {
-          "type": "doc",
-          "id": "admin/billing-and-licensing"
         },
         {
           "type": "category",
