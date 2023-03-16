@@ -55,6 +55,14 @@ auth:
     # information from the UserInfo. This might be necessary for slim tokens such as used
     # by Okta
     getUserInfo: false
+    # (Optional) Scopes that should be sent to the server. If empty, defaults to "email" and "profile".
+    scopes: ["profile", "email"]
+    # (Optional) EmailClaim is the JWT field to use as the user's email.
+    emailClaim: "email"
+    # (Optional) LoftUsernameClaim is the JWT field to use as the user's ID (Kubernetes name) and username
+    loftUsernameClaim: "name"
+    # (Optional) PreferredUsername is the JWT field to use as the user's display name
+    preferredUsername: "preferred_username"
 ```
 </Step>
 <Step>
