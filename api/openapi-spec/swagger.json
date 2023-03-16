@@ -2628,6 +2628,10 @@
           },
           "type": "array"
         },
+        "emailClaim": {
+          "description": "EmailClaim is the JWT field to use as the user's email.",
+          "type": "string"
+        },
         "getUserInfo": {
           "description": "GetUserInfo, if specified, tells the OIDCAuthenticator to try to populate the user's information from the UserInfo.",
           "type": "boolean"
@@ -2662,16 +2666,31 @@
           "description": "IssuerURL is the URL the provider signs ID Tokens as. This will be the \"iss\" field of all tokens produced by the provider and is used for configuration discovery.\n\nThe URL is usually the provider's URL without a path, for example \"https://accounts.google.com\" or \"https://login.salesforce.com\".\n\nThe provider must implement configuration discovery. See: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig",
           "type": "string"
         },
+        "loftUsernameClaim": {
+          "description": "LoftUsernameClaim is the JWT field to use as the user's username.",
+          "type": "string"
+        },
+        "preferredUsername": {
+          "description": "Configurable key which contains the preferred username claims",
+          "type": "string"
+        },
         "redirectURI": {
           "description": "loft redirect uri. E.g. https://loft.my.domain/auth/oidc/callback",
           "type": "string"
+        },
+        "scopes": {
+          "description": "Scopes that should be sent to the server. If empty, defaults to \"email\" and \"profile\".",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "type": {
           "description": "Type of the OIDC to show in the UI. Only for displaying purposes",
           "type": "string"
         },
         "usernameClaim": {
-          "description": "UsernameClaim is the JWT field to use as the user's username.",
+          "description": "UsernameClaim is the JWT field to use as the user's id.",
           "type": "string"
         },
         "usernamePrefix": {
