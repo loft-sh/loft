@@ -58,8 +58,9 @@ tls:
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Default value is: loftsh/loft:{{ .Chart.Version }}
-# image: loftsh/loft
+# Default value is: ghcr.io/loft:{{ .Chart.Version }}
+# Note: images prior to 3.1 use the docker.io/loftsh registry
+# image: ghcr.io/loft-sh/loft
 
 # Additional enviroment variables in the form of
 # VAR_NAME: VAR_VALUE

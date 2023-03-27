@@ -1,5 +1,5 @@
-# Default value is: loftsh/agent:{{ .Chart.Version }}
-# image: loftsh/agent
+# Default value is: ghcr.io/loft-sh/agent:{{ .Chart.Version }}
+# image: ghcr.io/loft-sh/agent
 
 # Additional enviroment variables in the form of
 # VAR_NAME: VAR_VALUE
