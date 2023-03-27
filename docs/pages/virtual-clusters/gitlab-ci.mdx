@@ -4,7 +4,7 @@ sidebar_label: GitLab CI
 ---
 
 When using Loft with GitLab you can use the
-[official `loft-ci` image](https://hub.docker.com/r/loftsh/loft-ci) as either a base image or
+official image `ghcr.io/loft-sh/loft-ci` as either a base image or
 directly. If additional tooling is needed for your CI/CD process, a custom image can be created.
 
 
@@ -21,7 +21,7 @@ the default branch and merge requests. It assumes you have configured CI/CD vari
 and `LOFT_ACCESS_KEY`.
 
 ```yaml
-image: loftsh/loft-ci
+image: ghcr.io/loft-sh/loft-ci
 
 stages:
   - test
@@ -45,7 +45,7 @@ e2e:
 ```
 
 **Explanation:**
-1. The `loftsh/loft-ci` image is used for all pipeline jobs and provides the `loft` CLI, the
+1. The `ghcr.io/loft-sh/loft-ci` image is used for all pipeline jobs and provides the `loft` CLI, the
 `devspace` CLI, and `kubectl`.
 2. The `before_script` first logs in to loft using the `$LOFT_URL` and `$LOFT_ACCESS_KEY`
 variables that you defined in GitLab.
