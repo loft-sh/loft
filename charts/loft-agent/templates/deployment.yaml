@@ -60,7 +60,7 @@ spec:
         {{- if .Values.image }}
         image: "{{ .Values.image }}"
         {{- else }}
-        image: "loftsh/agent:{{ .Chart.Version }}"
+        image: "ghcr.io/loft-sh/agent:{{ .Chart.Version }}"
         {{- end }}
         ports:
         - name: http
