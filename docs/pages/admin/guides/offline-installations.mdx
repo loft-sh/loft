@@ -44,23 +44,13 @@ REGISTRY=ecr.io/myteam      # THIS SHOULD BE A PREFIX / DO NOT INCLUDE ANY LOFT_
   </Step>
   <Step>
 
-Download the file `loft-images.txt` and the required scripts called `download-images.sh` and `upload-images.sh`:
+Download the file `loft-images.txt` and the required scripts called `download-images.sh` and `push-images.sh` and make them executable:
 
 ```bash
 wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/loft-images.txt
 wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/download-images.sh
-wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/upload-images.sh
+wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/push-images.sh
 
-chmod +x ./download-images.sh
-./download-images.sh --image-list loft-images.txt
-```
-
-  </Step>
-  <Step>
-
-Make scripts `download-images.sh` and `push-images.sh` executable:
-
-```bash
 chmod +x ./download-images.sh
 chmod +x ./push-images.sh
 ```
@@ -89,9 +79,9 @@ Run `push-images.sh` to push all downloaded images to your private registry:
 Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
 
 ```yaml
-image=${REGISTRY}/loftsh/loft:${VERSION}    # Replace ${REGISTRY} and ${VERSION}
+image: ${REGISTRY}/ghcr.io/loft-sh/loft:${VERSION}    # Replace ${REGISTRY} and ${VERSION}
 env:
-DEFAULT_IMAGE_REGISTRY: ${REGISTRY}       # Replace ${REGISTRY}
+  DEFAULT_IMAGE_REGISTRY: ${REGISTRY}       # Replace ${REGISTRY}
 ```
 
   </Step>
