@@ -21,7 +21,7 @@ ingress:
   path: /
   tls:
     enabled: true
-    secret: tls-loft
+    secret: loft-tls
     clusterIssuer: lets-encrypt-http-issuer
 
 # TLS configuration with a custom cert and key
