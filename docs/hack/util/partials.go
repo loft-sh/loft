@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 	"regexp"
-	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 var partialNameRegex = regexp.MustCompile(`(\..*$)|[^a-zA-Z]`)
@@ -13,7 +15,8 @@ func GetPartialImportName(partialImport string) string {
 	basename := filepath.Base(partialImport)
 	basename = partialNameRegex.ReplaceAllString(basename, "")
 
-	return fmt.Sprintf("Partial%s", strings.Title(basename))
+	caser := cases.Title(language.English)
+	return fmt.Sprintf("Partial%s", caser.String(basename))
 }
 
 func GetPartialImport(partialFile, importingFile string) string {
