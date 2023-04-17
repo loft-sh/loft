@@ -3,18 +3,18 @@ package util
 import (
 	"bytes"
 	"fmt"
-	"github.com/ghodss/yaml"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"os"
 	"path"
 	"path/filepath"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"strings"
 	"text/template"
 	"time"
 
 	pluralize "github.com/gertd/go-pluralize"
+	"github.com/ghodss/yaml"
 	"github.com/invopop/jsonschema"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 const groupKey = "group"
@@ -388,7 +388,6 @@ func processSchemaField(
 	fieldContent := ""
 	fieldFile := fmt.Sprintf("%s%s%s.mdx", basePath, prefix, fieldName)
 	fieldFileReference := fieldFile
-	fieldType := "object"
 	isNameObjectMap := false
 	expandable := false
 
@@ -399,7 +398,6 @@ func processSchemaField(
 	ref := ""
 	if fieldSchema.Type == "array" {
 		ref = fieldSchema.Items.Ref
-		fieldType = "object[]"
 	} else if patternPropertySchema, ok = fieldSchema.PatternProperties[".*"]; ok {
 		ref = patternPropertySchema.Ref
 		isNameObjectMap = true
@@ -448,7 +446,7 @@ func processSchemaField(
 		required = false
 	}
 
-	fieldType = fieldSchema.Type
+	fieldType := fieldSchema.Type
 	if fieldType == "" && fieldSchema.OneOf != nil {
 		for _, oneOfType := range fieldSchema.OneOf {
 			if fieldType != "" {
@@ -564,15 +562,6 @@ func GetEumValues(fieldSchema *jsonschema.Schema, required bool, fieldDefault *s
 		enumValues = fmt.Sprintf("<span>%s</span>", enumValues)
 	}
 	return enumValues
-}
-
-func contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
 }
 
 func writeTemplate(templateContents, filePath string, values interface{}) {
