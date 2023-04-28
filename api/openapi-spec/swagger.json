@@ -2319,6 +2319,13 @@
           },
           "type": "array"
         },
+        "customHttpHeaders": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "CustomHttpHeaders are additional headers that should be set for the authentication endpoints",
+          "type": "object"
+        },
         "disableTeamCreation": {
           "description": "Prevents from team creation for the new groups associated with the user at the time of logging in through sso, Default behaviour is false, this means that teams will be created for new groups.",
           "type": "boolean"
