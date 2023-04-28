@@ -6463,6 +6463,10 @@
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
           "type": "string"
         },
+        "currentPassword": {
+          "description": "CurrentPassword is the current password of the user",
+          "type": "string"
+        },
         "custom": {
           "description": "Custom is custom information that should be saved of the user",
           "type": "string"
@@ -8702,6 +8706,10 @@
         },
         "legalTemplate": {
           "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
+          "type": "string"
+        },
+        "loftVersion": {
+          "description": "LoftVersion holds the current loft version",
           "type": "string"
         },
         "logoURL": {
