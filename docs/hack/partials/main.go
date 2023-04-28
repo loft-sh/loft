@@ -778,6 +778,9 @@ clusters:
 							RedirectURI:  "https://my-redirect-uri",
 						},
 					},
+					CustomHttpHeaders: map[string]string{
+						"X-My-Header": "my-value",
+					},
 				},
 			},
 		},

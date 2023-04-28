@@ -3,7 +3,7 @@ title: Loft Configuration
 sidebar_label: Loft Config
 ---
 
-import LoftConfig from "../api/_partials/resources/config/status_reference.mdx"
+import LoftConfig from "../api/_partials/resources/config/status_reference.mdx";
 
 The Loft config allows you to modify Loft's behaviour and enable or disable certain features, such as [SSO login](../users/openid-connect), [custom branding](../admin/guides/custom-branding) or [auditing](../admin/audit).
 
@@ -32,6 +32,7 @@ For a complete overview what helm values are possible, please take a look at the
 Some fields within the Loft config allow placeholders for environment variables, such as the `clientId` and `clientSecret` fields. This makes it possible to not expose the sensitive information directly inside the Loft values and instead mount this information into Loft through an external secret.
 
 To load the github clientId and clientSecret through a Kubernetes secret `my-secret`, use the following configuration:
+
 ```yaml
 envValueFrom:
   CLIENT_ID:
@@ -52,6 +53,7 @@ config:
 ```
 
 Then use helm to apply this configuration:
+
 ```
 helm upgrade loft loft --install \
   --repo https://charts.loft.sh/ \
@@ -65,7 +67,19 @@ helm upgrade loft loft --install \
 Make sure to replace the $VERSION in the above statement with the Loft version you are using
 :::
 
+### Custom HTTP Headers
 
+Loft allows you to add custom HTTP headers to all requests that are sent to the Loft API. This can be useful if you want to add custom headers to all requests, such as `X-Frame-Options` or `X-XSS-Protection`.
+
+To add custom HTTP headers, use the following configuration:
+
+```yaml
+config:
+  auth:
+    customHttpHeaders:
+      X-Frame-Options: SAMEORIGIN
+      X-XSS-Protection: 1; mode=block
+```
 
 ## Config Reference
 

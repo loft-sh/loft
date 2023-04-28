@@ -15,7 +15,7 @@ func GetPartialImportName(partialImport string) string {
 	basename := filepath.Base(partialImport)
 	basename = partialNameRegex.ReplaceAllString(basename, "")
 
-	caser := cases.Title(language.English)
+	caser := cases.Title(language.English, cases.NoLower)
 	return fmt.Sprintf("Partial%s", caser.String(basename))
 }
 

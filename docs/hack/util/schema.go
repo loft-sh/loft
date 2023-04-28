@@ -185,7 +185,7 @@ func GenerateObjectOverview(information *ObjectInformation) {
 	// create "Update Object" partial
 	if information.Update {
 		updateObject := information.Object.DeepCopyObject().(client.Object)
-		updateObject.SetCreationTimestamp(metav1.NewTime(time.Now()))
+		updateObject.SetCreationTimestamp(metav1.NewTime(time.Date(2023, 4, 3, 0, 0, 0, 0, time.UTC)))
 		updateObject.SetGeneration(12)
 		updateObject.SetUID("af5f9f0f-8ab9-4b4b-a595-a95a5921f3c2")
 		updateObject.SetResourceVersion("66325905")
