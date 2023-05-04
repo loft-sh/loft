@@ -756,6 +756,7 @@ clusters:
 	})
 
 	// Config
+	var sixty int64 = 60
 	util.GenerateObjectOverview(&util.ObjectInformation{
 		Title:       "Loft Config",
 		Name:        "Config",
@@ -770,7 +771,8 @@ clusters:
 			ObjectMeta: metav1.ObjectMeta{},
 			Status: managementv1.ConfigStatus{
 				Authentication: managementv1.Authentication{
-					AccessKeyMaxTTLSeconds: 10 * 60 * 60,
+					AccessKeyMaxTTLSeconds:   10 * 60 * 60,
+					LoginAccessKeyTTLSeconds: &sixty,
 					Connector: managementv1.Connector{
 						Github: &managementv1.AuthenticationGithub{
 							ClientID:     "my-client-id",
