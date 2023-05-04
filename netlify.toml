@@ -1,9 +1,9 @@
 [build]
-  base = "docs/"
-  publish = "build/"
-  command = """
+base = "docs/"
+publish = "build/"
+command = """
     set -e
-    
+
     export OUT_DIR="build/"
     export TARGET_OUT_DIR="build/docs"
 
@@ -24,14 +24,14 @@
   """
 
 [build.processing]
-  skip_processing = false
+skip_processing = false
 [build.processing.html]
-  pretty_urls = true
+pretty_urls = true
 [build.processing.css]
-  bundle = false
-  minify = false
+bundle = false
+minify = false
 [build.processing.js]
-  bundle = false
-  minify = false
+bundle = false
+minify = false
 [build.processing.images]
-  compress = true
+compress = true
