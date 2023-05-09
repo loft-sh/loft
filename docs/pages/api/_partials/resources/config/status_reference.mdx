@@ -5,6 +5,7 @@ import PartialAppsreference from "./status/apps_reference.mdx"
 import PartialAuditreference from "./status/audit_reference.mdx"
 import PartialLoftHost from "./status/loftHost.mdx"
 import PartialUiSettingsreference from "./status/uiSettings_reference.mdx"
+import PartialVaultreference from "./status/vault_reference.mdx"
 
 
 <details className="config-field" data-expandable="true">
@@ -84,6 +85,22 @@ UISettings holds the settings for modifying the Loft user interface
 </summary>
 
 <PartialUiSettingsreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `vault` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-vault}
+
+VaultIntegration holds the vault integration configuration
+
+</summary>
+
+<PartialVaultreference />
 
 
 </details>

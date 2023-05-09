@@ -1,0 +1,37 @@
+
+import PartialEnabled from "./vault/enabled.mdx"
+import PartialAddress from "./vault/address.mdx"
+import PartialSkipTLSVerify from "./vault/skipTLSVerify.mdx"
+import PartialNamespace from "./vault/namespace.mdx"
+import PartialAuthreference from "./vault/auth_reference.mdx"
+import PartialSyncInterval from "./vault/syncInterval.mdx"
+
+<PartialEnabled />
+
+
+<PartialAddress />
+
+
+<PartialSkipTLSVerify />
+
+
+<PartialNamespace />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `auth` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-vault-auth}
+
+Auth defines the authentication method to use for this project.
+
+</summary>
+
+<PartialAuthreference />
+
+
+</details>
+
+
+<PartialSyncInterval />
