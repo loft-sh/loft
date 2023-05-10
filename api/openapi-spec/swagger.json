@@ -6477,6 +6477,67 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.UserPermissions": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "clusterRoles": {
+          "description": "ClusterRoles that apply to the user.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserPermissionsRole"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "namespaceRoles": {
+          "description": "NamespaceRoles that apply to the user. Can be either regular roles or cluster roles that are namespace scoped.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserPermissionsRole"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "UserPermissions",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.UserPermissionsRole": {
+      "properties": {
+        "clusterRole": {
+          "description": "ClusterRole is the name of the cluster role assigned to this user.",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace where this rules are valid.",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role is the name of the role assigned to this user.",
+          "type": "string"
+        },
+        "rules": {
+          "description": "Rules are the roles rules",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.rbac.v1.PolicyRule"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.UserProfile": {
       "properties": {
         "apiVersion": {
@@ -25674,6 +25735,56 @@
       "parameters": [
         {
           "description": "name of the UserClusters",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "If 'true', then the output is pretty printed.",
+          "in": "query",
+          "name": "pretty",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/users/{name}/permissions": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read permissions of the specified User",
+        "operationId": "readManagementLoftShV1UserPermissions",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserPermissions"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "UserPermissions",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the UserPermissions",
           "in": "path",
           "name": "name",
           "required": true,
