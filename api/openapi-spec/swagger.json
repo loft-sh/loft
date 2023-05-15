@@ -4996,6 +4996,15 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecretStatus": {
       "description": "ProjectSecretStatus holds the status",
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds several conditions the project might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSpec": {
@@ -5475,6 +5484,15 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecretStatus": {
       "description": "SharedSecretStatus holds the status",
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds several conditions the project might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint": {
