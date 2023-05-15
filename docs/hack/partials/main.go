@@ -261,6 +261,7 @@ spec:
 						ClusterRole: "project-user",
 					},
 				},
+				VaultIntegration: &storagev1.VaultIntegrationSpec{},
 			},
 		},
 		Create:   true,

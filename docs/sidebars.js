@@ -118,6 +118,10 @@ module.exports = {
                             type: "doc",
                             id: "virtual-clusters/manage-access",
                         },
+                        {
+                            type: "doc",
+                            id: "virtual-clusters/prevent-deletion",
+                        },
                     ],
                 },
                 {
@@ -254,6 +258,10 @@ module.exports = {
                             type: "doc",
                             id: "spaces/manage-access",
                         },
+                        {
+                            type: "doc",
+                            id: "spaces/prevent-deletion",
+                        },
                     ],
                 },
                 {
@@ -362,9 +370,11 @@ module.exports = {
                     items: [
                         "secrets/create-global-secrets",
                         "secrets/delete-global-secrets",
-                        "secrets/use-in-projects"],
+                        "secrets/use-in-projects",
+                    ],
                 },
                 "secrets/secret-sync",
+                "secrets/hashicorp-vault",
             ],
         },
         {
@@ -490,7 +500,9 @@ module.exports = {
                         {
                             type: "category",
                             label: "Spaces",
-                            items: ["api/resources/spaceinstance/spaceinstance"],
+                            items: [
+                                "api/resources/spaceinstance/spaceinstance",
+                            ],
                         },
                         "api/resources/spacetemplate",
                         "api/resources/apps",
