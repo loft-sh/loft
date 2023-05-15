@@ -9,18 +9,29 @@ import Button from '@site/src/components/Button'
 import Label from '@site/src/components/Label'
 import Link from "@docusaurus/Link"
 
-Project Quotas allow you to set space instance and virtual cluster instance limits for each project. Quotas can be
-defined across the whole project or on a per-user basis. Optionally, you may use qualifiers to apply the following limits on space instances and virtual cluster instances.
+Project Quotas allow you to set resource usage and count limits for each project. This works similiarly to kubernetes ResourcesQuotas, but apply to multiple clusters, but Project Quotas can be
+defined across the whole project or on a per-user basis. Additionally, some additional resource types specific to loft are outlined below.
 
-:::info Project quotas with multiple virtual cluster
+
+:::info Project quotas with multiple virtual clusters
 Please be aware that when you create multiple virtual cluster instances, the individually used resources count toward the shared project quota.
 :::
 
+
 ### Active Quotas
-An instance limit followed by `.active` will restrict the number of instances that can be active at the same time. These are enforced during instance creation, but also when a request is received to wake up a sleeping instance. This qualifier can be applied to either space instances or virtual cluster instances:
+A `virtualclusterinstances.active` or `spaceinstances.active` limit will restrict the number of instances of that type that can be active at the same time. These are enforced during instance creation, but also when a request is received to wake up a sleeping instance. This qualifier can be applied to either space instances or virtual cluster instances:
 
 ### Template Quotas
-An instance limit containing `.template=template-name` will restrict the number of instances that are using the given template at the same time. These are enforced during instance creation. This qualifier can be applied to either space instances or virtual cluster instances.
+A `virtualclusterinstances` or `spaceinstances` limit with `.template=template-name` will restrict the number of instances that are using the given template at the same time. These are enforced during instance creation. This qualifier can be applied to either space instances or virtual cluster instances.
+
+### Generic Resources
+
+Project Quotas can also specify limits on generic resources such as `count/pods` and `limits.cpu` in a similar way to a normal kubernetes `ResourceQuota` object, but the limits apply to the scope of the Project Quota.
+
+:::info On Cluster Resource limits
+Loft objects such as virtualclusterinstances can be instantly enforced as soon as consumption exeeds the limit, but on-cluster resources such as `limits.cpu` cannot be immediately enforced to avoid blocking requests for a long time.
+Users may be able to exceed the quota by small amounts by simultaneously creating resources on multiple clusters.
+:::
 
 ### Project Quotas
 
