@@ -10,7 +10,6 @@ of the basics of getting Loft deployed in a GitOps style. Note that there is not
 should apply nicely to Loft! Note that this guide will refer to ArgoCD, however any GitOps
 tooling can be used to deploy Loft, and the general approach should remain the same!
 
-
 # Basic deployment
 
 Before continuing, you should take a look at the [installation with helm ](../admin/guides/install-with-helm)
@@ -30,19 +29,19 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: ''
+    name: ""
     namespace: loft
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
   source:
-    path: ''
-    repoURL: 'https://charts.loft.sh'
+    path: ""
+    repoURL: "https://charts.loft.sh"
     targetRevision: 3.0.0
     chart: loft
     helm:
       parameters:
         # admin
         - name: admin.create
-          value: 'true'
+          value: "true"
         - name: admin.username
           value: admin
         - name: admin.password
@@ -50,17 +49,17 @@ spec:
 
         # ingress
         - name: ingress.enabled
-          value: 'true'
+          value: "true"
         - name: ingress.host
-          value: 'loft.example'
+          value: "loft.example"
         - name: ingress.name
-          value: 'loft-ingress'
+          value: "loft-ingress"
 
         # audit
         - name: audit.enableSideCar
-          value: 'true'
+          value: "true"
         - name: config.audit.level
-          value: '1'
+          value: "1"
 
         # config
         - name: config.loftHost
@@ -92,7 +91,6 @@ fashion you are (hopefully) avoiding manual updates like this, but it is importa
 due to ArgoCD not deploying the Helm release secret.
 :::
 
-
 # Connected Clusters
 
 One of the great benefits of Loft is that you can easily manage resources located in many
@@ -105,7 +103,7 @@ accomplish this.
 
 ## Cluster Resources
 
-If you would like to manage Loft *and* Loft agents via your GitOps tooling, you likely also want
+If you would like to manage Loft _and_ Loft agents via your GitOps tooling, you likely also want
 to manage the connected cluster configurations that live inside Loft. These configuration
 elements inform Loft of the remote connected clusters, and how to connect to those clusters to
 validate the agent installation, and to proxy kubernetes commands from the central Loft instance
@@ -134,9 +132,9 @@ description: A parent Helm chart for Loft
 type: application
 version: 1.0.0
 dependencies:
-- name: loft
-  version: 3.0.0
-  repository: https://charts.loft.sh
+  - name: loft
+    version: 3.0.0
+    repository: https://charts.loft.sh
 ```
 
 Values that need to be passed to the dependent Loft chart can be passed by referring to the
@@ -233,7 +231,6 @@ itself will deploy the `Cluster` CRD into the cluster. Without this annotation t
 will be unable to be synced!
 :::
 
-
 ## Agents
 
 If you have disabled agent installation on your Loft deployment as outlined in the Helm
@@ -256,12 +253,12 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: ''
+    name: ""
     namespace: loft
-    server: 'https://my-other-cluster:6443'
+    server: "https://my-other-cluster:6443"
   source:
-    path: ''
-    repoURL: 'https://charts.loft.sh'
+    path: ""
+    repoURL: "https://charts.loft.sh"
     targetRevision: 3.0.0
     chart: loft-agent
     helm:
@@ -282,11 +279,10 @@ Once again, note that if you want to manage the agent deployments via ArgoCD or 
 tooling of choice, you will want to ensure that the `DISABLE_AGENT` environment variable is set
 to "true" for your Loft deployment!
 
-
 # Everything Else
 
-Love managing Loft itself with your GitOps tooling? Want to manage the resources *in* Loft with
-that same tooling? Great news! You can do just that! One of the core tenants of Loft is that all
+Love managing Loft itself with your GitOps tooling? Want to manage the resources _in_ Loft with
+that same tooling? Great news! You can do just that! One of the core tenets of Loft is that all
 Loft resources are just "normal" Kubernetes resources. This means that you can manage any Loft
 objects in the same way you'd manage any other Kubernetes resources in your GitOps workflow.
 
@@ -317,9 +313,9 @@ spec:
     user: admin
   access:
     - verbs:
-        - '*'
+        - "*"
       subresources:
-        - '*'
+        - "*"
       users:
         - admin
     - name: loft-access
@@ -342,14 +338,14 @@ spec:
     user: admin
   quotas: {}
   allowedClusters:
-    - name: '*'
+    - name: "*"
   allowedTemplates:
     - kind: VirtualClusterTemplate
       group: storage.loft.sh
-      name: '*'
+      name: "*"
     - kind: SpaceTemplate
       group: storage.loft.sh
-      name: '*'
+      name: "*"
   members:
     - kind: Team
       group: storage.loft.sh
@@ -363,7 +359,7 @@ spec:
         - patch
         - delete
       subresources:
-        - '*'
+        - "*"
       users:
         - admin
       teams:
