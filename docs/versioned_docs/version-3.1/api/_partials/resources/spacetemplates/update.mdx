@@ -1,0 +1,119 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to update Space Templates.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+### Update Space Template
+
+Run the following command to update Space Template `my-space-template`:
+```bash
+kubectl edit spacetemplates.management.loft.sh my-space-template 
+```
+
+Then edit the object and upon save, kubectl will update the resource.
+
+### Patch Space Template
+
+Patching a resource is useful if you want to generically exchange only a small portion of the object instead of retrieving the whole object first and then modifying it.
+To learn more about patches in Kubernetes, please take a look at the [official docs](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment).
+
+Run the following kubectl command to add a new annotation `my-annotation: my-value` to the Space Template `my-space-template` via a patch:
+```bash
+kubectl patch spacetemplates.management.loft.sh my-space-template  \
+        --type json \
+        -p '[{"op": "add", "path": "/metadata/annotations/my-annotation", "value": "my-value"}]'
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+### Update Space Template
+
+First retrieve the current object into a file `object.yaml`. This could look like:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: SpaceTemplate
+metadata:
+  creationTimestamp: "2023-04-03T00:00:00Z"
+  generation: 12
+  name: my-space-template
+  resourceVersion: "66325905"
+  uid: af5f9f0f-8ab9-4b4b-a595-a95a5921f3c2
+spec:
+  access:
+  - users:
+    - '*'
+    verbs:
+    - get
+  description: This space templates deploys an isolated space
+  displayName: Isolated Space Template
+  template:
+    metadata:
+      labels:
+        policy.loft.sh/pod-security: baseline
+    objects: |-
+      apiVersion: v1
+      kind: ResourceQuota
+      metadata:
+        name: loft-resource-quota
+      spec:
+        hard:
+          count/configmaps: '100'
+          count/endpoints: '40'
+          count/persistentvolumeclaims: '20'
+          count/pods: '20'
+          count/secrets: '100'
+          count/services: '20'
+          limits.cpu: '20'
+          limits.ephemeral-storage: 160Gi
+          limits.memory: 40Gi
+          requests.cpu: '10'
+          requests.ephemeral-storage: 60Gi
+          requests.memory: 20Gi
+          requests.storage: 100Gi
+          services.loadbalancers: '1'
+          services.nodeports: '0'
+status: {}
+
+```
+
+Run the following curl command to update a single Space Template `my-space-template`:
+```bash
+# Replace the my-space-template in the url below with the name of the Space Template you want to update
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/spacetemplates/my-space-template" \
+     -X PUT --insecure \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY" \
+     --data-binary "$(cat object.yaml)"
+```
+
+### Patch Space Template
+
+Patching a resource is useful if you want to generically exchange only a small portion of the object instead of retrieving the whole object first and then modifying it.
+To learn more about patches in Kubernetes, please take a look at the [official docs](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment).
+
+Run the following curl command to add a new annotation `my-annotation: my-value` to the Space Template `my-space-template` via a patch:
+```bash
+# Replace the my-space-template in the url below with the name of the Space Template you want to update
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/spacetemplates/my-space-template" \
+     -X PATCH --insecure \
+     -H "Content-Type: application/json-patch+json" \
+     -H "Authorization: Bearer $ACCESS_KEY" \
+     --data '[{"op": "add", "path": "/metadata/annotations/my-annotation", "value": "my-value"}]'
+```
+
+
+  </TabItem>
+</Tabs>

@@ -1,0 +1,163 @@
+
+import PartialDisplayName from "./spec/displayName.mdx"
+import PartialDescription from "./spec/description.mdx"
+import PartialOwnerreference from "./spec/owner_reference.mdx"
+import PartialQuotasreference from "./spec/quotas_reference.mdx"
+import PartialAllowedClustersreference from "./spec/allowedClusters_reference.mdx"
+import PartialAllowedTemplatesreference from "./spec/allowedTemplates_reference.mdx"
+import PartialMembersreference from "./spec/members_reference.mdx"
+import PartialAccessreference from "./spec/access_reference.mdx"
+import PartialNamespacePatternreference from "./spec/namespacePattern_reference.mdx"
+import PartialArgoCDreference from "./spec/argoCD_reference.mdx"
+import PartialVaultreference from "./spec/vault_reference.mdx"
+
+<PartialDisplayName />
+
+
+<PartialDescription />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `owner` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner}
+
+Owner holds the owner of this object
+
+</summary>
+
+<PartialOwnerreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `quotas` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-quotas}
+
+Quotas define the quotas inside the project
+
+</summary>
+
+<PartialQuotasreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `allowedClusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-allowedClusters}
+
+AllowedClusters are target clusters that are allowed to target with
+environments.
+
+</summary>
+
+<PartialAllowedClustersreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `allowedTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-allowedTemplates}
+
+AllowedTemplates are the templates that are allowed to use in this
+project.
+
+</summary>
+
+<PartialAllowedTemplatesreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `members` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-members}
+
+Members are the users and teams that are part of this project
+
+</summary>
+
+<PartialMembersreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access}
+
+Access holds the access rights for users and teams
+
+</summary>
+
+<PartialAccessreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `namespacePattern` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-namespacePattern}
+
+NamespacePattern specifies template patterns to use for creating each space or virtual cluster's namespace
+
+</summary>
+
+<PartialNamespacePatternreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `argoCD` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-argoCD}
+
+ArgoIntegration holds information about ArgoCD Integration
+
+</summary>
+
+<PartialArgoCDreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `vault` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-vault}
+
+VaultIntegration holds information about Vault Integration
+
+</summary>
+
+<PartialVaultreference />
+
+
+</details>
