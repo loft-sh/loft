@@ -1,0 +1,40 @@
+---
+title: Loft Config
+sidebar_label: Loft Config
+---
+import Reference from "../_partials/resources/config/reference.mdx"
+import Retrieve from "../_partials/resources/config/retrieve.mdx"
+
+You can retrieve the Loft config through this API.
+
+## Example Config
+
+An example Config:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Config
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  auth:
+    accessKeyMaxTTLSeconds: 36000
+    customHttpHeaders:
+      X-My-Header: my-value
+    github:
+      clientId: my-client-id
+      clientSecret: my-client-secret
+      redirectURI: https://my-redirect-uri
+    loginAccessKeyTTLSeconds: 60
+
+```
+
+## Config Reference
+
+<Reference />
+
+## Retrieve: Configs
+
+<Retrieve />
+
+

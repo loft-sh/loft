@@ -1,0 +1,93 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to update Teams.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+### Update Team
+
+Run the following command to update Team `my-team`:
+```bash
+kubectl edit teams.management.loft.sh my-team 
+```
+
+Then edit the object and upon save, kubectl will update the resource.
+
+### Patch Team
+
+Patching a resource is useful if you want to generically exchange only a small portion of the object instead of retrieving the whole object first and then modifying it.
+To learn more about patches in Kubernetes, please take a look at the [official docs](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment).
+
+Run the following kubectl command to add a new annotation `my-annotation: my-value` to the Team `my-team` via a patch:
+```bash
+kubectl patch teams.management.loft.sh my-team  \
+        --type json \
+        -p '[{"op": "add", "path": "/metadata/annotations/my-annotation", "value": "my-value"}]'
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+### Update Team
+
+First retrieve the current object into a file `object.yaml`. This could look like:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Team
+metadata:
+  creationTimestamp: "2023-04-03T00:00:00Z"
+  generation: 12
+  name: my-team
+  resourceVersion: "66325905"
+  uid: af5f9f0f-8ab9-4b4b-a595-a95a5921f3c2
+spec:
+  clusterRoles:
+  - name: loft-management-admin
+  description: All users in this team have full admin access to all clusters
+  displayName: Global Admins
+  groups:
+  - loft:admins
+  username: loftadmins
+status: {}
+
+```
+
+Run the following curl command to update a single Team `my-team`:
+```bash
+# Replace the my-team in the url below with the name of the Team you want to update
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/teams/my-team" \
+     -X PUT --insecure \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY" \
+     --data-binary "$(cat object.yaml)"
+```
+
+### Patch Team
+
+Patching a resource is useful if you want to generically exchange only a small portion of the object instead of retrieving the whole object first and then modifying it.
+To learn more about patches in Kubernetes, please take a look at the [official docs](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment).
+
+Run the following curl command to add a new annotation `my-annotation: my-value` to the Team `my-team` via a patch:
+```bash
+# Replace the my-team in the url below with the name of the Team you want to update
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/teams/my-team" \
+     -X PATCH --insecure \
+     -H "Content-Type: application/json-patch+json" \
+     -H "Authorization: Bearer $ACCESS_KEY" \
+     --data '[{"op": "add", "path": "/metadata/annotations/my-annotation", "value": "my-value"}]'
+```
+
+
+  </TabItem>
+</Tabs>
