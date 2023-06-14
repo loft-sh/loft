@@ -55,6 +55,11 @@ spec:
         emptyDir: {}
       {{- end }}
       {{- end }}
+      {{- if .Values.fsGroup }}
+      securityContext:
+        fsGroup: {{ .Values.fsGroup }}
+
+      {{- end }}
       containers:
       - name: agent
         {{- if .Values.image }}
