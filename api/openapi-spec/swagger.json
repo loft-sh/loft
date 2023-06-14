@@ -8772,7 +8772,7 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.VirtualClusterSpaceTemplateDefinition",
           "description": "SpaceTemplate holds the space template"
         },
-        "workloadVirtualClusterTemplateDefinition": {
+        "workloadVirtualClusterTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.WorkloadVirtualClusterTemplateDefinition",
           "description": "WorkloadVirtualClusterTemplateDefinition holds the workload cluster specific deployment options. Needs to be non-nil in order to deploy the virtual cluster in workload cluster mode."
         }
@@ -8973,15 +8973,6 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsStatus": {
       "description": "UISettingsStatus holds the status",
-      "properties": {
-        "featureEnabled": {
-          "description": "FeatureEnabled indicates if the UI white label feature is enabled or disabled",
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "featureEnabled"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.virtualcluster.v1.HelmRelease": {
