@@ -7,6 +7,7 @@ import PartialAccessreference from "./template/access_reference.mdx"
 import PartialHelmReleasereference from "./template/helmRelease_reference.mdx"
 import PartialAccessPointreference from "./template/accessPoint_reference.mdx"
 import PartialSpaceTemplatereference from "./template/spaceTemplate_reference.mdx"
+import PartialWorkloadVirtualClusterTemplatereference from "./template/workloadVirtualClusterTemplate_reference.mdx"
 
 
 <details className="config-field" data-expandable="true">
@@ -119,6 +120,23 @@ SpaceTemplate holds the space template
 </summary>
 
 <PartialSpaceTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `workloadVirtualClusterTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-workloadVirtualClusterTemplate}
+
+WorkloadVirtualClusterTemplateDefinition holds the workload cluster specific deployment options. Needs to be non-nil
+in order to deploy the virtual cluster in workload cluster mode.
+
+</summary>
+
+<PartialWorkloadVirtualClusterTemplatereference />
 
 
 </details>

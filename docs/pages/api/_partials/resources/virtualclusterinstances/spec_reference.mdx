@@ -5,6 +5,7 @@ import PartialOwnerreference from "./spec/owner_reference.mdx"
 import PartialTemplateRefreference from "./spec/templateRef_reference.mdx"
 import PartialTemplatereference from "./spec/template_reference.mdx"
 import PartialClusterRefreference from "./spec/clusterRef_reference.mdx"
+import PartialWorkloadClusterRefreference from "./spec/workloadClusterRef_reference.mdx"
 import PartialParameters from "./spec/parameters.mdx"
 import PartialExtraAccessRulesreference from "./spec/extraAccessRules_reference.mdx"
 import PartialAccessreference from "./spec/access_reference.mdx"
@@ -76,6 +77,23 @@ this virtual cluster
 </summary>
 
 <PartialClusterRefreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `workloadClusterRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-workloadClusterRef}
+
+WorkloadClusterRef is the reference to the connected cluster holding
+this virtual cluster's workloads.
+
+</summary>
+
+<PartialWorkloadClusterRefreference />
 
 
 </details>
