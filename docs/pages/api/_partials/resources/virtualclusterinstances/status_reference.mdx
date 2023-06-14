@@ -5,6 +5,7 @@ import PartialMessage from "./status/message.mdx"
 import PartialConditionsreference from "./status/conditions_reference.mdx"
 import PartialVirtualClusterObjectsreference from "./status/virtualClusterObjects_reference.mdx"
 import PartialSpaceObjectsreference from "./status/spaceObjects_reference.mdx"
+import PartialWorkloadSpaceObjectsreference from "./status/workloadSpaceObjects_reference.mdx"
 import PartialVirtualClusterreference from "./status/virtualCluster_reference.mdx"
 import PartialIgnoreReconciliation from "./status/ignoreReconciliation.mdx"
 
@@ -60,6 +61,22 @@ SpaceObjects are the objects that were applied within the virtual cluster space
 </summary>
 
 <PartialSpaceObjectsreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `workloadSpaceObjects` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-workloadSpaceObjects}
+
+WorkloadSpaceObjects are the objects that were applied within the virtual cluster workload space
+
+</summary>
+
+<PartialWorkloadSpaceObjectsreference />
 
 
 </details>

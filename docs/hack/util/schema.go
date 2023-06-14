@@ -73,6 +73,11 @@ func generateSchema(configInstance interface{}) *jsonschema.Schema {
 				panic(err)
 			}
 
+			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/api/v3/pkg/apis/ui/v1", commentMap)
+			if err != nil {
+				panic(err)
+			}
+
 			err = jsonschema.ExtractGoComments("", "github.com/loft-sh/agentapi/v3/pkg/apis/loft/cluster/v1", commentMap)
 			if err != nil {
 				panic(err)
