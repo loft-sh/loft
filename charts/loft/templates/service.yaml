@@ -1,3 +1,4 @@
+{{- if not .Values.agentOnly }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -33,6 +34,33 @@ spec:
       port: 443
       targetPort: 10443
       nodePort: {{ .Values.service.httpsNodePort }}
+      protocol: TCP
+  selector:
+    app: {{ template "loft.fullname" . }}
+    release: {{ .Release.Name }}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loft-agent
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "loft.fullname" . }}
+    loft.sh/service: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  {{- if .Values.agentOnly }}
+  type: {{ .Values.service.type }}
+  {{- else }}
+  type: ClusterIP
+  {{- end }}
+  ports:
+    - name: http-wakeup
+      port: 9090
+      targetPort: 9090
       protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}

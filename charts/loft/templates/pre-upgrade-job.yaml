@@ -1,0 +1,43 @@
+{{- if not .Values.agentOnly }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: loft-pre-upgrade-hook
+  annotations:
+    "helm.sh/hook": "pre-upgrade"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  serviceAccountName: {{ template "loft.serviceAccountName" . }}
+  containers:
+    - name: loft
+      {{- if .Values.image }}
+      image: "{{ .Values.image }}"
+      {{- else }}
+      image: "ghcr.io/loft-sh/loft:{{ .Chart.Version }}"
+      {{- end }}
+      imagePullPolicy: IfNotPresent
+      command: ["loft", "upgrade"]
+      env:
+        - name: RELEASE_NAME
+          value: {{ .Release.Name }}
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 0
+  {{- if .Values.nodeSelector }}
+  nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 4 }}
+  {{- end }}
+  {{- if .Values.affinity }}
+  affinity:
+{{ toYaml .Values.affinity | indent 4 }}
+  {{- end }}
+  {{- if .Values.tolerations }}
+  tolerations:
+{{ toYaml .Values.tolerations | indent 4 }}
+  {{- end }}
+{{- end }}

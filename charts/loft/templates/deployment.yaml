@@ -66,16 +66,25 @@ spec:
       {{- end }}
       containers:
       - name: manager
+        {{- if .Values.agentOnly }}
+        command: ["loft", "agent"]
+        {{- end }}
         {{- if .Values.image }}
         image: "{{ .Values.image }}"
         {{- else }}
         image: "ghcr.io/loft-sh/loft:{{ .Chart.Version }}"
         {{- end }}
         ports:
-        - name: http
-          containerPort: 8080
-        - name: https
-          containerPort: 10443
+        {{- if not .Values.agentOnly }}
+          - name: http
+            containerPort: 8080
+          - name: https
+            containerPort: 10443
+        {{- end }}
+          - name: https-webhook
+            containerPort: 9443
+          - name: http-wakeup
+            containerPort: 9090
         {{- if .Values.livenessProbe }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
@@ -104,6 +113,10 @@ spec:
         {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
+        {{- if (gt (int .Values.replicaCount) 1) }}
+        - name: LEADER_ELECTION_ENABLED
+          value: "true"
         {{- end }}
         {{- range $key, $value := .Values.envValueFrom }}
         - name: {{ $key | quote }}

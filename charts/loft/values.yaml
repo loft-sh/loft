@@ -1,3 +1,6 @@
+# If agentOnly is true, will deploy only the agent
+agentOnly: false
+
 # If an admin user should be created during deployment
 admin:
   create: true
@@ -67,7 +70,7 @@ tls:
 env: {}
 
 # Additional environment variables in the form of
-# VAR_NAME: 
+# VAR_NAME:
 #   secretKeyRef:
 #     name: mysecret
 #     key: username
@@ -99,7 +102,7 @@ readinessProbe:
 livenessProbe:
   enabled: true
 
-# If an extension api service should be registered for 
+# If an extension api service should be registered for
 # the loft apis in kubernetes
 apiservice:
   create: true
@@ -130,7 +133,7 @@ certIssuer:
 audit:
   enableSideCar: false
   image: library/alpine:3.13.1
-  persistence: 
+  persistence:
     enabled: false
     size: 10Gi
     # Optional storage class
@@ -165,3 +168,7 @@ securityContext:
 # https://github.com/loft-sh/loft/blob/master/charts/loft-agent/values.yaml
 # agent values cluster annotations take precedent over these values
 agentValues: {}
+
+# if the webhook should be deployed
+webhook:
+  create: true
