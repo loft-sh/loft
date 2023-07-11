@@ -4,7 +4,7 @@ sidebar_label: loft token
 ---
 
 
-Prints the access token to a Loft instance
+Token prints the access token to a loft instance
 
 ## Synopsis
 
@@ -17,8 +17,8 @@ loft token [flags]
 #######################################################
 ###################### loft token #####################
 #######################################################
-Prints an access token to a Loft instance. This can
-be used as an ExecAuthenticator for Kubernetes.
+Prints an access token to a loft instance. This can
+be used as an ExecAuthenticator for kubernetes
 
 Example:
 loft token
@@ -29,16 +29,18 @@ loft token
 ## Flags
 
 ```
-  -h, --help   help for token
+      --direct-cluster-endpoint   When enabled prints a direct cluster endpoint token
+  -h, --help                      help for token
+      --project string            The project containing the virtual cluster
+      --virtual-cluster string    The virtual cluster
 ```
 
 
 ## Global & Inherited Flags
 
 ```
-      --config string                  The Loft config to use (will be created if it does not exist) (default "C:\\Users\\gente\\.loft\\config.json")
-      --debug                          Prints the stack trace if an error occurs
-      --log-flush-frequency duration   Maximum number of seconds between log flushes (default 5s)
-      --silent                         Run in silent mode and prevents any devspace log output except panics & fatals
+      --config string   The loft config to use (will be created if it does not exist) (default "/Users/thomask33/.loft/config.json")
+      --debug           Prints the stack trace if an error occurs
+      --silent          Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

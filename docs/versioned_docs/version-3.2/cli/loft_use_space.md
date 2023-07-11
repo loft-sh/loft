@@ -10,7 +10,7 @@ Creates a kube context for the given space
 
 
 ```
-loft use space [flags]
+loft use space SPACE_NAME [flags]
 ```
 
 ```
@@ -20,9 +20,9 @@ loft use space [flags]
 Creates a new kube context for the given space.
 
 Example:
-loft use space 
+loft use space
 loft use space myspace
-loft use space myspace --cluster mycluster
+loft use space myspace --project myproject
 #######################################################
 ```
 
@@ -30,18 +30,20 @@ loft use space myspace --cluster mycluster
 ## Flags
 
 ```
-      --cluster string   The cluster to use
-  -h, --help             help for space
-      --print            When enabled prints the context to stdout
+      --cluster string                    The cluster to use
+      --disable-direct-cluster-endpoint   When enabled does not use an available direct cluster endpoint to connect to the cluster
+  -h, --help                              help for space
+      --print                             When enabled prints the context to stdout
+  -p, --project string                    The project to use
+      --skip-wait                         If true, will not wait until the space is running
 ```
 
 
 ## Global & Inherited Flags
 
 ```
-      --config string                  The Loft config to use (will be created if it does not exist) (default "C:\\Users\\gente\\.loft\\config.json")
-      --debug                          Prints the stack trace if an error occurs
-      --log-flush-frequency duration   Maximum number of seconds between log flushes (default 5s)
-      --silent                         Run in silent mode and prevents any devspace log output except panics & fatals
+      --config string   The loft config to use (will be created if it does not exist) (default "/Users/thomask33/.loft/config.json")
+      --debug           Prints the stack trace if an error occurs
+      --silent          Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

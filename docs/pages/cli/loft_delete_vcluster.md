@@ -10,19 +10,18 @@ Deletes a virtual cluster from a cluster
 
 
 ```
-loft delete vcluster [name] [flags]
+loft delete vcluster VCLUSTER_NAME [flags]
 ```
 
 ```
 #######################################################
 ############ loft delete virtualcluster ###############
 #######################################################
-Deletes a virtual cluster from a cluster.
+Deletes a virtual cluster from a cluster
 
 Example:
-loft delete vcluster myvirtualcluster 
-loft delete vcluster myvirtualcluster --cluster mycluster
-loft delete vcluster myvirtualcluster --space myspace --cluster mycluster
+loft delete vcluster myvirtualcluster
+loft delete vcluster myvirtualcluster --project myproject
 #######################################################
 ```
 
@@ -32,17 +31,19 @@ loft delete vcluster myvirtualcluster --space myspace --cluster mycluster
 ```
       --cluster string   The cluster to use
       --delete-context   If the corresponding kube context should be deleted if there is any (default true)
+      --delete-space     Should the corresponding space be deleted
   -h, --help             help for vcluster
+  -p, --project string   The project to use
       --space string     The space to use
+      --wait             Termination of this command waits for space to be deleted. Without the flag delete-space, this flag has no effect.
 ```
 
 
 ## Global & Inherited Flags
 
 ```
-      --config string                  The Loft config to use (will be created if it does not exist) (default "C:\\Users\\gente\\.loft\\config.json")
-      --debug                          Prints the stack trace if an error occurs
-      --log-flush-frequency duration   Maximum number of seconds between log flushes (default 5s)
-      --silent                         Run in silent mode and prevents any devspace log output except panics & fatals
+      --config string   The loft config to use (will be created if it does not exist) (default "/Users/thomask33/.loft/config.json")
+      --debug           Prints the stack trace if an error occurs
+      --silent          Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

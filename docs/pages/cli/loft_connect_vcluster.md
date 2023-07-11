@@ -8,7 +8,6 @@ Connects to a virtual cluster in the given parent cluster
 
 ## Synopsis
 
-
 ```
 loft connect vcluster [flags]
 ```
@@ -27,7 +26,6 @@ loft connect vcluster test --namespace test
 #######################################################
 ```
 
-
 ## Flags
 
 ```
@@ -38,7 +36,6 @@ loft connect vcluster test --namespace test
       --print                    When enabled prints the context to stdout
 ```
 
-
 ## Global & Inherited Flags
 
 ```
@@ -47,4 +44,3 @@ loft connect vcluster test --namespace test
       --log-flush-frequency duration   Maximum number of seconds between log flushes (default 5s)
       --silent                         Run in silent mode and prevents any devspace log output except panics & fatals
 ```
-
