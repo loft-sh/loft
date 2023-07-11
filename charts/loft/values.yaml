@@ -172,3 +172,8 @@ agentValues: {}
 # if the webhook should be deployed
 webhook:
   create: true
+
+# Configures structured logging within Loft
+logging:
+  encoding: console # Can be either json or console
+  level: info # Can be either: debug, info, error

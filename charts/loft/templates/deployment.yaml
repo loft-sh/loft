@@ -137,6 +137,12 @@ spec:
               key: {{ .Values.tls.keyKey }}
         {{- end }}
         {{- end }}
+        {{- if .Values.logging }}
+        - name: LOFT_LOG_ENCODING
+          value: {{ default "console" .Values.logging.encoding }}
+        - name: LOFT_LOG_LEVEL
+          value: {{ default "info" .Values.logging.level }}
+        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
