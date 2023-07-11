@@ -3,9 +3,65 @@ title: Metrics And Monitoring
 sidebar_label: Metrics And Monitoring
 ---
 
-Loft exposes several [prometheus style](https://prometheus.io/docs/practices/naming/) metrics that can be scraped.
+## Logging
 
-## Create the Prometheus ServiceMonitor
+By default, Loft will print out structured logs to the console with a log level of `info`.
+
+These logs will include constant log messages, a human-readable timestamp, log levels, the file and line number of the source caller, and with variables in the body:
+
+```text
+2023-07-11 09:20:56     INFO    controller-runtime.metrics      metrics/listener.go:44  Metrics server is starting to listen    {"component": "loft", "addr": "127.0.0.1:12000"}
+2023-07-11 09:20:56     INFO    initialize/context.go:68        Initialize...   {"component": "loft"}
+2023-07-11 09:20:56     INFO    initialize/context.go:72        Ensure certificates...  {"component": "loft"}
+2023-07-11 09:21:02     INFO    initialize/context.go:80        Ensure crds...  {"component": "loft"}
+```
+
+You can change the log level by setting the helm value `logging.level` to one of the following values: `debug`, `info`, `error`, and upgrading your loft release with the following command:
+
+```bash
+helm upgrade loft loft --repo https://charts.loft.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set logging.level=error # or debug or info
+```
+
+### JSON Output Encoding
+
+In addition to the console output, Loft also supports printing logs encoded in JSON format.
+
+This output format is helpful for structured logging, which allows you to search and filter logs easily.
+
+You can change the log output by setting the helm value `logging.encoding` to one of the following values: `json`, and upgrading your loft release with the following command:
+
+```bash
+helm upgrade loft loft --repo https://charts.loft.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set logging.encoding=json
+```
+
+These JSON-encoded logs will include constant log messages with different variables in the body, like the default console output:
+
+```json
+{"level":"info","ts":1689067388.209614,"logger":"controller-runtime.metrics","caller":"metrics/listener.go:44","msg":"Metrics server is starting to listen","component":"loft","addr":"127.0.0.1:12000"}
+{"level":"info","ts":1689067388.2099726,"caller":"initialize/context.go:68","msg":"Initialize...","component":"loft"}
+{"level":"info","ts":1689067388.2100549,"caller":"initialize/context.go:72","msg":"Ensure certificates...","component":"loft"}
+{"level":"info","ts":1689067389.678155,"caller":"initialize/context.go:80","msg":"Ensure crds...","component":"loft"}
+```
+
+The JSON encoded logs will contain at least the following fields:
+
+- `level`: The log level of the message
+- `ts`: The timestamp of the message (floating-point number of seconds since the Unix epoch)
+- `caller`: The file and line number of the message
+- `msg`: The message itself
+- `component`: The Loft component that emitted the message
+
+## Metrics
+
+Loft exposes several [prometheus conformant](https://prometheus.io/docs/practices/naming/) metrics that can be scraped.
+
+### Create the Prometheus ServiceMonitor
 
 The metrics can be scraped with the included `ServiceMonitor` in the loft chart, which can be deployed with helm. In order for this to work, make sure you have installed a [prometheus operator](https://github.com/prometheus-operator/prometheus-operator) into your cluster. You'll also need to upgrade your loft release with the following command to create the `ServiceMonitor`:
 
@@ -18,17 +74,18 @@ helm upgrade loft loft --repo https://charts.loft.sh/ \
   --set serviceMonitor.namespace=loft
 ```
 
-## Access the metrics endpoint directly without a ServiceMonitor
+### Access the metrics endpoint directly without a ServiceMonitor
 
-Loft will expose its internal metrics at `https://my-loft-subdomain.my-url.com/metrics`. 
+Loft will expose its internal metrics at `https://my-loft-subdomain.my-url.com/metrics`.
 By default loft will require an `Authorization` http header field with a kubernetes bearer token that has access to the non resource url `/metrics` in the kubernetes cluster where loft is installed.
 If the header is not provided, loft will deny the request.
 
 :::info Disable metrics authentication
-If you wish to scrape metrics without authentication, you can disable it via the environment variable `INSECURE_METRICS=true` in the loft helm chart.  
+If you wish to scrape metrics without authentication, you can disable it via the environment variable `INSECURE_METRICS=true` in the loft helm chart.
 :::
 
 If you have kubernetes service account token that has the appropriate rights, you can access the metrics via curl:
+
 ```bash
 # Add an optional --insecure, if your loft instance is using an untrusted certificate
 $ curl https://my-loft-subdomain.my-url.com/metrics -H "Authorization: Bearer eyJhbGci..."
@@ -41,15 +98,16 @@ apiserver_audit_event_total 0
 apiserver_audit_requests_rejected_total 0
 ...
 ```
-## Which metrics are exposed?
+
+### Which metrics are exposed?
 
 Loft collects metrics from its internal components and merges them together into a single metrics endpoint at `/metrics`. The following component metrics are merged together:
+
 - **API gateway metrics**: loft exposes metrics for its internal api gateway such as the total amount of requests (`apigateway_ENDPOINT_request_total`), request latency (`apigateway_ENDPOINT_request_duration_seconds`) and request sizes (`apigateway_ENDPOINT_response_sizes`) for the different endpoints. The metrics have different labels depending on the endpoint. The following endpoints and metrics are available:
   - **ui**: all requests that target loft UI assets (metrics are `apigateway_ui_request_total`, `apigateway_ui_request_duration_seconds`, `apigateway_ui_response_sizes`)
   - **auth**: all requests that target loft authentication endpoints (such as login, token refresh etc.)
   - **kubernetes**: all forwarded requests that target a kubernetes cluster. The targeted backend is provided by a label and can be either `management` (the integrated loft kubernetes api server), `cluster` (a request forwarded to a connected cluster) or `vcluster` (a virtual kubernetes cluster deployed by loft). Further labels are provided as well such as kubernetes resource, api version, api group, subresource etc.
-  - **grafana**: all forwarded requests to a grafana instance in a connected cluster
   - **oidc**: all requests that target the internal OIDC server
 - **Integrated Kubernetes API server metrics**: all internal kubernetes api server metrics are exposed. An incomplete list can be found in the [kubernetes repository](https://github.com/kubernetes/apiserver/blob/master/pkg/endpoints/metrics/metrics.go)
-- **Integrated Controller manager metrics**: all loft management cluster controller metrics are exposed. 
+- **Integrated Controller manager metrics**: all loft management cluster controller metrics are exposed.
 - **Go runtime metrics**: some general metrics about the golang runtime and resource usage are exposed.
