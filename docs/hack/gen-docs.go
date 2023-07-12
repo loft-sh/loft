@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/loft-sh/loftctl/v3/cmd/loftctl/cmd"
+	"github.com/loft-sh/loftctl/v3/pkg/client"
 	loftlog "github.com/loft-sh/log"
 	"github.com/spf13/cobra/doc"
 )
@@ -59,12 +60,16 @@ func main() {
 		return strings.ToLower(base) + ".md"
 	}
 
-	log := loftlog.GetInstance()
-	rootCmd := cmd.BuildRoot(log)
+	// Override user-specific default cache config location
+	// to generic location during documentation generation
+	client.DefaultCacheConfig = "$HOME/.loft/config.json"
+
+	logger := loftlog.GetInstance()
+	rootCmd := cmd.BuildRoot(logger)
 
 	err := doc.GenMarkdownTreeCustom(rootCmd, cliDocsDir, filePrepender, linkHandler)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	err = filepath.Walk(cliDocsDir, func(path string, info os.FileInfo, err error) error {
@@ -95,6 +100,6 @@ func main() {
 		return nil
 	})
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 }
