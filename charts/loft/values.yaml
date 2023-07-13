@@ -165,7 +165,7 @@ securityContext:
   enabled: true
 
 # Loft *agent* default values to use, options can be seen in the loft-agent chart values:
-# https://github.com/loft-sh/loft/blob/master/charts/loft-agent/values.yaml
+# https://github.com/loft-sh/loft/blob/master/charts/loft/values.yaml
 # agent values cluster annotations take precedent over these values
 agentValues: {}
 
