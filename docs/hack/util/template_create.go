@@ -26,7 +26,7 @@ Create a file ` + "`object.yaml`" + ` with the following contents:
 Run the following curl command to create a new ` + myObjectInNamespace + `:
 ` + "```bash" + `
 curl -s -X POST --insecure \
-     "https://$LOFT_DOMAIN/kuberentes/management/apis/management.loft.sh/v1/` + curlNamespace + `{{ .Resource }}" \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/` + curlNamespace + `{{ .Resource }}" \
      --data-binary "$(cat object.yaml)" \
      -H "Content-Type: application/yaml" \
      -H "Authorization: Bearer $ACCESS_KEY"
