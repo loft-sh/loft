@@ -31,7 +31,7 @@ loft get secret test-secret.key --project myproject
 ```
   -a, --all                Display all secret keys
   -h, --help               help for secret
-  -n, --namespace string   The namespace in the loft cluster to read the secret from. If omitted will use the namespace were loft is installed in
+  -n, --namespace string   The namespace in the loft cluster to read the secret from. If omitted will use the namespace where loft is installed in
   -o, --output string      Output format. One of: (json, yaml, value). If the --all flag is passed 'yaml' will be the default format
   -p, --project string     The project to read the project secret from.
 ```
@@ -40,7 +40,7 @@ loft get secret test-secret.key --project myproject
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "/Users/thomask33/.loft/config.json")
+      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
       --debug           Prints the stack trace if an error occurs
       --silent          Run in silent mode and prevents any loft log output except panics & fatals
 ```
