@@ -54,15 +54,13 @@ spec:
       {{- if .Values.volumes }}
 {{ toYaml .Values.volumes | indent 8 }}
       {{- end }}
-      {{- if .Values.audit }}
-      {{- if .Values.audit.persistence.enabled }}
-      - name: audit-log
+      {{- if or (and .Values.persistence .Values.persistence.enabled) (and .Values.audit .Values.audit.persistence.enabled) }}
+      - name: loft-data
         persistentVolumeClaim:
           claimName: {{ template "loft.fullname" . }}-audit
-      {{- else if .Values.audit.enableSideCar }}
-      - name: audit-log
+      {{- else }}
+      - name: loft-data
         emptyDir: {}
-      {{- end }}
       {{- end }}
       containers:
       - name: manager
@@ -151,12 +149,8 @@ spec:
         {{- if .Values.volumeMounts }}
 {{ toYaml .Values.volumeMounts | indent 10 }}
         {{- end }}
-        {{- if .Values.audit }}
-        {{- if or .Values.audit.enableSideCar .Values.audit.persistence.enabled }}
-        - mountPath: /var/log/loft
-          name: audit-log
-        {{- end }}
-        {{- end }}
+        - mountPath: /var/lib/loft
+          name: loft-data
         resources:
 {{ toYaml .Values.resources | indent 10 }}
       {{- if .Values.securityContext }}
@@ -174,10 +168,10 @@ spec:
       - name: audit
         image: "{{ .Values.audit.image }}"
         command: ["sh"]
-        args: ["-c", "touch /var/log/loft/audit.log && tail -F /var/log/loft/audit.log"]
+        args: ["-c", "touch /var/lib/loft/audit.log && tail -F /var/lib/loft/audit.log"]
         volumeMounts:
-        - mountPath: /var/log/loft
-          name: audit-log
+        - mountPath: /var/lib/loft
+          name: loft-data
       {{- end }}
       {{- end }}
       {{- if .Values.nodeSelector }}

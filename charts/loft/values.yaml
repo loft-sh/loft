@@ -129,10 +129,21 @@ certIssuer:
     ingressClass: nginx
   resolvers: []
 
+# Persistence options
+persistence:
+  enabled: false
+  size: 30Gi
+  # Optional storage class
+  #storageClassName: my-storage-class
+  # Optional custom accessModes
+  #accessModes: ["ReadWriteOnce"]
+
+
 # Additional options for audit logging
 audit:
   enableSideCar: false
   image: library/alpine:3.13.1
+  # Deprecated, use persistence instead
   persistence:
     enabled: false
     size: 10Gi
