@@ -2739,6 +2739,10 @@
           "description": "LoftUsernameClaim is the JWT field to use as the user's username.",
           "type": "string"
         },
+        "postLogoutRedirectURI": {
+          "description": "Loft URI to be redirected to after successful logout by OIDC Provider",
+          "type": "string"
+        },
         "preferredUsername": {
           "description": "Configurable key which contains the preferred username claims",
           "type": "string"
@@ -3897,9 +3901,6 @@
           "type": "array"
         }
       },
-      "required": [
-        "template"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplateStatus": {
@@ -5456,6 +5457,10 @@
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
           "type": "string"
         },
+        "defaultDevPodWorkspaceTemplate": {
+          "description": "DefaultDevPodWorkspaceTemplate",
+          "type": "string"
+        },
         "defaultSpaceTemplate": {
           "description": "DefaultSpaceTemplate",
           "type": "string"
@@ -5463,6 +5468,13 @@
         "defaultVirtualClusterTemplate": {
           "description": "DefaultVirtualClusterTemplate is the default template for the project",
           "type": "string"
+        },
+        "devPodWorkspaceTemplates": {
+          "description": "DevPodWorkspaceTemplates holds all the allowed space templates",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+          },
+          "type": "array"
         },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
@@ -8427,6 +8439,13 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceProvider": {
       "properties": {
+        "env": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption"
+          },
+          "description": "Env are environment options to set when using the provider.",
+          "type": "object"
+        },
         "name": {
           "description": "Name is the name of the provider. This can also be an url.",
           "type": "string"
@@ -8446,16 +8465,24 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition": {
       "properties": {
-        "env": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption"
-          },
-          "description": "Env are environment options to set when using the provider",
-          "type": "object"
-        },
         "provider": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceProvider",
           "description": "Provider holds the DevPod provider configuration"
+        },
+        "spaceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
+          "description": "SpaceTemplate is the space that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
+        },
+        "virtualClusterTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
+          "description": "VirtualClusterTemplate is the virtual cluster that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
+        },
+        "workspaceEnv": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption"
+          },
+          "description": "WorkspaceEnv are environment variables that should be available within the created workspace.",
+          "type": "object"
         }
       },
       "required": [
