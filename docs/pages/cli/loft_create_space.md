@@ -39,7 +39,7 @@ loft create space myspace --project myproject --team myteam
       --display-name string               The display name to show in the UI for this space
   -h, --help                              help for space
       --link strings                      Labeled Links to annotate the object with.
-                                          These links will be visible from the UI.\nWhen used with udpate, existing links will be replaced.
+                                          These links will be visible from the UI.\nWhen used with update, existing links will be replaced.
                                           E.g. --link 'Prod=http://exampleprod.com,Dev=http://exampledev.com'
       --parameters string                 The file where the parameter values for the apps are specified
   -p, --project string                    The project to use
