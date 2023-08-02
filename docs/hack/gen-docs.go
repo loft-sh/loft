@@ -64,7 +64,7 @@ func main() {
 	// to generic location during documentation generation
 	client.DefaultCacheConfig = "$HOME/.loft/config.json"
 
-	logger := loftlog.GetInstance()
+	logger := loftlog.Default
 	rootCmd := cmd.BuildRoot(logger)
 
 	err := doc.GenMarkdownTreeCustom(rootCmd, cliDocsDir, filePrepender, linkHandler)
