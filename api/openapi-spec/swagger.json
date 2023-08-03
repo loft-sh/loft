@@ -2739,6 +2739,10 @@
           "description": "LoftUsernameClaim is the JWT field to use as the user's username.",
           "type": "string"
         },
+        "postLogoutRedirectURI": {
+          "description": "Loft URI to be redirected to after successful logout by OIDC Provider",
+          "type": "string"
+        },
         "preferredUsername": {
           "description": "Configurable key which contains the preferred username claims",
           "type": "string"
@@ -3602,8 +3606,12 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Authentication",
           "description": "Authentication holds the information for authentication"
         },
+        "devPodSubDomain": {
+          "description": "DevPodSubDomain holds a subdomain in the following form *.workspace.my-domain.com",
+          "type": "string"
+        },
         "loftHost": {
-          "description": "LoftHost holds the domain where the loft instance is hosted",
+          "description": "LoftHost holds the domain where the loft instance is hosted. This should not include https or http. E.g. loft.my-domain.com",
           "type": "string"
         },
         "oidc": {
@@ -3887,7 +3895,7 @@
         },
         "template": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition",
-          "description": "Provider holds the DevPod machine template"
+          "description": "Template holds the DevPod workspace template"
         },
         "versions": {
           "description": "Versions are different versions of the template that can be referenced as well",
@@ -3897,9 +3905,6 @@
           "type": "array"
         }
       },
-      "required": [
-        "template"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplateStatus": {
@@ -5456,6 +5461,10 @@
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
           "type": "string"
         },
+        "defaultDevPodWorkspaceTemplate": {
+          "description": "DefaultDevPodWorkspaceTemplate",
+          "type": "string"
+        },
         "defaultSpaceTemplate": {
           "description": "DefaultSpaceTemplate",
           "type": "string"
@@ -5463,6 +5472,13 @@
         "defaultVirtualClusterTemplate": {
           "description": "DefaultVirtualClusterTemplate is the default template for the project",
           "type": "string"
+        },
+        "devPodWorkspaceTemplates": {
+          "description": "DevPodWorkspaceTemplates holds all the allowed space templates",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+          },
+          "type": "array"
         },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
@@ -5494,6 +5510,55 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken": {
+      "description": "RedirectToken holds the object information",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectTokenSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectTokenStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "RedirectToken",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectTokenSpec": {
+      "description": "RedirectTokenSpec holds the object specification",
+      "properties": {
+        "token": {
+          "description": "Token is the token that includes the redirect request",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectTokenStatus": {
+      "description": "RedirectTokenStatus holds the object status",
+      "properties": {
+        "redirectURL": {
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ResetAccessKey": {
       "description": "ResetAccessKey is an access key that is owned by another user",
@@ -6593,7 +6658,7 @@
         },
         "containerState": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ContainerStatus",
-          "description": "ContainerState describes the container state of the task"
+          "description": "DEPRECATED: This is not set anymore after migrating to runners ContainerState describes the container state of the task"
         },
         "observedGeneration": {
           "description": "ObservedGeneration is the latest generation observed by the controller.",
@@ -8427,6 +8492,13 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceProvider": {
       "properties": {
+        "env": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption"
+          },
+          "description": "Env are environment options to set when using the provider.",
+          "type": "object"
+        },
         "name": {
           "description": "Name is the name of the provider. This can also be an url.",
           "type": "string"
@@ -8446,16 +8518,24 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition": {
       "properties": {
-        "env": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption"
-          },
-          "description": "Env are environment options to set when using the provider",
-          "type": "object"
-        },
         "provider": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceProvider",
           "description": "Provider holds the DevPod provider configuration"
+        },
+        "spaceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
+          "description": "SpaceTemplate is the space that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
+        },
+        "virtualClusterTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
+          "description": "VirtualClusterTemplate is the virtual cluster that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
+        },
+        "workspaceEnv": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption"
+          },
+          "description": "WorkspaceEnv are environment variables that should be available within the created workspace.",
+          "type": "object"
         }
       },
       "required": [
@@ -20159,6 +20239,12 @@
           "name": "options",
           "type": "string",
           "uniqueItems": true
+        },
+        {
+          "in": "query",
+          "name": "webMode",
+          "type": "boolean",
+          "uniqueItems": true
         }
       ],
       "post": {
@@ -24827,6 +24913,91 @@
           "uniqueItems": true
         }
       ]
+    },
+    "/apis/management.loft.sh/v1/redirecttokens": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+          "in": "query",
+          "name": "fieldManager",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "If 'true', then the output is pretty printed.",
+          "in": "query",
+          "name": "pretty",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a RedirectToken",
+        "operationId": "createManagementLoftShV1RedirectToken",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "RedirectToken",
+          "version": "v1"
+        }
+      }
     },
     "/apis/management.loft.sh/v1/resetaccesskeys": {
       "parameters": [
