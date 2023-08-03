@@ -39,7 +39,7 @@ loft create vcluster test --project myproject
       --display-name string               The display name to show in the UI for this virtual cluster
   -h, --help                              help for vcluster
       --link strings                      Labeled Links to annotate the object with.
-                                          These links will be visible from the UI.\nWhen used with udpate, existing links will be replaced.
+                                          These links will be visible from the UI.\nWhen used with update, existing links will be replaced.
                                           E.g. --link 'Prod=http://exampleprod.com,Dev=http://exampledev.com'
       --parameters string                 The file where the parameter values for the apps are specified
       --print                             If enabled, prints the context to the console
