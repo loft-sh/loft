@@ -4,21 +4,16 @@ metadata:
   name: {{ template "loft.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "loft.fullname" . }}
+    app: "loft-agent"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-    {{- with .Values.labels }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
-  {{- if or .Values.annotations .Values.commonAnnotations }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+  {{- if .Values.annotations }}
   annotations:
-    {{- with .Values.annotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
-    {{- with .Values.commonAnnotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
+{{ toYaml .Values.annotations | indent 4 }}
   {{- end }}
 spec:
   selector:
@@ -55,21 +50,22 @@ spec:
 {{ toYaml .Values.volumes | indent 8 }}
       {{- end }}
       {{- if .Values.audit }}
-      {{- if .Values.audit.persistence.enabled }}
-      - name: audit-log
-        persistentVolumeClaim:
-          claimName: {{ template "loft.fullname" . }}-audit
-      {{- else if .Values.audit.enableSideCar }}
+      {{- if .Values.audit.enableSideCar }}
       - name: audit-log
         emptyDir: {}
       {{- end }}
       {{- end }}
+      {{- if .Values.fsGroup }}
+      securityContext:
+        fsGroup: {{ .Values.fsGroup }}
+
+      {{- end }}
       containers:
-      - name: manager
+      - name: agent
         {{- if .Values.image }}
         image: "{{ .Values.image }}"
         {{- else }}
-        image: "ghcr.io/loft-sh/loft:{{ .Chart.Version }}"
+        image: "ghcr.io/loft-sh/agent:{{ .Chart.Version }}"
         {{- end }}
         ports:
         - name: http
@@ -99,12 +95,6 @@ spec:
         {{- end }}
         {{- end }}
         env:
-        - name: ADMIN_EMAIL
-          value: {{ .Values.admin.email | quote }}
-        {{- if .Values.admin.password }}
-        - name: ADMIN_PASSWORD_HASH
-          value: {{ .Values.admin.password | sha256sum | quote }}
-        {{- end }}
         {{- range $key, $value := .Values.envValueFrom }}
         - name: {{ $key | quote }}
           valueFrom:
@@ -133,7 +123,7 @@ spec:
 {{ toYaml .Values.volumeMounts | indent 10 }}
         {{- end }}
         {{- if .Values.audit }}
-        {{- if or .Values.audit.enableSideCar .Values.audit.persistence.enabled }}
+        {{- if .Values.audit.enableSideCar }}
         - mountPath: /var/log/loft
           name: audit-log
         {{- end }}
@@ -157,8 +147,8 @@ spec:
         command: ["sh"]
         args: ["-c", "touch /var/log/loft/audit.log && tail -F /var/log/loft/audit.log"]
         volumeMounts:
-        - mountPath: /var/log/loft
-          name: audit-log
+          - mountPath: /var/log/loft
+            name: audit-log
       {{- end }}
       {{- end }}
       {{- if .Values.nodeSelector }}

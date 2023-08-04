@@ -13,22 +13,16 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-    {{- with .Values.ingress.labels }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.ingressClass }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8 32k"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
-    nginx.org/websocket-services: loft
-    {{- with .Values.ingress.annotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
-    {{- with .Values.commonAnnotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
+    nginx.org/websocket-services: loft-agent
+  {{- if .Values.ingress.tls.enabled }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer }}
+  {{- end }}
 spec:
   rules:
     - host: {{ .Values.ingress.host }}
@@ -39,12 +33,12 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: loft
+                name: loft-agent
                 port:
                   number: 80
             {{- else }}
             backend:
-              serviceName: loft
+              serviceName: loft-agent
               servicePort: 80
             {{- end }}
   {{- if .Values.ingress.tls.enabled }}

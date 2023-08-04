@@ -1,25 +1,29 @@
+{{- if .Values.webhook }}
+{{- if .Values.webhook.create }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: loft-agent
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: loft-ingress-wakeup-agent
+  name: loft-agent-webhook
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "loft.fullname" . }}
-    loft.sh/service: {{ template "loft.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  {{- if .Values.agentOnly }}
-  type: {{ .Values.service.type }}
-  {{- else }}
   type: ClusterIP
-  {{- end }}
   ports:
-    - name: http-wakeup
-      port: 9090
-      targetPort: 9090
+    - name: webhook
+      port: 443
+      targetPort: 9443
       protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}
     release: {{ .Release.Name }}
+{{- end }}
+{{- end }}
