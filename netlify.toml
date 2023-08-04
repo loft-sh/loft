@@ -1,15 +1,11 @@
 [build]
 base = "docs/"
 publish = "build/"
-environment = { GO_VERSION = "1.20.5" }
 command = """
     set -e
 
     export OUT_DIR="build/"
     export TARGET_OUT_DIR="build/docs"
-
-    # Generate CLI docs
-    go run hack/gen-docs.go -cli-docs-dir pages/cli
 
     # Build docs
     yarn build
