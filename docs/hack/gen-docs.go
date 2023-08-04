@@ -1,8 +1,10 @@
+// +build ignore
+
 package main
 
 import (
-	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -10,14 +12,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/loft-sh/loftctl/v3/cmd/loftctl/cmd"
-	"github.com/loft-sh/loftctl/v3/pkg/client"
-	loftlog "github.com/loft-sh/log"
+	"github.com/loft-sh/loft/cmd/loftctl/cmd"
+	loftlog "github.com/loft-sh/loft/pkg/loftctl/log"
 	"github.com/spf13/cobra/doc"
 )
 
-var cliDocsDir string
-
+const cliDocsDir = "./docs/pages/commands"
 const headerTemplate = `---
 title: "%s"
 sidebar_label: %s
@@ -29,10 +29,6 @@ var fixSynopsisRegexp = regexp.MustCompile("(?si)(## loft.*?\n)(.*?)#(## Synopsi
 
 // Run executes the command logic
 func main() {
-	cliDocsDirArg := flag.String("cli-docs-dir", "./docs/pages/cli", "The directory to write the cli docs to")
-	flag.Parse()
-	cliDocsDir = *cliDocsDirArg
-
 	filePrepender := func(filename string) string {
 		name := filepath.Base(filename)
 		base := strings.TrimSuffix(name, path.Ext(name))
@@ -60,39 +56,28 @@ func main() {
 		return strings.ToLower(base) + ".md"
 	}
 
-	// Override user-specific default cache config location
-	// to generic location during documentation generation
-	client.DefaultCacheConfig = "$HOME/.loft/config.json"
-
-	logger := loftlog.Default
-	rootCmd := cmd.BuildRoot(logger)
+	log := loftlog.GetInstance()
+	rootCmd := cmd.BuildRoot(log)
 
 	err := doc.GenMarkdownTreeCustom(rootCmd, cliDocsDir, filePrepender, linkHandler)
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 
 	err = filepath.Walk(cliDocsDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
 		stat, err := os.Stat(path)
-		if err != nil {
-			return err
-		}
 		if stat.IsDir() {
 			return nil
 		}
 
-		content, err := os.ReadFile(path)
+		content, err := ioutil.ReadFile(path)
 		if err != nil {
 			return err
 		}
 
 		newContents := fixSynopsisRegexp.ReplaceAllString(string(content), "$2$3$7$8```\n$4\n```\n\n\n## Flags$10\n## Global & Inherited Flags$13")
 
-		err = os.WriteFile(path, []byte(newContents), 0)
+		err = ioutil.WriteFile(path, []byte(newContents), 0)
 		if err != nil {
 			return err
 		}
@@ -100,6 +85,6 @@ func main() {
 		return nil
 	})
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 }
