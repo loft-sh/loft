@@ -11307,6 +11307,56 @@
       }
     }
   },
+  "/apis/management.loft.sh/v1/runners/{name}/accesskey": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read accesskey of the specified Runner",
+      "operationId": "readManagementLoftShV1RunnerAccesskey",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerAccessKey"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "RunnerAccessKey",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the RunnerAccessKey",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "description": "If 'true', then the output is pretty printed.",
+        "in": "query",
+        "name": "pretty",
+        "type": "string",
+        "uniqueItems": true
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/runners/{name}/config": {
     "get": {
       "consumes": [
