@@ -3492,6 +3492,10 @@
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
+        },
+        "unusable": {
+          "description": "If unusable is true, no spaces or virtual clusters can be scheduled on this cluster.",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -3786,6 +3790,10 @@
         "instance": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition",
           "description": "Instance is the template rendered with all the parameters"
+        },
+        "lastWorkspaceStatus": {
+          "description": "LastWorkspaceStatus is the last workspace status reported by the runner.",
+          "type": "string"
         },
         "message": {
           "description": "Message describes the reason in human-readable form why the DevPod machine is in the current phase",
@@ -4995,6 +5003,13 @@
         },
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "runners": {
+          "description": "Runners holds all the allowed runners",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
+          },
+          "type": "array"
         }
       },
       "type": "object",
@@ -5706,6 +5721,34 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerAccessKey": {
+      "description": "RunnerAccessKey holds the access key for the runner",
+      "properties": {
+        "accessKey": {
+          "description": "AccessKey is the access key used by the runner",
+          "type": "string"
+        },
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "RunnerAccessKey",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerConfig": {
       "description": "RunnerConfig holds the config the runner retrieves from Loft",
       "properties": {
@@ -5777,6 +5820,10 @@
           },
           "type": "array"
         },
+        "clusterRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerClusterRef",
+          "description": "If ClusterRef is defined, Loft will schedule the runner on the given cluster."
+        },
         "description": {
           "description": "Description describes a cluster access object",
           "type": "string"
@@ -5788,12 +5835,37 @@
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
+        },
+        "unusable": {
+          "description": "If unusable is true, no DevPod workspaces can be scheduled on this runner.",
+          "type": "boolean"
         }
       },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerStatus": {
       "description": "RunnerStatus holds the status",
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds several conditions the virtual cluster might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "message": {
+          "description": "Message describes the reason in human-readable form",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase describes the current phase the space instance is in",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason describes the reason in machine-readable form",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.Self": {
@@ -8427,6 +8499,10 @@
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
+        },
+        "unusable": {
+          "description": "If unusable is true, no spaces or virtual clusters can be scheduled on this cluster.",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -8958,6 +9034,148 @@
           },
           "description": "User holds the quotas per user / team",
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerClusterRef": {
+      "properties": {
+        "cluster": {
+          "description": "Cluster is the connected cluster the space will be created in",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace inside the connected cluster holding the space",
+          "type": "string"
+        },
+        "persistentVolumeClaimTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplate",
+          "description": "PersistentVolumeClaimTemplate holds additional options for the persistent volume claim"
+        },
+        "podTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPodTemplate",
+          "description": "PodTemplate holds additional options for the runner pod"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplate": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "Metadata holds the template metadata"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplateSpec",
+          "description": "Spec holds the template spec"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplateSpec": {
+      "properties": {
+        "accessModes": {
+          "description": "accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "storageClassName": {
+          "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+          "type": "string"
+        },
+        "storageSize": {
+          "description": "storageSize is the size of the storage to reserve for the pvc",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPodTemplate": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "Metadata holds the template metadata"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPodTemplateSpec",
+          "description": "Spec holds the template spec"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RunnerPodTemplateSpec": {
+      "properties": {
+        "affinity": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.Affinity",
+          "description": "Set the Affinity for the Runner Pod"
+        },
+        "env": {
+          "description": "List of environment variables to set in the container. Cannot be updated.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.EnvVar"
+          },
+          "type": "array",
+          "x-kubernetes-patch-merge-key": "name",
+          "x-kubernetes-patch-strategy": "merge"
+        },
+        "envFrom": {
+          "description": "List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.EnvFromSource"
+          },
+          "type": "array"
+        },
+        "hostAliases": {
+          "description": "Set host aliases for the Runner Pod",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.HostAlias"
+          },
+          "type": "array"
+        },
+        "image": {
+          "description": "Runner pod image to use other than default",
+          "type": "string"
+        },
+        "initContainers": {
+          "description": "Set up Init Containers for the Runner",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Container"
+          },
+          "type": "array"
+        },
+        "nodeSelector": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Set the NodeSelector for the Runner Pod",
+          "type": "object"
+        },
+        "resource": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+          "description": "Resources requirements"
+        },
+        "tolerations": {
+          "description": "Set the Tolerations for the Runner Pod",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Toleration"
+          },
+          "type": "array"
+        },
+        "volumeMounts": {
+          "description": "Set Volume Mounts for the Runner Pod",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
+          },
+          "type": "array"
+        },
+        "volumes": {
+          "description": "Set Volumes for the Runner Pod",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Volume"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -9838,6 +10056,10 @@
             "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Button"
           },
           "type": "array"
+        },
+        "domainToken": {
+          "description": "DomainToken holds the JWT with the URL that the Loft instance is publicly available on. (via Loft router)",
+          "type": "string"
         },
         "features": {
           "additionalProperties": {
@@ -25666,6 +25888,56 @@
           "version": "v1"
         }
       }
+    },
+    "/apis/management.loft.sh/v1/runners/{name}/accesskey": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read accesskey of the specified Runner",
+        "operationId": "readManagementLoftShV1RunnerAccesskey",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerAccessKey"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "RunnerAccessKey",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the RunnerAccessKey",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "If 'true', then the output is pretty printed.",
+          "in": "query",
+          "name": "pretty",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ]
     },
     "/apis/management.loft.sh/v1/runners/{name}/config": {
       "get": {
