@@ -182,6 +182,10 @@ module.exports = {
                             type: "doc",
                             id: "virtual-clusters/central-hostpath-mapper",
                         },
+                        {
+                            type: "doc",
+                            id: "virtual-clusters/remote-vclusters",
+                        },
                     ],
                 },
             ],

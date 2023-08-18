@@ -69,7 +69,6 @@
 #/docs/architecture                              
 
 # SEO Redirects v0 -> v1
-/docs/spaces/sleep-mode                 /docs/sleep-mode/basics                 301!
 /docs/getting-started/apps              /docs/multi-tenancy/apps                301!
 /docs/getting-started/spaces            /docs/self-service/namespaces           301!
 /docs/getting-started/users-limits      /docs/getting-started/limits-isolation  301!
@@ -107,3 +106,4 @@
 
 /docs/onboarding/basics                 /docs/guides/onboarding                 301!
 
+/docs/getting-started/explore/sleep-mode    /docs/spaces/sleep-mode             301!
