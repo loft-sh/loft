@@ -1,7 +1,7 @@
 [build]
 base = "docs/"
 publish = "build/"
-environment = { GO_VERSION = "1.20.5" }
+environment = { GO_VERSION = "1.21.0" }
 command = """
     set -e
 
