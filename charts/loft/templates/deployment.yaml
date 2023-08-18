@@ -55,12 +55,12 @@ spec:
 {{ toYaml .Values.volumes | indent 8 }}
       {{- end }}
       {{- if or (and .Values.persistence .Values.persistence.enabled) (and .Values.audit .Values.audit.persistence.enabled) }}
-      - name: loft-data
-        persistentVolumeClaim:
-          claimName: {{ template "loft.fullname" . }}-audit
+        - name: loft-data
+          persistentVolumeClaim:
+            claimName: {{ template "loft.fullname" . }}-audit
       {{- else }}
-      - name: loft-data
-        emptyDir: {}
+        - name: loft-data
+          emptyDir: {}
       {{- end }}
       containers:
       - name: manager
@@ -149,8 +149,8 @@ spec:
         {{- if .Values.volumeMounts }}
 {{ toYaml .Values.volumeMounts | indent 10 }}
         {{- end }}
-        - mountPath: /var/lib/loft
-          name: loft-data
+          - mountPath: /var/lib/loft
+            name: loft-data
         resources:
 {{ toYaml .Values.resources | indent 10 }}
       {{- if .Values.securityContext }}
