@@ -4,6 +4,7 @@ import PartialDescription from "./spec/description.mdx"
 import PartialOwnerreference from "./spec/owner_reference.mdx"
 import PartialQuotasreference from "./spec/quotas_reference.mdx"
 import PartialAllowedClustersreference from "./spec/allowedClusters_reference.mdx"
+import PartialAllowedRunnersreference from "./spec/allowedRunners_reference.mdx"
 import PartialAllowedTemplatesreference from "./spec/allowedTemplates_reference.mdx"
 import PartialMembersreference from "./spec/members_reference.mdx"
 import PartialAccessreference from "./spec/access_reference.mdx"
@@ -61,6 +62,23 @@ environments.
 </summary>
 
 <PartialAllowedClustersreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `allowedRunners` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-allowedRunners}
+
+AllowedRunners are target runners that are allowed to target with
+DevPod environments.
+
+</summary>
+
+<PartialAllowedRunnersreference />
 
 
 </details>

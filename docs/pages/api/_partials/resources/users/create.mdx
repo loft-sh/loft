@@ -60,7 +60,7 @@ status: {}
 Run the following curl command to create a new User `my-user`:
 ```bash
 curl -s -X POST --insecure \
-     "https://$LOFT_DOMAIN/kuberentes/management/apis/management.loft.sh/v1/users" \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/users" \
      --data-binary "$(cat object.yaml)" \
      -H "Content-Type: application/yaml" \
      -H "Authorization: Bearer $ACCESS_KEY"

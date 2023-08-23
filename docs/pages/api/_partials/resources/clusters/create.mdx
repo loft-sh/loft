@@ -60,7 +60,7 @@ status: {}
 Run the following curl command to create a new Cluster `my-cluster`:
 ```bash
 curl -s -X POST --insecure \
-     "https://$LOFT_DOMAIN/kuberentes/management/apis/management.loft.sh/v1/clusters" \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/clusters" \
      --data-binary "$(cat object.yaml)" \
      -H "Content-Type: application/yaml" \
      -H "Authorization: Bearer $ACCESS_KEY"
