@@ -5859,6 +5859,12 @@
     },
     "parameters": [
       {
+        "in": "query",
+        "name": "debug",
+        "type": "boolean",
+        "uniqueItems": true
+      },
+      {
         "description": "name of the DevPodWorkspaceInstanceUp",
         "in": "path",
         "name": "name",

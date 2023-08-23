@@ -879,6 +879,10 @@
           },
           "type": "array"
         },
+        "forwardToken": {
+          "description": "ForwardToken signals the proxy to pass through the used token to the virtual Kubernetes api server and do a TokenReview there.",
+          "type": "boolean"
+        },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterHelmRelease",
           "description": "HelmRelease is the helm release configuration for the virtual cluster."
@@ -1655,6 +1659,10 @@
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.TemplateHelmChart"
           },
           "type": "array"
+        },
+        "forwardToken": {
+          "description": "ForwardToken signals the proxy to pass through the used token to the virtual Kubernetes api server and do a TokenReview there.",
+          "type": "boolean"
         },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterHelmRelease",
@@ -4591,6 +4599,10 @@
         "enabled": {
           "description": "If true indicates that loft will act as an OIDC server",
           "type": "boolean"
+        },
+        "wildcardRedirect": {
+          "description": "If true indicates that loft will allow wildcard '*' in client redirectURIs",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -5899,6 +5911,12 @@
       ]
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.SelfSpec": {
+      "properties": {
+        "accessKey": {
+          "description": "AccessKey is an optional access key to use instead of the provided one",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.SelfStatus": {
@@ -5906,6 +5924,10 @@
         "accessKey": {
           "description": "The name of the currently used access key",
           "type": "string"
+        },
+        "accessKeyScope": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScope",
+          "description": "The scope of the currently used access key"
         },
         "accessKeyType": {
           "description": "The type of the currently used access key",
@@ -5933,6 +5955,10 @@
         "team": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.EntityInfo",
           "description": "The name of the currently logged in team"
+        },
+        "uid": {
+          "description": "UID is the user uid",
+          "type": "string"
         },
         "user": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserInfo",
@@ -9116,9 +9142,7 @@
           "items": {
             "$ref": "#/definitions/io.k8s.api.core.v1.EnvVar"
           },
-          "type": "array",
-          "x-kubernetes-patch-merge-key": "name",
-          "x-kubernetes-patch-strategy": "merge"
+          "type": "array"
         },
         "envFrom": {
           "description": "List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.",
@@ -9639,6 +9663,10 @@
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.TemplateHelmChart"
           },
           "type": "array"
+        },
+        "forwardToken": {
+          "description": "ForwardToken signals the proxy to pass through the used token to the virtual Kubernetes api server and do a TokenReview there.",
+          "type": "boolean"
         },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterHelmRelease",
@@ -20440,6 +20468,12 @@
         }
       },
       "parameters": [
+        {
+          "in": "query",
+          "name": "debug",
+          "type": "boolean",
+          "uniqueItems": true
+        },
         {
           "description": "name of the DevPodWorkspaceInstanceUp",
           "in": "path",
