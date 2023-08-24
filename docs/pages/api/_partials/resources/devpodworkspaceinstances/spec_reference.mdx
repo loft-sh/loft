@@ -1,0 +1,99 @@
+
+import PartialDisplayName from "./spec/displayName.mdx"
+import PartialDescription from "./spec/description.mdx"
+import PartialOwnerreference from "./spec/owner_reference.mdx"
+import PartialTemplateRefreference from "./spec/templateRef_reference.mdx"
+import PartialTemplatereference from "./spec/template_reference.mdx"
+import PartialRunnerRefreference from "./spec/runnerRef_reference.mdx"
+import PartialParameters from "./spec/parameters.mdx"
+import PartialAccessreference from "./spec/access_reference.mdx"
+
+<PartialDisplayName />
+
+
+<PartialDescription />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `owner` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner}
+
+Owner holds the owner of this object
+
+</summary>
+
+<PartialOwnerreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `templateRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-templateRef}
+
+TemplateRef holds the DevPod machine template reference
+
+</summary>
+
+<PartialTemplateRefreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `template` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template}
+
+Template is the inline template to use for DevPod machine creation. This is mutually
+exclusive with templateRef.
+
+</summary>
+
+<PartialTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `runnerRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-runnerRef}
+
+RunnerRef is the reference to the connected runner holding
+this workspace
+
+</summary>
+
+<PartialRunnerRefreference />
+
+
+</details>
+
+
+<PartialParameters />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access}
+
+Access to the DevPod machine instance object itself
+
+</summary>
+
+<PartialAccessreference />
+
+
+</details>

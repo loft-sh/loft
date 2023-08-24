@@ -1,0 +1,42 @@
+
+import PartialCluster from "./clusterRef/cluster.mdx"
+import PartialNamespace from "./clusterRef/namespace.mdx"
+import PartialPersistentVolumeClaimTemplatereference from "./clusterRef/persistentVolumeClaimTemplate_reference.mdx"
+import PartialPodTemplatereference from "./clusterRef/podTemplate_reference.mdx"
+
+<PartialCluster />
+
+
+<PartialNamespace />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `persistentVolumeClaimTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-persistentVolumeClaimTemplate}
+
+PersistentVolumeClaimTemplate holds additional options for the persistent volume claim
+
+</summary>
+
+<PartialPersistentVolumeClaimTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `podTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate}
+
+PodTemplate holds additional options for the runner pod
+
+</summary>
+
+<PartialPodTemplatereference />
+
+
+</details>

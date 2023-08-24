@@ -1,0 +1,56 @@
+---
+title: DevPod Workspace Template
+sidebar_label: DevPod Workspace Template
+---
+import Reference from "../_partials/resources/devpodworkspacetemplates/reference.mdx"
+import Retrieve from "../_partials/resources/devpodworkspacetemplates/retrieve.mdx"
+import Create from "../_partials/resources/devpodworkspacetemplates/create.mdx"
+import Update from "../_partials/resources/devpodworkspacetemplates/update.mdx"
+import Delete from "../_partials/resources/devpodworkspacetemplates/delete.mdx"
+
+A DevPod workspace template.
+
+## Example DevPodWorkspaceTemplate
+
+An example DevPodWorkspaceTemplate:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DevPodWorkspaceTemplate
+metadata:
+  creationTimestamp: null
+  name: my-devpod-workspace-template
+spec:
+  displayName: my-display-name
+  parameters:
+  - variable: myVar
+  template:
+    provider:
+      name: kubernetes
+      options:
+        KUBERNETES_NAMESPACE:
+          value: '{{ .Values.loft.name }}'
+status: {}
+
+```
+
+## DevPodWorkspaceTemplate Reference
+
+<Reference />
+
+## Retrieve: DevPodWorkspaceTemplates
+
+<Retrieve />
+
+## Create: DevPodWorkspaceTemplate
+
+<Create />
+
+## Update: DevPodWorkspaceTemplate
+
+<Update />
+
+## Delete: DevPodWorkspaceTemplate
+
+<Delete />
+
+

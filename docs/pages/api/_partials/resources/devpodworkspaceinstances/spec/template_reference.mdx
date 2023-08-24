@@ -1,0 +1,70 @@
+
+import PartialProviderreference from "./template/provider_reference.mdx"
+import PartialSpaceTemplatereference from "./template/spaceTemplate_reference.mdx"
+import PartialVirtualClusterTemplatereference from "./template/virtualClusterTemplate_reference.mdx"
+import PartialWorkspaceEnvreference from "./template/workspaceEnv_reference.mdx"
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `provider` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-provider}
+
+Provider holds the DevPod provider configuration
+
+</summary>
+
+<PartialProviderreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `spaceTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-spaceTemplate}
+
+SpaceTemplate is the space that should get created for this DevPod. If this is specified, the
+Kubernetes provider will be selected automatically.
+
+</summary>
+
+<PartialSpaceTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `virtualClusterTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-virtualClusterTemplate}
+
+VirtualClusterTemplate is the virtual cluster that should get created for this DevPod. If this is specified, the
+Kubernetes provider will be selected automatically.
+
+</summary>
+
+<PartialVirtualClusterTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `workspaceEnv` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">&lt;workspaceEnv_name&gt;:object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-workspaceEnv}
+
+WorkspaceEnv are environment variables that should be available within the created workspace.
+
+</summary>
+
+<PartialWorkspaceEnvreference />
+
+
+</details>

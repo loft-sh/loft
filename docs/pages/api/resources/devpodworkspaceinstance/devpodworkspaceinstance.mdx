@@ -1,0 +1,55 @@
+---
+title: DevPod Workspace Instance
+sidebar_label: DevPod Workspace Instance
+---
+import Reference from "../../_partials/resources/devpodworkspaceinstances/reference.mdx"
+import Retrieve from "../../_partials/resources/devpodworkspaceinstances/retrieve.mdx"
+import Create from "../../_partials/resources/devpodworkspaceinstances/create.mdx"
+import Update from "../../_partials/resources/devpodworkspaceinstances/update.mdx"
+import Delete from "../../_partials/resources/devpodworkspaceinstances/delete.mdx"
+
+A DevPod workspace.
+
+## Example DevPodWorkspaceInstance
+
+An example DevPodWorkspaceInstance:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DevPodWorkspaceInstance
+metadata:
+  creationTimestamp: null
+  name: my-devpod-workspace
+  namespace: loft-p-my-project
+spec:
+  displayName: my-display-name
+  owner:
+    user: my-user
+  parameters: 'my-parameter: my-value'
+  runnerRef: {}
+  templateRef:
+    name: my-devpod-workspace-template
+status: {}
+
+```
+
+## DevPodWorkspaceInstance Reference
+
+<Reference />
+
+## Retrieve: DevPodWorkspaceInstances
+
+<Retrieve />
+
+## Create: DevPodWorkspaceInstance
+
+<Create />
+
+## Update: DevPodWorkspaceInstance
+
+<Update />
+
+## Delete: DevPodWorkspaceInstance
+
+<Delete />
+
+

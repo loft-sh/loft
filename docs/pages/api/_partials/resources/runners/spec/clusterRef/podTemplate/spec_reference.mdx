@@ -1,0 +1,167 @@
+
+import PartialImage from "./spec/image.mdx"
+import PartialResourcereference from "./spec/resource_reference.mdx"
+import PartialEnvFromreference from "./spec/envFrom_reference.mdx"
+import PartialEnvreference from "./spec/env_reference.mdx"
+import PartialNodeSelector from "./spec/nodeSelector.mdx"
+import PartialAffinityreference from "./spec/affinity_reference.mdx"
+import PartialTolerationsreference from "./spec/tolerations_reference.mdx"
+import PartialVolumeMountsreference from "./spec/volumeMounts_reference.mdx"
+import PartialVolumesreference from "./spec/volumes_reference.mdx"
+import PartialInitContainersreference from "./spec/initContainers_reference.mdx"
+import PartialHostAliasesreference from "./spec/hostAliases_reference.mdx"
+
+<PartialImage />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `resource` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-resource}
+
+Resources requirements
+
+</summary>
+
+<PartialResourcereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `envFrom` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-envFrom}
+
+List of sources to populate environment variables in the container.
+The keys defined within a source must be a C_IDENTIFIER. All invalid keys
+will be reported as an event when the container is starting. When a key exists in multiple
+sources, the value associated with the last source will take precedence.
+Values defined by an Env with a duplicate key will take precedence.
+Cannot be updated.
+
+</summary>
+
+<PartialEnvFromreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `env` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-env}
+
+List of environment variables to set in the container.
+Cannot be updated.
+
+</summary>
+
+<PartialEnvreference />
+
+
+</details>
+
+
+<PartialNodeSelector />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `affinity` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-affinity}
+
+Set the Affinity for the Runner Pod
+
+</summary>
+
+<PartialAffinityreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `tolerations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-tolerations}
+
+Set the Tolerations for the Runner Pod
+
+</summary>
+
+<PartialTolerationsreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `volumeMounts` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-volumeMounts}
+
+Set Volume Mounts for the Runner Pod
+
+</summary>
+
+<PartialVolumeMountsreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `volumes` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-volumes}
+
+Set Volumes for the Runner Pod
+
+</summary>
+
+<PartialVolumesreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `initContainers` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-initContainers}
+
+Set up Init Containers for the Runner
+
+</summary>
+
+<PartialInitContainersreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `hostAliases` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-podTemplate-spec-hostAliases}
+
+Set host aliases for the Runner Pod
+
+</summary>
+
+<PartialHostAliasesreference />
+
+
+</details>

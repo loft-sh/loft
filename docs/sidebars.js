@@ -518,6 +518,22 @@ module.exports = {
                                 "api/resources/clusters/clusterconnect",
                             ],
                         },
+                        {
+                            type: "category",
+                            label: "DevPod Workspaces",
+                            items: [
+                                "api/resources/devpodworkspaceinstance/devpodworkspaceinstance",
+                            ],
+                        },
+                        "api/resources/devpodworkspacetemplate",
+                        {
+                            type: "category",
+                            label: "Runners",
+                            items: [
+                                "api/resources/runner/runner",
+                                "api/resources/runner/accesskey",
+                            ],
+                        },
                         "api/resources/clusteraccess",
                         "api/resources/user",
                         "api/resources/team",
@@ -525,6 +541,7 @@ module.exports = {
                         "api/resources/ownedaccesskey",
                         "api/resources/directclusterendpointtoken",
                         "api/resources/config",
+                        "api/resources/self",
                     ],
                 },
             ],

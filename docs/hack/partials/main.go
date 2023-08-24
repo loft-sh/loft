@@ -123,6 +123,131 @@ isolation:
 		Delete:   true,
 	})
 
+	// DevPodInstance
+	util.GenerateObjectOverview(&util.ObjectInformation{
+		Title:       "DevPod Workspace Instance",
+		Name:        "DevPodWorkspaceInstance",
+		Resource:    "devpodworkspaceinstances",
+		Description: "A DevPod workspace.",
+		File:        "docs/pages/api/resources/devpodworkspaceinstance/devpodworkspaceinstance.mdx",
+		Object: &managementv1.DevPodWorkspaceInstance{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "DevPodWorkspaceInstance",
+				APIVersion: managementv1.SchemeGroupVersion.String(),
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "my-devpod-workspace",
+				Namespace: "loft-p-my-project",
+			},
+			Spec: managementv1.DevPodWorkspaceInstanceSpec{
+				DevPodWorkspaceInstanceSpec: storagev1.DevPodWorkspaceInstanceSpec{
+					DisplayName: "my-display-name",
+					Owner: &storagev1.UserOrTeam{
+						User: "my-user",
+					},
+					Parameters: "my-parameter: my-value",
+					TemplateRef: &storagev1.TemplateRef{
+						Name: "my-devpod-workspace-template",
+					},
+				},
+			},
+		},
+		Project:  true,
+		Create:   true,
+		Retrieve: true,
+		Update:   true,
+		Delete:   true,
+	})
+
+	// DevPodTemplate
+	util.GenerateObjectOverview(&util.ObjectInformation{
+		Title:       "DevPod Workspace Template",
+		Name:        "DevPodWorkspaceTemplate",
+		Resource:    "devpodworkspacetemplates",
+		Description: "A DevPod workspace template.",
+		File:        "docs/pages/api/resources/devpodworkspacetemplate.mdx",
+		Object: &managementv1.DevPodWorkspaceTemplate{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "DevPodWorkspaceTemplate",
+				APIVersion: managementv1.SchemeGroupVersion.String(),
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "my-devpod-workspace-template",
+			},
+			Spec: managementv1.DevPodWorkspaceTemplateSpec{
+				DevPodWorkspaceTemplateSpec: storagev1.DevPodWorkspaceTemplateSpec{
+					DisplayName: "my-display-name",
+					Parameters: []storagev1.AppParameter{
+						{
+							Variable: "myVar",
+						},
+					},
+					Template: storagev1.DevPodWorkspaceTemplateDefinition{
+						Provider: storagev1.DevPodWorkspaceProvider{
+							Name: "kubernetes",
+							Options: map[string]storagev1.DevPodProviderOption{
+								"KUBERNETES_NAMESPACE": {
+									Value: "{{ .Values.loft.name }}",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Create:   true,
+		Retrieve: true,
+		Update:   true,
+		Delete:   true,
+	})
+
+	// Runner
+	util.GenerateObjectOverview(&util.ObjectInformation{
+		Title:       "Runner",
+		Name:        "Runner",
+		Resource:    "runners",
+		Description: "A runner to execute DevPod workspaces.",
+		File:        "docs/pages/api/resources/runner/runner.mdx",
+		Object: &managementv1.Runner{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "Runner",
+				APIVersion: managementv1.SchemeGroupVersion.String(),
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "my-runner",
+			},
+			Spec: managementv1.RunnerSpec{
+				RunnerSpec: storagev1.RunnerSpec{
+					DisplayName: "my-display-name",
+				},
+			},
+		},
+		Create:   true,
+		Retrieve: true,
+		Update:   true,
+		Delete:   true,
+	})
+
+	// VirtualClusterInstanceKubeConfig
+	util.GenerateObjectOverview(&util.ObjectInformation{
+		Title:       "Retrieve Runner Access Key",
+		Description: "You can retrieve the runner access key via this api",
+		File:        "docs/pages/api/resources/runner/accesskey.mdx",
+		Name:        "Runner Access Key",
+		Resource:    "runners",
+		SubResource: "accesskey",
+		Object: &managementv1.RunnerAccessKey{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "RunnerAccessKey",
+				APIVersion: managementv1.SchemeGroupVersion.String(),
+			},
+			ObjectMeta: metav1.ObjectMeta{},
+			AccessKey:  "the-returned-access-key",
+		},
+		SubResourceGet:            true,
+		SubResourceGetDescription: "You can retrieve the runner access key via this api.",
+	})
+
 	// SpaceInstance
 	util.GenerateObjectOverview(&util.ObjectInformation{
 		Title:       "Space Instance",
@@ -788,5 +913,34 @@ clusters:
 			},
 		},
 		Retrieve: true,
+	})
+
+	// Self
+	util.GenerateObjectOverview(&util.ObjectInformation{
+		Title:       "Self",
+		Name:        "Self",
+		Resource:    "selves",
+		Description: "Shows information about the current user. Alternatively you can also provide an alternative access key to retrieve information from.",
+		File:        "docs/pages/api/resources/self.mdx",
+		Object: &managementv1.Self{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "Self",
+				APIVersion: managementv1.SchemeGroupVersion.String(),
+			},
+			ObjectMeta: metav1.ObjectMeta{},
+			Status: managementv1.SelfStatus{
+				AccessKey:     "my-access-key",
+				AccessKeyType: "Login",
+				Subject:       "admin",
+				Groups: []string{
+					"loft:admins",
+					"system:authenticated",
+					"loft:authenticated",
+					"loft:user:*",
+					"loft:user:admin",
+				},
+			},
+		},
+		Create: true,
 	})
 }
