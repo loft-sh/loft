@@ -1,0 +1,24 @@
+{{- if .Values.webhook }}
+{{- if .Values.webhook.create }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: loft-webhook-agent
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  type: ClusterIP
+  ports:
+    - name: https-webhook
+      port: 443
+      targetPort: 9443
+      protocol: TCP
+  selector:
+    app: {{ template "loft.fullname" . }}
+    release: {{ .Release.Name }}
+{{- end }}
+{{- end }}
