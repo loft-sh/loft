@@ -3631,7 +3631,7 @@
           "description": "OIDC holds oidc provider relevant information"
         },
         "uiSettings": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsSpec",
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsConfig",
           "description": "UISettings holds the settings for modifying the Loft user interface"
         },
         "vault": {
@@ -9832,6 +9832,60 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsConfig": {
+      "properties": {
+        "accentColor": {
+          "description": "AccentColor is the color value (ex: \"#12345\") to use for the accent",
+          "type": "string"
+        },
+        "customCss": {
+          "description": "CustomCSS holds URLs with custom css files that should be included when loading the UI",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "customJavaScript": {
+          "description": "CustomJavaScript holds URLs with custom js files that should be included when loading the UI",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "legalTemplate": {
+          "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
+          "type": "string"
+        },
+        "loftVersion": {
+          "description": "LoftVersion holds the current loft version",
+          "type": "string"
+        },
+        "logoURL": {
+          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "type": "string"
+        },
+        "logoWithWordmarkURL": {
+          "description": "LogoWithWordmarkURL is url pointing to the logo, including the wordmark, to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "type": "string"
+        },
+        "navBarButtons": {
+          "description": "NavBarButtons holds extra nav bar buttons",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.ui.v1.NavBarButton"
+          },
+          "type": "array"
+        },
+        "primaryColor": {
+          "description": "PrimaryColor is the color value (ex: \"#12345\") to use as the primary color",
+          "type": "string"
+        },
+        "sidebarColor": {
+          "description": "SidebarColor is the color value (ex: \"#12345\") to use for the sidebar",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v3.pkg.apis.ui.v1.UISettingsSpec": {
       "description": "UISettingsSpec holds the specification",
       "properties": {
@@ -9862,7 +9916,11 @@
           "type": "string"
         },
         "logoURL": {
-          "description": "LogoURL is url pointing to the logo to use in the Loft UI, this path must be accessible from clients accessing the Loft UI!",
+          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "type": "string"
+        },
+        "logoWithWordmarkURL": {
+          "description": "LogoWithWordmarkURL is url pointing to the logo, including the wordmark, to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
           "type": "string"
         },
         "navBarButtons": {
@@ -9874,6 +9932,10 @@
         },
         "primaryColor": {
           "description": "PrimaryColor is the color value (ex: \"#12345\") to use as the primary color",
+          "type": "string"
+        },
+        "productName": {
+          "description": "Name is the name of the product",
           "type": "string"
         },
         "sidebarColor": {
