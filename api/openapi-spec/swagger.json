@@ -5368,6 +5368,13 @@
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecretSpec": {
       "description": "ProjectSecretSpec holds the specification",
       "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
         "data": {
           "additionalProperties": {
             "format": "byte",
@@ -5383,6 +5390,10 @@
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
         }
       },
       "type": "object"
