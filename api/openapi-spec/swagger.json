@@ -3814,6 +3814,10 @@
         "reason": {
           "description": "Reason describes the reason in machine-readable form why the cluster is in the current phase",
           "type": "string"
+        },
+        "sleepModeConfig": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.SleepModeConfig",
+          "description": "SleepModeConfig is the sleep mode config of the workspace. This will only be shown in the front end."
         }
       },
       "type": "object"
