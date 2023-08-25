@@ -51,7 +51,7 @@
 /docs/guides/exposing-loft                      /docs/getting-started/domain                        301!
 /docs/guides/api                                /docs/api/overview                                  301!
 /docs/guides/ci-cd-pipelines                    /docs/integrations/cicd/github                      301!
-/docs/guides/direct-cluster-endpoints           /docs/admin/guides/direct-cluster-endpoint          301!
+/docs/guides/multi-region-mode                  /docs/admin/guides/multi-region-mode                301!
 #/docs/guides/monitoring                         
 /docs/guides/oidc                               /docs/admin/guides/oidc-provider                    301!
 /docs/guides/administration/air-gapped-installation /docs/getting-started/install/troubleshooting   301!

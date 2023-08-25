@@ -1,16 +1,16 @@
 ---
-title: Direct Cluster Endpoints For Minimal Latency
-sidebar_label: Direct Cluster Endpoints
+title: Multi-Region Mode
+sidebar_label: Multi-Region Mode
 ---
 
-Direct Cluster Endpoints are a feature to avoid the central Loft instance and directly connect to a connected Loft cluster. By default, all Kubernetes contexts that are created through Loft will route all Kubernetes traffic (such as `kubectl get pods` etc.) through the central Loft instance.
+Running Loft in Multi-Region Mode provides a way to avoid the central Loft instance and directly connect to a connected Loft cluster. By default, all Kubernetes contexts that are created through Loft will route all Kubernetes traffic (such as `kubectl get pods` etc.) through the central Loft instance.
 This allows Loft to handle authentication, authorization, auditing, sleep mode activity etc. 
 
 However, if you have multiple connected clusters in a Loft instance that are spread across the globe, the traffic redirection through the central Loft gateway can increase request delay. A solution to this are direct cluster endpoints, which avoid rerouting traffic to the central Loft instance and rather handle authentication, authorization etc. directly within the connected cluster through the installed Loft agent.
 
-## Exposing the Direct Cluster Endpoint
+## Enabling Multi-Region Mode
 
-The Direct Cluster Endpoint feature is bundled into the automatically installed loft agent and can be enabled via an annotation on the connected cluster object.
+Enabling Multi-Region Mode can be achieved by exposing Direct Cluster Endpoints. These are bundled into the automatically installed loft agent and can be enabled via an annotation on the connected cluster object.
 
 In order for the direct cluster endpoint to work correctly, you need to expose the Loft agent either via an Ingress or a LoadBalancer / NodePort service first. The easiest way is to create an `ingress.yaml` like this and apply it via `kubectl`:
 
@@ -76,10 +76,25 @@ strict-transport-security: max-age=15724800; includeSubDomains
 
 In order to tell Loft to use a direct cluster endpoint for a connected cluster, you will need to add an annotation to the cluster object.
 
-<figure class="frame">
-    <img src="/docs/media/v1/ui/guides/cluster-direct-cluster-endpoint.png" alt="Enable direct cluster endpoint" />
-    <figcaption>Enable Direct Cluster Endpoint</figcaption>
-</figure>
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Cluster
+metadata:
+  name: test
+  annotations:
+    # Domain of the direct cluster endpoint
+    loft.sh/direct-cluster-endpoint: my-direct-cluster-endpoint.com
+    #
+    # Optional option to tell Loft the endpoint is insecure
+    #
+    #loft.sh/direct-cluster-endpoint-insecure: 'true'
+    #
+    # Optional option to use this base64 encoded ca cert for the endpoint
+    #
+    #loft.sh/direct-cluster-endpoint-ca-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC...
+spec:
+  config: {}
+```
 
 The following annotations can be specified:
 
