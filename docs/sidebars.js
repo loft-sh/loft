@@ -223,7 +223,7 @@ module.exports = {
                     items: [
                         {
                             type: "doc",
-                            id: "clusters/direct-cluster-endpoints",
+                            id: "clusters/multi-region-mode",
                         },
                         {
                             type: "doc",
