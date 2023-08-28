@@ -3814,6 +3814,10 @@
         "reason": {
           "description": "Reason describes the reason in machine-readable form why the cluster is in the current phase",
           "type": "string"
+        },
+        "sleepModeConfig": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.SleepModeConfig",
+          "description": "SleepModeConfig is the sleep mode config of the workspace. This will only be shown in the front end."
         }
       },
       "type": "object"
@@ -5364,6 +5368,13 @@
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecretSpec": {
       "description": "ProjectSecretSpec holds the specification",
       "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
         "data": {
           "additionalProperties": {
             "format": "byte",
@@ -5379,6 +5390,10 @@
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
         }
       },
       "type": "object"
