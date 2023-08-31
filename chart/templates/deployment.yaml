@@ -141,6 +141,8 @@ spec:
         - name: LOFT_LOG_LEVEL
           value: {{ default "info" .Values.logging.level }}
         {{- end }}
+        - name: PRODUCT
+          value: {{ .Values.product | quote }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
