@@ -11,6 +11,7 @@ installation, by using ArgoCD or other GitOps tools to manage the Loft deploymen
 appropriate Helm values. This section outlines the basics of installing and managing Loft with
 Helm, and should serve as a solid starting point for managing Loft in a GitOps fashion as well!
 
+
 ## Simple Installation
 
 The most basic Loft installation via Helm looks like any other Helm install command and can be
@@ -33,11 +34,12 @@ helm upgrade loft loft --install \
   --create-namespace
 ```
 
+
 ## Loft Values
 
 As with most Helm charts, the Loft chart supports many user configurable values to modify the
 installation. You can find the Loft chart in the Loft public repository
-[here](https://github.com/loft-sh/loft/tree/master/chart). The `values.yaml` file in the
+[here](https://github.com/loft-sh/loft/tree/master/charts/loft). The `values.yaml` file in the
 chart repository contains the default values, as well as many comments showing optional values
 and some additional information.
 
@@ -47,13 +49,13 @@ yaml` is outlined below.
 
 ```yaml
 config:
-  audit:
-    enabled: true
-  loftHost: loft.mytld.com
+    audit:
+        enabled: true
+    loftHost: loft.mytld.com
 
 ingress:
-  enabled: true
-  host: loft.mytld.com
+    enabled: true
+    host: loft.mytld.com
 ```
 
 Values files can then be passed to the Helm upgrade command:
@@ -72,6 +74,7 @@ You can provide multiple values files if desired by specifying additional filena
 Helm has many additional flags, and other ways to pass values, as always, its a great idea to
 check out the Helm [docs](https://helm.sh/docs/) to stay up to date on Helm!
 
+
 ## Loft Configuration
 
 The Loft Configuration options (as seen in the Loft UI `Admin` > `Config` section) are
@@ -83,13 +86,14 @@ While all configuration settings are optional, it is always recommended to deplo
 `loftHost` configuration set. This config option tells Loft what its own publicly resolvable
 hostname is and is necessary for some integrations, including ArgoCD, and SSO.
 
+
 ## The Loft Agent
 
 Every connected cluster in a Loft environment, including the "main" cluster that Loft is
 deployed in, must have a Loft Agent deployed. This agent pod handles reconciliation of cluster
 scoped (as in not Loft instance wide) resources.
 
-By default, when Loft is installed, the Loft pod will _also_ install the Loft Agent into the
+By default, when Loft is installed, the Loft pod will *also* install the Loft Agent into the
 cluster you are deploying Loft into. This is usually a desirable behavior since Loft requires
 the Agent to be present in all clusters. Sometimes, however, admins wish to manage the
 installation of the Loft Agent themselves, either by installing it explicitly, or by installing
@@ -99,15 +103,15 @@ setting the `DISABLE_AGENT` environment variable to "true". This can be accompli
 
 ```yaml
 env:
-  DISABLE_AGENT: true
+    DISABLE_AGENT: true
 ```
 
 It is also possible to tell Loft not to install Agents into individual clusters -- this can be
 accomplished by setting the `loft.sh/cluster-ignore-agent` Annotation of the Cluster resource to
-"true" for any clusters that Loft should _not_ manage the Agent deployment on.
+"true" for any clusters that Loft should *not* manage the Agent deployment on.
 
 :::warning Loft Agent Is Required!
-The Loft Agent is _required_ for every connected cluster in a Loft deployment, this includes the
+The Loft Agent is *required* for every connected cluster in a Loft deployment, this includes the
 cluster Loft itself is deployed into. If you are disabling the agent deployment via one of the
 mechanism described above, make sure you are still getting an Agent installed into every
 connected cluster by some other means!
@@ -123,25 +127,27 @@ helm upgrade loft-agent loft-agent --install \
   --create-namespace
 ```
 
+
 ## Loft Agent Values
 
 As with the primary Loft chart, the Loft Agent chart exposes values that can be configured by an
 administrator to suite their needs. As with the primary Loft deployment, the Agent chart and
 values can be seen in the public repository
-[here](https://github.com/loft-sh/loft/tree/master/chart).
+[here](https://github.com/loft-sh/loft/tree/master/charts/loft-agent).
 
-If you have deployed Loft with the default behavior of _not_ disabling the Agent deployment, you
+If you have deployed Loft with the default behavior of *not* disabling the Agent deployment, you
 can still provide values to influence the deployment of the Agent itself. This can be
-accomplished by providing any valid Agent values in the `agentValues` section of the _Loft_
+accomplished by providing any valid Agent values in the `agentValues` section of the *Loft*
 chart values. These values are received by the Loft deployment and used when deploying the Agent
 pods! Below is an example of the Loft values `agentValues` section.
 
 ```yaml
 agentValues:
-  securityContext:
-    enabled: true
+    securityContext:
+        enabled: true
 ```
 
-Administrators can also provide Agent values for _specific clusters_ by setting the `loft.
+Administrators can also provide Agent values for *specific clusters* by setting the `loft.
 sh/agent-values` Annotation of a specific cluster object. These values will always override any
 values provided in the parent Loft chart.
+

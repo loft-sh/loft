@@ -78,7 +78,7 @@ status: {}
 Run the following curl command to create a new App `my-app`:
 ```bash
 curl -s -X POST --insecure \
-     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/apps" \
+     "https://$LOFT_DOMAIN/kuberentes/management/apis/management.loft.sh/v1/apps" \
      --data-binary "$(cat object.yaml)" \
      -H "Content-Type: application/yaml" \
      -H "Authorization: Bearer $ACCESS_KEY"

@@ -3,7 +3,6 @@ package util
 import (
 	"bytes"
 	"fmt"
-	"math"
 	"os"
 	"path"
 	"path/filepath"
@@ -96,21 +95,8 @@ func generateSchema(configInstance interface{}) *jsonschema.Schema {
 				panic(err)
 			}
 		})
-
-		runInDir("vendor", func() {
-			err := jsonschema.ExtractGoComments("", "k8s.io/api/core/v1", commentMap)
-			if err != nil {
-				panic(err)
-			}
-		})
 	}
 	r.CommentMap = commentMap
-
-	// filter comments with <>
-	for k := range r.CommentMap {
-		r.CommentMap[k] = strings.ReplaceAll(r.CommentMap[k], "<", "(")
-		r.CommentMap[k] = strings.ReplaceAll(r.CommentMap[k], ">", ")")
-	}
 
 	return r.Reflect(configInstance)
 }
@@ -401,7 +387,7 @@ func processSchemaField(
 	depth int,
 	groups map[string]*Group,
 ) (string, string) {
-	headlinePrefix := strings.Repeat("#", int(math.Min(5, float64(depth+1)))) + " "
+	headlinePrefix := strings.Repeat("#", depth+1) + " "
 	anchorPrefix := strings.TrimPrefix(strings.ReplaceAll(prefix, prefixSeparator, anchorSeparator), anchorSeparator)
 
 	fieldContent := ""
