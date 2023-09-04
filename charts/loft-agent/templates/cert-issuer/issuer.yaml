@@ -1,0 +1,22 @@
+{{- if .Values.certIssuer.create }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.certIssuer.name }}
+spec:
+  acme:
+    email: {{ .Values.certIssuer.email }}
+    server: {{ .Values.certIssuer.server }}
+    privateKeySecretRef:
+      name: {{ .Values.certIssuer.secretName }}
+    solvers:
+    {{- if .Values.certIssuer.httpResolver.enabled }}
+    - http01:
+        ingress:
+          class: {{ .Values.certIssuer.httpResolver.ingressClass }}
+    {{- end }}
+    {{- range .Values.certIssuer.resolvers }}
+    - 
+{{ toYaml . | indent 6 }}
+    {{- end }}
+{{- end }}

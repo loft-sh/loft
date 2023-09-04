@@ -1,6 +1,3 @@
-# If agentOnly is true, will deploy only the agent
-agentOnly: false
-
 # If an admin user should be created during deployment
 admin:
   create: true
@@ -70,7 +67,7 @@ tls:
 env: {}
 
 # Additional environment variables in the form of
-# VAR_NAME:
+# VAR_NAME: 
 #   secretKeyRef:
 #     name: mysecret
 #     key: username
@@ -102,7 +99,7 @@ readinessProbe:
 livenessProbe:
   enabled: true
 
-# If an extension api service should be registered for
+# If an extension api service should be registered for 
 # the loft apis in kubernetes
 apiservice:
   create: true
@@ -129,22 +126,11 @@ certIssuer:
     ingressClass: nginx
   resolvers: []
 
-# Persistence options
-persistence:
-  enabled: false
-  size: 30Gi
-  # Optional storage class
-  #storageClassName: my-storage-class
-  # Optional custom accessModes
-  #accessModes: ["ReadWriteOnce"]
-
-
 # Additional options for audit logging
 audit:
   enableSideCar: false
   image: library/alpine:3.13.1
-  # Deprecated, use persistence instead
-  persistence:
+  persistence: 
     enabled: false
     size: 10Gi
     # Optional storage class
@@ -176,15 +162,6 @@ securityContext:
   enabled: true
 
 # Loft *agent* default values to use, options can be seen in the loft-agent chart values:
-# https://github.com/loft-sh/loft/blob/master/charts/loft/values.yaml
+# https://github.com/loft-sh/loft/blob/master/charts/loft-agent/values.yaml
 # agent values cluster annotations take precedent over these values
 agentValues: {}
-
-# if the webhook should be deployed
-webhook:
-  create: true
-
-# Configures structured logging within Loft
-logging:
-  encoding: console # Can be either json or console
-  level: info # Can be either: debug, info, error

@@ -1,0 +1,127 @@
+# Default value is: ghcr.io/loft-sh/agent:{{ .Chart.Version }}
+# image: ghcr.io/loft-sh/agent
+
+# Additional enviroment variables in the form of
+# VAR_NAME: VAR_VALUE
+env: {}
+
+# Additional environment variables in the form of
+# VAR_NAME: 
+#   secretKeyRef:
+#     name: mysecret
+#     key: username
+envValueFrom: {}
+
+# Additional volumes that should be mounted to the loft deployment
+volumes: []
+
+# Additional volume mounts that should be mounted into the loft container
+volumeMounts: []
+
+# Prometheus Service Monitor Configuration
+serviceMonitor:
+  enabled: false
+  jobLabel: loft-agent
+  targetPort: 8080
+  path: /metrics
+  interval: 60s
+  scrapeTimeout: 30s
+  labels: {}
+
+# TLS configuration with a custom cert and key
+# Make sure the secret exists prior to deploying loft,
+# otherwise the loft pod will not be able to start
+tls:
+  enabled: false
+  secret: loft-tls
+  crtKey: tls.crt
+  keyKey: tls.key
+
+# If the readinessProbe should be enabled
+readinessProbe:
+  enabled: true
+
+# If the livenessProbe should be enabled
+livenessProbe:
+  enabled: true
+
+# Ingress options to use loft behind an ingress
+ingress:
+  enabled: false
+  name: loft-agent
+  host: loft.mydomain.tld
+  ingressClass: nginx
+  path: /
+  tls:
+    enabled: true
+    secret: tls-loft
+    clusterIssuer: lets-encrypt-http-issuer
+
+# Loft service options
+service:
+  type: ClusterIP
+
+# Replica amount of the loft deployment
+replicaCount: 1
+
+# Resources of the loft deployment
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 200m
+  limits:
+    memory: 4Gi
+    cpu: "2"
+
+# Additional loft service account options
+serviceAccount:
+  name: loft-agent
+  create: true
+  clusterRole: cluster-admin
+
+nameOverride: ""
+fullnameOverride: ""
+
+# If a cert issuer should be created for loft
+certIssuer:
+  create: false
+  email: "" # This is a required field if create == true
+  name: lets-encrypt-http-issuer
+  secretName: loft-letsencrypt-credentials
+  server: https://acme-v02.api.letsencrypt.org/directory
+  httpResolver:
+    enabled: true
+    ingressClass: nginx
+  resolvers: []
+
+# Additional annotations for the direct cluster endpoint deployment
+# annotations: {}
+
+# Additional labels for the direct cluster endpoint deployment
+# labels: {}
+
+# Additional annotations for the direct cluster endpoint pod
+# podAnnotations: {}
+
+# Additional labels for the direct cluster endpoint pod
+# podLabels: {}
+
+# If the webhook should be created
+webhook:
+  create: true
+
+# If the api service should be created
+apiservice:
+  create: true
+  
+# Additional options for audit logging
+audit:
+  enableSideCar: false
+  image: library/alpine:3.13.1
+
+# Enables running loft agent with a security context that:
+# - disables privileged escalation
+# - drops all capabilities
+# - runs as non-root
+securityContext:
+  enabled: true

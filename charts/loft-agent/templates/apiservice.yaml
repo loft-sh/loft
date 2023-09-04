@@ -3,20 +3,20 @@
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
-  name: v1.management.loft.sh
+  name: v1.cluster.loft.sh
 spec:
   version: v1
   versionPriority: 1000
-  group: management.loft.sh
+  group: cluster.loft.sh
   groupPriorityMinimum: 10000
   service:
-    name: loft-apiservice
+    name: loft-agent-apiservice
     namespace: {{ .Release.Namespace }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: loft-apiservice
+  name: loft-agent-apiservice
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "loft.fullname" . }}

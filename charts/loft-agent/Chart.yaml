@@ -1,6 +1,6 @@
 apiVersion: v2
-name: loft
-description: Secure Cluster Sharing, Self-Service Namespace Provisioning and Virtual Clusters
+name: loft-agent
+description: Loft Cluster Agent
 home: https://loft.sh
 icon: https://static.loft.sh/loft/logo/loft-logo.svg
 sources:
