@@ -114,9 +114,6 @@ serviceAccount:
   clusterRole: cluster-admin
   annotations: {}
 
-nameOverride: ""
-fullnameOverride: ""
-
 # If a cert issuer should be created for loft
 certIssuer:
   create: false
