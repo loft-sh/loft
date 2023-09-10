@@ -46,7 +46,7 @@ apiVersion: v1
 kind: Config
 clusters:
 - cluster:
-    server: https://$LOFT_URL/kubernetes/project/$PROJECT/virtualcluster/$VIRTUAL_CLUSTER
+    server: https://$LOFT_HOST/kubernetes/project/$PROJECT/virtualcluster/$VIRTUAL_CLUSTER
     # Optional: if the server uses an insecure certificate
     # insecure-skip-tls-verify: true
   name: loft
