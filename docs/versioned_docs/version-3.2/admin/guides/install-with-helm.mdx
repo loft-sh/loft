@@ -18,6 +18,8 @@ The most basic Loft installation via Helm looks like any other Helm install comm
 seen below:
 
 ```bash
+helm repo add loft https://charts.loft.sh
+helm repo update
 helm upgrade [RELASE NAME] loft --install \
   --repo https://charts.loft.sh/ \
   --namespace loft
@@ -28,6 +30,8 @@ already exist, you can add the `--create-namespace` flag as well, for a final in
 command as follows:
 
 ```bash
+helm repo add loft https://charts.loft.sh
+helm repo update
 helm upgrade loft loft --install \
   --repo https://charts.loft.sh/ \
   --namespace loft \
@@ -61,6 +65,8 @@ ingress:
 Values files can then be passed to the Helm upgrade command:
 
 ```bash
+helm repo add loft https://charts.loft.sh
+helm repo update
 helm upgrade loft loft --install \
   --repo https://charts.loft.sh/ \
   --namespace loft \
@@ -121,6 +127,8 @@ If you are electing to manage the Agent installation yourself, you can install t
 directly using Helm.
 
 ```bash
+helm repo add loft https://charts.loft.sh
+helm repo update
 helm upgrade loft-agent loft-agent --install \
   --repo https://charts.loft.sh/ \
   --namespace loft \
