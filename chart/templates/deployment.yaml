@@ -67,11 +67,7 @@ spec:
         {{- if .Values.agentOnly }}
         command: ["loft", "agent"]
         {{- end }}
-        {{- if .Values.image }}
-        image: "{{ .Values.image }}"
-        {{- else }}
-        image: "ghcr.io/loft-sh/loft:{{ .Chart.Version }}"
-        {{- end }}
+        image: {{ default (include "loft.image" .) .Values.image }}
         ports:
         {{- if not .Values.agentOnly }}
           - name: http
