@@ -19,3 +19,24 @@ Create the name of the service account to use
 {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Default image name for a given product
+*/}}
+{{- define "loft.defaultImage" -}}
+{{- printf "ghcr.io/loft-sh/loft:%s" .Chart.Version -}}
+{{- end -}}
+
+{{- define "loft.image" -}}
+  {{- if .Values.product -}}
+    {{- if eq .Values.product "vcluster-pro" -}}
+      {{- printf "ghcr.io/loft-sh/vcluster-control-plane:%s" .Chart.Version -}}
+    {{- else if eq .Values.product "devpod-pro" -}}
+      {{- printf "ghcr.io/loft-sh/devpod-pro:%s" .Chart.Version -}}
+    {{- else -}}
+      {{ include "loft.defaultImage" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ include "loft.defaultImage" . }}
+  {{- end -}}
+{{- end -}}
