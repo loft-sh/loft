@@ -17,6 +17,7 @@ To just print stdout and stderr, you can use the following JavaScript snippet:
 ```javascript
 const StdoutData = 0;
 const StderrData = 2;
+const ExitCode = 6;
 
 Cookies.set("loft_access_key", "my-access-key")
 const ws = new WebSocket(`wss://...`)
@@ -34,7 +35,7 @@ ws.addEventListener("message", async (event) => {
       const str = textDecoder.decode(msg)
       console.info(JSON.parse(str).message)
     }
-    case MessageType.ExitCode: {
+    case ExitCode: {
       const exitCode = msg[0]
       if (exitCode === 0) {
         console.info("Command was successful")
