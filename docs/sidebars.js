@@ -523,6 +523,7 @@ module.exports = {
                             label: "DevPod Workspaces",
                             items: [
                                 "api/resources/devpodworkspaceinstance/devpodworkspaceinstance",
+                                "api/devpod/commands",
                             ],
                         },
                         "api/resources/devpodworkspacetemplate",
