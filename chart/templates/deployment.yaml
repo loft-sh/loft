@@ -48,6 +48,8 @@ spec:
 {{ toYaml .Values.podAnnotations | indent 8 }}
       {{- end }}
     spec:
+      securityContext:
+        fsGroup: 65533
       terminationGracePeriodSeconds: 10
       serviceAccountName: {{ template "loft.serviceAccountName" . }}
       volumes:
