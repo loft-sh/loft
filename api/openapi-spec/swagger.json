@@ -5473,6 +5473,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.Quotas",
           "description": "Quotas define the quotas inside the project"
         },
+        "requireTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RequireTemplate",
+          "description": "RequireTemplate configures if a template is required for instance creation."
+        },
         "vault": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.VaultIntegrationSpec",
           "description": "VaultIntegration holds information about Vault Integration"
@@ -9075,6 +9079,15 @@
           },
           "description": "User holds the quotas per user / team",
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RequireTemplate": {
+      "properties": {
+        "disabled": {
+          "description": "If true, all users within the project will be allowed to create a new instance without a template. By default, only admins are allowed to create a new instance without a template.",
+          "type": "boolean"
         }
       },
       "type": "object"
