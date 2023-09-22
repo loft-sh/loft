@@ -9916,12 +9916,12 @@
           "description": "LoftVersion holds the current loft version",
           "type": "string"
         },
-        "logoURL": {
-          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+        "logoBackgroundColor": {
+          "description": "LogoBackgroundColor is the color value (ex: \"#12345\") to use as the background color for the logo",
           "type": "string"
         },
-        "logoWithWordmarkURL": {
-          "description": "LogoWithWordmarkURL is url pointing to the logo, including the wordmark, to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+        "logoURL": {
+          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
           "type": "string"
         },
         "navBarButtons": {
@@ -9971,12 +9971,12 @@
           "description": "LoftVersion holds the current loft version",
           "type": "string"
         },
-        "logoURL": {
-          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+        "logoBackgroundColor": {
+          "description": "LogoBackgroundColor is the color value (ex: \"#12345\") to use as the background color for the logo",
           "type": "string"
         },
-        "logoWithWordmarkURL": {
-          "description": "LogoWithWordmarkURL is url pointing to the logo, including the wordmark, to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+        "logoURL": {
+          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
           "type": "string"
         },
         "navBarButtons": {
