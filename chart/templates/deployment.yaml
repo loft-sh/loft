@@ -158,7 +158,12 @@ spec:
           capabilities:
             drop:
               - ALL
+      {{- if .Values.securityContext.runAsRoot }}
+          runAsUser: 0
+          runAsGroup: 0
+      {{- else }}
           runAsNonRoot: true
+      {{- end }}
       {{- end }}
       {{- end }}
       {{- if .Values.audit }}
