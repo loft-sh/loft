@@ -898,6 +898,10 @@
         "pod": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.PodSelector",
           "description": "DEPRECATED: don't use anymore A label selector to select the virtual cluster pod to route incoming requests to."
+        },
+        "pro": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterProSpec",
+          "description": "Pro defines the pro settings for the virtual cluster"
         }
       },
       "type": "object"
@@ -1636,6 +1640,15 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterProSpec": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled defines if the virtual cluster is a pro cluster or not",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterSpec": {
       "properties": {
         "access": {
@@ -1679,6 +1692,10 @@
         "pod": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.PodSelector",
           "description": "DEPRECATED: don't use anymore A label selector to select the virtual cluster pod to route incoming requests to."
+        },
+        "pro": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterProSpec",
+          "description": "Pro defines the pro settings for the virtual cluster"
         }
       },
       "type": "object"
@@ -9735,6 +9752,10 @@
         "objects": {
           "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
           "type": "string"
+        },
+        "pro": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.VirtualClusterProSpec",
+          "description": "Pro defines the pro settings for the virtual cluster"
         },
         "spaceTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.VirtualClusterSpaceTemplateDefinition",
