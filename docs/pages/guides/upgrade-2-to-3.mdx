@@ -77,3 +77,10 @@ idea to get this done after the upgrade process!
 Follow the documentation [here](../virtual-clusters/import-vclusters) to import legacy
 virtual clusters.
 
+## Managing Loft Config
+
+In Loft version 2, it was necessary to manage the `loft-config` secret separately from the helm release. In Loft version 3, config can now be managed using the helm values. For more information about managing the config via helm, see [Changing Loft Config](http://localhost:3000/docs/admin/config#changing-loft-config).
+
+:::warning GitOps managed Loft Config
+If you are managing the `loft-config` secret using GitOps (via terraform or ArgoCD, for example), it is encouraged that you use the helm values for managing config in Loft version 3. Loft will migrate the config secret to `loft-manager-config` and remove the `loft-config` secret upon start up, causing the GitOps state to become out of sync. Using the helm chart values to manage configuration will avoid this issue.
+:::
