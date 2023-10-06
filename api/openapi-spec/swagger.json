@@ -1,5 +1,385 @@
 {
   "definitions": {
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Analytics": {
+      "description": "Analytics is a struct that represents the analytics server and the requests that should be sent to it. This information is sent to Loft instances when they check in with the license server.",
+      "properties": {
+        "endpoint": {
+          "description": "Endpoint is the endpoint for the analytics server.",
+          "type": "string"
+        },
+        "requests": {
+          "description": "Requests is a slice of requested resources to return analytics for.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Request"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Announcement": {
+      "description": "Announcement contains an announcement that should be shown within the Loft instance. This information is sent to Loft instances when they check in with the license server.",
+      "properties": {
+        "body": {
+          "description": "Body contains the main message of the announcement in HTML format.",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Buttons to show alongside the announcement",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name contains the resource name of the announcement",
+          "type": "string"
+        },
+        "title": {
+          "description": "Title contains the title of the announcement in HTML format.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.BlockRequest": {
+      "description": "BlockRequest tells the instance to block certain requests due to overages (limit exceeded) the license server.",
+      "properties": {
+        "group": {
+          "description": "Group is the api group.",
+          "type": "string"
+        },
+        "overage": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount"
+        },
+        "resource": {
+          "description": "Resource is the resource name for the request.",
+          "type": "string"
+        },
+        "verbs": {
+          "description": "Verbs is the list of verbs for the request.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Button": {
+      "description": "Button is an object that represents a button in the Loft UI that links to some external service for handling operations for licensing for example.",
+      "properties": {
+        "direct": {
+          "description": "Direct indicates if the Loft front end should directly hit this endpoint. If false, it means that the Loft front end will be hitting the license server first to generate a one time token for the operation; this also means that there will be a redirect URL in the response to the request for this and that link should be followed by the front end.",
+          "type": "boolean"
+        },
+        "displayText": {
+          "description": "DisplayText is the text to display on the button. If display text is unset the button will never be shown in the loft UI.",
+          "type": "string"
+        },
+        "url": {
+          "description": "URL is the link at the other end of the button.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Feature": {
+      "description": "Feature contains information regarding to a feature",
+      "properties": {
+        "compatibility": {
+          "description": "Compatibility contains a series of semver compatibility constraints",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "labels": {
+          "description": "Labels contains a list of labels to be displayed for this feature (e.g. alpha, beta)",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name is the name of the feature This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
+          "type": "string"
+        },
+        "packages": {
+          "description": "Packages contains a list of ids of the product packages that contain this feature",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "status": {
+          "description": "Status shows the status of the feature (see type FeatureStatus)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.GenericRequestInput": {
+      "description": "GenericRequestInput defines the payload that needs to be sent to a button's action URL",
+      "properties": {
+        "payload": {
+          "description": "Payload provides the json encoded payload",
+          "type": "string"
+        },
+        "returnURL": {
+          "description": "ReturnURL is the url from which the request is initiated",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.GenericRequestOutput": {
+      "description": "GenericRequestOutput specifies the response",
+      "properties": {
+        "buttons": {
+          "description": "Buttons to be shown to the user alongside other content (e.g. HTML).",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button"
+          },
+          "type": "array"
+        },
+        "html": {
+          "description": "HTML to display to the user.",
+          "type": "string"
+        },
+        "redirectURL": {
+          "description": "RedirectURL to redirect the user to.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.InstanceTokenAuth": {
+      "properties": {
+        "certificate": {
+          "description": "Certificate is the signing certificate for the token.",
+          "type": "string"
+        },
+        "token": {
+          "description": "Token is the jwt token identifying the loft instance.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "token",
+        "certificate"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.License": {
+      "description": "License is a struct representing the license data sent to a Loft instance after checking in with the license server.",
+      "properties": {
+        "analytics": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Analytics",
+          "description": "Analytics indicates the analytics endpoints and which requests should be sent to the analytics server."
+        },
+        "announcement": {
+          "description": "Announcements is a map string/string such that we can easily add any additional data without needing to change types. For now, we will use the keys \"name\" and \"content\".",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Announcement"
+          },
+          "type": "array"
+        },
+        "block": {
+          "description": "BlockRequests specifies which requests the product should block when a limit is exceeded.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.BlockRequest"
+          },
+          "type": "array"
+        },
+        "buttons": {
+          "description": "Buttons is a slice of license server endpoints (buttons) that the Loft instance may need to hit. Each Button contains the display text and link for the front end to work with.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button"
+          },
+          "type": "array"
+        },
+        "domainToken": {
+          "description": "DomainToken holds the JWT with the URL that the Loft instance is publicly available on. (via Loft router)",
+          "type": "string"
+        },
+        "instance": {
+          "description": "InstanceID contains the instance id of the Loft instance",
+          "type": "string"
+        },
+        "isOffline": {
+          "description": "IsOffline indicates if the license is an offline license or not.",
+          "type": "boolean"
+        },
+        "modules": {
+          "description": "Modules is a list of modules.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Module"
+          },
+          "type": "array"
+        },
+        "routes": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes"
+        },
+        "trials": {
+          "description": "Trials is a list of trials.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Trial"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute": {
+      "description": "LicenseAPIRoute is a single route of the license api",
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes": {
+      "description": "LicenseAPIRoutes contains all key routes of the license api",
+      "properties": {
+        "chatAuth": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Limit": {
+      "description": "Limit defines a limit set in the license",
+      "properties": {
+        "adjustButton": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button",
+          "description": "AdjustButton is the button to be shown for adjusting the limit (e.g. buying more seats)"
+        },
+        "displayName": {
+          "description": "DisplayName is for display purposes.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of the resource.",
+          "type": "string"
+        },
+        "quantity": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount",
+          "description": "Limit specifies the limit for this resource."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Module": {
+      "description": "Module is a struct representing a module of the product",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Feature"
+          },
+          "type": "array"
+        },
+        "limits": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Limit"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Request": {
+      "description": "Request represents a request analytics information for an apigroup/resource and a list of verb actions for that resource.",
+      "properties": {
+        "group": {
+          "description": "Group is the api group.",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Resource is the resource name for the request.",
+          "type": "string"
+        },
+        "verbs": {
+          "description": "Verbs is the list of verbs for the request.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount": {
+      "description": "ResourceCount stores the number of existing, active and total number of resources created.",
+      "properties": {
+        "active": {
+          "description": "Active specifies the number of currently active resource (non-sleeping).",
+          "format": "int64",
+          "type": "integer"
+        },
+        "created": {
+          "description": "TotalCreated is a continuous counter of the amount of resources ever created.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "total": {
+          "description": "Total specifies the number of currently existing resources.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Trial": {
+      "description": "Trial represents a trial",
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is a display name for the trial",
+          "type": "string"
+        },
+        "end": {
+          "description": "End is the unix timestamp stating when the trial will end or ended",
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Name is the unique id of this trial",
+          "type": "string"
+        },
+        "start": {
+          "description": "Start is the unix timestamp stating when the trial was started",
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "description": "Status is the status of this trial",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.AppliedObject": {
       "properties": {
         "apiVersion": {
@@ -1879,9 +2259,6 @@
       "properties": {
         "analyticsEndpoint": {
           "type": "string"
-        },
-        "instanceTokenAuth": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.InstanceTokenAuth"
         }
       },
       "type": "object"
@@ -2045,13 +2422,9 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.AnnouncementStatus": {
       "properties": {
-        "analyticsToken": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.InstanceTokenAuth",
-          "description": "InstanceTokenAuth is an instance auth token signed for the user that is used by the frontend"
-        },
         "announcement": {
-          "description": "Announcement is the html announcement that should be displayed in the frontend",
-          "type": "string"
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Announcement",
+          "description": "Announcement is the html announcement that should be displayed in the frontend"
         }
       },
       "type": "object"
@@ -4229,11 +4602,50 @@
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.FeatureStatus": {
       "description": "FeatureStatus holds the status",
       "properties": {
-        "enabled": {
-          "description": "Enabled signals if the feature is currently enabled or disabled",
+        "compatibility": {
+          "description": "Compatibility contains a series of semver compatibility constraints",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "internal": {
+          "description": "Internal marks internal features that should not be shown on the license view",
+          "type": "boolean"
+        },
+        "labels": {
+          "description": "Labels contains a list of labels to be displayed for this feature (e.g. alpha, beta)",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name is the name of the feature This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
+          "type": "string"
+        },
+        "packages": {
+          "description": "Packages contains a list of ids of the product packages that contain this feature",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "status": {
+          "description": "Status shows the status of the feature (see type FeatureStatus)",
+          "type": "string"
+        },
+        "used": {
+          "description": "Used marks features that are currently used in the product",
           "type": "boolean"
         }
       },
+      "required": [
+        "name"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.GroupResources": {
@@ -4369,6 +4781,9 @@
         "jsPolicyViolations": {
           "$ref": "#/definitions/com.github.loft-sh.jspolicy.pkg.apis.policy.v1beta1.JsPolicyViolations"
         },
+        "license": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.License"
+        },
         "localClusterAccess": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.cluster.v1.LocalClusterAccess"
         },
@@ -4468,27 +4883,20 @@
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseRequestSpec": {
       "properties": {
         "input": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.StandardRequestInputFrontEnd",
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.GenericRequestInput",
           "description": "Input is the input payload to send to the url."
         },
         "url": {
-          "description": "Route is the route to make the request to on the license server.",
+          "description": "URL is the url for the request.",
           "type": "string"
         }
       },
-      "required": [
-        "url"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseRequestStatus": {
       "properties": {
-        "ok": {
-          "description": "OK indicates if the license request operation was successful or not. If OK is true, the front end should follow the link in the output.",
-          "type": "boolean"
-        },
         "output": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.StandardRequestOutput",
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.GenericRequestOutput",
           "description": "Output is where the request output is stored."
         }
       },
@@ -4499,20 +4907,16 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseStatus": {
       "properties": {
-        "buttons": {
-          "description": "Buttons is the selection of routes or endpoints in the license server that are used for license related operations such as updating subscriptions.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Button"
-          },
-          "type": "array"
-        },
-        "info": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.License",
+        "license": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.License",
           "description": "License is the license data received from the license server."
         },
-        "instanceID": {
-          "description": "InstanceID is the instance ID for the Loft license/instance.",
-          "type": "string"
+        "resourceUsage": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount"
+          },
+          "description": "ResourceUsage shows the current usage of license limit.",
+          "type": "object"
         }
       },
       "type": "object"
@@ -4548,12 +4952,20 @@
       ]
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseTokenSpec": {
+      "properties": {
+        "payload": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseTokenStatus": {
       "properties": {
         "token": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.InstanceTokenAuth"
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.InstanceTokenAuth"
         }
       },
       "type": "object"
@@ -5119,6 +5531,10 @@
         "sourceVirtualCluster": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportVirtualClusterSource",
           "description": "SourceVirtualCluster is the virtual cluster to import into this project"
+        },
+        "upgradeToPro": {
+          "description": "UpgradeToPro indicates whether we should upgrade to Pro on import",
+          "type": "boolean"
         }
       },
       "required": [
@@ -5969,6 +6385,10 @@
           "description": "The type of the currently used access key",
           "type": "string"
         },
+        "chatAuthToken": {
+          "description": "ChatAuthToken is the token used to authenticate with the in-product chat widget in the UI",
+          "type": "string"
+        },
         "groups": {
           "description": "The groups of the currently logged in user",
           "items": {
@@ -5978,10 +6398,6 @@
         },
         "instanceID": {
           "description": "InstanceID is the loft instance id",
-          "type": "string"
-        },
-        "intercomHash": {
-          "description": "IntercomHash is the hmac used to link a user/instance to intercomm",
           "type": "string"
         },
         "subject": {
@@ -10133,185 +10549,6 @@
           "description": "Revision is an int which represents the revision of the release.",
           "format": "int32",
           "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Analytics": {
-      "description": "Analytics is a struct that represents the analytics server and the requests that should be sent to it. This information is sent to Loft instances when they check in with the license server.",
-      "properties": {
-        "endpoint": {
-          "description": "Endpoint is the endpoint for the analytics server.",
-          "type": "string"
-        },
-        "requests": {
-          "description": "Requests is a slice of requested resources to return analytics for.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Request"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Button": {
-      "description": "Button is an object that represents a button in the Loft UI that links to some external service for handling operations for licensing for example.",
-      "properties": {
-        "URL": {
-          "description": "URL is the link at the other end of the button.",
-          "type": "string"
-        },
-        "direct": {
-          "description": "Direct indicates if the Loft front end should directly hit this endpoint. If false, it means that the Loft front end will be hitting the license server first to generate a one time token for the operation; this also means that there will be a redirect URL in the response to the request for this and that link should be followed by the front end.",
-          "type": "boolean"
-        },
-        "displayText": {
-          "description": "DisplayText is the text to display on the button. If display text is unset the button will never be shown in the loft UI.",
-          "type": "string"
-        },
-        "payloadType": {
-          "description": "PayloadType indicates the payload type to set in the request. Typically, this will be \"standard\" -- meaning the standard payload that includes the instance token auth and a return url, however in the future we may add additional types. An unset value is assumed to be \"standard\".",
-          "type": "string"
-        }
-      },
-      "required": [
-        "URL"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.InstanceTokenAuth": {
-      "properties": {
-        "certificate": {
-          "description": "Certificate is the signing certificate for the token.",
-          "type": "string"
-        },
-        "token": {
-          "description": "Token is the jwt token identifying the loft instance.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "token",
-        "certificate"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.License": {
-      "description": "License is a struct representing the license data sent to a Loft instance after checking in with the license server.",
-      "properties": {
-        "analytics": {
-          "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Analytics",
-          "description": "Analytics indicates the analytics endpoints and which requests should be sent to the analytics server."
-        },
-        "announcement": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Announcements is a map string/string such that we can easily add any additional data without needing to change types. For now, we will use the keys \"name\" and \"content\".",
-          "type": "object"
-        },
-        "blockRequests": {
-          "description": "BlockRequests is a slice of Request objects that the Loft instance should block from being created due to license usage overrun.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Request"
-          },
-          "type": "array"
-        },
-        "buttons": {
-          "description": "Buttons is a slice of license server endpoints (buttons) that the Loft instance may need to hit. Each Button contains the display text and link for the front end to work with.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Button"
-          },
-          "type": "array"
-        },
-        "domainToken": {
-          "description": "DomainToken holds the JWT with the URL that the Loft instance is publicly available on. (via Loft router)",
-          "type": "string"
-        },
-        "features": {
-          "additionalProperties": {
-            "type": "boolean"
-          },
-          "description": "Features is a map of enabled features.",
-          "type": "object"
-        },
-        "isOffline": {
-          "description": "IsOffline indicates if the license is an offline license or not.",
-          "type": "boolean"
-        },
-        "limits": {
-          "description": "Limits is the number of resources allowed by the current license.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.ResourceQuantity"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.Request": {
-      "description": "Request represents a request analytics information for an apigroup/resource and a list of verb actions for that resource.",
-      "properties": {
-        "group": {
-          "description": "Group is the api group.",
-          "type": "string"
-        },
-        "resource": {
-          "description": "Resource is the resource name for the request.",
-          "type": "string"
-        },
-        "verbs": {
-          "description": "Verbs is the list of verbs for the request.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.ResourceQuantity": {
-      "description": "ResourceQuantity represents an api resource and a quantity counter for that resource type (used for limits for example).",
-      "properties": {
-        "group": {
-          "description": "Group is the api group.",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is the resource kind.",
-          "type": "string"
-        },
-        "quantity": {
-          "description": "Quantity is the quantity for hte limit (for example).",
-          "format": "int64",
-          "type": "integer"
-        },
-        "version": {
-          "description": "Version is the api version.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "quantity"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.StandardRequestInputFrontEnd": {
-      "description": "StandardRequestInputFrontEnd is the standard input request payload for the front end -- this is the same (it is embedded) in the StandardRequestInput just without the token auth as the Loft backend will handle adding that for communication to the admin server.",
-      "properties": {
-        "returnURL": {
-          "description": "ReturnURL is the url that operations should ultimately return to after their operation is complete. For example, once the license activate process is done, the Loft portal should redirect to this URL.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.external-types.loft-sh.admin-services.pkg.server.StandardRequestOutput": {
-      "description": "StandardRequestOutput is a standard payload object returned by the Loft admin server, it contains a RedirectURL that encodes a one-time token (if applicable) and a return URL (if applicable) that the front end can then follow to continue the license operation.",
-      "properties": {
-        "redirectURL": {
-          "description": "RedirectURL is the URL to redirect to for continuing the license operation (typically stripe or the loft portal).",
-          "type": "string"
         }
       },
       "type": "object"
