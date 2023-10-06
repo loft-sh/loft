@@ -8,15 +8,15 @@ Shares a space with another loft user or team
 
 ## Synopsis
 
-
 ```
 loft share space SPACE_NAME [flags]
 ```
 
 ```
-#######################################################
-################### loft share space ##################
-#######################################################
+########################################################
+################### loft share space ###################
+########################################################
+
 Shares a space with another loft user or team. The user
 or team need to have access to the cluster.
 
@@ -24,7 +24,7 @@ Example:
 loft share space myspace
 loft share space myspace --project myproject
 loft share space myspace --project myproject --user admin
-#######################################################
+########################################################
 ```
 
 
@@ -43,8 +43,9 @@ loft share space myspace --project myproject --user admin
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
-      --debug           Prints the stack trace if an error occurs
-      --silent          Run in silent mode and prevents any loft log output except panics & fatals
+      --config string       The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
+      --debug               Prints the stack trace if an error occurs
+      --log-output string   The log format to use. Can be either plain, raw or json (default "plain")
+      --silent              Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

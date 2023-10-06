@@ -8,21 +8,21 @@ Returns the key value of a project / shared secret
 
 ## Synopsis
 
-
 ```
 loft get secret SECRET_NAME [flags]
 ```
 
 ```
-#######################################################
-################### loft get secret ###################
-#######################################################
+#########################################################
+#################### loft get secret ####################
+#########################################################
+
 Returns the key value of a project / shared secret.
 
 Example:
 loft get secret test-secret.key
 loft get secret test-secret.key --project myproject
-#######################################################
+########################################################
 ```
 
 
@@ -40,8 +40,9 @@ loft get secret test-secret.key --project myproject
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
-      --debug           Prints the stack trace if an error occurs
-      --silent          Run in silent mode and prevents any loft log output except panics & fatals
+      --config string       The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
+      --debug               Prints the stack trace if an error occurs
+      --log-output string   The log format to use. Can be either plain, raw or json (default "plain")
+      --silent              Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

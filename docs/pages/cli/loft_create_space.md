@@ -8,15 +8,15 @@ Creates a new space in the given cluster
 
 ## Synopsis
 
-
 ```
 loft create space SPACE_NAME [flags]
 ```
 
 ```
-#######################################################
-################## loft create space ##################
-#######################################################
+#########################################################
+################### loft create space ###################
+#########################################################
+
 Creates a new space for the given project, if
 it does not yet exist.
 
@@ -24,7 +24,7 @@ Example:
 loft create space myspace
 loft create space myspace --project myproject
 loft create space myspace --project myproject --team myteam
-#######################################################
+########################################################
 ```
 
 
@@ -39,7 +39,7 @@ loft create space myspace --project myproject --team myteam
       --display-name string               The display name to show in the UI for this space
   -h, --help                              help for space
       --link strings                      Labeled Links to annotate the object with.
-                                          These links will be visible from the UI.\nWhen used with update, existing links will be replaced.
+                                          These links will be visible from the UI. When used with update, existing links will be replaced.
                                           E.g. --link 'Prod=http://exampleprod.com,Dev=http://exampledev.com'
       --parameters string                 The file where the parameter values for the apps are specified
   -p, --project string                    The project to use
@@ -60,8 +60,9 @@ loft create space myspace --project myproject --team myteam
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
-      --debug           Prints the stack trace if an error occurs
-      --silent          Run in silent mode and prevents any loft log output except panics & fatals
+      --config string       The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
+      --debug               Prints the stack trace if an error occurs
+      --log-output string   The log format to use. Can be either plain, raw or json (default "plain")
+      --silent              Run in silent mode and prevents any loft log output except panics & fatals
 ```
 
