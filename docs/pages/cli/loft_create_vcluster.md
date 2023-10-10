@@ -8,15 +8,15 @@ Creates a new virtual cluster in the given parent cluster
 
 ## Synopsis
 
-
 ```
 loft create vcluster VCLUSTER_NAME [flags]
 ```
 
 ```
-#######################################################
-################ loft create vcluster #################
-#######################################################
+########################################################
+################# loft create vcluster #################
+########################################################
+
 Creates a new virtual cluster in a given space and
 cluster. If no space or cluster is specified the user
 will be asked.
@@ -39,7 +39,7 @@ loft create vcluster test --project myproject
       --display-name string               The display name to show in the UI for this virtual cluster
   -h, --help                              help for vcluster
       --link strings                      Labeled Links to annotate the object with.
-                                          These links will be visible from the UI.\nWhen used with update, existing links will be replaced.
+                                          These links will be visible from the UI. When used with update, existing links will be replaced.
                                           E.g. --link 'Prod=http://exampleprod.com,Dev=http://exampledev.com'
       --parameters string                 The file where the parameter values for the apps are specified
       --print                             If enabled, prints the context to the console
@@ -63,8 +63,9 @@ loft create vcluster test --project myproject
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
-      --debug           Prints the stack trace if an error occurs
-      --silent          Run in silent mode and prevents any loft log output except panics & fatals
+      --config string       The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
+      --debug               Prints the stack trace if an error occurs
+      --log-output string   The log format to use. Can be either plain, raw or json (default "plain")
+      --silent              Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

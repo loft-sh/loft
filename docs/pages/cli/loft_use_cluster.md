@@ -8,21 +8,21 @@ Creates a kube context for the given cluster
 
 ## Synopsis
 
-
 ```
 loft use cluster [flags]
 ```
 
 ```
-#######################################################
-################## loft use cluster ###################
-#######################################################
+########################################################
+################### loft use cluster ###################
+########################################################
+
 Creates a new kube context for the given cluster, if
 it does not yet exist.
 
 Example:
 loft use cluster mycluster
-#######################################################
+########################################################
 ```
 
 
@@ -38,8 +38,9 @@ loft use cluster mycluster
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
-      --debug           Prints the stack trace if an error occurs
-      --silent          Run in silent mode and prevents any loft log output except panics & fatals
+      --config string       The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
+      --debug               Prints the stack trace if an error occurs
+      --log-output string   The log format to use. Can be either plain, raw or json (default "plain")
+      --silent              Run in silent mode and prevents any loft log output except panics & fatals
 ```
 

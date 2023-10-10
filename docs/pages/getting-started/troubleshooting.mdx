@@ -40,7 +40,7 @@ introduced at the load balancer and ingress controller level.
 To start port-forwarding, either use `loft start` or run:
 
 ```bash
-kubectl port-forward deploy/loft -n loft 8080:443
+kubectl port-forward deploy/loft -n loft 8080:10443
 ```
 
 After that you can access Loft at `https://localhost:8080`. You can even login with the Loft CLI

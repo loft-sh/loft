@@ -25,6 +25,8 @@ spaceTemplates:
     name: my-default-space-template
   spec:
     template:
+      instanceTemplate:
+        metadata: {}
       metadata: {}
   status: {}
 virtualClusterTemplates:
@@ -39,7 +41,10 @@ virtualClusterTemplates:
         ingress: {}
       helmRelease:
         chart: {}
+      instanceTemplate:
+        metadata: {}
       metadata: {}
+      pro: {}
       spaceTemplate:
         metadata: {}
   status: {}

@@ -1,0 +1,79 @@
+
+import PartialLastActivity from "./status/lastActivity.mdx"
+import PartialLastActivityInforeference from "./status/lastActivityInfo_reference.mdx"
+import PartialSleepingSince from "./status/sleepingSince.mdx"
+import PartialCurrentEpochreference from "./status/currentEpoch_reference.mdx"
+import PartialLastEpochreference from "./status/lastEpoch_reference.mdx"
+import PartialSleptLastThirtyDays from "./status/sleptLastThirtyDays.mdx"
+import PartialSleptLastSevenDays from "./status/sleptLastSevenDays.mdx"
+import PartialScheduledSleep from "./status/scheduledSleep.mdx"
+import PartialScheduledWakeup from "./status/scheduledWakeup.mdx"
+import PartialSleepType from "./status/sleepType.mdx"
+
+<PartialLastActivity />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `lastActivityInfo` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-sleepModeConfig-status-lastActivityInfo}
+
+LastActivityInfo holds information about the last activity within this space
+
+</summary>
+
+<PartialLastActivityInforeference />
+
+
+</details>
+
+
+<PartialSleepingSince />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `currentEpoch` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-sleepModeConfig-status-currentEpoch}
+
+Optional info that indicates how long the space was sleeping in the current epoch
+
+</summary>
+
+<PartialCurrentEpochreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `lastEpoch` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-sleepModeConfig-status-lastEpoch}
+
+Optional info that indicates how long the space was sleeping in the current epoch
+
+</summary>
+
+<PartialLastEpochreference />
+
+
+</details>
+
+
+<PartialSleptLastThirtyDays />
+
+
+<PartialSleptLastSevenDays />
+
+
+<PartialScheduledSleep />
+
+
+<PartialScheduledWakeup />
+
+
+<PartialSleepType />

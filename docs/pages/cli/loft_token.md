@@ -8,21 +8,21 @@ Token prints the access token to a loft instance
 
 ## Synopsis
 
-
 ```
 loft token [flags]
 ```
 
 ```
-#######################################################
-###################### loft token #####################
-#######################################################
+########################################################
+###################### loft token ######################
+########################################################
+
 Prints an access token to a loft instance. This can
 be used as an ExecAuthenticator for kubernetes
 
 Example:
 loft token
-#######################################################
+########################################################
 ```
 
 
@@ -39,8 +39,9 @@ loft token
 ## Global & Inherited Flags
 
 ```
-      --config string   The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
-      --debug           Prints the stack trace if an error occurs
-      --silent          Run in silent mode and prevents any loft log output except panics & fatals
+      --config string       The loft config to use (will be created if it does not exist) (default "$HOME/.loft/config.json")
+      --debug               Prints the stack trace if an error occurs
+      --log-output string   The log format to use. Can be either plain, raw or json (default "plain")
+      --silent              Run in silent mode and prevents any loft log output except panics & fatals
 ```
 
