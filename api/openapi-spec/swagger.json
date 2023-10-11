@@ -1975,8 +1975,16 @@
           "description": "the name of the helm chart",
           "type": "string"
         },
+        "password": {
+          "description": "The password that is required for this repository",
+          "type": "string"
+        },
         "repo": {
           "description": "the repo of the helm chart",
+          "type": "string"
+        },
+        "username": {
+          "description": "The username that is required for this repository",
           "type": "string"
         },
         "version": {
