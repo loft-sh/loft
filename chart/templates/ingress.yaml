@@ -17,7 +17,6 @@ metadata:
       {{- toYaml . | nindent 4 }}
     {{- end }}
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.ingress.ingressClass }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8 32k"
@@ -30,6 +29,7 @@ metadata:
       {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
+  ingressClassName: {{ .Values.ingress.ingressClass }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:
