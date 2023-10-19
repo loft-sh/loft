@@ -108,15 +108,8 @@
           "type": "array"
         },
         "name": {
-          "description": "Name is the name of the feature This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
+          "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
           "type": "string"
-        },
-        "packages": {
-          "description": "Packages contains a list of ids of the product packages that contain this feature",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
         },
         "status": {
           "description": "Status shows the status of the feature (see type FeatureStatus)",
@@ -180,6 +173,26 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Invoice": {
+      "description": "Invoice provides details about an invoice",
+      "properties": {
+        "currency": {
+          "description": "Currency specifies the currency of Total in 3-character ISO 4217 code Default is: \"\" (representing USD)",
+          "type": "string"
+        },
+        "date": {
+          "description": "Date contains the unix timestamp marking the date this invoices was or will be created",
+          "format": "int64",
+          "type": "integer"
+        },
+        "total": {
+          "description": "Total is the total of the invoice",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.License": {
       "description": "License is a struct representing the license data sent to a Loft instance after checking in with the license server.",
       "properties": {
@@ -227,15 +240,15 @@
           },
           "type": "array"
         },
-        "routes": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes"
-        },
-        "trials": {
-          "description": "Trials is a list of trials.",
+        "plans": {
+          "description": "Plans contains a list of plans",
           "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Trial"
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Plan"
           },
           "type": "array"
+        },
+        "routes": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes"
         }
       },
       "type": "object"
@@ -243,6 +256,10 @@
     "com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute": {
       "description": "LicenseAPIRoute is a single route of the license api",
       "properties": {
+        "direct": {
+          "description": "Tells the frontend whether to make a direct request or to make it via the backend (via generic license api request)",
+          "type": "boolean"
+        },
         "method": {
           "type": "string"
         },
@@ -257,6 +274,18 @@
       "properties": {
         "chatAuth": {
           "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
+        "checkout": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
+        "featureDetails": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
+        "featureSetup": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
+        "portal": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
         }
       },
       "type": "object"
@@ -264,16 +293,12 @@
     "com.github.loft-sh.admin-apis.pkg.licenseapi.Limit": {
       "description": "Limit defines a limit set in the license",
       "properties": {
-        "adjustButton": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button",
-          "description": "AdjustButton is the button to be shown for adjusting the limit (e.g. buying more seats)"
-        },
         "displayName": {
           "description": "DisplayName is for display purposes.",
           "type": "string"
         },
         "name": {
-          "description": "Name is the name of the resource.",
+          "description": "Name is the name of the resource (ResourceName)",
           "type": "string"
         },
         "quantity": {
@@ -302,12 +327,178 @@
           "type": "array"
         },
         "name": {
+          "description": "Name of the module (ModuleName)",
+          "type": "string"
+        },
+        "status": {
           "type": "string"
         }
       },
       "required": [
         "name"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.Plan": {
+      "description": "Plan definition",
+      "properties": {
+        "addons": {
+          "description": "AddOns are plans that can be added to this plan",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Plan"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the display name of the plan",
+          "type": "string"
+        },
+        "features": {
+          "description": "Features is a list of features included in the plan",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "invoice": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Invoice",
+          "description": "UpcomingInvoice provides a preview of the next invoice that will be created for this Plan"
+        },
+        "limits": {
+          "description": "Limits is a list of resources included in the plan and their limits",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Limit"
+          },
+          "type": "array"
+        },
+        "period": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPeriod",
+          "description": "Period provides information about the plan's current period This is nil unless this is the active plan"
+        },
+        "prices": {
+          "description": "Prices provides details about the available prices (depending on the interval, for example)",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPrice"
+          },
+          "type": "array"
+        },
+        "status": {
+          "description": "Status is the status of the plan There should only be 1 active plan at the top-level (not including AddOns) The respective price in Prices will have the active status as well",
+          "type": "string"
+        },
+        "trial": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Trial",
+          "description": "Trial provides details about a planned, ongoing or expired trial"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlanExpiration": {
+      "description": "PlanExpiration provides details about the expiration of a plan",
+      "properties": {
+        "expiresAt": {
+          "description": "ExpiresAt is the unix timestamp of when the plan expires",
+          "format": "int64",
+          "type": "integer"
+        },
+        "upgradesTo": {
+          "description": "UpgradesTo states the name of the plan that is replacing the current one upon its expiration If this is nil, then this plan just expires (i.e. the subscription may be canceled, paused, etc.)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPeriod": {
+      "description": "PlanPeriod provides details about the period of the plan",
+      "properties": {
+        "end": {
+          "description": "CurrentPeriodEnd contains the unix timestamp marking the end of the current period",
+          "format": "int64",
+          "type": "integer"
+        },
+        "start": {
+          "description": "CurrentPeriodStart contains the unix timestamp marking the start of the current period",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPrice": {
+      "description": "PlanPrice defines a price for the plan",
+      "properties": {
+        "exp": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlanExpiration",
+          "description": "Expiration provides information about when this plan expires"
+        },
+        "id": {
+          "description": "ID of the price",
+          "type": "string"
+        },
+        "interval": {
+          "description": "Interval contains the time span of each period (e.g. month, year)",
+          "type": "string"
+        },
+        "intervalCount": {
+          "description": "IntervalCount specifies if the number of intervals (e.g. 3 [months])",
+          "format": "double",
+          "type": "number"
+        },
+        "quantity": {
+          "description": "Quantity sets the quantity the TierResource is supposed to be at If this is the active price, then this is the subscription quantity (currently purchased quantity)",
+          "format": "double",
+          "type": "number"
+        },
+        "resource": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.TierResource",
+          "description": "TierResource provides details about the main resource the tier quantity relates to This may be nil for plans that don't have their quantity tied to a resource"
+        },
+        "status": {
+          "description": "Status is the status of the price (PlanStatus) If the plan is active, one of its prices must be active as well",
+          "type": "string"
+        },
+        "tierMode": {
+          "description": "TierMode defines how tiers should be used",
+          "type": "string"
+        },
+        "tiers": {
+          "description": "Tiers is a list of tiers in this plan",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PriceTier"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.PriceTier": {
+      "description": "PriceTier defines a tier within a plan",
+      "properties": {
+        "currency": {
+          "description": "Currency specifies the currency of UnitPrice and FlatFee in 3-character ISO 4217 code Default is: \"\" (representing USD)",
+          "type": "string"
+        },
+        "flatFee": {
+          "description": "FlatFee is the flat fee for this tier",
+          "format": "double",
+          "type": "number"
+        },
+        "max": {
+          "description": "MaxQuantity is the max quantity that can be purchased",
+          "format": "double",
+          "type": "number"
+        },
+        "min": {
+          "description": "MinQuantity is the quantity included in this plan",
+          "format": "double",
+          "type": "number"
+        },
+        "unitPrice": {
+          "description": "UnitPrice is the price per unit in this tier",
+          "format": "double",
+          "type": "number"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.Request": {
@@ -352,6 +543,20 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.TierResource": {
+      "description": "TierResource provides details about the main resource the tier quantity relates to",
+      "properties": {
+        "name": {
+          "description": "Name of the resource (ResourceName)",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status defines which resources will be counted towards the limit (e.g. active, total, total created etc.)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.Trial": {
       "description": "Trial represents a trial",
       "properties": {
@@ -359,13 +564,17 @@
           "description": "DisplayName is a display name for the trial",
           "type": "string"
         },
+        "downgradesTo": {
+          "description": "DowngradesTo states the name of the plan that is replacing the current one once the trial expires If this is nil, then this plan just expires (i.e. the subscription may be canceled, paused, etc.)",
+          "type": "string"
+        },
         "end": {
           "description": "End is the unix timestamp stating when the trial will end or ended",
           "format": "int64",
           "type": "integer"
         },
-        "name": {
-          "description": "Name is the unique id of this trial",
+        "id": {
+          "description": "ID is the unique id of this trial",
           "type": "string"
         },
         "start": {
@@ -374,7 +583,7 @@
           "type": "integer"
         },
         "status": {
-          "description": "Status is the status of this trial",
+          "description": "Status is the status of this trial (TrialStatus)",
           "type": "string"
         }
       },
@@ -2822,6 +3031,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationPassword",
           "description": "Password holds password authentication relevant information"
         },
+        "rancher": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationRancher",
+          "description": "Rancher holds the rancher authentication options"
+        },
         "saml": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationSAML",
           "description": "SAML holds saml authentication configuration"
@@ -3183,6 +3396,23 @@
       "properties": {
         "disabled": {
           "description": "If true login via password is disabled",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.AuthenticationRancher": {
+      "properties": {
+        "bearerToken": {
+          "description": "BearerToken holds the rancher API key in token username and password form. E.g. my-token:my-secret",
+          "type": "string"
+        },
+        "host": {
+          "description": "Host holds the rancher host, e.g. my-domain.com",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Insecure tells Loft if the Rancher endpoint is insecure.",
           "type": "boolean"
         }
       },
@@ -4632,15 +4862,8 @@
           "type": "array"
         },
         "name": {
-          "description": "Name is the name of the feature This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
+          "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
           "type": "string"
-        },
-        "packages": {
-          "description": "Packages contains a list of ids of the product packages that contain this feature",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
         },
         "status": {
           "description": "Status shows the status of the feature (see type FeatureStatus)",
@@ -5913,6 +6136,10 @@
         "quotas": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.Quotas",
           "description": "Quotas define the quotas inside the project"
+        },
+        "rancher": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RancherIntegrationSpec",
+          "description": "RancherIntegration holds information about Rancher Integration"
         },
         "requireTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RequireTemplate",
@@ -9272,6 +9499,15 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.ImportVirtualClustersSpec": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled indicates if virtual clusters created within this project should get synced to Rancher. If projectRef is defined, will also automatically add the created namespace to the Rancher project.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.KindSecretRef": {
       "description": "KindSecretRef is the reference to a secret containing the user password",
       "properties": {
@@ -9520,6 +9756,40 @@
           },
           "description": "User holds the quotas per user / team",
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RancherIntegrationSpec": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled indicates if the Rancher Project Integration is enabled for this project.",
+          "type": "boolean"
+        },
+        "importVirtualClusters": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.ImportVirtualClustersSpec",
+          "description": "ImportVirtualClusters defines settings to import virtual clusters to Rancher on creation"
+        },
+        "projectRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.RancherProjectRef",
+          "description": "ProjectRef defines references to rancher project, required for syncMembers and syncVirtualClusters.syncMembers"
+        },
+        "syncMembers": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.SyncMembersSpec",
+          "description": "SyncMembers defines settings to sync Rancher project members to the loft project"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.RancherProjectRef": {
+      "properties": {
+        "cluster": {
+          "description": "Cluster defines the Rancher cluster ID Needs to be the same id within Loft",
+          "type": "string"
+        },
+        "project": {
+          "description": "Project defines the Rancher project ID",
+          "type": "string"
         }
       },
       "type": "object"
@@ -9795,6 +10065,22 @@
         "selector": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
           "description": "Label selector for pods. The newest matching pod will be used to stream logs from"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.SyncMembersSpec": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled indicates whether to sync rancher project members to the loft project.",
+          "type": "boolean"
+        },
+        "roleMapping": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "RoleMapping indicates an optional role mapping from a rancher role to a loft role.",
+          "type": "object"
         }
       },
       "type": "object"
