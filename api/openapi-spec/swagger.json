@@ -4391,7 +4391,7 @@
           "description": "Owner holds the owner of this object"
         },
         "parameters": {
-          "description": "Parameters are values to pass to the template",
+          "description": "Parameters are values to pass to the template. The values should be encoded as YAML string where each parameter is represented as a top-level field key.",
           "type": "string"
         },
         "runnerRef": {
@@ -7038,7 +7038,7 @@
           "description": "Owner holds the owner of this object"
         },
         "parameters": {
-          "description": "Parameters are values to pass to the template",
+          "description": "Parameters are values to pass to the template. The values should be encoded as YAML string where each parameter is represented as a top-level field key.",
           "type": "string"
         },
         "template": {
@@ -8232,7 +8232,7 @@
           "description": "Owner holds the owner of this object"
         },
         "parameters": {
-          "description": "Parameters are values to pass to the template",
+          "description": "Parameters are values to pass to the template. The values should be encoded as YAML string where each parameter is represented as a top-level field key.",
           "type": "string"
         },
         "template": {
