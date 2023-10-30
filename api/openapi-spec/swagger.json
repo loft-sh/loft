@@ -9501,10 +9501,6 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.ImportVirtualClustersSpec": {
       "properties": {
-        "enabled": {
-          "description": "Enabled indicates if virtual clusters created within this project should get synced to Rancher. If projectRef is defined, will also automatically add the created namespace to the Rancher project.",
-          "type": "boolean"
-        },
         "roleMapping": {
           "additionalProperties": {
             "type": "string"
