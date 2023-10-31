@@ -6531,6 +6531,10 @@
           "description": "The display name shown in the UI",
           "type": "string"
         },
+        "endpoint": {
+          "description": "Endpoint is the hostname used to connect directly to the runner",
+          "type": "string"
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
