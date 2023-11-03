@@ -360,6 +360,10 @@
           },
           "type": "array"
         },
+        "id": {
+          "description": "ID of the plan",
+          "type": "string"
+        },
         "invoice": {
           "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Invoice",
           "description": "UpcomingInvoice provides a preview of the next invoice that will be created for this Plan"
@@ -1212,6 +1216,10 @@
         },
         "ignoreResources": {
           "description": "IgnoreResources are ignored request resources",
+          "type": "string"
+        },
+        "ignoreUserAgents": {
+          "description": "IgnoreUseragents are ignored user agents with trailing wildcards '*' allowed. comma separated",
           "type": "string"
         },
         "ignoreVClusters": {
