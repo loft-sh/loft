@@ -758,6 +758,7 @@ clusters:
 				Username:    "myuser",
 				Email:       "myuser@test.com",
 				DisplayName: "My User",
+				Subject:     "my-user",
 				ClusterRoles: []agentstoragev1.ClusterRoleRef{
 					{
 						Name: "loft-management-admin",
