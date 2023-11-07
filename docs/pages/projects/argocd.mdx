@@ -96,6 +96,11 @@ Virtual clusters can be manually set to be imported into Argo CD (when in an Arg
 loft.sh/import-argocd label to true.
 :::
 
+:::note Syncing labels to the cluster secret of the imported virtual cluster
+Loft will sync all labels applied to the virtualclusterinstance to the cluster secret for this virtual cluster in ArgoCD.
+Based on this the applicationsets can identify the clusters into which to deploy the applications.
+:::
+
 
 ## Configuring SSO
 
