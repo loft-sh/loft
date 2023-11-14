@@ -281,7 +281,16 @@
         "featureDetails": {
           "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
         },
+        "featurePreview": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
         "featureSetup": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
+        "moduleActivation": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
+        },
+        "modulePreview": {
           "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
         },
         "portal": {
@@ -4132,6 +4141,10 @@
         "managementNamespace": {
           "description": "The namespace where the cluster components will be installed in",
           "type": "string"
+        },
+        "networkPeer": {
+          "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
+          "type": "boolean"
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
@@ -9220,6 +9233,10 @@
         "managementNamespace": {
           "description": "The namespace where the cluster components will be installed in",
           "type": "string"
+        },
+        "networkPeer": {
+          "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
+          "type": "boolean"
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
