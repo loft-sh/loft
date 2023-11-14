@@ -187,3 +187,8 @@ logging:
   level: info # Can be either: debug, info, error
 
 product: loft
+
+# Token is used to connect to the network peer coordinator server of a Loft instance
+token: ""
+# URL is used to connect as the endpoint of the network peer coordinator server
+url: ""
