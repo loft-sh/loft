@@ -52,7 +52,7 @@ This also enables SSO, so you can login to the platform via Rancher.
 auth:
   rancher:
     host: your-rancher-instance
-    bearerToken: your-rancher-token
+    bearerToken: "your-rancher-token"
     insecure: <true/false>
 ```
 
@@ -61,9 +61,9 @@ auth:
   </Tabs>
 
 :::note Don't forget to change default values
-Replace `your-rancher-instance` with the address of your Rancher instance.
+Replace `your-rancher-instance` with the address of your Rancher instance without protocol prefix, e.g. my-rancher.demo.dev
 
-Replace `your-rancher-token` with the bearerToken to be used. Its usually of the format *Access Key: Secret Key*  e.g. token-28kg6:gl5nqsq2hmxmdxr7fvcpfz2hh2krzvqff5w78kxr4tvc6r6x6s67t4
+Replace `"your-rancher-token"` with the bearerToken to be used. Its usually of the format *Access Key: Secret Key*  e.g. `"token-28kg6:gl5nqsq2hmxmdxr7fvcpfz2hh2krzvqff5w78kxr4tvc6r6x6s67t4"`
 
 For further configuration options, see the [Loft configuration reference](../api/resources/config) and the [Rancher configuration options](#configuration-options).
 :::
