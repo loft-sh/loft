@@ -1186,10 +1186,6 @@
           "format": "int64",
           "type": "integer"
         },
-        "deleteAllPods": {
-          "description": "If true will delete all pods on sleep in the space regardless of if they have a parent set",
-          "type": "boolean"
-        },
         "forceSleep": {
           "description": "If force sleep is true the space will sleep",
           "type": "boolean"
