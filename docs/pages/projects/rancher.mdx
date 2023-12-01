@@ -1,0 +1,114 @@
+---
+title: Rancher
+sidebar_label: Rancher
+---
+
+import Button from "@site/src/components/Button";
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Label from '@site/src/components/Label'
+
+import PartialRancher from "../api/_partials/resources/projects/spec/rancher.mdx";
+
+The Platform provides several points of integration with [Rancher](https://www.rancher.com/), which is a multi-cluster orchestration platform for Kubernetes. 
+This Rancher integration is designed to help users manage the entire lifecycle of vClusters.
+
+Firstly, the Rancher integration can be enabled on a per-project basis. This allows the admins to configure the Rancher Project ID and Rancher Cluster ID to which the project should be mapped. Subsequently, any virtual clusters within the project can be selectively imported into Rancher. Importing a virtual cluster means that it is available for use as a cluster within Rancher. 
+You can enable member Synchronization which synchronizes Rancher Project Member Roles into Loft Project Member roles and Rancher Cluster Roles. There a couple of mappings available by default but you can define your own custom mappings.
+
+## Prerequisites
+
+Before you begin, make sure you have the following:
+
+- A running Loft instance
+- A running Rancher instance
+- A Rancher admin Bearer Token to allow the controller to access and perform actions in Rancher
+
+:::info Bearer Token
+The bearerToken to be used should have a long expiration or must be rotated using an external mechanism as it will be used for every call to the Rancher API
+:::
+
+## Setup
+
+### Global Rancher Config  
+
+You must update the [Loft configuration](../api/resources/config) with the Rancher object to set up a global Rancher integration. This enables the platform to communicate with Rancher via its API and perform the necessary actions required for the syncing.
+This also enables SSO, so you can login to the platform via Rancher.
+<Flow id="rancher-global-setup">
+  <Step>
+    Log in to the Platform UI as admin and navigate to the <NavStep>Admin</NavStep> section using the menu on the left.
+  </Step>
+  <Step>
+    Edit the configuration by adding the Rancher object with the following
+    properties:
+
+  <Tabs defaultValue="token_secret" values={[
+    { label: "Inline Rancher Token", value: "token_inline" },
+  ]}>
+
+  <TabItem value="token_inline">
+
+```yaml
+auth:
+  rancher:
+    host: your-rancher-instance
+    bearerToken: "your-rancher-token"
+    insecure: <true/false>
+```
+
+  </TabItem>
+
+  </Tabs>
+
+:::note Don't forget to change default values
+Replace `your-rancher-instance` with the address of your Rancher instance without protocol prefix, e.g. my-rancher.demo.dev
+
+Replace `"your-rancher-token"` with the bearerToken to be used. Its usually of the format *Access Key: Secret Key*  e.g. `"token-28kg6:gl5nqsq2hmxmdxr7fvcpfz2hh2krzvqff5w78kxr4tvc6r6x6s67t4"`
+
+For further configuration options, see the [Loft configuration reference](../api/resources/config) and the [Rancher configuration options](#configuration-options).
+:::
+
+  </Step>
+  <Step>Save the changes to the configuration using the <Button>Apply</Button> button and wait for the platform to restart.</Step>
+</Flow>
+
+
+## Project-Based Rancher Integration
+
+To enable the integration for this Project and configure the project in Rancher to which this project must be associated, follow these instructions:
+<Flow id="rancher-project-setup">
+  <Step>
+    From the Projects Navigator in the left hand pane, switch to the Project for which you wish to enable the integration. Click on the drop-down and click on <Button>Settings</Button>.
+  </Step>
+  <Step>
+    Click on <NavStep>Rancher</NavStep>
+  </Step>
+  <Step>
+    Toggle the <Label>Enable Rancher Integration</Label> switch to enable synchronization for this project. Additional
+    configuration options will appear.
+  </Step>
+  <Step>
+    Under the <Label>Connect to Rancher</Label>, specify the Rancher Project ID and Rancher Cluster ID.
+    
+    To get the cluster ID click on 'Cluster Management' in the upper left corner of the Rancher Dashboard, and then select the desired cluster. On the cluster overview page, click on the kebab menu towards the right side and select 'View YAML'. The metadata.name is the cluster ID.
+    Similarly for project ID, after selecting the cluster in 'Cluster Management', click the kebab menu on right of the project name and select 'View YAML'. The metadata.name is the project ID.
+  </Step>
+  <Step>
+    <b>[Optional]</b> Toggle the <Label>Enable Member Synchronization</Label> switch if you wish to sync Rancher Project member roles into the platform's Project member roles.
+  </Step>
+  <Step>
+    Save the changes to the project settings by pressing the <Button>Save Changes</Button> button.
+  </Step>
+</Flow>
+
+:::warning Disabling Rancher Integration
+You may disable the Rancher integration at a per virtual cluster or per project level by toggling the same sliders
+used to enable it. Disabling the integration at the virtual cluster level simply removes it in Rancher.
+Disabling the integration at the project level removes all virtual clusters from Rancher, so be careful
+when disabling at this level!
+:::
+
+
+## Configuration Options
+
+<PartialRancher />

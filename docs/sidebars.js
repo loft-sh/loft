@@ -85,6 +85,10 @@ module.exports = {
                             type: "doc",
                             id: "projects/argocd",
                         },
+                        {
+                            type: "doc",
+                            id: "projects/rancher",
+                        },
                     ],
                 },
                 {
@@ -139,6 +143,10 @@ module.exports = {
                         {
                             type: "doc",
                             id: "virtual-clusters/argocd",
+                        },
+                        {
+                            type: "doc",
+                            id: "virtual-clusters/rancher",
                         },
                         {
                             type: "doc",
