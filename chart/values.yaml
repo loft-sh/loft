@@ -25,7 +25,6 @@ ingress:
   tls:
     enabled: true
     secret: loft-tls
-    clusterIssuer: lets-encrypt-http-issuer
 
 # TLS configuration with a custom cert and key
 # Make sure the secret exists prior to deploying loft,
