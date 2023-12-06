@@ -27,6 +27,10 @@ spec:
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   strategy:
+    {{- if .Values.agentOnly }}
+    type: Recreate
+    {{- else }}
+    type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       {{- if (eq (int .Values.replicaCount) 1) }}
@@ -34,7 +38,7 @@ spec:
       {{- else }}
       maxUnavailable: 1
       {{- end }}
-    type: RollingUpdate
+    {{- end }}
   template:
     metadata:
       labels:
@@ -61,6 +65,11 @@ spec:
       {{- else }}
         - name: loft-data
           emptyDir: {}
+      {{- end }}
+      {{- if .Values.additionalCA }}
+        - name: loft-additional-ca
+          secret:
+            secretName: loft-additional-ca
       {{- end }}
       containers:
       - name: manager
@@ -137,6 +146,14 @@ spec:
         - name: LOFT_LOG_LEVEL
           value: {{ default "info" .Values.logging.level }}
         {{- end }}
+        {{- if .Values.additionalCA }}
+        - name: SSL_CERT_FILE
+          value: /etc/loft/additional-ca/ca.crt
+        {{- end }}
+        {{- if .Values.insecureSkipVerify }}
+        - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
+          value: "true"
+        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
@@ -147,6 +164,10 @@ spec:
         {{- end }}
           - mountPath: /var/lib/loft
             name: loft-data
+        {{- if .Values.additionalCA }}
+          - mountPath: /etc/loft/additional-ca
+            name: loft-additional-ca
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
       {{- if .Values.securityContext }}
