@@ -191,3 +191,11 @@ product: loft
 token: ""
 # URL is used to connect as the endpoint of the network peer coordinator server
 url: ""
+
+# AdditionalCA is used to add an additional CA certificate to the application's
+# x509 root ca verification flow. Needs to be base64 encoded.
+additionalCA: ""
+
+# insecureSkipVerify is used to omit tls verification within loft and all its
+# managed components
+insecureSkipVerify: false
