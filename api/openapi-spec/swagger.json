@@ -1625,6 +1625,10 @@
           "description": "The password that is required for this repository",
           "type": "string"
         },
+        "passwordRef": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ChartSecretRef",
+          "description": "The password that is required for this repository"
+        },
         "repoURL": {
           "description": "RepoURL is the repo url where the chart can be found",
           "type": "string"
@@ -1633,9 +1637,22 @@
           "description": "The username that is required for this repository",
           "type": "string"
         },
+        "usernameRef": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ChartSecretRef",
+          "description": "The username that is required for this repository"
+        },
         "version": {
           "description": "Version is the chart version in the repository",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ChartSecretRef": {
+      "properties": {
+        "projectSecretRef": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ProjectSecretRef",
+          "description": "ProjectSecretRef holds the reference to a project secret"
         }
       },
       "type": "object"
@@ -2073,6 +2090,23 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ProjectSecretRef": {
+      "properties": {
+        "key": {
+          "description": "Key of the project secret to use.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the project secret to use.",
+          "type": "string"
+        },
+        "project": {
+          "description": "Project is the project name where the secret is located in.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.SecretRef": {
       "description": "SecretRef is the reference to a secret containing the user password",
       "properties": {
@@ -2102,6 +2136,10 @@
           "description": "The password that is required for this repository",
           "type": "string"
         },
+        "passwordRef": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ChartSecretRef",
+          "description": "The password that is required for this repository"
+        },
         "releaseName": {
           "description": "ReleaseName is the preferred release name of the app",
           "type": "string"
@@ -2121,6 +2159,10 @@
         "username": {
           "description": "The username that is required for this repository",
           "type": "string"
+        },
+        "usernameRef": {
+          "$ref": "#/definitions/com.github.loft-sh.agentapi.v3.pkg.apis.loft.storage.v1.ChartSecretRef",
+          "description": "The username that is required for this repository"
         },
         "values": {
           "description": "Values are the values that should get passed to the chart",
@@ -2685,6 +2727,36 @@
         {
           "group": "management.loft.sh",
           "kind": "App",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.AppCredentials": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "projectSecretRefs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ProjectSecretRefs holds the resolved secret values for the project secret refs.",
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "AppCredentials",
           "version": "v1"
         }
       ]
@@ -3635,6 +3707,46 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccessKey": {
+      "description": "ClusterAccessKey holds the access key for the cluster",
+      "properties": {
+        "accessKey": {
+          "description": "AccessKey is the access key used by the agent",
+          "type": "string"
+        },
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "caCert": {
+          "description": "CaCert is an optional ca cert to use for the loft host connection",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Insecure signals if the loft host is insecure",
+          "type": "boolean"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "loftHost": {
+          "description": "LoftHost is the loft host used by the agent",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "ClusterAccessKey",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccessList": {
       "properties": {
         "apiVersion": {
@@ -4242,6 +4354,10 @@
         "message": {
           "type": "string"
         },
+        "online": {
+          "description": "Online is whether the cluster is currently connected to the coordination server.",
+          "type": "boolean"
+        },
         "phase": {
           "type": "string"
         },
@@ -4508,6 +4624,33 @@
         }
       },
       "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "state": {
+          "description": "State holds the workspaces state as given by 'devpod export'",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceState",
+          "version": "v1"
+        }
+      ]
     },
     "com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceStatus": {
       "description": "DevPodWorkspaceInstanceStatus holds the status",
@@ -10958,6 +11101,40 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.jspolicy.pkg.apis.policy.v1beta1.Condition": {
+      "description": "Condition defines an observation of a Cluster API resource operational state.",
+      "properties": {
+        "lastTransitionTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "Last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable."
+        },
+        "message": {
+          "description": "A human readable message indicating details about the transition. This field may be empty.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "The reason for the condition's last transition in CamelCase. The specific API may choose whether this field is considered a guaranteed API. This field may not be empty.",
+          "type": "string"
+        },
+        "severity": {
+          "description": "Severity provides an explicit classification of Reason code, so the users or machines can immediately understand the current situation and act accordingly. The Severity field MUST be set only when Status=False.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status of the condition, one of True, False, Unknown.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of condition in CamelCase or in foo.example.com/CamelCase. Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "status"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.jspolicy.pkg.apis.policy.v1beta1.JsPolicy": {
       "description": "JsPolicy holds the webhook configuration",
       "properties": {
@@ -11117,16 +11294,28 @@
           "description": "BundleHash is used to determine if we have to re-bundle the javascript",
           "type": "string"
         },
+        "conditions": {
+          "description": "Conditions holds several conditions the virtual cluster might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.jspolicy.pkg.apis.policy.v1beta1.Condition"
+          },
+          "type": "array"
+        },
         "message": {
-          "description": "Message describes the error in human readable language if the webhook is in a failed state",
+          "description": "Message describes the error in human-readable language if the webhook is in a failed state",
           "type": "string"
+        },
+        "observedGeneration": {
+          "description": "ObservedGeneration is the latest generation observed by the controller.",
+          "format": "int64",
+          "type": "integer"
         },
         "phase": {
           "description": "Phase describes how the syncing status of the webhook is",
           "type": "string"
         },
         "reason": {
-          "description": "Reason holds the error in machine readable language if the webhook is in a failed state",
+          "description": "Reason holds the error in machine-readable language if the webhook is in a failed state",
           "type": "string"
         }
       },
@@ -16340,6 +16529,52 @@
         }
       }
     },
+    "/apis/management.loft.sh/v1/apps/{name}/credentials": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read credentials of the specified App",
+        "operationId": "readManagementLoftShV1AppCredentials",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AppCredentials"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "AppCredentials",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the AppCredentials",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-nN7o5FEq"
+        }
+      ]
+    },
     "/apis/management.loft.sh/v1/backups": {
       "parameters": [
         {
@@ -17930,6 +18165,52 @@
         }
       }
     },
+    "/apis/management.loft.sh/v1/clusters/{name}/accesskey": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read accesskey of the specified Cluster",
+        "operationId": "readManagementLoftShV1ClusterAccesskey",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccessKey"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "ClusterAccessKey",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the ClusterAccessKey",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-nN7o5FEq"
+        }
+      ]
+    },
     "/apis/management.loft.sh/v1/clusters/{name}/agentconfig": {
       "get": {
         "consumes": [
@@ -19334,6 +19615,181 @@
         }
       ]
     },
+    "/apis/management.loft.sh/v1/features/{name}/status": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read status of the specified Feature",
+        "operationId": "readManagementLoftShV1FeatureStatus",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Feature",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the Feature",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-nN7o5FEq"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/strategic-merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update status of the specified Feature",
+        "operationId": "patchManagementLoftShV1FeatureStatus",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Feature",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace status of the specified Feature",
+        "operationId": "replaceManagementLoftShV1FeatureStatus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Feature",
+          "version": "v1"
+        }
+      }
+    },
     "/apis/management.loft.sh/v1/ingressauthtokens": {
       "parameters": [
         {
@@ -20225,13 +20681,13 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceDelete",
+          "kind": "DevPodDeleteOptions",
           "version": "v1"
         }
       },
       "parameters": [
         {
-          "description": "name of the DevPodWorkspaceInstanceDelete",
+          "description": "name of the DevPodDeleteOptions",
           "in": "path",
           "name": "name",
           "required": true,
@@ -20271,7 +20727,7 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceDelete",
+          "kind": "DevPodDeleteOptions",
           "version": "v1"
         }
       }
@@ -20303,13 +20759,13 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceGetStatus",
+          "kind": "DevPodStatusOptions",
           "version": "v1"
         }
       },
       "parameters": [
         {
-          "description": "name of the DevPodWorkspaceInstanceGetStatus",
+          "description": "name of the DevPodStatusOptions",
           "in": "path",
           "name": "name",
           "required": true,
@@ -20349,7 +20805,7 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceGetStatus",
+          "kind": "DevPodStatusOptions",
           "version": "v1"
         }
       }
@@ -20381,13 +20837,13 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceSsh",
+          "kind": "DevPodSshOptions",
           "version": "v1"
         }
       },
       "parameters": [
         {
-          "description": "name of the DevPodWorkspaceInstanceSsh",
+          "description": "name of the DevPodSshOptions",
           "in": "path",
           "name": "name",
           "required": true,
@@ -20427,7 +20883,126 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceSsh",
+          "kind": "DevPodSshOptions",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/state": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read state of the specified DevPodWorkspaceInstance",
+        "operationId": "readManagementLoftShV1NamespacedDevPodWorkspaceInstanceState",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceState",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the DevPodWorkspaceInstanceState",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-nN7o5FEq"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create state of a DevPodWorkspaceInstance",
+        "operationId": "createManagementLoftShV1NamespacedDevPodWorkspaceInstanceState",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceState",
           "version": "v1"
         }
       }
@@ -20459,13 +21034,13 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceStop",
+          "kind": "DevPodStopOptions",
           "version": "v1"
         }
       },
       "parameters": [
         {
-          "description": "name of the DevPodWorkspaceInstanceStop",
+          "description": "name of the DevPodStopOptions",
           "in": "path",
           "name": "name",
           "required": true,
@@ -20505,7 +21080,7 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceStop",
+          "kind": "DevPodStopOptions",
           "version": "v1"
         }
       }
@@ -20537,7 +21112,7 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceUp",
+          "kind": "DevPodUpOptions",
           "version": "v1"
         }
       },
@@ -20546,7 +21121,7 @@
           "$ref": "#/parameters/debug-EtJFGyrW"
         },
         {
-          "description": "name of the DevPodWorkspaceInstanceUp",
+          "description": "name of the DevPodUpOptions",
           "in": "path",
           "name": "name",
           "required": true,
@@ -20589,7 +21164,7 @@
         "x-kubernetes-action": "connect",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceUp",
+          "kind": "DevPodUpOptions",
           "version": "v1"
         }
       }
