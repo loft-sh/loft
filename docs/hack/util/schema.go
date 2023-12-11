@@ -18,10 +18,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-const groupKey = "group"
-const groupNameKey = "group_name"
-const prefixSeparator = "/"
-const anchorSeparator = "-"
+const (
+	groupKey        = "group"
+	groupNameKey    = "group_name"
+	prefixSeparator = "/"
+	anchorSeparator = "-"
+)
 
 const BasePath = "docs/pages/api/_partials/resources/"
 
@@ -327,7 +329,7 @@ func createSections(basePath, prefix string, schema *jsonschema.Schema, definiti
 	}
 
 	content = fmt.Sprintf("%s%s", importContent, content)
-	_ = os.MkdirAll(path.Dir(pageFile), 0777)
+	_ = os.MkdirAll(path.Dir(pageFile), 0o777)
 	err := os.WriteFile(pageFile, []byte(content), os.ModePerm)
 	if err != nil {
 		panic(err)
@@ -340,13 +342,10 @@ func buildContent(basePath, prefix string, schema *jsonschema.Schema, definition
 	if schema.Properties != nil {
 		groups := map[string]*Group{}
 
-		for _, fieldName := range schema.Properties.Keys() {
-			field, ok := schema.Properties.Get(fieldName)
-			if !ok {
-				continue
-			}
+		for pair := schema.Properties.Oldest(); pair != nil; pair = pair.Next() {
+			fieldName := pair.Key
 
-			fieldSchema, ok := field.(*jsonschema.Schema)
+			fieldSchema, ok := schema.Properties.Get(fieldName)
 			if !ok {
 				continue
 			}
@@ -595,7 +594,7 @@ func writeTemplate(templateContents, filePath string, values interface{}) {
 		panic(err)
 	}
 
-	_ = os.MkdirAll(path.Dir(filePath), 0777)
+	_ = os.MkdirAll(path.Dir(filePath), 0o777)
 	err = os.WriteFile(filePath, b.Bytes(), os.ModePerm)
 	if err != nil {
 		panic(err)
