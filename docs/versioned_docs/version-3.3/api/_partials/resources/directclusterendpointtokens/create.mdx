@@ -1,0 +1,61 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to create a new Direct Cluster Endpoint Token.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DirectClusterEndpointToken
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjV3RlZOcmU1Ty1ZazBMRmNoN3F1NzVlYlctdk5rdGJ5eTRlelJNQ3dKLVEifQ.eyJhdWQiOlsiaHR0cHM6V0ZXMuZGVmYXVsdCJdLCJleHAiOjE5ODMwNzXIubG...
+
+```
+
+Then create the Direct Cluster Endpoint Token `my-object` with:
+```bash
+kubectl create -f object.yaml 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DirectClusterEndpointToken
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjV3RlZOcmU1Ty1ZazBMRmNoN3F1NzVlYlctdk5rdGJ5eTRlelJNQ3dKLVEifQ.eyJhdWQiOlsiaHR0cHM6V0ZXMuZGVmYXVsdCJdLCJleHAiOjE5ODMwNzXIubG...
+
+```
+
+Run the following curl command to create a new Direct Cluster Endpoint Token `my-object`:
+```bash
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/directclusterendpointtokens" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

@@ -1,0 +1,71 @@
+---
+title: Virtual Cluster Template
+sidebar_label: Virtual Cluster Template
+---
+import Reference from "../_partials/resources/virtualclustertemplates/reference.mdx"
+import Retrieve from "../_partials/resources/virtualclustertemplates/retrieve.mdx"
+import Create from "../_partials/resources/virtualclustertemplates/create.mdx"
+import Update from "../_partials/resources/virtualclustertemplates/update.mdx"
+import Delete from "../_partials/resources/virtualclustertemplates/delete.mdx"
+
+Virtual Cluster templates can be used to create virtual clusters that have already certain applications deployed inside them or other predefined configuration applied. They are a powerful tool to create new predefined environments on demand.
+
+## Example Virtual Cluster Template
+
+An example Virtual Cluster Template:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: VirtualClusterTemplate
+metadata:
+  creationTimestamp: null
+  name: my-virtual-cluster-template
+spec:
+  access:
+  - users:
+    - '*'
+    verbs:
+    - get
+  description: This virtual cluster template deploys an isolated virtual cluster
+  displayName: Isolated Virtual Cluster Template
+  template:
+    accessPoint:
+      ingress: {}
+    helmRelease:
+      chart: {}
+      values: |-
+        # Below you can configure the virtual cluster
+        isolation:
+          enabled: true
+
+        # Checkout https://vcluster.com/docs for more config options
+    instanceTemplate:
+      metadata: {}
+    metadata: {}
+    pro: {}
+    spaceTemplate:
+      metadata: {}
+status: {}
+
+```
+
+## Virtual Cluster Template Reference
+
+<Reference />
+
+## Retrieve: Virtual Cluster Templates
+
+<Retrieve />
+
+## Create: Virtual Cluster Template
+
+<Create />
+
+## Update: Virtual Cluster Template
+
+<Update />
+
+## Delete: Virtual Cluster Template
+
+<Delete />
+
+

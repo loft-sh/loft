@@ -1,0 +1,82 @@
+---
+title: Space Template
+sidebar_label: Space Template
+---
+import Reference from "../_partials/resources/spacetemplates/reference.mdx"
+import Retrieve from "../_partials/resources/spacetemplates/retrieve.mdx"
+import Create from "../_partials/resources/spacetemplates/create.mdx"
+import Update from "../_partials/resources/spacetemplates/update.mdx"
+import Delete from "../_partials/resources/spacetemplates/delete.mdx"
+
+Space templates can be used to create predefined space configurations that have certain applications already deployed inside them or other predefined configuration applied. They are a powerful tool to create new predefined environments on demand.
+
+## Example Space Template
+
+An example Space Template:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: SpaceTemplate
+metadata:
+  creationTimestamp: null
+  name: my-space-template
+spec:
+  access:
+  - users:
+    - '*'
+    verbs:
+    - get
+  description: This space templates deploys an isolated space
+  displayName: Isolated Space Template
+  template:
+    instanceTemplate:
+      metadata: {}
+    metadata:
+      labels:
+        policy.loft.sh/pod-security: baseline
+    objects: |-
+      apiVersion: v1
+      kind: ResourceQuota
+      metadata:
+        name: loft-resource-quota
+      spec:
+        hard:
+          count/configmaps: '100'
+          count/endpoints: '40'
+          count/persistentvolumeclaims: '20'
+          count/pods: '20'
+          count/secrets: '100'
+          count/services: '20'
+          limits.cpu: '20'
+          limits.ephemeral-storage: 160Gi
+          limits.memory: 40Gi
+          requests.cpu: '10'
+          requests.ephemeral-storage: 60Gi
+          requests.memory: 20Gi
+          requests.storage: 100Gi
+          services.loadbalancers: '1'
+          services.nodeports: '0'
+status: {}
+
+```
+
+## Space Template Reference
+
+<Reference />
+
+## Retrieve: Space Templates
+
+<Retrieve />
+
+## Create: Space Template
+
+<Create />
+
+## Update: Space Template
+
+<Update />
+
+## Delete: Space Template
+
+<Delete />
+
+
