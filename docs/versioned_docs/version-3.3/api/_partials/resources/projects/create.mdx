@@ -1,0 +1,99 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to create a new Project.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Project
+metadata:
+  creationTimestamp: null
+  name: my-project
+spec:
+  allowedClusters:
+  - name: my-allowed-cluster
+  allowedTemplates:
+  - kind: VirtualClusterTemplate
+    name: '*'
+  - kind: SpaceTemplate
+    name: '*'
+  members:
+  - clusterRole: project-admin
+    group: storage.loft.sh
+    kind: User
+    name: admin
+  - clusterRole: project-user
+    group: storage.loft.sh
+    kind: Team
+    name: my-team
+  quotas: {}
+  requireTemplate: {}
+  vault: {}
+status: {}
+
+```
+
+Then create the Project `my-project` with:
+```bash
+kubectl create -f object.yaml 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Project
+metadata:
+  creationTimestamp: null
+  name: my-project
+spec:
+  allowedClusters:
+  - name: my-allowed-cluster
+  allowedTemplates:
+  - kind: VirtualClusterTemplate
+    name: '*'
+  - kind: SpaceTemplate
+    name: '*'
+  members:
+  - clusterRole: project-admin
+    group: storage.loft.sh
+    kind: User
+    name: admin
+  - clusterRole: project-user
+    group: storage.loft.sh
+    kind: Team
+    name: my-team
+  quotas: {}
+  requireTemplate: {}
+  vault: {}
+status: {}
+
+```
+
+Run the following curl command to create a new Project `my-project`:
+```bash
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/projects" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

@@ -1,0 +1,42 @@
+---
+title: Self
+sidebar_label: Self
+---
+import Reference from "../_partials/resources/selves/reference.mdx"
+import Create from "../_partials/resources/selves/create.mdx"
+
+Shows information about the current user. Alternatively you can also provide an alternative access key to retrieve information from.
+
+## Example Self
+
+An example Self:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Self
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  accessKey: my-access-key
+  accessKeyType: Login
+  chatAuthToken: ""
+  groups:
+  - loft:admins
+  - system:authenticated
+  - loft:authenticated
+  - loft:user:*
+  - loft:user:admin
+  instanceID: ""
+  subject: admin
+
+```
+
+## Self Reference
+
+<Reference />
+
+## Create: Self
+
+<Create />
+
+

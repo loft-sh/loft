@@ -358,6 +358,16 @@ module.exports = {
                     type: "doc",
                     id: "apps/parameters",
                 },
+                {
+                    type: "category",
+                    label: "Advanced Topics",
+                    items: [
+                        {
+                            type: "doc",
+                            id: "apps/external-credentials",
+                        },
+                    ],
+                },
             ],
         },
         {

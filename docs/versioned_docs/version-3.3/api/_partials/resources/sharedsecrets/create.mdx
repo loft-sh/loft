@@ -1,0 +1,71 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to create a new Global Secret.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: SharedSecret
+metadata:
+  creationTimestamp: null
+  name: my-global-secret
+  namespace: loft
+spec:
+  data:
+    password: cGFzc3dvcmQ=
+  description: Secret Data is base64 encoded.
+  displayName: My Global Secret
+status: {}
+
+```
+
+Then create the Global Secret `my-global-secret`in namespace `loft` with:
+```bash
+kubectl create -f object.yaml -n loft
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: SharedSecret
+metadata:
+  creationTimestamp: null
+  name: my-global-secret
+  namespace: loft
+spec:
+  data:
+    password: cGFzc3dvcmQ=
+  description: Secret Data is base64 encoded.
+  displayName: My Global Secret
+status: {}
+
+```
+
+Run the following curl command to create a new Global Secret `my-global-secret`in namespace `loft`:
+```bash
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/namespaces/loft/sharedsecrets" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

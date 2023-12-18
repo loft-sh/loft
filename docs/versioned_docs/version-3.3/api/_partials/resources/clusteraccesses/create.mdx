@@ -1,0 +1,87 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to create a new Cluster Access.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ClusterAccess
+metadata:
+  creationTimestamp: null
+  name: my-cluster-access
+spec:
+  clusters:
+  - '*'
+  description: Defines cluster access for the global admins
+  displayName: Global Admins
+  localClusterAccessTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      clusterRoles:
+      - name: loft-cluster-admin
+      priority: 1000000
+      users:
+      - team: loft-admins
+status: {}
+
+```
+
+Then create the Cluster Access `my-cluster-access` with:
+```bash
+kubectl create -f object.yaml 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ClusterAccess
+metadata:
+  creationTimestamp: null
+  name: my-cluster-access
+spec:
+  clusters:
+  - '*'
+  description: Defines cluster access for the global admins
+  displayName: Global Admins
+  localClusterAccessTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      clusterRoles:
+      - name: loft-cluster-admin
+      priority: 1000000
+      users:
+      - team: loft-admins
+status: {}
+
+```
+
+Run the following curl command to create a new Cluster Access `my-cluster-access`:
+```bash
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/clusteraccesses" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

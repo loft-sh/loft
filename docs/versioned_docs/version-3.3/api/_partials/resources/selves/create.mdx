@@ -1,0 +1,81 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to create a new Self.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Self
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  accessKey: my-access-key
+  accessKeyType: Login
+  chatAuthToken: ""
+  groups:
+  - loft:admins
+  - system:authenticated
+  - loft:authenticated
+  - loft:user:*
+  - loft:user:admin
+  instanceID: ""
+  subject: admin
+
+```
+
+Then create the Self `my-object` with:
+```bash
+kubectl create -f object.yaml 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Self
+metadata:
+  creationTimestamp: null
+spec: {}
+status:
+  accessKey: my-access-key
+  accessKeyType: Login
+  chatAuthToken: ""
+  groups:
+  - loft:admins
+  - system:authenticated
+  - loft:authenticated
+  - loft:user:*
+  - loft:user:admin
+  instanceID: ""
+  subject: admin
+
+```
+
+Run the following curl command to create a new Self `my-object`:
+```bash
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/selves" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>
