@@ -1,4 +1,3 @@
-{{- if not .Values.agentOnly }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -38,4 +37,3 @@ spec:
   selector:
     app: {{ template "loft.fullname" . }}
     release: {{ .Release.Name }}
-{{- end }}

@@ -78,12 +78,10 @@ spec:
         {{- end }}
         image: {{ default (include "loft.image" .) .Values.image }}
         ports:
-        {{- if not .Values.agentOnly }}
           - name: http
             containerPort: 8080
           - name: https
             containerPort: 10443
-        {{- end }}
           - name: https-webhook
             containerPort: 9443
           - name: http-wakeup
