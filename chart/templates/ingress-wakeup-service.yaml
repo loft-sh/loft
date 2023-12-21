@@ -10,11 +10,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  {{- if .Values.agentOnly }}
-  type: {{ .Values.service.type }}
-  {{- else }}
   type: ClusterIP
-  {{- end }}
   ports:
     - name: http-wakeup
       port: 9090
