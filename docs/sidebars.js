@@ -576,6 +576,10 @@ module.exports = {
             ],
         },
         {
+            type: "doc",
+            id: "licenses/loft",
+        },
+        {
             type: "link",
             label: "DevSpace",
             href: "https://devspace.sh/",
