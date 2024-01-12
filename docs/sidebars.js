@@ -468,6 +468,7 @@ module.exports = {
                         "admin/guides/offline-installations",
                         "admin/guides/high-availability",
                         "admin/backup-restore-loft",
+                        "admin/guides/reset-admin-password",
                         "admin/guides/metrics",
                         "admin/guides/oidc-provider",
                         "admin/guides/custom-branding",
