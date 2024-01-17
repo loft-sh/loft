@@ -77,6 +77,10 @@
           "description": "DisplayText is the text to display on the button. If display text is unset the button will never be shown in the loft UI.",
           "type": "string"
         },
+        "name": {
+          "description": "Name is the name of the button (ButtonName). Optional.",
+          "type": "string"
+        },
         "url": {
           "description": "URL is the link at the other end of the button.",
           "type": "string"
@@ -6002,6 +6006,10 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
+        "skipHelmDeploy": {
+          "description": "SkipHelmDeploy will skip management of the vClusters helm deployment",
+          "type": "boolean"
+        },
         "sourceVirtualCluster": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportVirtualClusterSource",
           "description": "SourceVirtualCluster is the virtual cluster to import into this project"
@@ -6040,6 +6048,10 @@
         "namespace": {
           "description": "Namespace of the virtual cluster to import",
           "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner of the virtual cluster to import"
         }
       },
       "type": "object"
@@ -6352,6 +6364,10 @@
         "argoCD": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.ArgoIntegrationSpec",
           "description": "ArgoIntegration holds information about ArgoCD Integration"
+        },
+        "automaticImport": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImport",
+          "description": "AutomaticImport imports vClusters & Namespace automatically"
         },
         "description": {
           "description": "Description describes an app",
@@ -8840,6 +8856,13 @@
           "description": "AllowLoftCLI allows certain read-only management requests to make sure loft cli works correctly with this specific access key.",
           "type": "boolean"
         },
+        "clusters": {
+          "description": "Clusters specifies the project cluster the access key is allowed to access.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeCluster"
+          },
+          "type": "array"
+        },
         "projects": {
           "description": "Projects specifies the projects the access key should have access to.",
           "items": {
@@ -8867,6 +8890,15 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeVirtualCluster"
           },
           "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeCluster": {
+      "properties": {
+        "cluster": {
+          "description": "Cluster is the name of the cluster to access. You can specify * to select all clusters.",
+          "type": "string"
         }
       },
       "type": "object"
@@ -9345,6 +9377,24 @@
         "host": {
           "description": "Host defines the ArgoCD host address that will be used for OIDC authentication between loft and ArgoCD. If not specified OIDC integration will be skipped, but vclusters/spaces will still be synced to ArgoCD.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImport": {
+      "properties": {
+        "virtualClusters": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImportVirtualClusters",
+          "description": "VirtualClusters defines automatic virtual cluster import options."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImportVirtualClusters": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled specifies if automatic virtual cluster import should be enabled for this project.",
+          "type": "boolean"
         }
       },
       "type": "object"
