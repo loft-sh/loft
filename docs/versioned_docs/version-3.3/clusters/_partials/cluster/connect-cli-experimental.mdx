@@ -1,0 +1,13 @@
+import NavStep from '@site/src/components/NavStep'
+
+When connecting a cluster from the Loft CLI, you will need to provide a name for the cluster. This name will be used for the Cluster resource that gets created in Kubernetes. Optionally, you can use the `display-name` flag to specify a name for this cluster, when it gets displayed under the <NavStep>Clusters</NavStep> view in Loft.
+
+```bash
+loft connect cluster cluster-name --display-name [display-name] --experimental
+```
+
+The above command will automatically install the Loft Agent in the cluster that is one's current context. If you want to connect a cluster that is not your current context, you can use the `--context` flag to specify the context of the cluster you want to connect.
+
+```bash
+loft connect cluster cluster-name --display-name [display-name] --experimental --context [context]
+```
