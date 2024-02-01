@@ -1,0 +1,29 @@
+
+import PartialName from "./roles/name.mdx"
+import PartialDescription from "./roles/description.mdx"
+import PartialRulesreference from "./roles/rules_reference.mdx"
+import PartialGroups from "./roles/groups.mdx"
+
+<PartialName />
+
+
+<PartialDescription />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `rules` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-argoCD-project-roles-rules}
+
+Rules ist a list of policy rules to attach to the role.
+
+</summary>
+
+<PartialRulesreference />
+
+
+</details>
+
+
+<PartialGroups />

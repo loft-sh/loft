@@ -1,0 +1,180 @@
+
+import PartialMetadatareference from "./template/metadata_reference.mdx"
+import PartialInstanceTemplatereference from "./template/instanceTemplate_reference.mdx"
+import PartialAppsreference from "./template/apps_reference.mdx"
+import PartialChartsreference from "./template/charts_reference.mdx"
+import PartialObjects from "./template/objects.mdx"
+import PartialAccessreference from "./template/access_reference.mdx"
+import PartialProreference from "./template/pro_reference.mdx"
+import PartialHelmReleasereference from "./template/helmRelease_reference.mdx"
+import PartialAccessPointreference from "./template/accessPoint_reference.mdx"
+import PartialForwardToken from "./template/forwardToken.mdx"
+import PartialSpaceTemplatereference from "./template/spaceTemplate_reference.mdx"
+import PartialWorkloadVirtualClusterTemplatereference from "./template/workloadVirtualClusterTemplate_reference.mdx"
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `metadata` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-metadata}
+
+
+
+</summary>
+
+<PartialMetadatareference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `instanceTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-instanceTemplate}
+
+InstanceTemplate holds the virtual cluster instance template
+
+</summary>
+
+<PartialInstanceTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `apps` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-apps}
+
+Apps specifies the apps that should get deployed by this template
+
+</summary>
+
+<PartialAppsreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `charts` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-charts}
+
+Charts are helm charts that should get deployed
+
+</summary>
+
+<PartialChartsreference />
+
+
+</details>
+
+
+<PartialObjects />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-access}
+
+Access defines the access of users and teams to the virtual cluster.
+
+</summary>
+
+<PartialAccessreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `pro` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-pro}
+
+Pro defines the pro settings for the virtual cluster
+
+</summary>
+
+<PartialProreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `helmRelease` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-helmRelease}
+
+HelmRelease is the helm release configuration for the virtual cluster.
+
+</summary>
+
+<PartialHelmReleasereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `accessPoint` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-accessPoint}
+
+AccessPoint defines settings to expose the virtual cluster directly via an ingress rather than
+through the (default) Loft proxy
+
+</summary>
+
+<PartialAccessPointreference />
+
+
+</details>
+
+
+<PartialForwardToken />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `spaceTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-spaceTemplate}
+
+SpaceTemplate holds the space template
+
+</summary>
+
+<PartialSpaceTemplatereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `workloadVirtualClusterTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#virtualClusterTemplates-spec-template-workloadVirtualClusterTemplate}
+
+WorkloadVirtualClusterTemplateDefinition holds the workload cluster specific deployment options. Needs to be non-nil
+in order to deploy the virtual cluster in workload cluster mode.
+
+</summary>
+
+<PartialWorkloadVirtualClusterTemplatereference />
+
+
+</details>

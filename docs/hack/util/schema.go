@@ -18,10 +18,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-const (
-	prefixSeparator = "/"
-	anchorSeparator = "-"
-)
+const groupKey = "group"
+const groupNameKey = "group_name"
+const prefixSeparator = "/"
+const anchorSeparator = "-"
 
 const BasePath = "docs/pages/api/_partials/resources/"
 
@@ -143,7 +143,7 @@ func runInDir(dir string, fn func()) {
 
 func GenerateMetadata(information *ObjectInformation) {
 	schema := generateSchema(information.Object.DeepCopyObject())
-	createSections(path.Join(BasePath, "metadata")+"/", schema, schema.Definitions, false, true, 1)
+	createSections(path.Join(BasePath, "metadata")+"/", "", schema, schema.Definitions, false, true, 1)
 }
 
 func GenerateObjectOverview(information *ObjectInformation) {
@@ -169,10 +169,7 @@ func GenerateObjectOverview(information *ObjectInformation) {
 	}
 
 	schema := generateSchema(information.Object.DeepCopyObject())
-	err := GenerateResource(schema, basePath, information.SubResource != "")
-	if err != nil {
-		panic(err)
-	}
+	GenerateReference(schema, basePath, information.SubResource != "")
 
 	// create the yaml object
 	out, err := yaml.Marshal(information.Object)
@@ -302,18 +299,25 @@ func GenerateObjectOverview(information *ObjectInformation) {
 	})
 }
 
-func GenerateResource(schema *jsonschema.Schema, basePath string, subResource bool) error {
-	createSections(basePath, schema, schema.Definitions, subResource, false, 1)
-	return nil
+func GenerateReference(schema *jsonschema.Schema, basePath string, subResource bool) {
+	createSections(basePath, "", schema, schema.Definitions, subResource, false, 1)
 }
 
-func createSections(basePath string, schema *jsonschema.Schema, definitions jsonschema.Definitions, subResource, metadataOnly bool, depth int) string {
-	content := buildContent("", schema, definitions, metadataOnly, depth)
-	prefix := "reference"
+func createSections(basePath, prefix string, schema *jsonschema.Schema, definitions jsonschema.Definitions, subResource, metadataOnly bool, depth int) string {
+	content, imports := buildContent(basePath, prefix, schema, definitions, metadataOnly, depth)
+	if prefix == "" {
+		prefix = "reference"
+	} else {
+		prefix = strings.TrimSuffix(prefix, "/") + "_reference"
+	}
 
 	pageFile := path.Join(basePath, strings.TrimSuffix(prefix, "/")+".mdx")
 	importContent := ""
-	if !metadataOnly {
+	for _, partialFile := range imports {
+		importContent = importContent + GetPartialImport(partialFile, pageFile)
+	}
+
+	if !metadataOnly && prefix == "reference" {
 		if subResource {
 			importContent += "\nimport Metadata from \"../../metadata/reference.mdx\""
 		} else {
@@ -323,7 +327,7 @@ func createSections(basePath string, schema *jsonschema.Schema, definitions json
 	}
 
 	content = fmt.Sprintf("%s%s", importContent, content)
-	_ = os.MkdirAll(path.Dir(pageFile), 0o777)
+	_ = os.MkdirAll(path.Dir(pageFile), 0777)
 	err := os.WriteFile(pageFile, []byte(content), os.ModePerm)
 	if err != nil {
 		panic(err)
@@ -332,13 +336,17 @@ func createSections(basePath string, schema *jsonschema.Schema, definitions json
 	return content
 }
 
-func buildContent(prefix string, schema *jsonschema.Schema, definitions jsonschema.Definitions, metadataOnly bool, depth int) string {
-	content := ""
+func buildContent(basePath, prefix string, schema *jsonschema.Schema, definitions jsonschema.Definitions, metadataOnly bool, depth int) (content string, imports []string) {
 	if schema.Properties != nil {
-		for pair := schema.Properties.Oldest(); pair != nil; pair = pair.Next() {
-			fieldName := pair.Key
+		groups := map[string]*Group{}
 
-			fieldSchema, ok := schema.Properties.Get(fieldName)
+		for _, fieldName := range schema.Properties.Keys() {
+			field, ok := schema.Properties.Get(fieldName)
+			if !ok {
+				continue
+			}
+
+			fieldSchema, ok := field.(*jsonschema.Schema)
 			if !ok {
 				continue
 			}
@@ -359,39 +367,51 @@ func buildContent(prefix string, schema *jsonschema.Schema, definitions jsonsche
 				}
 			}
 
-			fieldContent := renderField(
+			extraContent, extraImport := processSchemaField(
+				basePath,
 				prefix,
 				fieldName,
 				fieldSchema,
 				definitions,
 				metadataOnly,
 				depth,
+				groups,
 			)
-			if fieldContent != "" {
-				content += "\n\n" + fieldContent
+			if extraContent != "" {
+				content += "\n\n" + extraContent
+			}
+			if extraImport != "" {
+				imports = append(imports, extraImport)
 			}
 		}
+
+		ProcessGroups(groups)
 	}
 
-	return content
+	return content, imports
 }
 
-func renderField(
+func processSchemaField(
+	basePath,
 	prefix,
 	fieldName string,
 	fieldSchema *jsonschema.Schema,
 	definitions jsonschema.Definitions,
 	metadataOnly bool,
 	depth int,
-) string {
+	groups map[string]*Group,
+) (string, string) {
 	headlinePrefix := strings.Repeat("#", int(math.Min(5, float64(depth+1)))) + " "
 	anchorPrefix := strings.TrimPrefix(strings.ReplaceAll(prefix, prefixSeparator, anchorSeparator), anchorSeparator)
 
 	fieldContent := ""
+	fieldFile := fmt.Sprintf("%s%s%s.mdx", basePath, prefix, fieldName)
+	fieldFileReference := fieldFile
 	isNameObjectMap := false
 	expandable := false
 
 	var patternPropertySchema *jsonschema.Schema
+	var nestedSchema *jsonschema.Schema
 	var ok bool
 
 	ref := ""
@@ -406,11 +426,15 @@ func renderField(
 
 	if ref != "" {
 		refSplit := strings.Split(ref, "/")
-		nestedSchema, ok := definitions[refSplit[len(refSplit)-1]]
+		nestedSchema, ok = definitions[refSplit[len(refSplit)-1]]
 
 		if ok {
 			newPrefix := prefix + fieldName + prefixSeparator
-			fieldContent = buildContent(newPrefix, nestedSchema, definitions, metadataOnly, depth+1)
+			createSections(basePath, newPrefix, nestedSchema, definitions, false, metadataOnly, depth+1)
+			fieldFileReference = fmt.Sprintf("%s%s%s_reference.mdx", basePath, prefix, fieldName)
+
+			fieldContent = GetPartialImport(fieldFileReference, fieldFile) + "\n\n" + fmt.Sprintf(TemplatePartialUse, GetPartialImportName(fieldFileReference))
+
 			expandable = true
 		}
 	}
@@ -474,13 +498,11 @@ func renderField(
 		fieldType = "object"
 	}
 
+	fieldPartial := fmt.Sprintf(TemplatePartialUse, GetPartialImportName(fieldFileReference))
 	if ref != "" {
-		refSplit := strings.Split(ref, "/")
-		_, ok = definitions[refSplit[len(refSplit)-1]]
-		if ok {
-			anchorName := anchorPrefix + fieldName
-			fieldContent = fmt.Sprintf(TemplateConfigField, true, "", headlinePrefix, fieldName, required, fieldType, "", "", anchorName, description, fieldContent)
-		}
+		anchorName := anchorPrefix + fieldName
+		fieldContent = GetPartialImport(fieldFileReference, fieldFile) + "\n\n" + fmt.Sprintf(TemplateConfigField, true, " open", headlinePrefix, fieldName, false, fieldType, "", "", anchorName, description, fieldPartial)
+		fieldPartial = fmt.Sprintf(TemplateConfigField, true, "", headlinePrefix, fieldName, required, fieldType, "", "", anchorName, description, fieldPartial)
 	} else {
 		if fieldType == "boolean" {
 			fieldDefault = "false"
@@ -496,11 +518,48 @@ func renderField(
 		}
 
 		enumValues := GetEumValues(fieldSchema, required, &fieldDefault)
+
 		anchorName := anchorPrefix + fieldName
 		fieldContent = fmt.Sprintf(TemplateConfigField, expandable, " open", headlinePrefix, fieldName, required, fieldType, fieldDefault, enumValues, anchorName, description, fieldContent)
 	}
 
-	return fieldContent
+	err := os.MkdirAll(filepath.Dir(fieldFileReference), os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
+
+	err = os.WriteFile(fieldFile, []byte(fieldContent), os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
+
+	groupID, _ := fieldSchema.Extras[groupKey].(string)
+	if groupID != "" {
+		groupID = strings.ToLower(groupID)
+		groupPartial := ""
+		groupFile := ""
+		group, ok := groups[groupID]
+		if !ok {
+			group = &Group{
+				File:    fmt.Sprintf("%s%sgroup_%s.mdx", basePath, prefix, groupID),
+				Imports: &[]string{},
+			}
+			groups[groupID] = group
+
+			groupPartial = fmt.Sprintf(TemplatePartialUse, GetPartialImportName(group.File))
+			groupFile = group.File
+		}
+
+		if groupName, ok := fieldSchema.Extras[groupNameKey]; ok {
+			group.Name = groupName.(string)
+		}
+
+		group.Content = group.Content + fieldPartial
+		*group.Imports = append(*group.Imports, fieldFileReference)
+		return groupPartial, groupFile
+	}
+
+	return fieldPartial, fieldFileReference
 }
 
 func GetEumValues(fieldSchema *jsonschema.Schema, required bool, fieldDefault *string) string {
@@ -536,7 +595,7 @@ func writeTemplate(templateContents, filePath string, values interface{}) {
 		panic(err)
 	}
 
-	_ = os.MkdirAll(path.Dir(filePath), 0o777)
+	_ = os.MkdirAll(path.Dir(filePath), 0777)
 	err = os.WriteFile(filePath, b.Bytes(), os.ModePerm)
 	if err != nil {
 		panic(err)

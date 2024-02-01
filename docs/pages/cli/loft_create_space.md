@@ -31,7 +31,6 @@ loft create space myspace --project myproject --team myteam
 ## Flags
 
 ```
-      --annotations strings               Comma separated annotations to apply to the space
       --cluster string                    The cluster to use
       --create-context                    If loft should create a kube context for the space (default true)
       --delete-after int                  DEPRECATED: If set to non zero, will tell loft to delete the space after specified seconds of inactivity
@@ -39,7 +38,6 @@ loft create space myspace --project myproject --team myteam
       --disable-direct-cluster-endpoint   When enabled does not use an available direct cluster endpoint to connect to the space
       --display-name string               The display name to show in the UI for this space
   -h, --help                              help for space
-  -l, --labels strings                    Comma separated labels to apply to the space
       --link strings                      Labeled Links to annotate the object with.
                                           These links will be visible from the UI. When used with update, existing links will be replaced.
                                           E.g. --link 'Prod=http://exampleprod.com,Dev=http://exampledev.com'

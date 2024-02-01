@@ -1,0 +1,53 @@
+
+import PartialLevel from "./rules/level.mdx"
+import PartialUsers from "./rules/users.mdx"
+import PartialUserGroups from "./rules/userGroups.mdx"
+import PartialVerbs from "./rules/verbs.mdx"
+import PartialResourcesreference from "./rules/resources_reference.mdx"
+import PartialNamespaces from "./rules/namespaces.mdx"
+import PartialNonResourceURLs from "./rules/nonResourceURLs.mdx"
+import PartialOmitStages from "./rules/omitStages.mdx"
+import PartialRequestTargets from "./rules/requestTargets.mdx"
+import PartialClusters from "./rules/clusters.mdx"
+
+<PartialLevel />
+
+
+<PartialUsers />
+
+
+<PartialUserGroups />
+
+
+<PartialVerbs />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `resources` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-audit-policy-rules-resources}
+
+Resources that this rule matches. An empty list implies all kinds in all API groups.
+
+</summary>
+
+<PartialResourcesreference />
+
+
+</details>
+
+
+<PartialNamespaces />
+
+
+<PartialNonResourceURLs />
+
+
+<PartialOmitStages />
+
+
+<PartialRequestTargets />
+
+
+<PartialClusters />

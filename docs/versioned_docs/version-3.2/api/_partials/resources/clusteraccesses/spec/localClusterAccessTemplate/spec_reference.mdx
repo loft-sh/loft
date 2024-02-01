@@ -1,0 +1,71 @@
+
+import PartialDisplayName from "./spec/displayName.mdx"
+import PartialDescription from "./spec/description.mdx"
+import PartialUsersreference from "./spec/users_reference.mdx"
+import PartialTeams from "./spec/teams.mdx"
+import PartialClusterRolesreference from "./spec/clusterRoles_reference.mdx"
+import PartialPriority from "./spec/priority.mdx"
+import PartialSpaceConstraintsRef from "./spec/spaceConstraintsRef.mdx"
+import PartialQuotareference from "./spec/quota_reference.mdx"
+
+<PartialDisplayName />
+
+
+<PartialDescription />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-localClusterAccessTemplate-spec-users}
+
+Users are the users affected by this cluster access object
+
+</summary>
+
+<PartialUsersreference />
+
+
+</details>
+
+
+<PartialTeams />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `clusterRoles` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-localClusterAccessTemplate-spec-clusterRoles}
+
+ClusterRoles define the cluster roles that the users should have assigned in the cluster.
+
+</summary>
+
+<PartialClusterRolesreference />
+
+
+</details>
+
+
+<PartialPriority />
+
+
+<PartialSpaceConstraintsRef />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `quota` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-localClusterAccessTemplate-spec-quota}
+
+Quota defines the quotas for the members that should be created.
+
+</summary>
+
+<PartialQuotareference />
+
+
+</details>

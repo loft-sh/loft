@@ -1,0 +1,23 @@
+
+import PartialDefaultClusterRole from "./access/defaultClusterRole.mdx"
+import PartialRulesreference from "./access/rules_reference.mdx"
+
+<PartialDefaultClusterRole />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `rules` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access-rules}
+
+Rules defines which users and teams should have which access to the virtual
+cluster. If no rule matches an authenticated incoming user, the user will get cluster admin
+access.
+
+</summary>
+
+<PartialRulesreference />
+
+
+</details>

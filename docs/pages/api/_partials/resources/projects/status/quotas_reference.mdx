@@ -1,0 +1,55 @@
+
+import PartialProjectreference from "./quotas/project_reference.mdx"
+import PartialUserreference from "./quotas/user_reference.mdx"
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-quotas-project}
+
+Project is the quota status for the whole project
+
+</summary>
+
+<PartialProjectreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `user` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-quotas-user}
+
+User is the quota status for each user / team. An example status
+could look like this:
+status:
+  quotas:
+    user:
+      limit:
+        pods: "10"
+        spaces: "5"
+      users:
+        admin:
+          used:
+            spaces: "3"  # (- calculated in our apiserver
+            pods: "8"    # (- the sum calculated from clusters
+      clusters:
+        cluster-1:  # (- populated by agent from cluster-1
+          users:
+            admin:
+              pods: "3"
+        cluster-2:
+          users:
+            admin:
+              pods: "5"
+
+</summary>
+
+<PartialUserreference />
+
+
+</details>

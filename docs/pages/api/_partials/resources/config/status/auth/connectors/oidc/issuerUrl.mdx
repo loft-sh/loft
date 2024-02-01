@@ -1,0 +1,21 @@
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `issuerUrl` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-connectors-oidc-issuerUrl}
+
+IssuerURL is the URL the provider signs ID Tokens as. This will be the "iss"
+field of all tokens produced by the provider and is used for configuration
+discovery.
+
+The URL is usually the provider's URL without a path, for example
+"https://accounts.google.com" or "https://login.salesforce.com".
+
+The provider must implement configuration discovery.
+See: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+
+</summary>
+
+
+
+</details>

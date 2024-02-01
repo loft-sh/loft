@@ -85,10 +85,6 @@ module.exports = {
                             type: "doc",
                             id: "projects/argocd",
                         },
-                        {
-                            type: "doc",
-                            id: "projects/rancher",
-                        },
                     ],
                 },
                 {
@@ -143,10 +139,6 @@ module.exports = {
                         {
                             type: "doc",
                             id: "virtual-clusters/argocd",
-                        },
-                        {
-                            type: "doc",
-                            id: "virtual-clusters/rancher",
                         },
                         {
                             type: "doc",
@@ -358,16 +350,6 @@ module.exports = {
                     type: "doc",
                     id: "apps/parameters",
                 },
-                {
-                    type: "category",
-                    label: "Advanced Topics",
-                    items: [
-                        {
-                            type: "doc",
-                            id: "apps/external-credentials",
-                        },
-                    ],
-                },
             ],
         },
         {
@@ -468,7 +450,6 @@ module.exports = {
                         "admin/guides/offline-installations",
                         "admin/guides/high-availability",
                         "admin/backup-restore-loft",
-                        "admin/guides/reset-admin-password",
                         "admin/guides/metrics",
                         "admin/guides/oidc-provider",
                         "admin/guides/custom-branding",
@@ -575,10 +556,6 @@ module.exports = {
                     dirName: "cli",
                 },
             ],
-        },
-        {
-            type: "doc",
-            id: "licenses/loft",
         },
         {
             type: "link",

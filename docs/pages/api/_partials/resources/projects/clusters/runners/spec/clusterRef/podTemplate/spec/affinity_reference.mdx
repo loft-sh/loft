@@ -1,0 +1,51 @@
+
+import PartialNodeAffinityreference from "./affinity/nodeAffinity_reference.mdx"
+import PartialPodAffinityreference from "./affinity/podAffinity_reference.mdx"
+import PartialPodAntiAffinityreference from "./affinity/podAntiAffinity_reference.mdx"
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `nodeAffinity` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#runners-spec-clusterRef-podTemplate-spec-affinity-nodeAffinity}
+
+Describes node affinity scheduling rules for the pod.
+
+</summary>
+
+<PartialNodeAffinityreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `podAffinity` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#runners-spec-clusterRef-podTemplate-spec-affinity-podAffinity}
+
+Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+
+</summary>
+
+<PartialPodAffinityreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `podAntiAffinity` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#runners-spec-clusterRef-podTemplate-spec-affinity-podAntiAffinity}
+
+Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+
+</summary>
+
+<PartialPodAntiAffinityreference />
+
+
+</details>

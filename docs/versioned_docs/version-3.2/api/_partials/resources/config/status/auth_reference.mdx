@@ -1,0 +1,152 @@
+
+import PartialOidcreference from "./auth/oidc_reference.mdx"
+import PartialGithubreference from "./auth/github_reference.mdx"
+import PartialGitlabreference from "./auth/gitlab_reference.mdx"
+import PartialGooglereference from "./auth/google_reference.mdx"
+import PartialMicrosoftreference from "./auth/microsoft_reference.mdx"
+import PartialSamlreference from "./auth/saml_reference.mdx"
+import PartialPasswordreference from "./auth/password_reference.mdx"
+import PartialConnectorsreference from "./auth/connectors_reference.mdx"
+import PartialDisableTeamCreation from "./auth/disableTeamCreation.mdx"
+import PartialAccessKeyMaxTTLSeconds from "./auth/accessKeyMaxTTLSeconds.mdx"
+import PartialLoginAccessKeyTTLSeconds from "./auth/loginAccessKeyTTLSeconds.mdx"
+import PartialCustomHttpHeaders from "./auth/customHttpHeaders.mdx"
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `oidc` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-oidc}
+
+OIDC holds oidc authentication configuration
+
+</summary>
+
+<PartialOidcreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `github` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-github}
+
+Github holds github authentication configuration
+
+</summary>
+
+<PartialGithubreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `gitlab` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-gitlab}
+
+Gitlab holds gitlab authentication configuration
+
+</summary>
+
+<PartialGitlabreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `google` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-google}
+
+Google holds google authentication configuration
+
+</summary>
+
+<PartialGooglereference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `microsoft` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-microsoft}
+
+Microsoft holds microsoft authentication configuration
+
+</summary>
+
+<PartialMicrosoftreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `saml` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-saml}
+
+SAML holds saml authentication configuration
+
+</summary>
+
+<PartialSamlreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `password` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-password}
+
+Password holds password authentication relevant information
+
+</summary>
+
+<PartialPasswordreference />
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `connectors` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-auth-connectors}
+
+Connectors are optional additional connectors for Loft.
+
+</summary>
+
+<PartialConnectorsreference />
+
+
+</details>
+
+
+<PartialDisableTeamCreation />
+
+
+<PartialAccessKeyMaxTTLSeconds />
+
+
+<PartialLoginAccessKeyTTLSeconds />
+
+
+<PartialCustomHttpHeaders />

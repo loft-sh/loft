@@ -1,0 +1,33 @@
+
+import PartialName from "./clusterAccountTemplates/name.mdx"
+import PartialClustersreference from "./clusterAccountTemplates/clusters_reference.mdx"
+import PartialPhase from "./clusterAccountTemplates/phase.mdx"
+import PartialReason from "./clusterAccountTemplates/reason.mdx"
+import PartialMessage from "./clusterAccountTemplates/message.mdx"
+
+<PartialName />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `clusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-clusters}
+
+Clusters holds the cluster on which this template was applied
+
+</summary>
+
+<PartialClustersreference />
+
+
+</details>
+
+
+<PartialPhase />
+
+
+<PartialReason />
+
+
+<PartialMessage />
