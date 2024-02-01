@@ -25,6 +25,7 @@ ingress:
   tls:
     enabled: true
     secret: loft-tls
+    clusterIssuer: lets-encrypt-http-issuer
 
 # TLS configuration with a custom cert and key
 # Make sure the secret exists prior to deploying loft,
@@ -186,16 +187,3 @@ logging:
   level: info # Can be either: debug, info, error
 
 product: loft
-
-# Token is used to connect to the network peer coordinator server of a Loft instance
-token: ""
-# URL is used to connect as the endpoint of the network peer coordinator server
-url: ""
-
-# AdditionalCA is used to add an additional CA certificate to the application's
-# x509 root ca verification flow. Needs to be base64 encoded.
-additionalCA: ""
-
-# insecureSkipVerify is used to omit tls verification within loft and all its
-# managed components
-insecureSkipVerify: false

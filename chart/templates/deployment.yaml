@@ -27,10 +27,6 @@ spec:
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   strategy:
-    {{- if .Values.agentOnly }}
-    type: Recreate
-    {{- else }}
-    type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       {{- if (eq (int .Values.replicaCount) 1) }}
@@ -38,7 +34,7 @@ spec:
       {{- else }}
       maxUnavailable: 1
       {{- end }}
-    {{- end }}
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -66,11 +62,6 @@ spec:
         - name: loft-data
           emptyDir: {}
       {{- end }}
-      {{- if .Values.additionalCA }}
-        - name: loft-additional-ca
-          secret:
-            secretName: loft-additional-ca
-      {{- end }}
       containers:
       - name: manager
         {{- if .Values.agentOnly }}
@@ -78,10 +69,12 @@ spec:
         {{- end }}
         image: {{ default (include "loft.image" .) .Values.image }}
         ports:
+        {{- if not .Values.agentOnly }}
           - name: http
             containerPort: 8080
           - name: https
             containerPort: 10443
+        {{- end }}
           - name: https-webhook
             containerPort: 9443
           - name: http-wakeup
@@ -144,14 +137,6 @@ spec:
         - name: LOFT_LOG_LEVEL
           value: {{ default "info" .Values.logging.level }}
         {{- end }}
-        {{- if .Values.additionalCA }}
-        - name: SSL_CERT_FILE
-          value: /etc/loft/additional-ca/ca.crt
-        {{- end }}
-        {{- if .Values.insecureSkipVerify }}
-        - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
-          value: "true"
-        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
@@ -162,10 +147,6 @@ spec:
         {{- end }}
           - mountPath: /var/lib/loft
             name: loft-data
-        {{- if .Values.additionalCA }}
-          - mountPath: /etc/loft/additional-ca
-            name: loft-additional-ca
-        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
       {{- if .Values.securityContext }}
