@@ -7,6 +7,9 @@ This guide briefly covers a few topics that Loft admins may wish to review befor
 to Loft version 3. We recommend taking a look at the topics in this section to ensure that you are getting the best
 experience with Loft version 3.
 
+## Setting `loftHost` in the loft config
+
+Please make sure to set `loftHost: loft.my-domain.com` as we have changed the way Loft and the Loft agent communicate with v3. We have a fallback in place that works for most public clusters, but for private clusters you will need to make sure your Loft host is configured correctly.
 
 ## Breaking Changes in Loft v3
 
