@@ -5,3 +5,9 @@ When connecting a cluster from the Loft CLI, you will need to provide a name for
 ```bash
 loft connect cluster cluster-name --display-name [display-name]
 ```
+
+The above command will automatically install the Loft Agent in the cluster that is one's current context. If you want to connect a cluster that is not your current context, you can use the `--context` flag to specify the context of the cluster you want to connect.
+
+```bash
+loft connect cluster cluster-name --display-name [display-name] --context [context]
+```
