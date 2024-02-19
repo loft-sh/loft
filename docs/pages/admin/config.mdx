@@ -27,6 +27,21 @@ config:
 
 For a complete overview what helm values are possible, please take a look at the [Loft github repository](https://github.com/loft-sh/loft/tree/master/chart) directly.
 
+### Changing the Loft Host variable
+
+After setting up the platform and TLS certificates and configuring the ingress to use a custom domain, one should change the `loftHost` variable shown above.
+Initially, that value will be set to the URL of either the Loft Router domain or no domain in the case of air-gapped setups.
+This value should be equal to the hostname specified in the ingress resource for accessing the platform.
+
+:::info
+This value of the `loftHost` variable should only be the hostname that Loft is reachable at and not contain protocols (such as HTTP) or subpaths.
+:::
+
+After changing the `loftHost`, all currently connected clusters must be redeployed by running the same connection commands in the corresponding Kubernetes context.
+See the instructions [on connecting Clusters](../clusters/connect-cluster) for more guidance.
+
+Clusters will also have to be reconnected if the `additionalCA` or `insecureSkipVerify` values are changed after the initial setup.
+
 ### Sensitive Information in the Loft Config
 
 Some fields within the Loft config allow placeholders for environment variables, such as the `clientId` and `clientSecret` fields. This makes it possible to not expose the sensitive information directly inside the Loft values and instead mount this information into Loft through an external secret.
