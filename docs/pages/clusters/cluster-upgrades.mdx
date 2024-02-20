@@ -28,7 +28,7 @@ These automatic upgrades also handle more significant agent changes and migratio
 When the platform initiates an upgrade on an egress-only agent, it will first deploy a proxy-only agent.
 As the name suggests, this proxy-only agent solely aims to proxy the communication between the platform and the connected cluster's Kubernetes API server.
 
-The platform deploys the proxy-only agent by creating a deployment in the connect cluster's agent's namespace. It additionally reuses the agent's service account and associated RBAC permissions.
+The platform deploys the proxy-only agent by creating a deployment in the connected cluster's agent's namespace. It additionally reuses the agent's service account and associated RBAC permissions.
 Once the proxy-only agent is healthy, the platform upgrades the agent deployment.
 In case of a failure during the upgrade, the platform can still connect via the proxy-only agent and perform a rollback to a previous agent version.
 
