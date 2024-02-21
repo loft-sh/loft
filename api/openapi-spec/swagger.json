@@ -11021,6 +11021,10 @@
           },
           "type": "array"
         },
+        "offline": {
+          "description": "Offline is true if loft is running in an airgapped environment",
+          "type": "boolean"
+        },
         "primaryColor": {
           "description": "PrimaryColor is the color value (ex: \"#12345\") to use as the primary color",
           "type": "string"
@@ -11795,6 +11799,35 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "io.k8s.api.core.v1.ClusterTrustBundleProjection": {
+      "description": "ClusterTrustBundleProjection describes how to select a set of ClusterTrustBundle objects and project their contents into the pod filesystem.",
+      "properties": {
+        "labelSelector": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
+          "description": "Select all ClusterTrustBundles that match this label selector.  Only has effect if signerName is set.  Mutually-exclusive with name.  If unset, interpreted as \"match nothing\".  If set but empty, interpreted as \"match everything\"."
+        },
+        "name": {
+          "description": "Select a single ClusterTrustBundle by object name.  Mutually-exclusive with signerName and labelSelector.",
+          "type": "string"
+        },
+        "optional": {
+          "description": "If true, don't block pod startup if the referenced ClusterTrustBundle(s) aren't available.  If using name, then the named ClusterTrustBundle is allowed not to exist.  If using signerName, then the combination of signerName and labelSelector is allowed to match zero ClusterTrustBundles.",
+          "type": "boolean"
+        },
+        "path": {
+          "description": "Relative path from the volume root to write the bundle.",
+          "type": "string"
+        },
+        "signerName": {
+          "description": "Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name.  The contents of all selected ClusterTrustBundles will be unified and deduplicated.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
       "type": "object"
     },
     "io.k8s.api.core.v1.ConfigMapEnvSource": {
@@ -12919,6 +12952,10 @@
           "$ref": "#/definitions/io.k8s.api.core.v1.HTTPGetAction",
           "description": "HTTPGet specifies the http request to perform."
         },
+        "sleep": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.SleepAction",
+          "description": "Sleep represents the duration that the container should sleep before being terminated."
+        },
         "tcpSocket": {
           "$ref": "#/definitions/io.k8s.api.core.v1.TCPSocketAction",
           "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
@@ -13084,7 +13121,7 @@
           "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the dataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, when namespace isn't specified in dataSourceRef, both fields (dataSource and dataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. When namespace is specified in dataSourceRef, dataSource isn't set to the same value and must be empty. There are three important differences between dataSource and dataSourceRef: * While dataSource only allows two specific types of objects, dataSourceRef\n  allows any non-core object, as well as PersistentVolumeClaim objects.\n* While dataSource ignores disallowed values (dropping them), dataSourceRef\n  preserves all values, and generates an error if a disallowed value is\n  specified.\n* While dataSource only allows local objects, dataSourceRef allows objects\n  in any namespaces.\n(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled."
         },
         "resources": {
-          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+          "$ref": "#/definitions/io.k8s.api.core.v1.VolumeResourceRequirements",
           "description": "resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources"
         },
         "selector": {
@@ -13093,6 +13130,10 @@
         },
         "storageClassName": {
           "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+          "type": "string"
+        },
+        "volumeAttributesClassName": {
+          "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim. If specified, the CSI driver will create or update the volume with the attributes defined in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName, it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass will be applied to the claim but it's not allowed to reset this field to empty string once it is set. If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass will be set by the persistentvolume controller if it exists. If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource exists. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#volumeattributesclass (Alpha) Using this field requires the VolumeAttributesClass feature gate to be enabled.",
           "type": "string"
         },
         "volumeMode": {
@@ -13212,7 +13253,23 @@
       "properties": {
         "labelSelector": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
-          "description": "A label query over a set of resources, in this case pods."
+          "description": "A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods."
+        },
+        "matchLabelKeys": {
+          "description": "MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "mismatchLabelKeys": {
+          "description": "MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         },
         "namespaceSelector": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
@@ -14458,6 +14515,20 @@
       ],
       "type": "object"
     },
+    "io.k8s.api.core.v1.SleepAction": {
+      "description": "SleepAction describes a \"sleep\" action.",
+      "properties": {
+        "seconds": {
+          "description": "Seconds is the number of seconds to sleep.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "seconds"
+      ],
+      "type": "object"
+    },
     "io.k8s.api.core.v1.StorageOSVolumeSource": {
       "description": "Represents a StorageOS persistent volume resource.",
       "properties": {
@@ -14853,6 +14924,10 @@
     "io.k8s.api.core.v1.VolumeProjection": {
       "description": "Projection that may be projected along with other supported volume types",
       "properties": {
+        "clusterTrustBundle": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ClusterTrustBundleProjection",
+          "description": "ClusterTrustBundle allows a pod to access the `.spec.trustBundle` field of ClusterTrustBundle objects in an auto-updating file.\n\nAlpha, gated by the ClusterTrustBundleProjection feature gate.\n\nClusterTrustBundle objects can either be selected by name, or by the combination of signer name and a label selector.\n\nKubelet performs aggressive normalization of the PEM contents written into the pod filesystem.  Esoteric PEM features such as inter-block comments and block headers are stripped.  Certificates are deduplicated. The ordering of certificates within the file is arbitrary, and Kubelet may change the order over time."
+        },
         "configMap": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ConfigMapProjection",
           "description": "configMap information about the configMap data to project"
@@ -14868,6 +14943,26 @@
         "serviceAccountToken": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ServiceAccountTokenProjection",
           "description": "serviceAccountToken is information about the serviceAccountToken data to project"
+        }
+      },
+      "type": "object"
+    },
+    "io.k8s.api.core.v1.VolumeResourceRequirements": {
+      "description": "VolumeResourceRequirements describes the storage resource requirements for a volume.",
+      "properties": {
+        "limits": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+          "type": "object"
+        },
+        "requests": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+          "type": "object"
         }
       },
       "type": "object"
@@ -15814,8 +15909,8 @@
       "type": "boolean",
       "uniqueItems": true
     },
-    "pretty-nN7o5FEq": {
-      "description": "If 'true', then the output is pretty printed.",
+    "pretty-tJGM1-ng": {
+      "description": "If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).",
       "in": "query",
       "name": "pretty",
       "type": "string",
@@ -16003,7 +16098,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -16110,7 +16205,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -16272,7 +16367,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -16446,7 +16541,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -16621,7 +16716,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -16645,7 +16740,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -16731,7 +16826,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -16931,7 +17026,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -17105,7 +17200,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -17258,7 +17353,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -17458,7 +17553,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -17632,7 +17727,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -17908,7 +18003,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -18082,7 +18177,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -18257,7 +18352,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -18303,7 +18398,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -18349,7 +18444,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -18465,7 +18560,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -18581,7 +18676,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -18627,7 +18722,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -18659,7 +18754,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -18758,7 +18853,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -18782,7 +18877,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -18881,7 +18976,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -18935,7 +19030,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -19097,7 +19192,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -19271,7 +19366,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -19424,7 +19519,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -19531,7 +19626,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -19600,7 +19695,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -19661,43 +19756,29 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
     "/apis/management.loft.sh/v1/features/{name}/status": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read status of the specified Feature",
-        "operationId": "readManagementLoftShV1FeatureStatus",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Feature",
-          "version": "v1"
-        }
-      },
       "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
         {
           "description": "name of the Feature",
           "in": "path",
@@ -19707,74 +19788,9 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
-      "patch": {
-        "consumes": [
-          "application/json-patch+json",
-          "application/merge-patch+json",
-          "application/strategic-merge-patch+json",
-          "application/apply-patch+yaml"
-        ],
-        "description": "partially update status of the specified Feature",
-        "operationId": "patchManagementLoftShV1FeatureStatus",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-78PwaGsr"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-7c6nTn1T"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/force-tOGGb0Yi"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "patch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Feature",
-          "version": "v1"
-        }
-      },
       "put": {
         "consumes": [
           "*/*"
@@ -19789,23 +19805,6 @@
             "schema": {
               "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
             }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
           }
         ],
         "produces": [
@@ -19860,7 +19859,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -19959,7 +19958,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -20005,7 +20004,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -20037,7 +20036,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -20114,7 +20113,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -20191,7 +20190,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -20394,7 +20393,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -20571,7 +20570,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -20983,7 +20982,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -21365,7 +21364,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -21542,7 +21541,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -21745,7 +21744,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -21922,7 +21921,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -22201,7 +22200,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -22378,7 +22377,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -22657,7 +22656,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -22834,7 +22833,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -22998,7 +22997,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -23112,7 +23111,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/previous-AEFjzUgM"
@@ -23173,7 +23172,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -23267,7 +23266,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -23424,7 +23423,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -23607,7 +23606,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -23769,7 +23768,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -23943,7 +23942,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -24104,7 +24103,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -24203,7 +24202,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -24249,7 +24248,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -24281,7 +24280,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -24366,7 +24365,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -24465,7 +24464,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -24497,7 +24496,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -24582,7 +24581,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -24681,7 +24680,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -24856,7 +24855,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -24910,7 +24909,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -24949,7 +24948,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -25026,7 +25025,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -25226,7 +25225,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -25400,7 +25399,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -25575,7 +25574,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -25621,7 +25620,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -25667,7 +25666,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -25820,7 +25819,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -25897,7 +25896,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -25996,7 +25995,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -26050,7 +26049,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -26212,7 +26211,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -26386,7 +26385,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -26569,7 +26568,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -26731,7 +26730,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -26905,7 +26904,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -27058,7 +27057,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -27258,7 +27257,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -27432,7 +27431,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -27616,7 +27615,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/previous-AEFjzUgM"
@@ -27775,7 +27774,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -27949,7 +27948,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -28124,7 +28123,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -28170,7 +28169,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -28317,7 +28316,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -28491,7 +28490,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -28666,7 +28665,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -28712,7 +28711,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -28758,7 +28757,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     },
@@ -28804,7 +28803,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -28928,7 +28927,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29090,7 +29089,7 @@
       },
       "parameters": [
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -29264,7 +29263,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "patch": {
@@ -29447,7 +29446,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29524,7 +29523,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29593,7 +29592,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29670,7 +29669,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29739,7 +29738,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29816,7 +29815,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29885,7 +29884,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -29962,7 +29961,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30031,7 +30030,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30100,7 +30099,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30177,7 +30176,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30249,7 +30248,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30329,7 +30328,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30401,7 +30400,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30481,7 +30480,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30553,7 +30552,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30633,7 +30632,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30705,7 +30704,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30785,7 +30784,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30854,7 +30853,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -30931,7 +30930,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31000,7 +30999,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31069,7 +31068,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31146,7 +31145,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31215,7 +31214,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31292,7 +31291,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31361,7 +31360,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31430,7 +31429,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31507,7 +31506,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31576,7 +31575,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31653,7 +31652,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31722,7 +31721,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31799,7 +31798,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31868,7 +31867,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -31945,7 +31944,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -32014,7 +32013,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -32083,7 +32082,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -32160,7 +32159,7 @@
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -32287,7 +32286,7 @@
           "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -32359,7 +32358,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         },
         {
           "$ref": "#/parameters/resourceVersion-5WAnf1kx"
@@ -32423,7 +32422,7 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/pretty-nN7o5FEq"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ]
     }
