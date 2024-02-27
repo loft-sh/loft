@@ -241,6 +241,14 @@ module.exports = {
                             type: "doc",
                             id: "clusters/agent-config",
                         },
+                        {
+                            type: "doc",
+                            id: "clusters/cluster-upgrades",
+                        },
+                        {
+                            type: "doc",
+                            id: "clusters/cluster-troubleshooting",
+                        },
                     ],
                 },
             ],

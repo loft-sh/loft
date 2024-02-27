@@ -8,24 +8,29 @@ import TabItem from '@theme/TabItem'
 
 import PartialClusterConnectUI from './_partials/cluster/connect-ui.mdx'
 import PartialClusterConnectCLI from './_partials/cluster/connect-cli.mdx'
+import PartialClusterConnectHelm from './_partials/cluster/connect-helm.mdx'
 
 import BeforeSvg from '@site/static/media/agent/egress-only-before.excalidraw.svg';
 import AfterSvg from '@site/static/media/agent/egress-only-after.excalidraw.svg';
 import EnrollmentSvg from '@site/static/media/agent/egress-only-enrollment.excalidraw.svg';
 
-A new cluster can be connected to Loft through the UI or CLI:
+A new cluster can be connected to Loft through the UI, CLI, or Helm:
 
 <Tabs
   defaultValue="ui"
   values={[
     {label: 'UI', value: 'ui'},
     {label: 'CLI', value: 'cli'},
+    {label: 'Helm', value: 'helm'},
   ]}>
   <TabItem value="ui">
     <PartialClusterConnectUI />
   </TabItem>
   <TabItem value="cli">
     <PartialClusterConnectCLI />
+  </TabItem>
+  <TabItem value="helm">
+    <PartialClusterConnectHelm />
   </TabItem>
 </Tabs>
 
@@ -55,3 +60,6 @@ utilize the control plane as a Designated Encrypted Relay for Packets. The contr
 plane relay is comparable to the same role as TURN servers in the ICE standard,
 using HTTPS streams (or WebSockets) and WireGuards keys instead.
 
+:::info
+If you encounter issues while configuring agent values or deploying it manually, you might want to take a look at the [Cluster troubleshooting](./cluster-troubleshooting) guide.
+:::

@@ -1,0 +1,76 @@
+import NavStep from '@site/src/components/NavStep'
+
+
+If you prefer to use Helm, you need to make sure that you have a valid Access Key.
+
+You can either reuse the CLI Access Key or create a new one by following the [Access Key guide](../users/access-keys#create-an-access-key).
+
+
+- Reusing the CLI Access Key
+
+  ```bash
+  export ACCESS_KEY=$(loft token | jq -r .status.token)
+  ```
+
+- Create new Access Key by following the [Access Key](../users/access-keys#create-an-access-key) guide.
+
+  ```bash
+  export ACCESS_KEY="[Newly Created Access Key]"
+  ```
+
+After that, you need to provide a name for the cluster.
+
+```bash
+export CLUSTER_NAME="cluster-name"
+```
+
+Next, you must create the Cluster custom resource within the platform using the following code:
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: management.loft.sh/v1
+kind: Cluster
+metadata:
+  name: $CLUSTER_NAME
+spec:
+  displayName: $CLUSTER_NAME
+  networkPeer: true
+EOF
+```
+
+Then, you need to set the Platform Host using the following code:
+
+```bash
+export PLATFORM_HOST="YOUR_LOFT_HOST"
+```
+
+To get the Platform version, you should run the following command:
+
+```bash
+export PLATFORM_VERSION=$(curl -s "https://$PLATFORM_HOST/version" | jq -r '.version | .[1:]')
+```
+
+To get the Cluster Connect token, you should run the following command:
+
+```bash
+export CLUSTER_ACCESS_KEY=$(curl -s "https://$PLATFORM_HOST/kubernetes/management/apis/management.loft.sh/v1/clusters/$CLUSTER_NAME/accesskey" -H "Authorization: bearer $ACCESS_KEY")
+```
+
+Finally, you can connect the cluster using the following command:
+
+```bash
+helm upgrade loft loft --install \
+  --repo https://charts.loft.sh/ \
+  --version $PLATFORM_VERSION \
+  --namespace loft \
+  --create-namespace \
+  --set agentOnly=true \
+  --set url=https://$PLATFORM_HOST \
+  --set token=$(echo $CLUSTER_ACCESS_KEY | jq -r .accessKey) \
+  --set additionalCA=$(echo $CLUSTER_ACCESS_KEY | jq -r .caCert) \
+  --set insecure=$(echo $CLUSTER_ACCESS_KEY | jq -r .insecure)
+```
+
+This command will automatically install the Platform Agent in the cluster that is your current context.
+However, if you want to connect a cluster that is not your current context, you can append the `--kube-context` flag to specify the context of the cluster you want to connect.
+
