@@ -9163,7 +9163,7 @@
           "type": "string"
         },
         "type": {
-          "description": "Type of the parameter. Can be one of: string, multiline, boolean, enum and password",
+          "description": "Type of the parameter. Can be one of: string, multiline, boolean, number and password",
           "type": "string"
         },
         "validation": {
