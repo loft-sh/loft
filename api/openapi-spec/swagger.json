@@ -9144,7 +9144,7 @@
           "type": "integer"
         },
         "options": {
-          "description": "Options are the options if type is enum",
+          "description": "Options is a slice of strings, where each string represents a mutually exclusive choice.",
           "items": {
             "type": "string"
           },
