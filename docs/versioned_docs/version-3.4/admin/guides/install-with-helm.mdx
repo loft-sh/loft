@@ -19,16 +19,6 @@ seen below:
 ```bash
 helm upgrade [RELASE NAME] loft --install \
   --repo https://charts.loft.sh/ \
-  --namespace loft
-```
-
-Typically, users will simply call the release name `loft`. If the 'loft' namespace does not
-already exist, you can add the `--create-namespace` flag as well, for a final installation
-command as follows:
-
-```bash
-helm upgrade loft loft --install \
-  --repo https://charts.loft.sh/ \
   --namespace loft \
   --create-namespace
 ```
@@ -85,11 +75,11 @@ hostname is and is necessary for some integrations, including ArgoCD, and SSO.
 
 ## The Loft Agent
 
-Every connected cluster in a Loft environment, including the "main" cluster that Loft is
+Every connected cluster in a Loft environment, including the "management" cluster that Loft is
 deployed in, must have a Loft Agent deployed. This agent pod handles reconciliation of cluster
 scoped (as in not Loft instance wide) resources.
 
-By default, when Loft is installed, the Loft pod will _also_ install the Loft Agent into the
+By default, the Loft pod will _also_ launch an embedded Loft Agent in the
 cluster you are deploying Loft into. This is usually a desirable behavior since Loft requires
 the Agent to be present in all clusters. Sometimes, however, admins wish to manage the
 installation of the Loft Agent themselves, either by installing it explicitly, or by installing
@@ -113,15 +103,8 @@ mechanism described above, make sure you are still getting an Agent installed in
 connected cluster by some other means!
 :::
 
-If you are electing to manage the Agent installation yourself, you can install the Agent
-directly using Helm.
-
-```bash
-helm upgrade loft-agent loft-agent --install \
-  --repo https://charts.loft.sh/ \
-  --namespace loft \
-  --create-namespace
-```
+If you are electing to manage the Agent installation on a connected cluster yourself, you can
+[install the Agent directly using Helm](../../clusters/connect-cluster?x0=3).
 
 ## Loft Agent Values
 
