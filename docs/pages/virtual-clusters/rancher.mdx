@@ -79,6 +79,10 @@ Installing the plugin lets us create and delete virtual clusters from the Ranche
   </Step>
 </Flow>
 
+:::info 
+If the VirtualClusterInstance being deleted is asleep or if the Rancher cluster-agent within the vCluster is not ready & connected to the Rancher Server, then it may take upto 5 minutes for the virtual cluster to be cleared in Rancher.
+:::
+
 ## Importing vClusters into Rancher
 Once a project has Rancher integration enabled, virtual clusters within that project are eligible to be
 synced into Rancher. You can enable virtual cluster import into Rancher during the virtual cluster creation step, or by enabling this feature on existing
