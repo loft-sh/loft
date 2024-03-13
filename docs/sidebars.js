@@ -493,6 +493,7 @@ module.exports = {
                 "guides/upgrade-2-to-3",
                 "guides/gitops",
                 "guides/managing-permissions",
+                "guides/aggregating-metrics",
             ],
         },
         {
