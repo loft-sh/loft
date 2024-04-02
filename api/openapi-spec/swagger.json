@@ -15802,6 +15802,12 @@
         "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
       }
     },
+    "cliMode-zGM7B9tA": {
+      "in": "query",
+      "name": "cliMode",
+      "type": "boolean",
+      "uniqueItems": true
+    },
     "container-C23hHG_w": {
       "in": "query",
       "name": "container",
@@ -21166,6 +21172,9 @@
         }
       },
       "parameters": [
+        {
+          "$ref": "#/parameters/cliMode-zGM7B9tA"
+        },
         {
           "$ref": "#/parameters/debug-EtJFGyrW"
         },
