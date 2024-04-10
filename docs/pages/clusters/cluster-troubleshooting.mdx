@@ -21,6 +21,7 @@ These environment variables will enable debug logs for the following components:
 - `LOFT_LOG_TSNET_AGENT`: Enable debug logs for the control-plane managed agents (will also enable debug logs for the agent embedded in the control plane).
 - `LOFT_LOG_DERP`: Enable debug logs for the DERP server.
 - `LOFT_LOG_DERP_MESH`: Enable debug logs for the DERP mesh.
+- `LOFT_LOG_TS_NETMAP`: Enable debug logs intercepting all network map updates to clients, printing them to the log before sending off to the client.
 
 :::info Enabling Loft Debug Logs
 Please ensure that loft logs are set to debug in the [`values.yaml` file of the Loft Helm chart](../admin/guides/install-with-helm#loft-values); otherwise, the logs won't be shown.
