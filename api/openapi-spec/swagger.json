@@ -11032,6 +11032,10 @@
           },
           "type": "array"
         },
+        "defaultVClusterVersion": {
+          "description": "DefaultVClusterVersion is the default version of vClusters",
+          "type": "string"
+        },
         "hasHelmRelease": {
           "description": "HasHelmRelease indicates whether loft has been installed via Helm",
           "type": "boolean"
