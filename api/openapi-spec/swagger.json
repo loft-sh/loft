@@ -8861,8 +8861,16 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScope": {
       "properties": {
+        "allowAgentless": {
+          "description": "AllowAgentless allows a vCluster to enroll by itself to the platform without the need for a platform agent to be deployed.",
+          "type": "boolean"
+        },
         "allowLoftCli": {
           "description": "AllowLoftCLI allows certain read-only management requests to make sure loft cli works correctly with this specific access key.",
+          "type": "boolean"
+        },
+        "allowNetworkPeering": {
+          "description": "AllowNetworkPeering allows the access key user to join the overlay network.",
           "type": "boolean"
         },
         "clusters": {
