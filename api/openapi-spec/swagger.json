@@ -8865,16 +8865,8 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScope": {
       "properties": {
-        "allowAgentless": {
-          "description": "AllowAgentless allows a vCluster to enroll by itself to the platform without the need for a platform agent to be deployed.",
-          "type": "boolean"
-        },
         "allowLoftCli": {
-          "description": "AllowLoftCLI allows certain read-only management requests to make sure loft cli works correctly with this specific access key.",
-          "type": "boolean"
-        },
-        "allowNetworkPeering": {
-          "description": "AllowNetworkPeering allows the access key user to join the overlay network.",
+          "description": "AllowLoftCLI allows certain read-only management requests to make sure loft cli works correctly with this specific access key.\n\nDeprecated: Use the `roles` field instead\n ```yaml\n # Example:\n roles:\n   - role: loftCLI\n ```",
           "type": "boolean"
         },
         "clusters": {
@@ -8888,6 +8880,13 @@
           "description": "Projects specifies the projects the access key should have access to.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeProject"
+          },
+          "type": "array"
+        },
+        "roles": {
+          "description": "Roles is a set of managed permissions to apply to the access key.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeRole"
           },
           "type": "array"
         },
@@ -8928,6 +8927,15 @@
       "properties": {
         "project": {
           "description": "Project is the name of the project. You can specify * to select all projects.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeRole": {
+      "properties": {
+        "role": {
+          "description": "Role is the name of the role to apply to the access key scope.",
           "type": "string"
         }
       },
