@@ -8499,6 +8499,10 @@
           },
           "type": "array"
         },
+        "networkPeer": {
+          "description": "NetworkPeer specifies if the cluster is connected via tailscalel. When this is specified, the vCluster will not be scheduled to any connected cluster and no templates will be applied to it.",
+          "type": "boolean"
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
