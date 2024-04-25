@@ -116,8 +116,10 @@ spec:
           value: {{ .Values.admin.password | sha256sum | quote }}
         {{- end }}
         {{- if (gt (int .Values.replicaCount) 1) }}
+        {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
         - name: LEADER_ELECTION_ENABLED
           value: "true"
+        {{- end }}
         {{- end }}
         {{- range $key, $value := .Values.envValueFrom }}
         - name: {{ $key | quote }}
