@@ -9646,8 +9646,13 @@
     },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProjectSpec": {
       "properties": {
+        "fallbackImage": {
+          "description": "FallbackImage defines an image all workspace will fall back to if no devcontainer.json could be detected",
+          "type": "string"
+        },
         "git": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.GitProjectSpec"
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.GitProjectSpec",
+          "description": "Git defines additional git related settings like credentials"
         }
       },
       "type": "object"
