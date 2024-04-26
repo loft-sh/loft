@@ -9716,16 +9716,16 @@
           "description": "Provider holds the DevPod provider configuration"
         },
         "spaceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.SpaceTemplateDefinition",
+          "description": "SpaceTemplate is the inline template for a space that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
+        "spaceTemplateRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
-          "description": "SpaceTemplate is the space that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
+          "description": "SpaceTemplateRef is a reference to the space that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
         },
         "useProjectGitCredentials": {
           "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this workspace",
           "type": "boolean"
-        },
-        "virtualClusterTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
-          "description": "VirtualClusterTemplate is the virtual cluster that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
         },
         "workspaceEnv": {
           "additionalProperties": {
