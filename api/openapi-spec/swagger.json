@@ -8475,7 +8475,7 @@
           "type": "array"
         },
         "networkPeer": {
-          "description": "NetworkPeer specifies if the cluster is connected via tailscalel. When this is specified, the vCluster will not be scheduled to any connected cluster and no templates will be applied to it.",
+          "description": "NetworkPeer specifies if the cluster is connected via tailscale. When this is specified, the vCluster will not be scheduled to any connected cluster and no templates will be applied to it.",
           "type": "boolean"
         },
         "owner": {
@@ -8526,6 +8526,10 @@
         "message": {
           "description": "Message describes the reason in human-readable form why the cluster is in the current phase",
           "type": "string"
+        },
+        "online": {
+          "description": "Online specifies if there is at least one network peer available for an agentless vCluster.",
+          "type": "boolean"
         },
         "phase": {
           "description": "Phase describes the current phase the virtual cluster instance is in",
@@ -8910,7 +8914,12 @@
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AccessKeyScopeRole": {
       "properties": {
         "role": {
-          "description": "Role is the name of the role to apply to the access key scope.",
+          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"loft-cli\"`\n - `\"network-peer\"`\n - `\"vcluster\"`",
+          "enum": [
+            "loft-cli",
+            "network-peer",
+            "vcluster"
+          ],
           "type": "string"
         }
       },
