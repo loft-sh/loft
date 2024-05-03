@@ -6345,10 +6345,6 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.ArgoIntegrationSpec",
           "description": "ArgoIntegration holds information about ArgoCD Integration"
         },
-        "automaticImport": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImport",
-          "description": "AutomaticImport imports vClusters & Namespace automatically"
-        },
         "description": {
           "description": "Description describes an app",
           "type": "string"
@@ -9390,24 +9386,6 @@
         "host": {
           "description": "Host defines the ArgoCD host address that will be used for OIDC authentication between loft and ArgoCD. If not specified OIDC integration will be skipped, but vclusters/spaces will still be synced to ArgoCD.",
           "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImport": {
-      "properties": {
-        "virtualClusters": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImportVirtualClusters",
-          "description": "VirtualClusters defines automatic virtual cluster import options."
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.AutomaticImportVirtualClusters": {
-      "properties": {
-        "enabled": {
-          "description": "Enabled specifies if automatic virtual cluster import should be enabled for this project.",
-          "type": "boolean"
         }
       },
       "type": "object"
