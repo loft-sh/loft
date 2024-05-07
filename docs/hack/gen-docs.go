@@ -10,8 +10,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/loft-sh/loftctl/v3/cmd/loftctl/cmd"
-	"github.com/loft-sh/loftctl/v3/pkg/client"
+	"github.com/loft-sh/loftctl/v4/cmd/loftctl/cmd"
+	"github.com/loft-sh/loftctl/v4/pkg/client"
 	loftlog "github.com/loft-sh/log"
 	"github.com/spf13/cobra/doc"
 )
