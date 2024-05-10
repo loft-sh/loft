@@ -185,6 +185,7 @@ logging:
   encoding: console # Can be either json or console
   level: info # Can be either: debug, info, error
 
+# The product to use
 product: loft
 
 # Token is used to connect to the network peer coordinator server of a Loft instance
