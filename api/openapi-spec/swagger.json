@@ -9612,6 +9612,16 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition": {
       "properties": {
+        "gitCloneStrategy": {
+          "description": "GitCloneStrategy specifies how git based workspace are being cloned. Can be \"\" (full, default), treeless, blobless or shallow\n\nPossible enum values:\n - `\"\"`\n - `\"blobless\"`\n - `\"shallow\"`\n - `\"treeless\"`",
+          "enum": [
+            "",
+            "blobless",
+            "shallow",
+            "treeless"
+          ],
+          "type": "string"
+        },
         "provider": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceProvider",
           "description": "Provider holds the DevPod provider configuration"
