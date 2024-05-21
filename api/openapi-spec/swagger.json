@@ -4483,6 +4483,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDC",
           "description": "OIDC holds oidc provider relevant information"
         },
+        "projectNamespacePrefix": {
+          "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces. Omitted defaults to \"loft-p-\"",
+          "type": "string"
+        },
         "uiSettings": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.UISettingsConfig",
           "description": "UISettings holds the settings for modifying the Loft user interface"
@@ -6876,6 +6880,10 @@
         },
         "instanceID": {
           "description": "InstanceID is the loft instance id",
+          "type": "string"
+        },
+        "projectNamespacePrefix": {
+          "description": "ProjectNamespacePrefix is the prefix used to name project namespaces",
           "type": "string"
         },
         "subject": {
