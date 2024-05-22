@@ -6778,8 +6778,8 @@
           "description": "The display name shown in the UI",
           "type": "string"
         },
-        "endpoint": {
-          "description": "Endpoint is the hostname used to connect directly to the runner",
+        "networkPeerName": {
+          "description": "NetworkPeerName is the network peer name used to connect directly to the runner",
           "type": "string"
         },
         "owner": {
@@ -8922,10 +8922,12 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyScopeRole": {
       "properties": {
         "role": {
-          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"loft-cli\"`\n - `\"network-peer\"`\n - `\"vcluster\"`",
+          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"network-peer\"`\n - `\"runner\"`\n - `\"vcluster\"`",
           "enum": [
+            "agent",
             "loft-cli",
             "network-peer",
+            "runner",
             "vcluster"
           ],
           "type": "string"
