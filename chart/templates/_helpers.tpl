@@ -40,3 +40,29 @@ Default image name for a given product
     {{ include "loft.defaultImage" . }}
   {{- end -}}
 {{- end -}}
+
+{{- define "loft.strategyType" -}}
+  {{- if and .Values.strategy .Values.strategy.type -}}
+    {{- .Values.strategy.type -}}
+  {{- else -}}
+    {{- if eq (int .Values.replicaCount) 1 -}}
+      {{ printf "Recreate" }}
+    {{- else -}}
+      {{ printf "RollingUpdate" }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "loft.strategy" -}}
+  {{- $type := include "loft.strategyType" . -}}
+  type: {{ $type }}
+  {{- if eq $type "RollingUpdate" }}
+  rollingUpdate:
+    maxSurge: 1
+    {{- if (eq (int .Values.replicaCount) 1) }}
+    maxUnavailable: 0
+    {{- else }}
+    maxUnavailable: 1
+    {{- end }}
+  {{- end -}}
+{{- end -}}

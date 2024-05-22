@@ -78,6 +78,10 @@ envValueFrom: {}
 # Replica amount of the loft deployment
 replicaCount: 1
 
+# Deployment strategy to be used for rolling out new replicasets
+# strategy:
+#   type: RollingUpdate
+
 # Resources of the loft deployment
 resources:
   requests:

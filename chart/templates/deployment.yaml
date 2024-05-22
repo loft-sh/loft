@@ -27,18 +27,7 @@ spec:
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   strategy:
-    {{- if .Values.agentOnly }}
-    type: Recreate
-    {{- else }}
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      {{- if (eq (int .Values.replicaCount) 1) }}
-      maxUnavailable: 0
-      {{- else }}
-      maxUnavailable: 1
-      {{- end }}
-    {{- end }}
+    {{ template "loft.strategy" . }}
   template:
     metadata:
       labels:
@@ -111,6 +100,8 @@ spec:
         env:
         - name: ADMIN_EMAIL
           value: {{ .Values.admin.email | quote }}
+        - name: CHART_VERSION
+          value: {{ .Chart.Version }}
         {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
