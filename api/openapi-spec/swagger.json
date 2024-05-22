@@ -3905,6 +3905,10 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
+        "projectNamespacePrefix": {
+          "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces",
+          "type": "string"
+        },
         "tokenCaCert": {
           "description": "TokenCaCert is the certificate authority the Loft tokens will be signed with",
           "format": "byte",
@@ -4484,7 +4488,7 @@
           "description": "OIDC holds oidc provider relevant information"
         },
         "projectNamespacePrefix": {
-          "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces. Omitted defaults to \"loft-p-\"",
+          "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces. Omitted defaults to \"p-\"",
           "type": "string"
         },
         "uiSettings": {
@@ -6883,7 +6887,7 @@
           "type": "string"
         },
         "projectNamespacePrefix": {
-          "description": "ProjectNamespacePrefix is the prefix used to name project namespaces",
+          "description": "ProjectNamespacePrefix is the prefix used to name project namespaces after defaulting has been applied",
           "type": "string"
         },
         "subject": {
