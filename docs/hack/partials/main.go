@@ -671,33 +671,6 @@ spec:
 		Delete:   true,
 	})
 
-	// Cluster Connect
-	util.GenerateObjectOverview(&util.ObjectInformation{
-		Title:       "Connect Cluster",
-		Name:        "Cluster Connect",
-		Resource:    "clusterconnect",
-		Description: "You can connect a new cluster through this API, compared to the cluster api, this will also create the necessary secret and cluster access object within the newly connected cluster.",
-		File:        "docs/pages/api/resources/clusters/clusterconnect.mdx",
-		Object: &managementv1.ClusterConnect{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       "ClusterConnect",
-				APIVersion: managementv1.SchemeGroupVersion.String(),
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "my-cluster",
-			},
-			Spec: managementv1.ClusterConnectSpec{
-				AdminUser: "my-user",
-				Config: `apiVersion: v1
-kind: Config
-clusters:
-- cluster:
-...`,
-			},
-		},
-		Create: true,
-	})
-
 	// Cluster Access
 	util.GenerateObjectOverview(&util.ObjectInformation{
 		Name:        "Cluster Access",
