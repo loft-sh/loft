@@ -9507,6 +9507,10 @@
         "git": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectSpec",
           "description": "Git defines additional git related settings like credentials"
+        },
+        "ssh": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSHProjectSpec",
+          "description": "SSH defines additional ssh related settings like private keys"
         }
       },
       "type": "object"
@@ -9589,6 +9593,10 @@
         },
         "useProjectGitCredentials": {
           "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this workspace",
+          "type": "boolean"
+        },
+        "useProjectSSHCredentials": {
+          "description": "UseProjectSSHCredentials specifies if the project ssh credentials should be used instead of local ones for this workspace",
           "type": "boolean"
         },
         "workspaceEnv": {
@@ -10236,6 +10244,19 @@
         "runner": {
           "description": "Runner is the connected runner the workspace will be created in",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSHProjectSpec": {
+      "properties": {
+        "token": {
+          "description": "Token defines the private ssh key to use for authentication.",
+          "type": "string"
+        },
+        "tokenSecretRef": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.SecretKeySelector",
+          "description": "TokenSecretRef defines the project secret to use as private ssh key for authentication. Will be used if `Token` is not provided."
         }
       },
       "type": "object"
