@@ -204,3 +204,29 @@ additionalCA: ""
 # insecureSkipVerify is used to omit tls verification within loft and all its
 # managed components
 insecureSkipVerify: false
+
+podDisruptionBudget:
+  ## Specifies whether a Pod disruption budget should be created
+  ##
+  create: true
+  minAvailable: 1
+  # maxUnavailable: 1
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 1
+      preference:
+        matchExpressions:
+        - key: eks.amazonaws.com/capacityType
+          operator: NotIn
+          values:
+          - SPOT
+        - key: kubernetes.azure.com/scalesetpriority
+          operator: NotIn
+          values:
+          - spot
+        - key: cloud.google.com/gke-provisioning
+          operator: NotIn
+          values:
+          - spot
