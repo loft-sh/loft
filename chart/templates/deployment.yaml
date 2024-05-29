@@ -137,10 +137,6 @@ spec:
         - name: LOFT_LOG_LEVEL
           value: {{ default "info" .Values.logging.level }}
         {{- end }}
-        {{- if .Values.additionalCA }}
-        - name: SSL_CERT_FILE
-          value: /etc/loft/additional-ca/ca.crt
-        {{- end }}
         {{- if .Values.insecureSkipVerify }}
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
@@ -156,8 +152,10 @@ spec:
           - mountPath: /var/lib/loft
             name: loft-data
         {{- if .Values.additionalCA }}
-          - mountPath: /etc/loft/additional-ca
+          - mountPath: /etc/ssl/certs/loft-additional-ca.crt
             name: loft-additional-ca
+            readOnly: true
+            subPath: ca.crt
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
