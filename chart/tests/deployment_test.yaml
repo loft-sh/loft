@@ -1,0 +1,69 @@
+suite: Deployment
+templates:
+  - deployment.yaml
+
+tests:
+  - it: allow double LEADER_ELECTION_ENABLED
+    release:
+      name: my-release
+      namespace: my-namespace
+    set:
+      replicaCount: 3
+      env:
+        LEADER_ELECTION_ENABLED: "false"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "false"
+          count: 1
+
+  - it: automatic LEADER_ELECTION_ENABLED
+    release:
+      name: my-release
+      namespace: my-namespace
+    set:
+      replicaCount: 3
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+          count: 1
+
+  - it: Preferred node anti-affinity is applied by default
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.affinity
+          value: 
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                  - key: eks.amazonaws.com/capacityType
+                    operator: NotIn
+                    values:
+                    - SPOT
+                  - key: kubernetes.azure.com/scalesetpriority
+                    operator: NotIn
+                    values:
+                    - spot
+                  - key: cloud.google.com/gke-provisioning
+                    operator: NotIn
+                    values:
+                    - spot
+

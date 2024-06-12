@@ -27,18 +27,7 @@ spec:
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   strategy:
-    {{- if .Values.agentOnly }}
-    type: Recreate
-    {{- else }}
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      {{- if (eq (int .Values.replicaCount) 1) }}
-      maxUnavailable: 0
-      {{- else }}
-      maxUnavailable: 1
-      {{- end }}
-    {{- end }}
+    {{ template "loft.strategy" . }}
   template:
     metadata:
       labels:
@@ -111,13 +100,17 @@ spec:
         env:
         - name: ADMIN_EMAIL
           value: {{ .Values.admin.email | quote }}
+        - name: CHART_VERSION
+          value: {{ .Chart.Version }}
         {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
         {{- end }}
         {{- if (gt (int .Values.replicaCount) 1) }}
+        {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
         - name: LEADER_ELECTION_ENABLED
           value: "true"
+        {{- end }}
         {{- end }}
         {{- range $key, $value := .Values.envValueFrom }}
         - name: {{ $key | quote }}
@@ -144,10 +137,6 @@ spec:
         - name: LOFT_LOG_LEVEL
           value: {{ default "info" .Values.logging.level }}
         {{- end }}
-        {{- if .Values.additionalCA }}
-        - name: SSL_CERT_FILE
-          value: /etc/loft/additional-ca/ca.crt
-        {{- end }}
         {{- if .Values.insecureSkipVerify }}
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
@@ -163,8 +152,10 @@ spec:
           - mountPath: /var/lib/loft
             name: loft-data
         {{- if .Values.additionalCA }}
-          - mountPath: /etc/loft/additional-ca
+          - mountPath: /etc/ssl/certs/loft-additional-ca.crt
             name: loft-additional-ca
+            readOnly: true
+            subPath: ca.crt
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
