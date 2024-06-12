@@ -233,6 +233,14 @@
             {
               "type": "doc",
               "id": "clusters/agent-config"
+            },
+            {
+              "type": "doc",
+              "id": "clusters/cluster-upgrades"
+            },
+            {
+              "type": "doc",
+              "id": "clusters/cluster-troubleshooting"
             }
           ]
         }
@@ -482,7 +490,8 @@
         "guides/preview-environments",
         "guides/upgrade-2-to-3",
         "guides/gitops",
-        "guides/managing-permissions"
+        "guides/managing-permissions",
+        "guides/aggregating-metrics"
       ]
     },
     {
