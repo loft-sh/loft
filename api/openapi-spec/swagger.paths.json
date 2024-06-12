@@ -122,7 +122,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentAuditEvent"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
           }
         }
       ],
@@ -134,19 +134,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentAuditEvent"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentAuditEvent"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentAuditEvent"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AgentAuditEvent"
           }
         }
       },
@@ -180,7 +180,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AnnouncementList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AnnouncementList"
           }
         }
       },
@@ -357,7 +357,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AppList"
           }
         }
       },
@@ -391,7 +391,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         },
         {
@@ -420,19 +420,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         }
       },
@@ -523,7 +523,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         }
       },
@@ -595,13 +595,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         }
       },
@@ -630,7 +630,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         },
         {
@@ -659,13 +659,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.App"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.App"
           }
         }
       },
@@ -698,7 +698,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppCredentials"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.AppCredentials"
           }
         }
       },
@@ -764,7 +764,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Backup"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Backup"
           }
         }
       ],
@@ -777,19 +777,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Backup"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Backup"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Backup"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Backup"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Backup"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Backup"
           }
         }
       },
@@ -850,7 +850,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.BackupApply"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.BackupApply"
           }
         }
       ],
@@ -862,19 +862,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.BackupApply"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.BackupApply"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.BackupApply"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.BackupApply"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.BackupApply"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.BackupApply"
           }
         }
       },
@@ -1016,7 +1016,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccessList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccessList"
           }
         }
       },
@@ -1050,7 +1050,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         },
         {
@@ -1079,19 +1079,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         }
       },
@@ -1182,7 +1182,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         }
       },
@@ -1254,13 +1254,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         }
       },
@@ -1289,7 +1289,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         },
         {
@@ -1318,13 +1318,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccess"
           }
         }
       },
@@ -1338,6 +1338,83 @@
       "x-kubernetes-group-version-kind": {
         "group": "management.loft.sh",
         "kind": "ClusterAccess",
+        "version": "v1"
+      }
+    }
+  },
+  "/apis/management.loft.sh/v1/clusterconnect": {
+    "parameters": [
+      {
+        "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+        "in": "query",
+        "name": "dryRun",
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+      },
+      {
+        "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+        "in": "query",
+        "name": "fieldValidation",
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ],
+    "post": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "create a ClusterConnect",
+      "operationId": "createManagementLoftShV1ClusterConnect",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterConnect"
+          }
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterConnect"
+          }
+        },
+        "201": {
+          "description": "Created",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterConnect"
+          }
+        },
+        "202": {
+          "description": "Accepted",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterConnect"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "post",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "ClusterConnect",
         "version": "v1"
       }
     }
@@ -1466,7 +1543,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplateList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplateList"
           }
         }
       },
@@ -1500,7 +1577,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         },
         {
@@ -1529,19 +1606,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         }
       },
@@ -1632,7 +1709,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         }
       },
@@ -1704,13 +1781,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         }
       },
@@ -1739,7 +1816,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         },
         {
@@ -1768,13 +1845,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterRoleTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterRoleTemplate"
           }
         }
       },
@@ -1916,7 +1993,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterList"
           }
         }
       },
@@ -1950,7 +2027,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         },
         {
@@ -1979,19 +2056,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         }
       },
@@ -2082,7 +2159,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         }
       },
@@ -2154,13 +2231,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         }
       },
@@ -2189,7 +2266,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         },
         {
@@ -2218,13 +2295,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Cluster"
           }
         }
       },
@@ -2257,7 +2334,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAccessKey"
           }
         }
       },
@@ -2303,7 +2380,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAgentConfig"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterAgentConfig"
           }
         }
       },
@@ -2349,7 +2426,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterCharts"
           }
         }
       },
@@ -2391,7 +2468,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterCharts"
           }
         },
         {
@@ -2420,19 +2497,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterCharts"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterCharts"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterCharts"
           }
         }
       },
@@ -2465,7 +2542,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterDomain"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterDomain"
           }
         }
       },
@@ -2507,7 +2584,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterDomain"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterDomain"
           }
         },
         {
@@ -2536,19 +2613,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterDomain"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterDomain"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterDomain"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterDomain"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterDomain"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterDomain"
           }
         }
       },
@@ -2581,7 +2658,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterMemberAccess"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterMemberAccess"
           }
         }
       },
@@ -2627,7 +2704,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterMembers"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterMembers"
           }
         }
       },
@@ -2701,7 +2778,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterReset"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterReset"
           }
         }
       ],
@@ -2713,19 +2790,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterReset"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterReset"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterReset"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterReset"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterReset"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterReset"
           }
         }
       },
@@ -2758,7 +2835,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterVirtualClusterDefaults"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ClusterVirtualClusterDefaults"
           }
         }
       },
@@ -2824,7 +2901,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Config"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
           }
         }
       ],
@@ -2836,19 +2913,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Config"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Config"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Config"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
           }
         }
       },
@@ -2881,7 +2958,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Config"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Config"
           }
         }
       },
@@ -2912,83 +2989,6 @@
       }
     ]
   },
-  "/apis/management.loft.sh/v1/convertvirtualclusterconfig": {
-    "parameters": [
-      {
-        "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-        "in": "query",
-        "name": "dryRun",
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-      },
-      {
-        "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-        "in": "query",
-        "name": "fieldValidation",
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "post": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "create a ConvertVirtualClusterConfig",
-      "operationId": "createManagementLoftShV1ConvertVirtualClusterConfig",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConvertVirtualClusterConfig"
-          }
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConvertVirtualClusterConfig"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConvertVirtualClusterConfig"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConvertVirtualClusterConfig"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "post",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "ConvertVirtualClusterConfig",
-        "version": "v1"
-      }
-    }
-  },
   "/apis/management.loft.sh/v1/devpodworkspaceinstances": {
     "get": {
       "consumes": [
@@ -3005,7 +3005,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceList"
           }
         }
       },
@@ -3182,7 +3182,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplateList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplateList"
           }
         }
       },
@@ -3216,7 +3216,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         },
         {
@@ -3245,19 +3245,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         }
       },
@@ -3348,7 +3348,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         }
       },
@@ -3420,13 +3420,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         }
       },
@@ -3455,7 +3455,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         },
         {
@@ -3484,13 +3484,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceTemplate"
           }
         }
       },
@@ -3543,7 +3543,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DirectClusterEndpointToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DirectClusterEndpointToken"
           }
         }
       ],
@@ -3555,19 +3555,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DirectClusterEndpointToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DirectClusterEndpointToken"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DirectClusterEndpointToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DirectClusterEndpointToken"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DirectClusterEndpointToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DirectClusterEndpointToken"
           }
         }
       },
@@ -3601,7 +3601,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.EventList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.EventList"
           }
         }
       },
@@ -3670,7 +3670,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.FeatureList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.FeatureList"
           }
         }
       },
@@ -3738,7 +3738,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Feature"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
           }
         }
       },
@@ -3812,7 +3812,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Feature"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
           }
         }
       ],
@@ -3824,13 +3824,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Feature"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Feature"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Feature"
           }
         }
       },
@@ -3883,7 +3883,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.IngressAuthToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.IngressAuthToken"
           }
         }
       ],
@@ -3895,19 +3895,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.IngressAuthToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.IngressAuthToken"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.IngressAuthToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.IngressAuthToken"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.IngressAuthToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.IngressAuthToken"
           }
         }
       },
@@ -3940,7 +3940,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Kiosk"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Kiosk"
           }
         }
       },
@@ -3986,7 +3986,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.License"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.License"
           }
         }
       },
@@ -4060,7 +4060,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseRequest"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseRequest"
           }
         }
       ],
@@ -4072,19 +4072,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseRequest"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseRequest"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseRequest"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseRequest"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseRequest"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseRequest"
           }
         }
       },
@@ -4137,7 +4137,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseToken"
           }
         }
       ],
@@ -4149,19 +4149,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseToken"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseToken"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LicenseToken"
           }
         }
       },
@@ -4214,7 +4214,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LoftUpgrade"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LoftUpgrade"
           }
         }
       ],
@@ -4226,19 +4226,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LoftUpgrade"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LoftUpgrade"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LoftUpgrade"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LoftUpgrade"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.LoftUpgrade"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.LoftUpgrade"
           }
         }
       },
@@ -4380,7 +4380,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceList"
           }
         }
       },
@@ -4417,7 +4417,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         },
         {
@@ -4446,19 +4446,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         }
       },
@@ -4549,7 +4549,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         }
       },
@@ -4624,13 +4624,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         }
       },
@@ -4659,7 +4659,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         },
         {
@@ -4688,13 +4688,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstance"
           }
         }
       },
@@ -4961,7 +4961,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
           }
         }
       },
@@ -5006,7 +5006,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
           }
         },
         {
@@ -5035,19 +5035,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
           }
         }
       },
@@ -5354,7 +5354,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecretList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecretList"
           }
         }
       },
@@ -5391,7 +5391,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         },
         {
@@ -5420,19 +5420,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         }
       },
@@ -5523,7 +5523,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         }
       },
@@ -5598,13 +5598,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         }
       },
@@ -5633,7 +5633,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         },
         {
@@ -5662,13 +5662,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecret"
           }
         }
       },
@@ -5734,7 +5734,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecretList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecretList"
           }
         }
       },
@@ -5771,7 +5771,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         },
         {
@@ -5800,19 +5800,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         }
       },
@@ -5903,7 +5903,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         }
       },
@@ -5978,13 +5978,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         }
       },
@@ -6013,7 +6013,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         },
         {
@@ -6042,13 +6042,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecret"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecret"
           }
         }
       },
@@ -6190,7 +6190,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstanceList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstanceList"
           }
         }
       },
@@ -6227,7 +6227,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         },
         {
@@ -6256,19 +6256,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         }
       },
@@ -6359,7 +6359,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         }
       },
@@ -6434,13 +6434,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         }
       },
@@ -6469,7 +6469,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         },
         {
@@ -6498,13 +6498,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstance"
           }
         }
       },
@@ -6646,7 +6646,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceList"
           }
         }
       },
@@ -6683,7 +6683,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         },
         {
@@ -6712,19 +6712,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         }
       },
@@ -6815,7 +6815,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         }
       },
@@ -6890,13 +6890,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         }
       },
@@ -6925,7 +6925,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         },
         {
@@ -6954,13 +6954,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstance"
           }
         }
       },
@@ -7024,7 +7024,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
           }
         }
       ],
@@ -7036,19 +7036,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig"
           }
         }
       },
@@ -7081,7 +7081,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceLog"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceLog"
           }
         }
       },
@@ -7139,6 +7139,125 @@
       }
     ]
   },
+  "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/workloadkubeconfig": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read workloadkubeconfig of the specified VirtualClusterInstance",
+      "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceWorkloadkubeconfig",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceWorkloadKubeConfig"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "VirtualClusterInstanceWorkloadKubeConfig",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the VirtualClusterInstanceWorkloadKubeConfig",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ],
+    "post": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "create workloadkubeconfig of a VirtualClusterInstance",
+      "operationId": "createManagementLoftShV1NamespacedVirtualClusterInstanceWorkloadkubeconfig",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceWorkloadKubeConfig"
+          }
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceWorkloadKubeConfig"
+          }
+        },
+        "201": {
+          "description": "Created",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceWorkloadKubeConfig"
+          }
+        },
+        "202": {
+          "description": "Accepted",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceWorkloadKubeConfig"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "post",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "VirtualClusterInstanceWorkloadKubeConfig",
+        "version": "v1"
+      }
+    }
+  },
   "/apis/management.loft.sh/v1/ownedaccesskeys": {
     "parameters": [
       {
@@ -7174,7 +7293,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         }
       ],
@@ -7186,19 +7305,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         }
       },
@@ -7289,7 +7408,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         }
       },
@@ -7361,13 +7480,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         }
       },
@@ -7396,7 +7515,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         },
         {
@@ -7425,13 +7544,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.OwnedAccessKey"
           }
         }
       },
@@ -7448,6 +7567,75 @@
         "version": "v1"
       }
     }
+  },
+  "/apis/management.loft.sh/v1/policyviolations": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "list objects of kind PolicyViolation",
+      "operationId": "listManagementLoftShV1PolicyViolation",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.PolicyViolationList"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "list",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "PolicyViolation",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
   },
   "/apis/management.loft.sh/v1/projects": {
     "delete": {
@@ -7573,7 +7761,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectList"
           }
         }
       },
@@ -7607,7 +7795,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         {
@@ -7636,19 +7824,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -7739,7 +7927,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -7811,13 +7999,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -7846,7 +8034,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         {
@@ -7875,13 +8063,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -7942,7 +8130,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectChartInfo"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectChartInfo"
           }
         }
       ],
@@ -7954,19 +8142,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectChartInfo"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectChartInfo"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectChartInfo"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectChartInfo"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectChartInfo"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectChartInfo"
           }
         }
       },
@@ -7999,7 +8187,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectCharts"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectCharts"
           }
         }
       },
@@ -8045,7 +8233,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectClusters"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectClusters"
           }
         }
       },
@@ -8119,7 +8307,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportSpace"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportSpace"
           }
         }
       ],
@@ -8131,19 +8319,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportSpace"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportSpace"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportSpace"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportSpace"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportSpace"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportSpace"
           }
         }
       },
@@ -8204,7 +8392,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportVirtualCluster"
           }
         }
       ],
@@ -8216,19 +8404,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportVirtualCluster"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportVirtualCluster"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectImportVirtualCluster"
           }
         }
       },
@@ -8261,7 +8449,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMembers"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMembers"
           }
         }
       },
@@ -8335,7 +8523,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
           }
         }
       ],
@@ -8347,19 +8535,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateSpaceInstance"
           }
         }
       },
@@ -8420,7 +8608,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
           }
         }
       ],
@@ -8432,19 +8620,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance"
           }
         }
       },
@@ -8477,7 +8665,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -8549,13 +8737,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -8584,7 +8772,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         {
@@ -8613,13 +8801,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Project"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Project"
           }
         }
       },
@@ -8652,7 +8840,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectTemplates"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectTemplates"
           }
         }
       },
@@ -8699,7 +8887,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecretList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ProjectSecretList"
           }
         }
       },
@@ -8787,7 +8975,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RedirectToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
           }
         }
       ],
@@ -8799,19 +8987,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RedirectToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RedirectToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RedirectToken"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RedirectToken"
           }
         }
       },
@@ -8864,7 +9052,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ResetAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ResetAccessKey"
           }
         }
       ],
@@ -8876,19 +9064,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ResetAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ResetAccessKey"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ResetAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ResetAccessKey"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ResetAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.ResetAccessKey"
           }
         }
       },
@@ -9030,7 +9218,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerList"
           }
         }
       },
@@ -9064,7 +9252,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         {
@@ -9093,19 +9281,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9196,7 +9384,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9268,13 +9456,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9303,7 +9491,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         {
@@ -9332,13 +9520,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9371,7 +9559,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerAccessKey"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerAccessKey"
           }
         }
       },
@@ -9417,7 +9605,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerConfig"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.RunnerConfig"
           }
         }
       },
@@ -9463,7 +9651,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9535,13 +9723,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9570,7 +9758,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         {
@@ -9599,13 +9787,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Runner"
           }
         }
       },
@@ -9658,7 +9846,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SelfSubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SelfSubjectAccessReview"
           }
         }
       ],
@@ -9670,19 +9858,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SelfSubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SelfSubjectAccessReview"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SelfSubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SelfSubjectAccessReview"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SelfSubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SelfSubjectAccessReview"
           }
         }
       },
@@ -9735,7 +9923,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Self"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Self"
           }
         }
       ],
@@ -9747,19 +9935,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Self"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Self"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Self"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Self"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Self"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Self"
           }
         }
       },
@@ -9792,7 +9980,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Self"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Self"
           }
         }
       },
@@ -9839,7 +10027,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SharedSecretList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SharedSecretList"
           }
         }
       },
@@ -10016,7 +10204,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraintList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraintList"
           }
         }
       },
@@ -10050,7 +10238,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         },
         {
@@ -10079,19 +10267,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         }
       },
@@ -10182,7 +10370,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         }
       },
@@ -10254,13 +10442,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         }
       },
@@ -10289,7 +10477,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         },
         {
@@ -10318,13 +10506,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceConstraint"
           }
         }
       },
@@ -10358,7 +10546,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstanceList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceInstanceList"
           }
         }
       },
@@ -10535,7 +10723,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplateList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplateList"
           }
         }
       },
@@ -10569,7 +10757,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         },
         {
@@ -10598,19 +10786,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         }
       },
@@ -10701,7 +10889,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         }
       },
@@ -10773,13 +10961,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         }
       },
@@ -10808,7 +10996,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         },
         {
@@ -10837,13 +11025,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SpaceTemplate"
           }
         }
       },
@@ -10896,7 +11084,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SubjectAccessReview"
           }
         }
       ],
@@ -10908,19 +11096,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SubjectAccessReview"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SubjectAccessReview"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SubjectAccessReview"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.SubjectAccessReview"
           }
         }
       },
@@ -11062,7 +11250,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TaskList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.TaskList"
           }
         }
       },
@@ -11096,7 +11284,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         },
         {
@@ -11125,19 +11313,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         }
       },
@@ -11228,7 +11416,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         }
       },
@@ -11300,13 +11488,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         }
       },
@@ -11335,7 +11523,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         },
         {
@@ -11364,13 +11552,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Task"
           }
         }
       },
@@ -11403,7 +11591,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TaskLog"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.TaskLog"
           }
         }
       },
@@ -11579,7 +11767,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.TeamList"
           }
         }
       },
@@ -11613,7 +11801,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         },
         {
@@ -11642,19 +11830,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         }
       },
@@ -11745,7 +11933,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         }
       },
@@ -11817,13 +12005,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         }
       },
@@ -11852,7 +12040,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         },
         {
@@ -11881,13 +12069,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Team"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.Team"
           }
         }
       },
@@ -11920,7 +12108,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamAccessKeys"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.TeamAccessKeys"
           }
         }
       },
@@ -11966,7 +12154,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamClusters"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.TeamClusters"
           }
         }
       },
@@ -12121,7 +12309,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserList"
           }
         }
       },
@@ -12155,7 +12343,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         },
         {
@@ -12184,19 +12372,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         }
       },
@@ -12287,7 +12475,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         }
       },
@@ -12359,13 +12547,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         }
       },
@@ -12394,7 +12582,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         },
         {
@@ -12423,13 +12611,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.User"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.User"
           }
         }
       },
@@ -12462,7 +12650,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserAccessKeys"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserAccessKeys"
           }
         }
       },
@@ -12508,7 +12696,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserClusters"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserClusters"
           }
         }
       },
@@ -12554,7 +12742,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserPermissions"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserPermissions"
           }
         }
       },
@@ -12600,7 +12788,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfile"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserProfile"
           }
         }
       },
@@ -12642,7 +12830,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfile"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserProfile"
           }
         },
         {
@@ -12671,19 +12859,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfile"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserProfile"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfile"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserProfile"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfile"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.UserProfile"
           }
         }
       },
@@ -12717,7 +12905,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterInstanceList"
           }
         }
       },
@@ -12894,7 +13082,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplateList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplateList"
           }
         }
       },
@@ -12928,7 +13116,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         },
         {
@@ -12957,19 +13145,19 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         },
         "202": {
           "description": "Accepted",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         }
       },
@@ -13060,7 +13248,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         }
       },
@@ -13132,13 +13320,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         }
       },
@@ -13167,7 +13355,7 @@
           "name": "body",
           "required": true,
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         },
         {
@@ -13196,13 +13384,13 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         },
         "201": {
           "description": "Created",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.management.v1.VirtualClusterTemplate"
           }
         }
       },
@@ -16076,7 +16264,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmReleaseList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.virtualcluster.v1.HelmReleaseList"
           }
         }
       },
@@ -16145,7 +16333,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmReleaseList"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.virtualcluster.v1.HelmReleaseList"
           }
         }
       },
@@ -16216,7 +16404,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmRelease"
+            "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.virtualcluster.v1.HelmRelease"
           }
         }
       },
