@@ -9,7 +9,7 @@ command = """
     export TARGET_OUT_DIR="build/docs"
 
     # Generate CLI docs
-    GOWORK=off go run -mod vendor hack/gen-docs.go -cli-docs-dir pages/cli
+    go run -mod vendor hack/gen-docs.go -cli-docs-dir pages/cli
 
     # Build docs
     yarn build
