@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 
-	clusterv1 "github.com/loft-sh/agentapi/v4/pkg/apis/loft/cluster/v1"
-	agentstoragev1 "github.com/loft-sh/agentapi/v4/pkg/apis/loft/storage/v1"
-	managementv1 "github.com/loft-sh/api/v4/pkg/apis/management/v1"
-	storagev1 "github.com/loft-sh/api/v4/pkg/apis/storage/v1"
-	"github.com/loft-sh/loft/v4/docs/hack/util"
+	clusterv1 "github.com/loft-sh/agentapi/v3/pkg/apis/loft/cluster/v1"
+	agentstoragev1 "github.com/loft-sh/agentapi/v3/pkg/apis/loft/storage/v1"
+	managementv1 "github.com/loft-sh/api/v3/pkg/apis/management/v1"
+	storagev1 "github.com/loft-sh/api/v3/pkg/apis/storage/v1"
+	"github.com/loft-sh/loft/v3/docs/hack/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -669,6 +669,33 @@ spec:
 		Retrieve: true,
 		Update:   true,
 		Delete:   true,
+	})
+
+	// Cluster Connect
+	util.GenerateObjectOverview(&util.ObjectInformation{
+		Title:       "Connect Cluster",
+		Name:        "Cluster Connect",
+		Resource:    "clusterconnect",
+		Description: "You can connect a new cluster through this API, compared to the cluster api, this will also create the necessary secret and cluster access object within the newly connected cluster.",
+		File:        "docs/pages/api/resources/clusters/clusterconnect.mdx",
+		Object: &managementv1.ClusterConnect{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "ClusterConnect",
+				APIVersion: managementv1.SchemeGroupVersion.String(),
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "my-cluster",
+			},
+			Spec: managementv1.ClusterConnectSpec{
+				AdminUser: "my-user",
+				Config: `apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+...`,
+			},
+		},
+		Create: true,
 	})
 
 	// Cluster Access
