@@ -939,6 +939,11 @@
           "description": "Host is the host where this activity was recorded",
           "type": "string"
         },
+        "metricsRefreshInterval": {
+          "description": "MetricsRefreshInterval is the activity refresh interval. This is used to prevent sleeping instances if the last activity metrics have not been refreshed within the interval. Useful for metrics based activty tracking.",
+          "format": "int64",
+          "type": "integer"
+        },
         "name": {
           "description": "Name is the name of the resource",
           "type": "string"
@@ -6373,6 +6378,10 @@
           "description": "Description describes an app",
           "type": "string"
         },
+        "devPod": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProjectSpec",
+          "description": "DevPod holds DevPod specific configuration for project"
+        },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
@@ -9144,7 +9153,7 @@
           "type": "integer"
         },
         "options": {
-          "description": "Options are the options if type is enum",
+          "description": "Options is a slice of strings, where each string represents a mutually exclusive choice.",
           "items": {
             "type": "string"
           },
@@ -9554,6 +9563,14 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProjectSpec": {
+      "properties": {
+        "git": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.GitProjectSpec"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v3.pkg.apis.storage.v1.DevPodProviderOption": {
       "properties": {
         "value": {
@@ -9616,6 +9633,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
           "description": "SpaceTemplate is the space that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
         },
+        "useProjectGitCredentials": {
+          "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this workspace",
+          "type": "boolean"
+        },
         "virtualClusterTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v3.pkg.apis.storage.v1.TemplateRef",
           "description": "VirtualClusterTemplate is the virtual cluster that should get created for this DevPod. If this is specified, the Kubernetes provider will be selected automatically."
@@ -9649,6 +9670,19 @@
         "version": {
           "description": "Version is the version. Needs to be in X.X.X format.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v3.pkg.apis.storage.v1.GitProjectSpec": {
+      "properties": {
+        "token": {
+          "description": "Token defines the token to use for authentication.",
+          "type": "string"
+        },
+        "tokenSecretRef": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.SecretKeySelector",
+          "description": "TokenSecretRef defines the project secret to use for token authentication. Will be used if `Token` is not provided."
         }
       },
       "type": "object"
@@ -10997,6 +11031,14 @@
             "type": "string"
           },
           "type": "array"
+        },
+        "defaultVClusterVersion": {
+          "description": "DefaultVClusterVersion is the default version of vClusters",
+          "type": "string"
+        },
+        "hasHelmRelease": {
+          "description": "HasHelmRelease indicates whether loft has been installed via Helm",
+          "type": "boolean"
         },
         "legalTemplate": {
           "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
@@ -15801,6 +15843,12 @@
       "schema": {
         "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
       }
+    },
+    "cliMode-zGM7B9tA": {
+      "in": "query",
+      "name": "cliMode",
+      "type": "boolean",
+      "uniqueItems": true
     },
     "container-C23hHG_w": {
       "in": "query",
@@ -21166,6 +21214,9 @@
         }
       },
       "parameters": [
+        {
+          "$ref": "#/parameters/cliMode-zGM7B9tA"
+        },
         {
           "$ref": "#/parameters/debug-EtJFGyrW"
         },

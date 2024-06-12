@@ -5176,6 +5176,9 @@
     },
     "parameters": [
       {
+        "$ref": "#/parameters/cliMode-zGM7B9tA"
+      },
+      {
         "$ref": "#/parameters/debug-EtJFGyrW"
       },
       {
