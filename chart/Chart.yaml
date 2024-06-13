@@ -32,4 +32,4 @@ maintainers:
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 
-version: 3.4.6
+version: v3.4.7-rc.4
