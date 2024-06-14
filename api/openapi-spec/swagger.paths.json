@@ -6978,6 +6978,55 @@
       }
     }
   },
+  "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/accesskey": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read accesskey of the specified VirtualClusterInstance",
+      "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceAccesskey",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterAccessKey"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "VirtualClusterAccessKey",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the VirtualClusterAccessKey",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/kubeconfig": {
     "parameters": [
       {
@@ -8161,91 +8210,6 @@
       }
     }
   },
-  "/apis/management.loft.sh/v1/projects/{name}/importvirtualcluster": {
-    "parameters": [
-      {
-        "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-        "in": "query",
-        "name": "dryRun",
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-      },
-      {
-        "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-        "in": "query",
-        "name": "fieldValidation",
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "description": "name of the ProjectImportVirtualCluster",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "post": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "create importvirtualcluster of a Project",
-      "operationId": "createManagementLoftShV1ProjectImportvirtualcluster",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
-          }
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectImportVirtualCluster"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "post",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "ProjectImportVirtualCluster",
-        "version": "v1"
-      }
-    }
-  },
   "/apis/management.loft.sh/v1/projects/{name}/members": {
     "get": {
       "consumes": [
@@ -8825,6 +8789,83 @@
       "x-kubernetes-group-version-kind": {
         "group": "management.loft.sh",
         "kind": "RedirectToken",
+        "version": "v1"
+      }
+    }
+  },
+  "/apis/management.loft.sh/v1/registervirtualcluster": {
+    "parameters": [
+      {
+        "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+        "in": "query",
+        "name": "dryRun",
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+      },
+      {
+        "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+        "in": "query",
+        "name": "fieldValidation",
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ],
+    "post": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "create a RegisterVirtualCluster",
+      "operationId": "createManagementLoftShV1RegisterVirtualCluster",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RegisterVirtualCluster"
+          }
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RegisterVirtualCluster"
+          }
+        },
+        "201": {
+          "description": "Created",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RegisterVirtualCluster"
+          }
+        },
+        "202": {
+          "description": "Accepted",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RegisterVirtualCluster"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "post",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "RegisterVirtualCluster",
         "version": "v1"
       }
     }
@@ -9891,456 +9932,6 @@
         "$ref": "#/parameters/watch-XNNPZGbK"
       }
     ]
-  },
-  "/apis/management.loft.sh/v1/spaceconstraints": {
-    "delete": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "delete collection of SpaceConstraint",
-      "operationId": "deleteManagementLoftShV1CollectionSpaceConstraint",
-      "parameters": [
-        {
-          "$ref": "#/parameters/body-2Y1dVQaQ"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/orphanDependents-uRB25kX5"
-        },
-        {
-          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "deletecollection",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "list or watch objects of kind SpaceConstraint",
-      "operationId": "listManagementLoftShV1SpaceConstraint",
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraintList"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "list",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "post": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "create a SpaceConstraint",
-      "operationId": "createManagementLoftShV1SpaceConstraint",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "post",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    }
-  },
-  "/apis/management.loft.sh/v1/spaceconstraints/{name}": {
-    "delete": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "delete a SpaceConstraint",
-      "operationId": "deleteManagementLoftShV1SpaceConstraint",
-      "parameters": [
-        {
-          "$ref": "#/parameters/body-2Y1dVQaQ"
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-        },
-        {
-          "$ref": "#/parameters/orphanDependents-uRB25kX5"
-        },
-        {
-          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "delete",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read the specified SpaceConstraint",
-      "operationId": "readManagementLoftShV1SpaceConstraint",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "description": "name of the SpaceConstraint",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "patch": {
-      "consumes": [
-        "application/json-patch+json",
-        "application/merge-patch+json",
-        "application/strategic-merge-patch+json",
-        "application/apply-patch+yaml"
-      ],
-      "description": "partially update the specified SpaceConstraint",
-      "operationId": "patchManagementLoftShV1SpaceConstraint",
-      "parameters": [
-        {
-          "$ref": "#/parameters/body-78PwaGsr"
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-7c6nTn1T"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/force-tOGGb0Yi"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "patch",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "put": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "replace the specified SpaceConstraint",
-      "operationId": "replaceManagementLoftShV1SpaceConstraint",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceConstraint"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "put",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    }
   },
   "/apis/management.loft.sh/v1/spaceinstances": {
     "get": {
@@ -14962,152 +14553,6 @@
       },
       {
         "description": "name of the Runner",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-      },
-      {
-        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-      },
-      {
-        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-      },
-      {
-        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-      },
-      {
-        "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
-  "/apis/management.loft.sh/v1/watch/spaceconstraints": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "watch individual changes to a list of SpaceConstraint. deprecated: use the 'watch' parameter with a list operation instead.",
-      "operationId": "watchManagementLoftShV1SpaceConstraintList",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "watchlist",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-      },
-      {
-        "$ref": "#/parameters/continue-QfD61s0i"
-      },
-      {
-        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-      },
-      {
-        "$ref": "#/parameters/labelSelector-5Zw57w4C"
-      },
-      {
-        "$ref": "#/parameters/limit-1NfNmdNH"
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-      },
-      {
-        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-      },
-      {
-        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-      },
-      {
-        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-      },
-      {
-        "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
-  "/apis/management.loft.sh/v1/watch/spaceconstraints/{name}": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "watch changes to an object of kind SpaceConstraint. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
-      "operationId": "watchManagementLoftShV1SpaceConstraint",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "watch",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "SpaceConstraint",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-      },
-      {
-        "$ref": "#/parameters/continue-QfD61s0i"
-      },
-      {
-        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-      },
-      {
-        "$ref": "#/parameters/labelSelector-5Zw57w4C"
-      },
-      {
-        "$ref": "#/parameters/limit-1NfNmdNH"
-      },
-      {
-        "description": "name of the SpaceConstraint",
         "in": "path",
         "name": "name",
         "required": true,
