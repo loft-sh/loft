@@ -7,6 +7,23 @@ tests:
     asserts:
       - hasDocuments:
           count: 1
+      - equal:
+          path: spec.minAvailable
+          value: 1
+      - isNull:
+          path: spec.maxUnavailable
+
+  - it: enabled by default on upgrade
+    set:
+      podDisruptionBudget: {}
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.minAvailable
+          value: 1
+      - isNull:
+          path: spec.maxUnavailable
 
   - it: can be disabled
     set:
@@ -20,25 +37,29 @@ tests:
     set:
       podDisruptionBudget:
         create: true
-        minAvailable: 1
+        minAvailable: 2
     asserts:
       - hasDocuments:
           count: 1
       - equal:
           path: spec.minAvailable
-          value: 1
+          value: 2
+      - isNull:
+          path: spec.maxUnavailable
 
   - it: maxUnavailable is set correctly
     set:
       podDisruptionBudget:
         create: true
-        maxUnavailable: 1
+        maxUnavailable: 2
     asserts:
       - hasDocuments:
           count: 1
       - equal:
           path: spec.maxUnavailable
-          value: 1
+          value: 2
+      - isNull:
+          path: spec.minAnavailable
 
   - it: selector is set correctly
     release:
@@ -52,3 +73,6 @@ tests:
       - equal:
           path: spec.selector.matchLabels.release
           value: loft
+      - equal:
+          path: spec.minAvailable
+          value: 1
