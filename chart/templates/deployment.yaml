@@ -27,7 +27,7 @@ spec:
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   strategy:
-    {{ template "loft.strategy" . }}
+{{ include "loft.strategy" . | indent 4}}
   template:
     metadata:
       labels:

@@ -67,3 +67,27 @@ tests:
                     values:
                     - spot
 
+  - it: Deployment strategy is applied correctly for Recreate
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.strategy.type
+          value: Recreate
+
+  - it: Deployment strategy is applied correctly for RollingUpdate
+    set:
+      replicaCount: 2
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.strategy.type
+          value: RollingUpdate
+      - equal:
+          path: spec.strategy.rollingUpdate.maxSurge
+          value: 1
+      - equal:
+          path: spec.strategy.rollingUpdate.maxUnavailable
+          value: 1
+    
