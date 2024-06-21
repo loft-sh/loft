@@ -8216,6 +8216,13 @@
           ],
           "type": "string"
         },
+        "initEnv": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodProviderOption"
+          },
+          "description": "InitEnv are environment variables that should be available during the initialization phase of the created workspace.",
+          "type": "object"
+        },
         "instanceTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceTemplateDefinition",
           "description": "InstanceTemplate holds the workspace instance template"
