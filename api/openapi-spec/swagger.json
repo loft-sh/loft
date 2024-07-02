@@ -3307,6 +3307,13 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConvertVirtualClusterConfigSpec": {
       "description": "ConvertVirtualClusterConfigSpec holds the specification",
       "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations are annotations on the virtual cluster",
+          "type": "object"
+        },
         "distro": {
           "description": "Distro is the distro to be used for the config",
           "type": "string"
