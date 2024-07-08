@@ -1984,6 +1984,10 @@
           "description": "Prevents from team creation for the new groups associated with the user at the time of logging in through sso, Default behaviour is false, this means that teams will be created for new groups.",
           "type": "boolean"
         },
+        "disableUserCreation": {
+          "description": "DisableUserCreation prevents the SSO connectors from creating a new user on a users initial signin through sso. Default behaviour is false, this means that a new user object will be created once a user without a Kubernetes user object logs in.",
+          "type": "boolean"
+        },
         "github": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGithub",
           "description": "Github holds github authentication configuration"
