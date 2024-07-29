@@ -3224,7 +3224,7 @@
         },
         "oidc": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDC",
-          "description": "OIDC holds oidc provider relevant information"
+          "description": "DEPRECATED: Do not use anymore OIDC holds oidc provider relevant information"
         },
         "projectNamespacePrefix": {
           "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces. Omitted defaults to \"p-\"",
