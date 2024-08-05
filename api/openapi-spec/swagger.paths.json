@@ -8875,6 +8875,52 @@
       }
     }
   },
+  "/apis/management.loft.sh/v1/projects/{name}/runners": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read runners of the specified Project",
+      "operationId": "readManagementLoftShV1ProjectRunners",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRunners"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "ProjectRunners",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the ProjectRunners",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/projects/{name}/status": {
     "get": {
       "consumes": [

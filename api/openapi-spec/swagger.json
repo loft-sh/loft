@@ -4924,6 +4924,36 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRunners": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "runners": {
+          "description": "Runners holds all the allowed runners",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "ProjectRunners",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret": {
       "description": "ProjectSecret holds the Project Secret information",
       "properties": {
@@ -5564,6 +5594,10 @@
         },
         "displayName": {
           "description": "The display name shown in the UI",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "Endpoint is the hostname used to connect directly to the runner",
           "type": "string"
         },
         "networkPeerName": {
@@ -8937,6 +8971,10 @@
         "podTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPodTemplate",
           "description": "PodTemplate holds additional options for the runner pod"
+        },
+        "serviceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplate",
+          "description": "ServiceTemplate holds additional options for the service"
         }
       },
       "type": "object"
@@ -9070,6 +9108,34 @@
       "properties": {
         "runner": {
           "description": "Runner is the connected runner the workspace will be created in",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplate": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "Metadata holds the template metadata"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplateSpec",
+          "description": "Spec holds the template spec"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplateSpec": {
+      "properties": {
+        "type": {
+          "description": "type determines how the Service is exposed. Defaults to ClusterIP\n\nPossible enum values:\n - `\"ClusterIP\"` means a service will only be accessible inside the cluster, via the cluster IP.\n - `\"ExternalName\"` means a service consists of only a reference to an external name that kubedns or equivalent will return as a CNAME record, with no exposing or proxying of any pods involved.\n - `\"LoadBalancer\"` means a service will be exposed via an external load balancer (if the cloud provider supports it), in addition to 'NodePort' type.\n - `\"NodePort\"` means a service will be exposed on one port of every node, in addition to 'ClusterIP' type.",
+          "enum": [
+            "ClusterIP",
+            "ExternalName",
+            "LoadBalancer",
+            "NodePort"
+          ],
           "type": "string"
         }
       },
@@ -22653,6 +22719,52 @@
           "version": "v1"
         }
       }
+    },
+    "/apis/management.loft.sh/v1/projects/{name}/runners": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read runners of the specified Project",
+        "operationId": "readManagementLoftShV1ProjectRunners",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRunners"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "ProjectRunners",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the ProjectRunners",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
     },
     "/apis/management.loft.sh/v1/projects/{name}/status": {
       "get": {
