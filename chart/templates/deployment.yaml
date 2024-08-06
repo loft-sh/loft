@@ -163,6 +163,7 @@ spec:
       {{- if .Values.securityContext.enabled }}
         securityContext:
           allowPrivilegeEscalation: false
+          privileged: false
           capabilities:
             drop:
               - ALL
