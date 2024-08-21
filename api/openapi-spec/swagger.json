@@ -3222,6 +3222,10 @@
           "description": "DevPodSubDomain holds a subdomain in the following form *.workspace.my-domain.com",
           "type": "string"
         },
+        "disableConfigEndpoint": {
+          "description": "DisableLoftConfigEndpoint will disable setting config via the UI and config.management.loft.sh endpoint",
+          "type": "boolean"
+        },
         "loftHost": {
           "description": "LoftHost holds the domain where the loft instance is hosted. This should not include https or http. E.g. loft.my-domain.com",
           "type": "string"
@@ -3483,6 +3487,10 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStatus": {
       "description": "DevPodWorkspaceInstanceStatus holds the status",
       "properties": {
+        "clusterRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ClusterRef",
+          "description": "ClusterRef holds the runners cluster if the workspace is scheduled on kubernetes based runner"
+        },
         "conditions": {
           "description": "Conditions holds several conditions the DevPod machine might be in",
           "items": {
