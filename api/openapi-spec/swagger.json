@@ -8378,6 +8378,14 @@
           "description": "UseProjectSSHCredentials specifies if the project ssh credentials should be used instead of local ones for this workspace",
           "type": "boolean"
         },
+        "virtualClusterTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
+          "description": "VirtualClusterTemplate is the inline template for a virtual cluster that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
+        "virtualClusterTemplateRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
+          "description": "VirtualClusterTemplateRef is a reference to the virtual cluster that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
         "workspaceEnv": {
           "additionalProperties": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodProviderOption"
