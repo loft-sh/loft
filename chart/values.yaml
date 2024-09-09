@@ -115,6 +115,7 @@ serviceAccount:
   name: loft
   create: true
   clusterRole: cluster-admin
+  imagePullSecrets: []
   annotations: {}
 
 # If a cert issuer should be created for loft
