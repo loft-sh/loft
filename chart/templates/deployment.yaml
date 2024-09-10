@@ -159,22 +159,8 @@ spec:
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
-      {{- if .Values.securityContext }}
-      {{- if .Values.securityContext.enabled }}
         securityContext:
-          allowPrivilegeEscalation: false
-          privileged: false
-          capabilities:
-            drop:
-              - ALL
-      {{- if .Values.securityContext.runAsRoot }}
-          runAsUser: 0
-          runAsGroup: 0
-      {{- else }}
-          runAsNonRoot: true
-      {{- end }}
-      {{- end }}
-      {{- end }}
+          {{- toYaml .Values.securityContext | nindent 12 | replace "enabled: true" "" | replace "enabled: false" "" }}
       {{- if .Values.audit }}
       {{- if .Values.audit.enableSideCar }}
       - name: audit
@@ -198,3 +184,5 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
