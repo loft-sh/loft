@@ -17058,7 +17058,7 @@
         }
       }
     },
-    "/apis/management.loft.sh/v1/devpodenvironmenttemplate": {
+    "/apis/management.loft.sh/v1/devpodenvironmenttemplates": {
       "delete": {
         "consumes": [
           "*/*"
@@ -17275,7 +17275,7 @@
         }
       }
     },
-    "/apis/management.loft.sh/v1/devpodenvironmenttemplate/{name}": {
+    "/apis/management.loft.sh/v1/devpodenvironmenttemplates/{name}": {
       "delete": {
         "consumes": [
           "*/*"
@@ -28411,7 +28411,7 @@
         }
       ]
     },
-    "/apis/management.loft.sh/v1/watch/devpodenvironmenttemplate": {
+    "/apis/management.loft.sh/v1/watch/devpodenvironmenttemplates": {
       "get": {
         "consumes": [
           "*/*"
@@ -28480,7 +28480,7 @@
         }
       ]
     },
-    "/apis/management.loft.sh/v1/watch/devpodenvironmenttemplate/{name}": {
+    "/apis/management.loft.sh/v1/watch/devpodenvironmenttemplates/{name}": {
       "get": {
         "consumes": [
           "*/*"
