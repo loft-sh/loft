@@ -81,9 +81,9 @@ spec:
           httpGet:
             path: /healthz
             port: 8080
-          failureThreshold: 20
+          failureThreshold: 30
           initialDelaySeconds: 5
-          periodSeconds: 10
+          periodSeconds: 5
         {{- end }}
         {{- end }}
         {{- if .Values.readinessProbe }}
@@ -92,9 +92,9 @@ spec:
           httpGet:
             path: /healthz
             port: 8080
-          failureThreshold: 20
+          failureThreshold: 30
           initialDelaySeconds: 5
-          periodSeconds: 10
+          periodSeconds: 5
         {{- end }}
         {{- end }}
         env:
