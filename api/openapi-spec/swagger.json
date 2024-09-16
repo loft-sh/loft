@@ -3240,7 +3240,7 @@
         },
         "oidc": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDC",
-          "description": "DEPRECATED: Use OIDC Client secrets instead. OIDC holds oidc provider relevant information"
+          "description": "OIDC holds oidc provider relevant information"
         },
         "projectNamespacePrefix": {
           "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces. Omitted defaults to \"p-\"",
@@ -4398,7 +4398,7 @@
       "description": "OIDC holds oidc provider relevant information",
       "properties": {
         "clients": {
-          "description": "The clients that are allowed to request loft tokens",
+          "description": "DEPRECATED: Use OIDC Client secrets or /oidcclients endpoint instead. The clients that are allowed to request loft tokens",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDCClientSpec"
           },
