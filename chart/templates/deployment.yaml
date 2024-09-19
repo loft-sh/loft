@@ -152,8 +152,8 @@ spec:
           - mountPath: /var/lib/loft
             name: loft-data
         {{- if .Values.additionalCA }}
-          - mountPath: /etc/ssl/certs/loft-additional-ca.crt
-            name: loft-additional-ca
+          - name: loft-additional-ca
+            mountPath: /etc/ssl/certs/loft-additional-ca.crt
             readOnly: true
             subPath: ca.crt
         {{- end }}
