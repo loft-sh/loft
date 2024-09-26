@@ -2012,6 +2012,13 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGoogle",
           "description": "Google holds google authentication configuration"
         },
+        "groupsFilters": {
+          "description": "GroupsFilters is a regex expression to only save matching sso groups into the user resource",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "loginAccessKeyTTLSeconds": {
           "description": "LoginAccessKeyTTLSeconds is the time in seconds an access key is kept until it is deleted. Leaving it unspecified will default to 20 days. Setting it to zero will disable the ttl. Specifying 2592000 will mean all keys have a  default Time-To-Live of 30 days.",
           "format": "int64",
@@ -3240,7 +3247,7 @@
         },
         "oidc": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDC",
-          "description": "OIDC holds oidc provider relevant information"
+          "description": "DEPRECATED: Configure the OIDC clients using either the OIDC Client UI or a secret. By default, vCluster Platform as an OIDC Provider is enabled but does not function without OIDC clients."
         },
         "projectNamespacePrefix": {
           "description": "ProjectNamespacePrefix holds the prefix for loft project namespaces. Omitted defaults to \"p-\"",
@@ -3532,6 +3539,10 @@
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
+        },
+        "environmentRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.EnvironmentRef",
+          "description": "EnvironmentRef is the reference to DevPodEnvironmentTemplate that should be used"
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
@@ -4398,7 +4409,7 @@
       "description": "OIDC holds oidc provider relevant information",
       "properties": {
         "clients": {
-          "description": "DEPRECATED: Use OIDC Client secrets or /oidcclients endpoint instead. The clients that are allowed to request loft tokens",
+          "description": "The clients that are allowed to request loft tokens",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDCClientSpec"
           },
@@ -8537,6 +8548,18 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.EnvironmentRef": {
+      "properties": {
+        "name": {
+          "description": "Name is the name of DevPodEnvironmentTemplate this references",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitEnvironmentTemplate": {
