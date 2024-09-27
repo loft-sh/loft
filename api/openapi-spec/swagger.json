@@ -8359,6 +8359,19 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.CredentialForwarding": {
+      "properties": {
+        "docker": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DockerCredentialForwarding",
+          "description": "Docker specifies controls for how workspaces created by this template forward docker credentials"
+        },
+        "git": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitCredentialForwarding",
+          "description": "Git specifies controls for how workspaces created by this template forward git credentials"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodProjectSpec": {
       "properties": {
         "fallbackImage": {
@@ -8439,6 +8452,10 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition": {
       "properties": {
+        "credentialForwarding": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.CredentialForwarding",
+          "description": "CredentialForwarding specifies controls for how workspaces created by this template forward credentials into the workspace"
+        },
         "gitCloneStrategy": {
           "description": "GitCloneStrategy specifies how git based workspace are being cloned. Can be \"\" (full, default), treeless, blobless or shallow\n\nPossible enum values:\n - `\"\"`\n - `\"blobless\"`\n - `\"shallow\"`\n - `\"treeless\"`",
           "enum": [
@@ -8521,6 +8538,15 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DockerCredentialForwarding": {
+      "properties": {
+        "disabled": {
+          "description": "Disabled prevents all workspaces created by this template from forwarding credentials into the workspace",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.EntityInfo": {
       "properties": {
         "displayName": {
@@ -8560,6 +8586,15 @@
       "required": [
         "name"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitCredentialForwarding": {
+      "properties": {
+        "disabled": {
+          "description": "Disabled prevents all workspaces created by this template from forwarding credentials into the workspace",
+          "type": "boolean"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitEnvironmentTemplate": {
