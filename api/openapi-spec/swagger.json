@@ -1136,7 +1136,7 @@
           "type": "string"
         },
         "timezone": {
-          "description": "Timezone specifies time zone used for scheduled space operations. Defaults to UTC. Accepts the same format as time.LoadLocation() in Go (https://pkg.go.dev/time#LoadLocation). The value should be a location name corresponding to a file in the IANA Time Zone database, such as \"America/New_York\".",
+          "description": "Timezone specifies time zone used for scheduled space operations. Defaults to UTC. Accepts the same format as time.LoadLocation() in Go (https://pkg.go.dev/time#LoadLocation). The value should be a location name corresponding to a file in the IANA Time Zone database, such as \"America/New_York\". See also: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones",
           "type": "string"
         },
         "wakeupSchedule": {
@@ -3452,6 +3452,13 @@
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
+        },
+        "versions": {
+          "description": "Versions are different versions of the template that can be referenced as well",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateVersion"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -5288,6 +5295,10 @@
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
           "type": "string"
         },
+        "defaultDevPodEnvironmentTemplate": {
+          "description": "DefaultDevPodEnvironmentTemplate",
+          "type": "string"
+        },
         "defaultDevPodWorkspaceTemplate": {
           "description": "DefaultDevPodWorkspaceTemplate",
           "type": "string"
@@ -5299,6 +5310,13 @@
         "defaultVirtualClusterTemplate": {
           "description": "DefaultVirtualClusterTemplate is the default template for the project",
           "type": "string"
+        },
+        "devPodEnvironmentTemplates": {
+          "description": "DevPodEnvironmentTemplates holds all the allowed environment templates",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodEnvironmentTemplate"
+          },
+          "type": "array"
         },
         "devPodWorkspaceTemplates": {
           "description": "DevPodWorkspaceTemplates holds all the allowed space templates",
@@ -8372,6 +8390,19 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateVersion": {
+      "properties": {
+        "git": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitEnvironmentTemplate",
+          "description": "Git holds the GitEnvironmentTemplate"
+        },
+        "version": {
+          "description": "Version is the version. Needs to be in X.X.X format.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodProjectSpec": {
       "properties": {
         "fallbackImage": {
@@ -8611,6 +8642,10 @@
         "subpath": {
           "description": "SubPath stores subpath within Repositor where environment spec is",
           "type": "string"
+        },
+        "useProjectGitCredentials": {
+          "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this environment",
+          "type": "boolean"
         }
       },
       "required": [
