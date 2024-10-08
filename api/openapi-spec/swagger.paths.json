@@ -16787,5 +16787,31 @@
         "$ref": "#/parameters/pretty-tJGM1-ng"
       }
     ]
+  },
+  "/version/": {
+    "get": {
+      "consumes": [
+        "application/json"
+      ],
+      "description": "get the code version",
+      "operationId": "getCodeVersion",
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.version.Info"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "version"
+      ]
+    }
   }
 }
