@@ -189,7 +189,7 @@ securityContext:
 podSecurityContext: {}
 
 # Loft *agent* default values to use, options can be seen in the loft-agent chart values:
-# https://github.com/loft-sh/loft/blob/master/chart/values.yaml
+# https://github.com/loft-sh/loft/blob/main/chart/values.yaml
 # agent values cluster annotations take precedent over these values
 agentValues: {}
 
@@ -228,18 +228,18 @@ podDisruptionBudget:
 affinity:
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 1
-      preference:
-        matchExpressions:
-        - key: eks.amazonaws.com/capacityType
-          operator: NotIn
-          values:
-          - SPOT
-        - key: kubernetes.azure.com/scalesetpriority
-          operator: NotIn
-          values:
-          - spot
-        - key: cloud.google.com/gke-provisioning
-          operator: NotIn
-          values:
-          - spot
+      - weight: 1
+        preference:
+          matchExpressions:
+            - key: eks.amazonaws.com/capacityType
+              operator: NotIn
+              values:
+                - SPOT
+            - key: kubernetes.azure.com/scalesetpriority
+              operator: NotIn
+              values:
+                - spot
+            - key: cloud.google.com/gke-provisioning
+              operator: NotIn
+              values:
+                - spot
