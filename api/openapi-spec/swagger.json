@@ -10122,12 +10122,16 @@
           "type": "string"
         },
         "hasHelmRelease": {
-          "description": "HasHelmRelease indicates whether loft has been installed via Helm",
+          "description": "HasHelmRelease indicates whether the vCluster Platform instance has been installed via Helm",
           "type": "boolean"
         },
         "legalTemplate": {
           "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
           "type": "string"
+        },
+        "loftHosted": {
+          "description": "LoftHosted indicates whether the vCluster Platform instance is hosted and operated by Loft Labs Inc.",
+          "type": "boolean"
         },
         "loftVersion": {
           "description": "LoftVersion holds the current loft version",
