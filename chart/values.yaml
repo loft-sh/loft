@@ -163,7 +163,7 @@ serviceMonitor:
   labels: {}
 
 # Loft config to use, all options can be seen at:
-# https://loft.sh/docs/admin/config
+# https://www.vcluster.com/docs/platform/configure/config
 config:
   audit:
     enabled: true
