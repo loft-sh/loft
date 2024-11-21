@@ -3458,17 +3458,21 @@
           },
           "type": "array"
         },
+        "description": {
+          "description": "Description describes the environment template",
+          "type": "string"
+        },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
-        "git": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitEnvironmentTemplate",
-          "description": "Git holds configuration for git environment spec source"
-        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
+        },
+        "template": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateDefinition",
+          "description": "Template is the inline template to use for DevPod environments"
         },
         "versions": {
           "description": "Versions are different versions of the template that can be referenced as well",
@@ -3576,6 +3580,10 @@
           "description": "Parameters are values to pass to the template. The values should be encoded as YAML string where each parameter is represented as a top-level field key.",
           "type": "string"
         },
+        "presetRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.PresetRef",
+          "description": "PresetRef holds the DevPodWorkspacePreset template reference"
+        },
         "preventWakeUpOnConnection": {
           "description": "PreventWakeUpOnConnection is used to prevent workspace that uses sleep mode from waking up on incomming ssh connection.",
           "type": "boolean"
@@ -3665,6 +3673,120 @@
           "description": "SleepModeConfig is the sleep mode config of the workspace. This will only be shown in the front end."
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset": {
+      "description": "DevPodWorkspacePreset",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePresetSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePresetStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePresetList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePresetList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePresetSpec": {
+      "description": "DevPodWorkspacePresetSpec holds the specification",
+      "properties": {
+        "access": {
+          "description": "Access to the DevPod machine instance object itself",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "environmentRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.EnvironmentRef",
+          "description": "EnvironmentRef stores reference to DevPodEnvironmentTemplate"
+        },
+        "infrastructureRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
+          "description": "InfrastructureRef stores reference to DevPodWorkspaceTemplate to use"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "source": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePresetSource",
+          "description": "Source stores inline path of project source"
+        },
+        "useProjectGitCredentials": {
+          "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this environment",
+          "type": "boolean"
+        },
+        "versions": {
+          "description": "Versions are different versions of the template that can be referenced as well",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePresetVersion"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "source",
+        "infrastructureRef"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePresetStatus": {
+      "description": "DevPodWorkspacePresetStatus holds the status",
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceTemplate": {
@@ -4440,7 +4562,7 @@
           "type": "string"
         },
         "timeWindow": {
-          "description": "TimeWindow specifies the time window for the maintenance. It should be a string representing the time range in 24-hour format, e.g., \"02:00-03:00\".",
+          "description": "TimeWindow specifies the time window for the maintenance. It should be a string representing the time range in 24-hour format, in UTC, e.g., \"02:00-03:00\".",
           "type": "string"
         }
       },
@@ -5295,6 +5417,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RancherIntegrationSpec",
           "description": "RancherIntegration holds information about Rancher Integration"
         },
+        "requirePreset": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RequirePreset",
+          "description": "RequirePreset configures if a preset is required for instance creation."
+        },
         "requireTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RequireTemplate",
           "description": "RequireTemplate configures if a template is required for instance creation."
@@ -5349,6 +5475,13 @@
           "description": "DevPodEnvironmentTemplates holds all the allowed environment templates",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodEnvironmentTemplate"
+          },
+          "type": "array"
+        },
+        "devPodWorkspacePresets": {
+          "description": "DevPodWorkspacePresets holds all the allowed workspace presets",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
           },
           "type": "array"
         },
@@ -8472,11 +8605,24 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateVersion": {
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateDefinition": {
       "properties": {
         "git": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitEnvironmentTemplate",
-          "description": "Git holds the GitEnvironmentTemplate"
+          "description": "Git holds configuration for git environment spec source"
+        },
+        "inline": {
+          "description": "Inline holds an inline devcontainer.json definition",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateVersion": {
+      "properties": {
+        "template": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodEnvironmentTemplateDefinition",
+          "description": "Template holds the environment template definition"
         },
         "version": {
           "description": "Version is the version. Needs to be in X.X.X format.",
@@ -8533,6 +8679,44 @@
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
           "description": "The virtual cluster instance metadata"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePresetSource": {
+      "properties": {
+        "git": {
+          "description": "Git stores path to git repo to use as workspace source",
+          "type": "string"
+        },
+        "image": {
+          "description": "Image stores container image to use as workspace source",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePresetVersion": {
+      "properties": {
+        "environmentRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.EnvironmentRef",
+          "description": "EnvironmentRef stores reference to DevPodEnvironmentTemplate"
+        },
+        "infrastructureRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
+          "description": "InfrastructureRef stores reference to DevPodWorkspaceTemplate to use"
+        },
+        "source": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePresetSource",
+          "description": "Source stores inline path of project source"
+        },
+        "useProjectGitCredentials": {
+          "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this environment",
+          "type": "boolean"
+        },
+        "version": {
+          "description": "Version is the version. Needs to be in X.X.X format.",
+          "type": "string"
         }
       },
       "type": "object"
@@ -8697,6 +8881,10 @@
       "properties": {
         "name": {
           "description": "Name is the name of DevPodEnvironmentTemplate this references",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version is the version of DevPodEnvironmentTemplate this references",
           "type": "string"
         }
       },
@@ -9112,6 +9300,22 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.PresetRef": {
+      "properties": {
+        "name": {
+          "description": "Name is the name of DevPodWorkspacePreset",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version holds the preset version to use. Version is expected to be in semantic versioning format. Alternatively, you can also exchange major, minor or patch with an 'x' to tell Loft to automatically select the latest major, minor or patch version.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.QuotaStatus": {
       "properties": {
         "project": {
@@ -9260,6 +9464,15 @@
         "project": {
           "description": "Project defines the Rancher project ID",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RequirePreset": {
+      "properties": {
+        "disabled": {
+          "description": "If true, all users within the project will not be allowed to create a new instance without a preset. By default, all users are allowed to create a new instance without a preset.",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -18004,6 +18217,456 @@
           "$ref": "#/parameters/watch-XNNPZGbK"
         }
       ]
+    },
+    "/apis/management.loft.sh/v1/devpodworkspacepresets": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of DevPodWorkspacePreset",
+        "operationId": "deleteManagementLoftShV1CollectionDevPodWorkspacePreset",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind DevPodWorkspacePreset",
+        "operationId": "listManagementLoftShV1DevPodWorkspacePreset",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePresetList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a DevPodWorkspacePreset",
+        "operationId": "createManagementLoftShV1DevPodWorkspacePreset",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/devpodworkspacepresets/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a DevPodWorkspacePreset",
+        "operationId": "deleteManagementLoftShV1DevPodWorkspacePreset",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified DevPodWorkspacePreset",
+        "operationId": "readManagementLoftShV1DevPodWorkspacePreset",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the DevPodWorkspacePreset",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/strategic-merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified DevPodWorkspacePreset",
+        "operationId": "patchManagementLoftShV1DevPodWorkspacePreset",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified DevPodWorkspacePreset",
+        "operationId": "replaceManagementLoftShV1DevPodWorkspacePreset",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      }
     },
     "/apis/management.loft.sh/v1/devpodworkspacetemplates": {
       "delete": {
@@ -29121,6 +29784,152 @@
         },
         {
           "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/devpodworkspacepresets": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of DevPodWorkspacePreset. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1DevPodWorkspacePresetList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/devpodworkspacepresets/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind DevPodWorkspacePreset. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1DevPodWorkspacePreset",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspacePreset",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the DevPodWorkspacePreset",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
         },
         {
           "$ref": "#/parameters/pretty-tJGM1-ng"
