@@ -3117,6 +3117,10 @@
           "description": "The namespace where the cluster components will be installed in",
           "type": "string"
         },
+        "metrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "Metrics holds the cluster's metrics backend configuration"
+        },
         "networkPeer": {
           "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
           "type": "boolean"
@@ -3431,9 +3435,17 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControl": {
       "properties": {
+        "clusterMetrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "ClusterMetrics are settings for each cluster's metrics backend. These settings apply all connected clusters unless overridden by modifying the Cluster's spec."
+        },
         "enabled": {
           "description": "Enabled specifies whether the ROI dashboard should be available in the UI, and if the metrics infrastructure that provides dashboard data is deployed",
           "type": "boolean"
+        },
+        "globalMetrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "GlobalMetrics are settings for the global metrics backend. This aggregates metrics for the Cost Control Dashboard across all connected clusters"
         }
       },
       "type": "object"
@@ -8670,6 +8682,10 @@
           "description": "The namespace where the cluster components will be installed in",
           "type": "string"
         },
+        "metrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "Metrics holds the cluster's metrics backend configuration"
+        },
         "networkPeer": {
           "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
           "type": "boolean"
@@ -9449,6 +9465,15 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics": {
+      "properties": {
+        "storage": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Storage",
+          "description": "Storage contains settings related to the metrics backend's persistent volume configuration"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern": {
       "properties": {
         "space": {
@@ -9946,6 +9971,19 @@
         },
         "version": {
           "description": "Version is the version. Needs to be in X.X.X format.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Storage": {
+      "properties": {
+        "size": {
+          "description": "Size the size of the metrics backend's persistent volume",
+          "type": "string"
+        },
+        "storageClass": {
+          "description": "StorageClass the storage class to use when provisioning the metrics backend's persistent volume If set to \"-\" or \"\" dynamic provisioning is disabled If set to undefined or null (the default), the cluster's default storage class is used for provisioning",
           "type": "string"
         }
       },
