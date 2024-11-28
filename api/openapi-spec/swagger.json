@@ -3446,6 +3446,45 @@
         "globalMetrics": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
           "description": "GlobalMetrics are settings for the global metrics backend. This aggregates metrics for the Cost Control Dashboard across all connected clusters"
+        },
+        "settings": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlSettings",
+          "description": "Settings specify price-related settings that are taken into account for the ROI dashboard calculations."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlResourcePrice": {
+      "properties": {
+        "price": {
+          "description": "Price specifies the price.",
+          "format": "double",
+          "type": "number"
+        },
+        "timePeriod": {
+          "description": "TimePeriod specifies the time period for the price.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlSettings": {
+      "properties": {
+        "averageCPUPricePerNode": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlResourcePrice",
+          "description": "AvgCPUPricePerNode specifies the average CPU price per node."
+        },
+        "averageRAMPricePerNode": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlResourcePrice",
+          "description": "AvgRAMPricePerNode specifies the average RAM price per node."
+        },
+        "controlPlanePricePerCluster": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlResourcePrice",
+          "description": "ControlPlanePricePerCluster specifies the price of one physical cluster."
+        },
+        "priceCurrency": {
+          "description": "PriceCurrency specifies the currency.",
+          "type": "string"
         }
       },
       "type": "object"
