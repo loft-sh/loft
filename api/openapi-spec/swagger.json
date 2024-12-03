@@ -3125,6 +3125,10 @@
           "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
           "type": "boolean"
         },
+        "opencost": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OpenCost",
+          "description": "OpenCost holds the cluster's OpenCost backend configuration"
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
@@ -3435,21 +3439,43 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControl": {
       "properties": {
-        "clusterMetrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
-          "description": "ClusterMetrics are settings for each cluster's metrics backend. These settings apply all connected clusters unless overridden by modifying the Cluster's spec."
+        "cluster": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlClusterConfig",
+          "description": "Cluster are settings for each cluster's managed components. These settings apply to all connected clusters unless overridden by modifying the Cluster's spec"
         },
         "enabled": {
           "description": "Enabled specifies whether the ROI dashboard should be available in the UI, and if the metrics infrastructure that provides dashboard data is deployed",
           "type": "boolean"
         },
-        "globalMetrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
-          "description": "GlobalMetrics are settings for the global metrics backend. This aggregates metrics for the Cost Control Dashboard across all connected clusters"
+        "global": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlGlobalConfig",
+          "description": "Global are settings for globally managed components"
         },
         "settings": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlSettings",
           "description": "Settings specify price-related settings that are taken into account for the ROI dashboard calculations."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlClusterConfig": {
+      "properties": {
+        "metrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "Metrics are settings applied to metric infrastructure in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
+        },
+        "opencost": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OpenCost",
+          "description": "OpenCost are settings applied to OpenCost deployments in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlGlobalConfig": {
+      "properties": {
+        "metrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "Metrics these settings apply to metric infrastructure used to aggregate metrics across all connected clusters"
         }
       },
       "type": "object"
@@ -8729,6 +8755,10 @@
           "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
           "type": "boolean"
         },
+        "opencost": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OpenCost",
+          "description": "OpenCost holds the cluster's OpenCost backend configuration"
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
@@ -9506,6 +9536,19 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics": {
       "properties": {
+        "replicas": {
+          "description": "Replicas is the number of desired replicas.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "resources": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+          "description": "Resources are compute resource required by the metrics backend"
+        },
+        "retention": {
+          "description": "Retention is the metrics data retention period. Default is 1y",
+          "type": "string"
+        },
         "storage": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Storage",
           "description": "Storage contains settings related to the metrics backend's persistent volume configuration"
@@ -9545,6 +9588,20 @@
         "lastAppliedObjects": {
           "description": "LastAppliedObjects holds the status for the objects that were applied",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.OpenCost": {
+      "properties": {
+        "replicas": {
+          "description": "Replicas is the number of desired replicas.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "resources": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+          "description": "Resources are compute resource required by the OpenCost backend"
         }
       },
       "type": "object"
