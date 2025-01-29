@@ -261,6 +261,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -470,6 +473,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -920,6 +926,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -1129,6 +1138,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -1370,6 +1382,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -1579,6 +1594,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -1820,6 +1838,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -2029,6 +2050,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -3256,6 +3280,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -3465,6 +3492,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -3775,6 +3805,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -3984,6 +4017,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -4225,6 +4261,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -4434,6 +4473,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -5423,6 +5465,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -5635,6 +5680,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -6446,6 +6494,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -6658,6 +6709,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -7040,6 +7094,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
         },
         {
@@ -7282,6 +7339,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -7494,6 +7554,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -7738,6 +7801,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -7950,6 +8016,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -8627,6 +8696,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
         },
         {
@@ -8937,6 +9009,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
         },
         {
@@ -9176,6 +9251,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -9385,6 +9463,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -10671,6 +10752,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -10880,6 +10964,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -11726,6 +11813,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -11935,6 +12025,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -12253,6 +12346,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -12462,6 +12558,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -12770,6 +12869,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -12979,6 +13081,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -13389,6 +13494,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -13598,6 +13706,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -14162,6 +14273,9 @@
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
         },
         {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
           "$ref": "#/parameters/labelSelector-5Zw57w4C"
         },
         {
@@ -14371,6 +14485,9 @@
         },
         {
           "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
         },
         {
           "$ref": "#/parameters/orphanDependents-uRB25kX5"
