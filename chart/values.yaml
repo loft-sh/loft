@@ -197,6 +197,9 @@ agentValues: {}
 webhook:
   create: true
 
+# host aliases to use for the deployment
+hostAliases: []
+
 # Configures structured logging within Loft
 logging:
   encoding: console # Can be either json or console
