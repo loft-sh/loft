@@ -170,6 +170,8 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/loft
           name: loft-data
+        securityContext:
+          {{- toYaml .Values.audit.securityContext | nindent 12 }}
       {{- end }}
       {{- end }}
       {{- if .Values.nodeSelector }}
