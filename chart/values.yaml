@@ -151,6 +151,13 @@ audit:
     #storageClassName: my-storage-class
     # Optional custom accessModes
     #accessModes: ["ReadWriteOnce"]
+  securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+        - ALL
+    runAsNonRoot: true
 
 # Prometheus Service Monitor Configuration
 serviceMonitor:
