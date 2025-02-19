@@ -1536,6 +1536,23 @@
       "description": "AgentAuditEventStatus holds the status",
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentCostControlConfig": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled specifies whether the ROI dashboard should be available in the UI, and if the metrics infrastructure that provides dashboard data is deployed",
+          "type": "boolean"
+        },
+        "metrics": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics",
+          "description": "Metrics are settings applied to metric infrastructure in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
+        },
+        "opencost": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OpenCost",
+          "description": "OpenCost are settings applied to OpenCost deployments in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.Announcement": {
       "description": "Announcement holds the announcement information",
       "properties": {
@@ -2717,6 +2734,10 @@
         "cluster": {
           "description": "Cluster is the cluster the agent is running in.",
           "type": "string"
+        },
+        "costControl": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentCostControlConfig",
+          "description": "CostControl holds the settings related to the Cost Control ROI dashboard and its metrics gathering infrastructure"
         },
         "defaultImageRegistry": {
           "description": "DefaultImageRegistry defines if we should prefix the virtual cluster image",
