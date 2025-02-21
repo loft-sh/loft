@@ -158,6 +158,7 @@ audit:
       drop:
         - ALL
     runAsNonRoot: true
+    runAsUser: 1000
 
 # Prometheus Service Monitor Configuration
 serviceMonitor:
