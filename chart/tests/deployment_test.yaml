@@ -219,6 +219,9 @@ tests:
       - equal:
           path: spec.template.spec.containers[1].securityContext.runAsNonRoot
           value: true
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsUser
+          value: 1000
   - it: Audit Container SecurityContext kyverno strict policies
     set:
       audit:
