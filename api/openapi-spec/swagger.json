@@ -7413,6 +7413,13 @@
           "description": "Password is the new password of the user",
           "type": "string"
         },
+        "secrets": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfileSecret"
+          },
+          "description": "Secrets is a map of secret names to secret data",
+          "type": "object"
+        },
         "username": {
           "description": "Username is the new username of the user",
           "type": "string"
@@ -7426,6 +7433,19 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserProfileSecret": {
+      "properties": {
+        "data": {
+          "description": "Data is the data of the secret",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type is the type of the secret",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserSpec": {
       "properties": {
