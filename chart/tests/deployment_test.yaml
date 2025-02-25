@@ -199,3 +199,48 @@ tests:
           count: 1
       - notExists:
           path: spec.template.spec.containers[0].securityContext.enabled
+          
+  - it: Audit Container SecurityContext defaults
+    set:
+      audit:
+        enableSideCar: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.privileged
+          value: false
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation
+          value: false
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.capabilities.drop[0]
+          value: "ALL"
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsNonRoot
+          value: true
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsUser
+          value: 1000
+  - it: Audit Container SecurityContext kyverno strict policies
+    set:
+      audit:
+        enableSideCar: true
+        securityContext:
+          capabilities:
+            drop:
+              - ALL
+          runAsUser: 1000
+          runAsGroup: 65533
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.capabilities.drop[0]
+          value: "ALL"
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsUser
+          value: 1000
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsGroup
+          value: 65533
