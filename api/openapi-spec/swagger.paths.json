@@ -13950,6 +13950,52 @@
       }
     ]
   },
+  "/apis/management.loft.sh/v1/users/{name}/detailed-permissions": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read detailed-permissions of the specified User",
+      "operationId": "readManagementLoftShV1UserDetailedPermissions",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDetailedPermissions"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "UserDetailedPermissions",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the UserDetailedPermissions",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/users/{name}/permissions": {
     "get": {
       "consumes": [

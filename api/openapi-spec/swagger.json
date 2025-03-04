@@ -94,26 +94,16 @@
     "com.github.loft-sh.admin-apis.pkg.licenseapi.Feature": {
       "description": "Feature contains information regarding to a feature",
       "properties": {
-        "compatibility": {
-          "description": "Compatibility contains a series of semver compatibility constraints",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
         "displayName": {
           "type": "string"
-        },
-        "labels": {
-          "description": "Labels contains a list of labels to be displayed for this feature (e.g. alpha, beta)",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
         },
         "name": {
           "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
           "type": "string"
+        },
+        "preview": {
+          "description": "Preview represents whether the feature can be previewed if a user's license does not allow the feature",
+          "type": "boolean"
         },
         "status": {
           "description": "Status shows the status of the feature (see type FeatureStatus)",
@@ -1836,6 +1826,14 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia": {
+      "properties": {
+        "team": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.Audit": {
       "description": "Audit holds the audit configuration options for loft. Changing any options will require a loft restart to take effect.",
       "properties": {
@@ -3504,6 +3502,17 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CurrentUserAccess": {
+      "properties": {
+        "verbs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodEnvironmentTemplate": {
       "description": "DevPodEnvironmentTemplate holds the DevPodEnvironmentTemplate information",
       "properties": {
@@ -4353,13 +4362,6 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.FeatureStatus": {
       "description": "FeatureStatus holds the status",
       "properties": {
-        "compatibility": {
-          "description": "Compatibility contains a series of semver compatibility constraints",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
         "displayName": {
           "type": "string"
         },
@@ -4367,16 +4369,13 @@
           "description": "Internal marks internal features that should not be shown on the license view",
           "type": "boolean"
         },
-        "labels": {
-          "description": "Labels contains a list of labels to be displayed for this feature (e.g. alpha, beta)",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
         "name": {
           "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
           "type": "string"
+        },
+        "preview": {
+          "description": "Preview represents whether the feature can be previewed if a user's license does not allow the feature",
+          "type": "boolean"
         },
         "status": {
           "description": "Status shows the status of the feature (see type FeatureStatus)",
@@ -7247,6 +7246,89 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDetailedPermissions": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "projectMemberships": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownProjectMemberships"
+          },
+          "type": "array"
+        },
+        "rolesAssigned": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownManagementRoles"
+          },
+          "type": "array"
+        },
+        "teamMemberships": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownPermissionsTeam"
+          },
+          "type": "array"
+        },
+        "virtualClusterRoles": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownVClusterRoles"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "UserDetailedPermissions",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownManagementRoles": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia"
+        },
+        "management": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownPermissionsTeam": {
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownProjectMemberships": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia"
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownVClusterRoles": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia"
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserInfo": {
       "properties": {
         "displayName": {
@@ -7829,6 +7911,10 @@
           },
           "type": "array"
         },
+        "currentUserAccess": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CurrentUserAccess",
+          "description": "CurrentUserAccess returns which actions (get / update / delete) user can perform on the object."
+        },
         "deployHash": {
           "description": "DeployHash is the hash of the last deployed values.",
           "type": "string"
@@ -8047,6 +8133,10 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.EntityInfo"
           },
           "type": "array"
+        },
+        "currentUserAccess": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CurrentUserAccess",
+          "description": "CurrentUserAccess returns which actions (get / update / delete) user can perform on the object."
         }
       },
       "type": "object"
@@ -30060,6 +30150,52 @@
       "parameters": [
         {
           "description": "name of the UserClusters",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/users/{name}/detailed-permissions": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read detailed-permissions of the specified User",
+        "operationId": "readManagementLoftShV1UserDetailedPermissions",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDetailedPermissions"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "UserDetailedPermissions",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the UserDetailedPermissions",
           "in": "path",
           "name": "name",
           "required": true,
