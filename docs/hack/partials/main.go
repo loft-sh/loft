@@ -182,7 +182,7 @@ isolation:
 						},
 					},
 					Template: storagev1.DevPodWorkspaceTemplateDefinition{
-						Provider: storagev1.DevPodWorkspaceProvider{
+						Provider: &storagev1.DevPodWorkspaceProvider{
 							Name: "kubernetes",
 							Options: map[string]storagev1.DevPodProviderOption{
 								"KUBERNETES_NAMESPACE": {
@@ -198,53 +198,6 @@ isolation:
 		Retrieve: true,
 		Update:   true,
 		Delete:   true,
-	})
-
-	// Runner
-	util.GenerateObjectOverview(&util.ObjectInformation{
-		Title:       "Runner",
-		Name:        "Runner",
-		Resource:    "runners",
-		Description: "A runner to execute DevPod workspaces.",
-		File:        "docs/pages/api/resources/runner/runner.mdx",
-		Object: &managementv1.Runner{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       "Runner",
-				APIVersion: managementv1.SchemeGroupVersion.String(),
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "my-runner",
-			},
-			Spec: managementv1.RunnerSpec{
-				RunnerSpec: storagev1.RunnerSpec{
-					DisplayName: "my-display-name",
-				},
-			},
-		},
-		Create:   true,
-		Retrieve: true,
-		Update:   true,
-		Delete:   true,
-	})
-
-	// VirtualClusterInstanceKubeConfig
-	util.GenerateObjectOverview(&util.ObjectInformation{
-		Title:       "Retrieve Runner Access Key",
-		Description: "You can retrieve the runner access key via this api",
-		File:        "docs/pages/api/resources/runner/accesskey.mdx",
-		Name:        "Runner Access Key",
-		Resource:    "runners",
-		SubResource: "accesskey",
-		Object: &managementv1.RunnerAccessKey{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       "RunnerAccessKey",
-				APIVersion: managementv1.SchemeGroupVersion.String(),
-			},
-			ObjectMeta: metav1.ObjectMeta{},
-			AccessKey:  "the-returned-access-key",
-		},
-		SubResourceGet:            true,
-		SubResourceGetDescription: "You can retrieve the runner access key via this api.",
 	})
 
 	// SpaceInstance
