@@ -103,8 +103,13 @@ spec:
         - name: CHART_VERSION
           value: {{ .Chart.Version }}
         {{- if .Values.admin.password }}
+        {{- if hasPrefix "$" .Values.admin.password }}
+        - name: ADMIN_PASSWORD_ENV
+          value: {{ .Values.admin.password }}
+        {{- else }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
         {{- end }}
         {{- if (gt (int .Values.replicaCount) 1) }}
         {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
