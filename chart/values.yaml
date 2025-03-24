@@ -115,7 +115,6 @@ serviceAccount:
   name: loft
   create: true
   clusterRole: cluster-admin
-  imagePullSecrets: []
   annotations: {}
 
 # If a cert issuer should be created for loft
@@ -173,23 +172,11 @@ config:
 # - drops all capabilities
 # - runs as non-root
 securityContext:
-  # DEPRECATED: enabled field is deprecated, please use only fields valid for pod.spec.containers.securityContext here
   enabled: true
-  allowPrivilegeEscalation: false
-  privileged: false
-  capabilities:
-    drop:
-      - ALL
-  runAsNonRoot: true
-
-# Sets pod security context for loft
-# Example:
-# podSecurityContext:
-#   fsGroup: 2000
-podSecurityContext: {}
+  runAsRoot: false
 
 # Loft *agent* default values to use, options can be seen in the loft-agent chart values:
-# https://github.com/loft-sh/loft/blob/main/chart/values.yaml
+# https://github.com/loft-sh/loft/blob/master/chart/values.yaml
 # agent values cluster annotations take precedent over these values
 agentValues: {}
 
@@ -202,7 +189,6 @@ logging:
   encoding: console # Can be either json or console
   level: info # Can be either: debug, info, error
 
-# The product to use
 product: loft
 
 # Token is used to connect to the network peer coordinator server of a Loft instance
@@ -228,18 +214,18 @@ podDisruptionBudget:
 affinity:
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 1
-        preference:
-          matchExpressions:
-            - key: eks.amazonaws.com/capacityType
-              operator: NotIn
-              values:
-                - SPOT
-            - key: kubernetes.azure.com/scalesetpriority
-              operator: NotIn
-              values:
-                - spot
-            - key: cloud.google.com/gke-provisioning
-              operator: NotIn
-              values:
-                - spot
+    - weight: 1
+      preference:
+        matchExpressions:
+        - key: eks.amazonaws.com/capacityType
+          operator: NotIn
+          values:
+          - SPOT
+        - key: kubernetes.azure.com/scalesetpriority
+          operator: NotIn
+          values:
+          - spot
+        - key: cloud.google.com/gke-provisioning
+          operator: NotIn
+          values:
+          - spot
