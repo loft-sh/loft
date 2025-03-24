@@ -543,6 +543,7 @@ module.exports = {
                             label: "Clusters",
                             items: [
                                 "api/resources/clusters/clusters",
+                                "api/resources/clusters/clusterconnect",
                             ],
                         },
                         {
