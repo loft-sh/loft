@@ -27,28 +27,28 @@ yarn global add loft.sh
 <TabItem value="mac">
 
 ```bash
-curl -L -o loft "https://github.com/loft-sh/loft/releases/v3.4.9/download/loft-darwin-amd64" && sudo install -c -m 0755 loft /usr/local/bin
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-darwin-amd64" && sudo install -c -m 0755 loft /usr/local/bin
 ```
 
 </TabItem>
 <TabItem value="mac-arm">
 
 ```bash
-curl -L -o loft "https://github.com/loft-sh/loft/releases/v3.4.9/download/loft-darwin-arm64" && sudo install -c -m 0755 loft /usr/local/bin
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-darwin-arm64" && sudo install -c -m 0755 loft /usr/local/bin
 ```
 
 </TabItem>
 <TabItem value="linux">
 
 ```bash
-curl -L -o loft "https://github.com/loft-sh/loft/releases/v3.4.9/download/loft-linux-amd64" && sudo install -c -m 0755 loft /usr/local/bin
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-linux-amd64" && sudo install -c -m 0755 loft /usr/local/bin
 ```
 
 </TabItem>
 <TabItem value="linux-arm">
 
 ```bash
-curl -L -o loft "https://github.com/loft-sh/loft/releases/v3.4.9/download/loft-linux-arm64" && sudo install -c -m 0755 loft /usr/local/bin
+curl -L -o loft "https://github.com/loft-sh/loft/releases/latest/download/loft-linux-arm64" && sudo install -c -m 0755 loft /usr/local/bin
 ```
 
 </TabItem>
@@ -56,7 +56,7 @@ curl -L -o loft "https://github.com/loft-sh/loft/releases/v3.4.9/download/loft-l
 
 ```powershell {4}
 md -Force "$Env:APPDATA\loft"; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls,Tls11,Tls12';
-Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/v3.4.9/download/loft-windows-amd64.exe" -o $Env:APPDATA\loft\loft.exe;
+Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/latest/download/loft-windows-amd64.exe" -o $Env:APPDATA\loft\loft.exe;
 $env:Path += ";" + $Env:APPDATA + "\loft";
 [Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::User);
 ```
