@@ -103,8 +103,13 @@ spec:
         - name: CHART_VERSION
           value: {{ .Chart.Version }}
         {{- if .Values.admin.password }}
+        {{- if hasPrefix "$" .Values.admin.password }}
+        - name: ADMIN_PASSWORD_ENV
+          value: {{ .Values.admin.password }}
+        {{- else }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
         {{- end }}
         {{- if (gt (int .Values.replicaCount) 1) }}
         {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
@@ -170,6 +175,8 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/loft
           name: loft-data
+        securityContext:
+          {{- toYaml .Values.audit.securityContext | nindent 12 }}
       {{- end }}
       {{- end }}
       {{- if .Values.nodeSelector }}
@@ -183,6 +190,10 @@ spec:
       {{- if .Values.tolerations }}
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
+      {{- if .Values.hostAliases }}
+      hostAliases:
+{{ toYaml .Values.hostAliases | indent 8 }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
