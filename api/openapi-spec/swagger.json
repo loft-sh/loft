@@ -3458,6 +3458,19 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlGPUSettings": {
+      "properties": {
+        "averageGPUPrice": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlResourcePrice",
+          "description": "AvgGPUPrice specifies the average GPU price."
+        },
+        "enabled": {
+          "description": "Enabled specifies whether GPU settings should be available in the UI.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlGlobalConfig": {
       "properties": {
         "metrics": {
@@ -3494,6 +3507,10 @@
         "controlPlanePricePerCluster": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlResourcePrice",
           "description": "ControlPlanePricePerCluster specifies the price of one physical cluster."
+        },
+        "gpuSettings": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControlGPUSettings",
+          "description": "GPUSettings specifies GPU related settings."
         },
         "priceCurrency": {
           "description": "PriceCurrency specifies the currency.",
