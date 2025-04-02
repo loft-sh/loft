@@ -1828,8 +1828,25 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia": {
       "properties": {
-        "team": {
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
           "type": "string"
+        },
+        "kind": {
+          "description": "Kind is the type of resource used to establish the assignment. One of `User`, `Team`, or `ClusterAccess`",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        },
+        "owner": {
+          "description": "Owner indicates if the",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -2637,6 +2654,34 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccessRole": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia",
+          "description": "AssignedVia describes the resource that establishes the project membership"
+        },
+        "clusters": {
+          "description": "Clusters are the clusters that this assigned role applies",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectName"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccessSpec": {
       "description": "ClusterAccessSpec holds the specification",
@@ -3515,17 +3560,6 @@
         "priceCurrency": {
           "description": "PriceCurrency specifies the currency.",
           "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.CurrentUserAccess": {
-      "properties": {
-        "verbs": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
         }
       },
       "type": "object"
@@ -4758,6 +4792,27 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ManagementRole": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia",
+          "description": "AssignedVia describes the resource that establishes the project membership"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDC": {
       "description": "OIDC holds oidc provider relevant information",
       "properties": {
@@ -4871,6 +4926,50 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDCClientStatus": {
       "description": "OIDCClientStatus holds the status",
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectName": {
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectPermission": {
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        },
+        "verbs": {
+          "description": "Verbs is a list of actions allowed by the user on the object. '*' represents all verbs",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "verbs"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey": {
@@ -5311,6 +5410,31 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMembership": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia",
+          "description": "AssignedVia describes the resource that establishes the project membership"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRole",
+          "description": "Role is the role given to the member"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateSpaceInstance": {
       "description": "ProjectMigrateSpaceInstance holds project spaceinstance migrate information",
       "properties": {
@@ -5394,6 +5518,27 @@
         },
         "namespace": {
           "description": "Namespace of the virtual cluster instance to migrate",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRole": {
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "isAdmin": {
+          "description": "IsAdmin describes whether this is an admin project role",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
           "type": "string"
         }
       },
@@ -7053,6 +7198,93 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamObjectPermissions": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "objectPermissions": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectPermission"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "TeamObjectPermissions",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamPermissions": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "clusterAccessRoles": {
+          "description": "ClustersAccessRoles gives information about the team's assigned cluster roles and the clusters they apply to",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccessRole"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "managementRoles": {
+          "description": "ManagementRoles gives information about the team's assigned management roles",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ManagementRole"
+          },
+          "type": "array"
+        },
+        "members": {
+          "description": "Members gives users that are team members",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectName"
+          },
+          "type": "array"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "projectMemberships": {
+          "description": "ProjectMemberships gives information about the team's project membership",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMembership"
+          },
+          "type": "array"
+        },
+        "virtualClusterRoles": {
+          "description": "VirtualClusterRoles give information about the team's cluster role within the virtual cluster",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterRole"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "TeamPermissions",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamSpec": {
       "properties": {
         "access": {
@@ -7263,89 +7495,6 @@
         }
       ]
     },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDetailedPermissions": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "projectMemberships": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownProjectMemberships"
-          },
-          "type": "array"
-        },
-        "rolesAssigned": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownManagementRoles"
-          },
-          "type": "array"
-        },
-        "teamMemberships": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownPermissionsTeam"
-          },
-          "type": "array"
-        },
-        "virtualClusterRoles": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownVClusterRoles"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "UserDetailedPermissions",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownManagementRoles": {
-      "properties": {
-        "assignedVia": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia"
-        },
-        "management": {
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownPermissionsTeam": {
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownProjectMemberships": {
-      "properties": {
-        "assignedVia": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia"
-        },
-        "role": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDrilldownVClusterRoles": {
-      "properties": {
-        "assignedVia": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia"
-        },
-        "role": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserInfo": {
       "properties": {
         "displayName": {
@@ -7414,11 +7563,47 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserObjectPermissions": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "objectPermissions": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectPermission"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "UserObjectPermissions",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.UserPermissions": {
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
           "type": "string"
+        },
+        "clusterAccessRoles": {
+          "description": "ClustersAccessRoles gives information about the user's assigned cluster roles and the clusters they apply to",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterAccessRole"
+          },
+          "type": "array"
         },
         "clusterRoles": {
           "description": "ClusterRoles that apply to the user.",
@@ -7431,6 +7616,13 @@
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
           "type": "string"
         },
+        "managementRoles": {
+          "description": "ManagementRoles gives information about the user's assigned management roles",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ManagementRole"
+          },
+          "type": "array"
+        },
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
@@ -7438,6 +7630,27 @@
           "description": "NamespaceRoles that apply to the user. Can be either regular roles or cluster roles that are namespace scoped.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserPermissionsRole"
+          },
+          "type": "array"
+        },
+        "projectMemberships": {
+          "description": "ProjectMemberships gives information about the user's project membership",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMembership"
+          },
+          "type": "array"
+        },
+        "teamMemberships": {
+          "description": "TeamMemberships gives information about the user's team membership",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectName"
+          },
+          "type": "array"
+        },
+        "virtualClusterRoles": {
+          "description": "VirtualClusterRoles give information about the user's cluster role within the virtual cluster",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterRole"
           },
           "type": "array"
         }
@@ -7928,10 +8141,6 @@
           },
           "type": "array"
         },
-        "currentUserAccess": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CurrentUserAccess",
-          "description": "CurrentUserAccess returns which actions (get / update / delete) user can perform on the object."
-        },
         "deployHash": {
           "description": "DeployHash is the hash of the last deployed values.",
           "type": "string"
@@ -7975,6 +8184,31 @@
         "virtualClusterObjects": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ObjectsStatus",
           "description": "VirtualClusterObjects are the objects that were applied within the virtual cluster itself"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterRole": {
+      "properties": {
+        "assignedVia": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AssignedVia",
+          "description": "AssignedVia describes the resource that establishes the project membership"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the object to display in the UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace of the referenced object",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role is the cluster role inside the virtual cluster. One of cluster-admin, admin, edit, or view",
+          "type": "string"
         }
       },
       "type": "object"
@@ -8150,10 +8384,6 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.EntityInfo"
           },
           "type": "array"
-        },
-        "currentUserAccess": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CurrentUserAccess",
-          "description": "CurrentUserAccess returns which actions (get / update / delete) user can perform on the object."
         }
       },
       "type": "object"
@@ -29553,6 +29783,98 @@
         }
       ]
     },
+    "/apis/management.loft.sh/v1/teams/{name}/object-permissions": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read object-permissions of the specified Team",
+        "operationId": "readManagementLoftShV1TeamObjectPermissions",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamObjectPermissions"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "TeamObjectPermissions",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the TeamObjectPermissions",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/teams/{name}/permissions": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read permissions of the specified Team",
+        "operationId": "readManagementLoftShV1TeamPermissions",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamPermissions"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "TeamPermissions",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the TeamPermissions",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
+    },
     "/apis/management.loft.sh/v1/translatevclusterresourcenames": {
       "parameters": [
         {
@@ -30178,13 +30500,13 @@
         }
       ]
     },
-    "/apis/management.loft.sh/v1/users/{name}/detailed-permissions": {
+    "/apis/management.loft.sh/v1/users/{name}/object-permissions": {
       "get": {
         "consumes": [
           "*/*"
         ],
-        "description": "read detailed-permissions of the specified User",
-        "operationId": "readManagementLoftShV1UserDetailedPermissions",
+        "description": "read object-permissions of the specified User",
+        "operationId": "readManagementLoftShV1UserObjectPermissions",
         "produces": [
           "application/json",
           "application/yaml"
@@ -30193,7 +30515,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDetailedPermissions"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserObjectPermissions"
             }
           }
         },
@@ -30206,13 +30528,13 @@
         "x-kubernetes-action": "get",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "UserDetailedPermissions",
+          "kind": "UserObjectPermissions",
           "version": "v1"
         }
       },
       "parameters": [
         {
-          "description": "name of the UserDetailedPermissions",
+          "description": "name of the UserObjectPermissions",
           "in": "path",
           "name": "name",
           "required": true,

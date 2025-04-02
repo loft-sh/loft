@@ -13325,6 +13325,98 @@
       }
     ]
   },
+  "/apis/management.loft.sh/v1/teams/{name}/object-permissions": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read object-permissions of the specified Team",
+      "operationId": "readManagementLoftShV1TeamObjectPermissions",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamObjectPermissions"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "TeamObjectPermissions",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the TeamObjectPermissions",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ]
+  },
+  "/apis/management.loft.sh/v1/teams/{name}/permissions": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read permissions of the specified Team",
+      "operationId": "readManagementLoftShV1TeamPermissions",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TeamPermissions"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "TeamPermissions",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the TeamPermissions",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/translatevclusterresourcenames": {
     "parameters": [
       {
@@ -13950,13 +14042,13 @@
       }
     ]
   },
-  "/apis/management.loft.sh/v1/users/{name}/detailed-permissions": {
+  "/apis/management.loft.sh/v1/users/{name}/object-permissions": {
     "get": {
       "consumes": [
         "*/*"
       ],
-      "description": "read detailed-permissions of the specified User",
-      "operationId": "readManagementLoftShV1UserDetailedPermissions",
+      "description": "read object-permissions of the specified User",
+      "operationId": "readManagementLoftShV1UserObjectPermissions",
       "produces": [
         "application/json",
         "application/yaml"
@@ -13965,7 +14057,7 @@
         "200": {
           "description": "OK",
           "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserDetailedPermissions"
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.UserObjectPermissions"
           }
         }
       },
@@ -13978,13 +14070,13 @@
       "x-kubernetes-action": "get",
       "x-kubernetes-group-version-kind": {
         "group": "management.loft.sh",
-        "kind": "UserDetailedPermissions",
+        "kind": "UserObjectPermissions",
         "version": "v1"
       }
     },
     "parameters": [
       {
-        "description": "name of the UserDetailedPermissions",
+        "description": "name of the UserObjectPermissions",
         "in": "path",
         "name": "name",
         "required": true,
