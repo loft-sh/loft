@@ -81,9 +81,9 @@ spec:
           httpGet:
             path: /healthz
             port: 8080
-          failureThreshold: 30
+          failureThreshold: 20
           initialDelaySeconds: 5
-          periodSeconds: 5
+          periodSeconds: 10
         {{- end }}
         {{- end }}
         {{- if .Values.readinessProbe }}
@@ -92,9 +92,9 @@ spec:
           httpGet:
             path: /healthz
             port: 8080
-          failureThreshold: 30
+          failureThreshold: 20
           initialDelaySeconds: 5
-          periodSeconds: 5
+          periodSeconds: 10
         {{- end }}
         {{- end }}
         env:
@@ -152,15 +152,28 @@ spec:
           - mountPath: /var/lib/loft
             name: loft-data
         {{- if .Values.additionalCA }}
-          - name: loft-additional-ca
-            mountPath: /etc/ssl/certs/loft-additional-ca.crt
+          - mountPath: /etc/ssl/certs/loft-additional-ca.crt
+            name: loft-additional-ca
             readOnly: true
             subPath: ca.crt
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+      {{- if .Values.securityContext }}
+      {{- if .Values.securityContext.enabled }}
         securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 | replace "enabled: true" "" | replace "enabled: false" "" }}
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+      {{- if .Values.securityContext.runAsRoot }}
+          runAsUser: 0
+          runAsGroup: 0
+      {{- else }}
+          runAsNonRoot: true
+      {{- end }}
+      {{- end }}
+      {{- end }}
       {{- if .Values.audit }}
       {{- if .Values.audit.enableSideCar }}
       - name: audit
@@ -184,5 +197,3 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
       {{- end }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
