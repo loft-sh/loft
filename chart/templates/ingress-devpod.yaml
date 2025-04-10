@@ -1,48 +1,48 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.devpodIngress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.ingress.name }}
+  name: {{ .Values.devpodIngress.name }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "loft.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-    {{- with .Values.ingress.labels }}
+    {{- with .Values.devpodIngress.labels }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
     nginx.org/websocket-services: loft
-    {{- with .Values.ingress.annotations }}
+    {{- with .Values.devpodIngress.annotations }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- with .Values.commonAnnotations }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  {{- if .Values.ingress.ingressClass }}
-  ingressClassName: {{ .Values.ingress.ingressClass }}
+  {{- if .Values.devpodIngress.ingressClass }}
+  ingressClassName: {{ .Values.devpodIngress.ingressClass }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host | quote }}
+    - host: {{ .Values.devpodIngress.host | quote }}
       http:
         paths:
-          - path: {{ .Values.ingress.path }}
+          - path: {{ .Values.devpodIngress.path }}
             pathType: ImplementationSpecific
             backend:
               service:
                 name: loft
                 port:
                   number: 80
-  {{- if .Values.ingress.tls.enabled }}
+  {{- if .Values.devpodIngress.tls.enabled }}
   tls:
     - hosts:
-        - {{ .Values.ingress.host | quote }}
-      {{- if .Values.ingress.tls.secret }}
-      secretName: {{ .Values.ingress.tls.secret }}
+        - {{ .Values.devpodIngress.host | quote }}
+      {{- if .Values.devpodIngress.tls.secret }}
+      secretName: {{ .Values.devpodIngress.tls.secret }}
       {{- end }}
   {{- end }}
 {{- end }}
