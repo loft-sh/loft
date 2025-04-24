@@ -10008,6 +10008,9 @@
           "type": "string"
         }
       },
+      "required": [
+        "clusterRole"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics": {
