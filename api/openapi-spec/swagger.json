@@ -3629,6 +3629,9 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DatabaseConnectorSpec": {
       "description": "DatabaseConnectorSpec holds the specification",
       "properties": {
+        "displayName": {
+          "type": "string"
+        },
         "type": {
           "description": "The client id of the client",
           "type": "string"
