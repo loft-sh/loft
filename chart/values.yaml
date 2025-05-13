@@ -26,6 +26,19 @@ ingress:
     enabled: true
     secret: loft-tls
 
+# Ingress options to use for devpod workspaces behind an ingress
+devpodIngress:
+  enabled: false
+  name: loft-devpod-ingress
+  # labels: {}            # {key: value} map of labels for the ingress
+  # annotations: {}       # {key: value} map of annotations for the ingress
+  host: "*.devpod.mydomain.tld"
+  ingressClass: nginx
+  path: /
+  tls:
+    enabled: true
+    secret: loft-devpod-tls
+
 # TLS configuration with a custom cert and key
 # Make sure the secret exists prior to deploying loft,
 # otherwise the loft pod will not be able to start
