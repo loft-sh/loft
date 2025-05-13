@@ -3341,6 +3341,10 @@
           "description": "DisableLoftConfigEndpoint will disable setting config via the UI and config.management.loft.sh endpoint",
           "type": "boolean"
         },
+        "imageBuilder": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ImageBuilder",
+          "description": "ImageBuilder holds the settings related to the image builder"
+        },
         "loftHost": {
           "description": "LoftHost holds the domain where the loft instance is hosted. This should not include https or http. E.g. loft.my-domain.com",
           "type": "string"
@@ -3775,6 +3779,56 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceCancel": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "taskId": {
+          "description": "TaskID is the id of the task that should get cancelled",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceCancel",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceDownload": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceDownload",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceList": {
       "properties": {
         "apiVersion": {
@@ -3803,6 +3857,29 @@
         {
           "group": "management.loft.sh",
           "kind": "DevPodWorkspaceInstanceList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceLog": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceLog",
           "version": "v1"
         }
       ]
@@ -3847,7 +3924,11 @@
         },
         "runnerRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerRef",
-          "description": "RunnerRef is the reference to the connected runner holding this workspace"
+          "description": "Deprecated: Use TargetRef instead RunnerRef is the reference to the runner holding this workspace"
+        },
+        "target": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTarget",
+          "description": "Target is the reference to the cluster holding this workspace"
         },
         "template": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition",
@@ -3860,40 +3941,9 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "state": {
-          "description": "State holds the workspaces state as given by 'devpod export'",
-          "type": "string"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceState",
-          "version": "v1"
-        }
-      ]
-    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStatus": {
       "description": "DevPodWorkspaceInstanceStatus holds the status",
       "properties": {
-        "clusterRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ClusterRef",
-          "description": "ClusterRef holds the runners cluster if the workspace is scheduled on kubernetes based runner"
-        },
         "conditions": {
           "description": "Conditions holds several conditions the DevPod machine might be in",
           "items": {
@@ -3908,6 +3958,10 @@
         "instance": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceTemplateDefinition",
           "description": "Instance is the template rendered with all the parameters"
+        },
+        "kubernetes": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceKubernetesStatus",
+          "description": "Kubernetes is the status of the workspace on kubernetes"
         },
         "lastWorkspaceStatus": {
           "description": "LastWorkspaceStatus is the last workspace status reported by the runner.",
@@ -3925,12 +3979,123 @@
           "description": "Reason describes the reason in machine-readable form why the cluster is in the current phase",
           "type": "string"
         },
+        "resolvedTarget": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceResolvedTarget",
+          "description": "ResolvedTarget is the resolved target of the workspace"
+        },
         "sleepModeConfig": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.cluster.v1.SleepModeConfig",
           "description": "SleepModeConfig is the sleep mode config of the workspace. This will only be shown in the front end."
         }
       },
       "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStop": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStopSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStopStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceStop",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStopSpec": {
+      "properties": {
+        "options": {
+          "description": "Options are the options to pass.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStopStatus": {
+      "properties": {
+        "taskId": {
+          "description": "TaskID is the id of the task that is running",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceTask": {
+      "properties": {
+        "createdAt": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "CreatedAt is the timestamp when the task was created"
+        },
+        "id": {
+          "description": "ID is the id of the task",
+          "type": "string"
+        },
+        "logs": {
+          "description": "Logs is the compressed logs of the task",
+          "format": "byte",
+          "type": "string"
+        },
+        "result": {
+          "description": "Result is the result of the task",
+          "format": "byte",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status is the status of the task",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type is the type of the task",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceTasks": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceTask"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceTasks",
+          "version": "v1"
+        }
+      ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceTroubleshoot": {
       "properties": {
@@ -3951,6 +4116,13 @@
         },
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "netmaps": {
+          "description": "Netmaps is a list of netmaps that are linked to the workspace.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "pods": {
           "description": "Pods is a list of pod objects that are linked to the workspace.",
@@ -3987,6 +4159,57 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUp": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUpSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUpStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceUp",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUpSpec": {
+      "properties": {
+        "debug": {
+          "description": "Debug includes debug logs.",
+          "type": "boolean"
+        },
+        "options": {
+          "description": "Options are the options to pass.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUpStatus": {
+      "properties": {
+        "taskId": {
+          "description": "TaskID is the id of the task that is running",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspacePreset": {
       "description": "DevPodWorkspacePreset",
@@ -4541,6 +4764,24 @@
             "type": "string"
           },
           "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ImageBuilder": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled specifies whether the remote image builder should be available. If it's not available building ad-hoc images from a devcontainer.json is not supported",
+          "type": "boolean"
+        },
+        "replicas": {
+          "description": "Replicas is the number of desired replicas.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "resources": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+          "description": "Resources are compute resource required by the buildkit containers"
         }
       },
       "type": "object"
@@ -5345,13 +5586,6 @@
         },
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "runners": {
-          "description": "Runners holds all the allowed runners",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-          },
-          "type": "array"
         }
       },
       "type": "object",
@@ -5622,36 +5856,6 @@
         }
       },
       "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRunners": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "runners": {
-          "description": "Runners holds all the allowed runners",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "ProjectRunners",
-          "version": "v1"
-        }
-      ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectSecret": {
       "description": "ProjectSecret holds the Project Secret information",
@@ -6172,191 +6376,6 @@
         "lastActivity": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "The last time this access key was used to access the api"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner": {
-      "description": "Runner holds the Runner information",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerStatus"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerAccessKey": {
-      "description": "RunnerAccessKey holds the access key for the runner",
-      "properties": {
-        "accessKey": {
-          "description": "AccessKey is the access key used by the runner",
-          "type": "string"
-        },
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "RunnerAccessKey",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerConfig": {
-      "description": "RunnerConfig holds the config the runner retrieves from Loft",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "tokenCaCert": {
-          "description": "TokenCaCert is the certificate authority the Loft tokens will be signed with",
-          "format": "byte",
-          "type": "string"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "RunnerConfig",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerList": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "items": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-          },
-          "type": "array"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
-        }
-      },
-      "required": [
-        "items"
-      ],
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "RunnerList",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerSpec": {
-      "description": "RunnerSpec holds the specification",
-      "properties": {
-        "access": {
-          "description": "Access holds the access rights for users and teams",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
-          },
-          "type": "array"
-        },
-        "clusterRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerClusterRef",
-          "description": "If ClusterRef is defined, Loft will schedule the runner on the given cluster."
-        },
-        "description": {
-          "description": "Description describes a cluster access object",
-          "type": "string"
-        },
-        "displayName": {
-          "description": "The display name shown in the UI",
-          "type": "string"
-        },
-        "endpoint": {
-          "description": "Endpoint is the hostname used to connect directly to the runner",
-          "type": "string"
-        },
-        "networkPeerName": {
-          "description": "NetworkPeerName is the network peer name used to connect directly to the runner",
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
-          "description": "Owner holds the owner of this object"
-        },
-        "unusable": {
-          "description": "If unusable is true, no DevPod workspaces can be scheduled on this runner.",
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerStatus": {
-      "description": "RunnerStatus holds the status",
-      "properties": {
-        "conditions": {
-          "description": "Conditions holds several conditions the virtual cluster might be in",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
-          },
-          "type": "array"
-        },
-        "message": {
-          "description": "Message describes the reason in human-readable form",
-          "type": "string"
-        },
-        "phase": {
-          "description": "Phase describes the current phase the space instance is in",
-          "type": "string"
-        },
-        "reason": {
-          "description": "Reason describes the reason in machine-readable form",
-          "type": "string"
         }
       },
       "type": "object"
@@ -8673,13 +8692,14 @@
           "type": "array"
         },
         "role": {
-          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"network-peer\"`\n - `\"runner\"`\n - `\"vcluster\"`",
+          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"network-peer\"`\n - `\"runner\"`\n - `\"vcluster\"`\n - `\"workspace\"`",
           "enum": [
             "agent",
             "loft-cli",
             "network-peer",
             "runner",
-            "vcluster"
+            "vcluster",
+            "workspace"
           ],
           "type": "string"
         },
@@ -9293,6 +9313,20 @@
         "inline": {
           "description": "Inline holds an inline devcontainer.json definition",
           "type": "string"
+        },
+        "workspaceRepositoryCloneStrategy": {
+          "description": "WorkspaceRepositoryCloneStrategy determines how the workspaces git repository will be checked out in the pod if the workspace is git based\n\nPossible enum values:\n - `\"\"`\n - `\"blobless\"`\n - `\"shallow\"`\n - `\"treeless\"`",
+          "enum": [
+            "",
+            "blobless",
+            "shallow",
+            "treeless"
+          ],
+          "type": "string"
+        },
+        "workspaceRepositorySkipLFS": {
+          "description": "WorkspaceRepositorySkipLFS specifies if git lfs will be skipped when cloning the repository into the workspace",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -9320,9 +9354,9 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectSpec",
           "description": "Git defines additional git related settings like credentials"
         },
-        "ssh": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSHProjectSpec",
-          "description": "SSH defines additional ssh related settings like private keys, to be specified as base64 encoded strings."
+        "registryPattern": {
+          "description": "RegistryPattern specifies a template pattern to use for building images on the fly. Requires the platform pods to be authenticated against the registry.",
+          "type": "string"
         }
       },
       "type": "object"
@@ -9353,11 +9387,586 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceContainer": {
+      "description": "// DevPodWorkspacePodResourceRequirements is a less restrictive corev1.Container.",
+      "properties": {
+        "args": {
+          "description": "Arguments to the entrypoint.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "command": {
+          "description": "Entrypoint array. Not executed within a shell.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "env": {
+          "description": "List of environment variables to set in the container.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.EnvVar"
+          },
+          "type": "array"
+        },
+        "envFrom": {
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.EnvFromSource"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "image": {
+          "description": "Container image name.",
+          "type": "string"
+        },
+        "imagePullPolicy": {
+          "description": "Image pull policy.\n\nPossible enum values:\n - `\"Always\"` means that kubelet always attempts to pull the latest image. Container will fail If the pull fails.\n - `\"IfNotPresent\"` means that kubelet pulls if the image isn't present on disk. Container will fail if the image isn't present and the pull fails.\n - `\"Never\"` means that kubelet never pulls an image, but only uses a local image. Container will fail if the image isn't present",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ],
+          "type": "string"
+        },
+        "lifecycle": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.Lifecycle",
+          "description": "Actions that the management system should take in response to container lifecycle events."
+        },
+        "livenessProbe": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.Probe",
+          "description": "Periodic probe of container liveness."
+        },
+        "name": {
+          "description": "Name of the container specified as a DNS_LABEL.",
+          "type": "string"
+        },
+        "ports": {
+          "description": "List of ports to expose from the container. Not specifying a port here",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.ContainerPort"
+          },
+          "type": "array"
+        },
+        "readinessProbe": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.Probe",
+          "description": "Periodic probe of container service readiness."
+        },
+        "resizePolicy": {
+          "description": "Resources resize policy for the container.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.ContainerResizePolicy"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "resources": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceResourceRequirements",
+          "description": "Compute Resources required by this container."
+        },
+        "restartPolicy": {
+          "description": "RestartPolicy defines the restart behavior of individual containers in a pod.",
+          "type": "string"
+        },
+        "securityContext": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.SecurityContext",
+          "description": "SecurityContext defines the security options the container should be run with."
+        },
+        "startupProbe": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.Probe",
+          "description": "StartupProbe indicates that the Pod has successfully initialized."
+        },
+        "stdin": {
+          "description": "Whether this container should allocate a buffer for stdin in the container runtime.",
+          "type": "boolean"
+        },
+        "stdinOnce": {
+          "description": "StdinOnce default is false",
+          "type": "boolean"
+        },
+        "terminationMessagePath": {
+          "description": "Optional: Path at which the file to which the container's termination message",
+          "type": "string"
+        },
+        "terminationMessagePolicy": {
+          "description": "Indicate how the termination message should be populated. File will use the contents of\n\nPossible enum values:\n - `\"FallbackToLogsOnError\"` will read the most recent contents of the container logs for the container status message when the container exits with an error and the terminationMessagePath has no contents.\n - `\"File\"` is the default behavior and will set the container status message to the contents of the container's terminationMessagePath when the container exits.",
+          "enum": [
+            "FallbackToLogsOnError",
+            "File"
+          ],
+          "type": "string"
+        },
+        "tty": {
+          "description": "TTY default is false.",
+          "type": "boolean"
+        },
+        "volumeDevices": {
+          "description": "volumeDevices is the list of block devices to be used by the container.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.VolumeDevice"
+          },
+          "type": "array"
+        },
+        "volumeMounts": {
+          "description": "Pod volumes to mount into the container's filesystem.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
+          },
+          "type": "array"
+        },
+        "workingDir": {
+          "description": "Container's working directory.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceContainerResource": {
+      "properties": {
+        "name": {
+          "description": "Name is the name of the container",
+          "type": "string"
+        },
+        "resources": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+          "description": "Resources is the resources of the container"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceEvent": {
+      "properties": {
+        "lastTimestamp": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "The time at which the most recent occurrence of this event was recorded."
+        },
+        "message": {
+          "description": "A human-readable description of the status of this operation.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "This should be a short, machine understandable string that gives the reason for the transition into the object's current status.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of this event (Normal, Warning), new types could be added in the future",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceKubernetesStatus": {
+      "properties": {
+        "lastTransitionTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "Last time the condition transitioned from one status to another."
+        },
+        "persistentVolumeClaimStatus": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstancePersistentVolumeClaimStatus",
+          "description": "PersistentVolumeClaimStatus is the pvc that is used to store the workspace"
+        },
+        "podStatus": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstancePodStatus",
+          "description": "PodStatus is the status of the pod that is running the workspace"
+        }
+      },
+      "required": [
+        "lastTransitionTime"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstancePersistentVolumeClaimStatus": {
+      "properties": {
+        "capacity": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "capacity represents the actual resources of the underlying volume.",
+          "type": "object"
+        },
+        "conditions": {
+          "description": "conditions is the current Condition of persistent volume claim. If underlying persistent volume is being resized then the Condition will be set to 'Resizing'.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.PersistentVolumeClaimCondition"
+          },
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "type"
+          ],
+          "x-kubernetes-list-type": "map",
+          "x-kubernetes-patch-merge-key": "type",
+          "x-kubernetes-patch-strategy": "merge"
+        },
+        "events": {
+          "description": "Events are the events of the pod that is running the workspace. This will only be filled if the persistent volume claim is not bound.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceEvent"
+          },
+          "type": "array"
+        },
+        "phase": {
+          "description": "phase represents the current phase of PersistentVolumeClaim.\n\nPossible enum values:\n - `\"Bound\"` used for PersistentVolumeClaims that are bound\n - `\"Lost\"` used for PersistentVolumeClaims that lost their underlying PersistentVolume. The claim was bound to a PersistentVolume and this volume does not exist any longer and all data on it was lost.\n - `\"Pending\"` used for PersistentVolumeClaims that are not yet bound",
+          "enum": [
+            "Bound",
+            "Lost",
+            "Pending"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstancePodStatus": {
+      "properties": {
+        "conditions": {
+          "description": "Current service state of pod. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#pod-conditions",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.PodCondition"
+          },
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "type"
+          ],
+          "x-kubernetes-list-type": "map",
+          "x-kubernetes-patch-merge-key": "type",
+          "x-kubernetes-patch-strategy": "merge"
+        },
+        "containerMetrics": {
+          "description": "ContainerMetrics are the metrics of the pod that is running the workspace",
+          "items": {
+            "$ref": "#/definitions/io.k8s.metrics.pkg.apis.metrics.v1beta1.ContainerMetrics"
+          },
+          "type": "array"
+        },
+        "containerResources": {
+          "description": "ContainerResources are the resources of the containers that are running the workspace",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceContainerResource"
+          },
+          "type": "array"
+        },
+        "containerStatuses": {
+          "description": "Statuses of containers in this pod. Each container in the pod should have at most one status in this list, and all statuses should be for containers in the pod. However this is not enforced. If a status for a non-existent container is present in the list, or the list has duplicate names, the behavior of various Kubernetes components is not defined and those statuses might be ignored. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#pod-and-container-status",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.ContainerStatus"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "events": {
+          "description": "Events are the events of the pod that is running the workspace. This will only be filled if the pod is not running.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceEvent"
+          },
+          "type": "array"
+        },
+        "initContainerStatuses": {
+          "description": "Statuses of init containers in this pod. The most recent successful non-restartable init container will have ready = true, the most recently started container will have startTime set. Each init container in the pod should have at most one status in this list, and all statuses should be for containers in the pod. However this is not enforced. If a status for a non-existent container is present in the list, or the list has duplicate names, the behavior of various Kubernetes components is not defined and those statuses might be ignored. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-and-container-status",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.ContainerStatus"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "message": {
+          "description": "A human readable message indicating details about why the pod is in this condition.",
+          "type": "string"
+        },
+        "nodeName": {
+          "description": "NodeName is the name of the node that is running the workspace",
+          "type": "string"
+        },
+        "phase": {
+          "description": "The phase of a Pod is a simple, high-level summary of where the Pod is in its lifecycle. The conditions array, the reason and message fields, and the individual container status arrays contain more detail about the pod's status. There are five possible phase values:\n\nPending: The pod has been accepted by the Kubernetes system, but one or more of the container images has not been created. This includes time before being scheduled as well as time spent downloading images over the network, which could take a while. Running: The pod has been bound to a node, and all of the containers have been created. At least one container is still running, or is in the process of starting or restarting. Succeeded: All containers in the pod have terminated in success, and will not be restarted. Failed: All containers in the pod have terminated, and at least one container has terminated in failure. The container either exited with non-zero status or was terminated by the system. Unknown: For some reason the state of the pod could not be obtained, typically due to an error in communicating with the host of the pod.\n\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#pod-phase\n\nPossible enum values:\n - `\"Failed\"` means that all containers in the pod have terminated, and at least one container has terminated in a failure (exited with a non-zero exit code or was stopped by the system).\n - `\"Pending\"` means the pod has been accepted by the system, but one or more of the containers has not been started. This includes time before being bound to a node, as well as time spent pulling images onto the host.\n - `\"Running\"` means the pod has been bound to a node and all of the containers have been started. At least one container is still running or is in the process of being restarted.\n - `\"Succeeded\"` means that all containers in the pod have voluntarily terminated with a container exit code of 0, and the system is not going to restart any of these containers.\n - `\"Unknown\"` means that for some reason the state of the pod could not be obtained, typically due to an error in communicating with the host of the pod. Deprecated: It isn't being set since 2015 (74da3b14b0c0f658b3bb8d2def5094686d0e9095)",
+          "enum": [
+            "Failed",
+            "Pending",
+            "Running",
+            "Succeeded",
+            "Unknown"
+          ],
+          "type": "string"
+        },
+        "reason": {
+          "description": "A brief CamelCase message indicating details about why the pod is in this state. e.g. 'Evicted'",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceTemplateDefinition": {
       "properties": {
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "The virtual cluster instance metadata"
+          "description": "The workspace instance metadata"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceKubernetesSpec": {
+      "properties": {
+        "nodeArchitecture": {
+          "description": "NodeArchitecture specifies the node architecture the workspace image will be built for. Only necessary if you need to build workspace images on the fly in the kubernetes cluster and your cluster is mixed architecture.",
+          "type": "string"
+        },
+        "pod": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePodTemplate",
+          "description": "Pod holds the definition for workspace pod.\n\nDefaults will be applied for fields that aren't specified."
+        },
+        "podTimeout": {
+          "description": "PodTimeout specifies a maximum duration to wait for the workspace pod to start up before failing. Default: 10m",
+          "type": "string"
+        },
+        "spaceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SpaceTemplateDefinition",
+          "description": "SpaceTemplate is the inline template for a space that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
+        "spaceTemplateRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
+          "description": "SpaceTemplateRef is a reference to the space that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
+        "virtualClusterTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
+          "description": "VirtualClusterTemplate is the inline template for a virtual cluster that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
+        "virtualClusterTemplateRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
+          "description": "VirtualClusterTemplateRef is a reference to the virtual cluster that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+        },
+        "volumeClaim": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceVolumeClaimTemplate",
+          "description": "VolumeClaim holds the definition for the main workspace persistent volume. This volume is guaranteed to exist for the lifespan of the workspace.\n\nDefaults will be applied for fields that aren't specified."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePodTemplate": {
+      "description": "DevPodWorkspacePodTemplate is a less restrictive PodTemplate",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "The pods metadata"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePodTemplateSpec"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePodTemplateSpec": {
+      "description": "DevPodWorkspacePodTemplateSpec is a less restrictive PodSpec",
+      "properties": {
+        "activeDeadlineSeconds": {
+          "description": "Optional duration in seconds the pod may be active on the node relative to",
+          "format": "int64",
+          "type": "integer"
+        },
+        "affinity": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.Affinity",
+          "description": "If specified, the pod's scheduling constraints"
+        },
+        "automountServiceAccountToken": {
+          "description": "AutomountServiceAccountToken indicates whether a service account token should be automatically mounted.",
+          "type": "boolean"
+        },
+        "containers": {
+          "description": "List of containers belonging to the pod.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceContainer"
+          },
+          "type": "array"
+        },
+        "dnsConfig": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.PodDNSConfig",
+          "description": "Specifies the DNS parameters of a pod."
+        },
+        "dnsPolicy": {
+          "description": "Set DNS policy for the pod.\n\nPossible enum values:\n - `\"ClusterFirst\"` indicates that the pod should use cluster DNS first unless hostNetwork is true, if it is available, then fall back on the default (as determined by kubelet) DNS settings.\n - `\"ClusterFirstWithHostNet\"` indicates that the pod should use cluster DNS first, if it is available, then fall back on the default (as determined by kubelet) DNS settings.\n - `\"Default\"` indicates that the pod should use the default (as determined by kubelet) DNS settings.\n - `\"None\"` indicates that the pod should use empty DNS settings. DNS parameters such as nameservers and search paths should be defined via DNSConfig.",
+          "enum": [
+            "ClusterFirst",
+            "ClusterFirstWithHostNet",
+            "Default",
+            "None"
+          ],
+          "type": "string"
+        },
+        "enableServiceLinks": {
+          "description": "EnableServiceLinks indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links.",
+          "type": "boolean"
+        },
+        "hostAliases": {
+          "description": "HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.HostAlias"
+          },
+          "type": "array"
+        },
+        "hostIPC": {
+          "description": "Use the host's ipc namespace.",
+          "type": "boolean"
+        },
+        "hostNetwork": {
+          "description": "Host networking requested for this pod. Use the host's network namespace.",
+          "type": "boolean"
+        },
+        "hostPID": {
+          "description": "Use the host's pid namespace.",
+          "type": "boolean"
+        },
+        "hostUsers": {
+          "description": "Use the host's user namespace.",
+          "type": "boolean"
+        },
+        "hostname": {
+          "description": "Specifies the hostname of the Pod",
+          "type": "string"
+        },
+        "imagePullSecrets": {
+          "description": "ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+          },
+          "type": "array"
+        },
+        "initContainers": {
+          "description": "List of initialization containers belonging to the pod.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceContainer"
+          },
+          "type": "array"
+        },
+        "nodeName": {
+          "description": "NodeName indicates in which node this pod is scheduled.",
+          "type": "string"
+        },
+        "nodeSelector": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "NodeSelector is a selector which must be true for the pod to fit on a node.",
+          "type": "object"
+        },
+        "os": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.PodOS",
+          "description": "Specifies the OS of the containers in the pod."
+        },
+        "overhead": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Overhead represents the resource overhead associated with running a pod for a given RuntimeClass.",
+          "type": "object"
+        },
+        "preemptionPolicy": {
+          "description": "PreemptionPolicy is the Policy for preempting pods with lower priority.\n\nPossible enum values:\n - `\"Never\"` means that pod never preempts other pods with lower priority.\n - `\"PreemptLowerPriority\"` means that pod can preempt other pods with lower priority.",
+          "enum": [
+            "Never",
+            "PreemptLowerPriority"
+          ],
+          "type": "string"
+        },
+        "priority": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "priorityClassName": {
+          "description": "If specified, indicates the pod's priority.",
+          "type": "string"
+        },
+        "readinessGates": {
+          "description": "If specified, all readiness gates will be evaluated for pod readiness.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.PodReadinessGate"
+          },
+          "type": "array"
+        },
+        "resourceClaims": {
+          "description": "ResourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.PodResourceClaim"
+          },
+          "type": "array"
+        },
+        "resources": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceResourceRequirements",
+          "description": "Resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for \"cpu\" and \"memory\" resource names only. ResourceClaims are not supported."
+        },
+        "restartPolicy": {
+          "description": "Restart policy for all containers within the pod.\n\nPossible enum values:\n - `\"Always\"`\n - `\"Never\"`\n - `\"OnFailure\"`",
+          "enum": [
+            "Always",
+            "Never",
+            "OnFailure"
+          ],
+          "type": "string"
+        },
+        "runtimeClassName": {
+          "description": "RuntimeClassName refers to a RuntimeClass object in the node.k8s.io group, which should be used to run this pod",
+          "type": "string"
+        },
+        "schedulerName": {
+          "description": "If specified, the pod will be dispatched by specified scheduler. If not specified, the pod will be dispatched by default scheduler.",
+          "type": "string"
+        },
+        "schedulingGates": {
+          "description": "SchedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.PodSchedulingGate"
+          },
+          "type": "array"
+        },
+        "securityContext": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.PodSecurityContext",
+          "description": "SecurityContext holds pod-level security attributes and common container settings."
+        },
+        "serviceAccountName": {
+          "description": "ServiceAccountName is the name of the ServiceAccount to use to run this pod.",
+          "type": "string"
+        },
+        "setHostnameAsFQDN": {
+          "description": "If true the pod's hostname will be configured as the pod's FQDN, rather than the leaf name (the default). In Linux containers, this means setting the FQDN in the hostname field of the kernel (the nodename field of struct utsname). In Windows containers, this means setting the registry value of hostname for the registry key HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\Tcpip\\\\Parameters to FQDN.",
+          "type": "boolean"
+        },
+        "shareProcessNamespace": {
+          "description": "Share a single process namespace between all of the containers in a pod.",
+          "type": "boolean"
+        },
+        "subdomain": {
+          "description": "If specified, the fully qualified Pod hostname will be \"<hostname>.<subdomain>.<pod namespace>.svc.<cluster domain>\".",
+          "type": "string"
+        },
+        "terminationGracePeriodSeconds": {
+          "description": "Optional duration in seconds the pod needs to terminate gracefully. May be decreased in delete request.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "tolerations": {
+          "description": "If specified, the pod's tolerations.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Toleration"
+          },
+          "type": "array"
+        },
+        "topologySpreadConstraints": {
+          "description": "TopologySpreadConstraints describes how a group of pods ought to spread across topology domains.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.TopologySpreadConstraint"
+          },
+          "type": "array"
+        },
+        "volumes": {
+          "description": "List of volumes that can be mounted by containers belonging to the pod.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Volume"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -9389,10 +9998,6 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspacePresetSource",
           "description": "Source stores inline path of project source"
         },
-        "useProjectGitCredentials": {
-          "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this environment",
-          "type": "boolean"
-        },
         "version": {
           "description": "Version is the version. Needs to be in X.X.X format.",
           "type": "string"
@@ -9421,9 +10026,33 @@
           "type": "object"
         }
       },
-      "required": [
-        "name"
-      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceResourceRequirements": {
+      "description": "DevPodWorkspacePodResourceRequirements are less restrictive corev1.ResourceRequirements.",
+      "properties": {
+        "claims": {
+          "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.ResourceClaim"
+          },
+          "type": "array"
+        },
+        "limits": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Limits describes the maximum amount of compute resources allowed.",
+          "type": "object"
+        },
+        "requests": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Requests describes the minimum amount of compute resources required.",
+          "type": "object"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceTemplate": {
@@ -9455,58 +10084,17 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.CredentialForwarding",
           "description": "CredentialForwarding specifies controls for how workspaces created by this template forward credentials into the workspace"
         },
-        "gitCloneStrategy": {
-          "description": "GitCloneStrategy specifies how git based workspace are being cloned. Can be \"\" (full, default), treeless, blobless or shallow\n\nPossible enum values:\n - `\"\"`\n - `\"blobless\"`\n - `\"shallow\"`\n - `\"treeless\"`",
-          "enum": [
-            "",
-            "blobless",
-            "shallow",
-            "treeless"
-          ],
-          "type": "string"
-        },
-        "initEnv": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodProviderOption"
-          },
-          "description": "InitEnv are environment variables that should be available during the initialization phase of the created workspace.",
-          "type": "object"
-        },
         "instanceTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceInstanceTemplateDefinition",
           "description": "InstanceTemplate holds the workspace instance template"
         },
-        "preventWakeUpOnConnection": {
-          "description": "PreventWakeUpOnConnection is used to prevent workspace that uses sleep mode from waking up on incomming ssh connection.",
-          "type": "boolean"
+        "kubernetes": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceKubernetesSpec",
+          "description": "Kubernetes holds the definition for kubernetes based workspaces"
         },
         "provider": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceProvider",
-          "description": "Provider holds the DevPod provider configuration"
-        },
-        "spaceTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SpaceTemplateDefinition",
-          "description": "SpaceTemplate is the inline template for a space that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
-        },
-        "spaceTemplateRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
-          "description": "SpaceTemplateRef is a reference to the space that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
-        },
-        "useProjectGitCredentials": {
-          "description": "UseProjectGitCredentials specifies if the project git credentials should be used instead of local ones for this workspace",
-          "type": "boolean"
-        },
-        "useProjectSSHCredentials": {
-          "description": "UseProjectSSHCredentials specifies if the project ssh credentials should be used instead of local ones for this workspace",
-          "type": "boolean"
-        },
-        "virtualClusterTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
-          "description": "VirtualClusterTemplate is the inline template for a virtual cluster that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
-        },
-        "virtualClusterTemplateRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
-          "description": "VirtualClusterTemplateRef is a reference to the virtual cluster that should get created for this DevPod. If this is specified, the kubernetes provider will be selected automatically."
+          "description": "Provider holds the legacy VM provider configuration\n\nDeprecated: use fields on template instead"
         },
         "workspaceEnv": {
           "additionalProperties": {
@@ -9516,9 +10104,6 @@
           "type": "object"
         }
       },
-      "required": [
-        "provider"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceTemplateSpec": {
@@ -9584,6 +10169,73 @@
         "version": {
           "description": "Version is the version. Needs to be in X.X.X format.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceVolumeClaimSpec": {
+      "properties": {
+        "accessModes": {
+          "description": "accessModes contains the desired access modes the volume should have.",
+          "items": {
+            "enum": [
+              "ReadOnlyMany",
+              "ReadWriteMany",
+              "ReadWriteOnce",
+              "ReadWriteOncePod"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
+        },
+        "dataSource": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.TypedLocalObjectReference",
+          "description": "dataSource field can be used to specify either:"
+        },
+        "dataSourceRef": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.TypedObjectReference",
+          "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty"
+        },
+        "resources": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceResourceRequirements",
+          "description": "resources represents the minimum resources the volume should have."
+        },
+        "selector": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
+          "description": "selector is a label query over volumes to consider for binding."
+        },
+        "storageClassName": {
+          "description": "storageClassName is the name of the StorageClass required by the claim.",
+          "type": "string"
+        },
+        "volumeAttributesClassName": {
+          "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.",
+          "type": "string"
+        },
+        "volumeMode": {
+          "description": "volumeMode defines what type of volume is required by the claim.\n\nPossible enum values:\n - `\"Block\"` means the volume will not be formatted with a filesystem and will remain a raw block device.\n - `\"Filesystem\"` means the volume will be or is formatted with a filesystem.",
+          "enum": [
+            "Block",
+            "Filesystem"
+          ],
+          "type": "string"
+        },
+        "volumeName": {
+          "description": "volumeName is the binding reference to the PersistentVolume backing this claim.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceVolumeClaimTemplate": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "The pods metadata"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceVolumeClaimSpec"
         }
       },
       "type": "object"
@@ -9676,15 +10328,28 @@
       ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectSpec": {
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectCredentials": {
       "properties": {
         "token": {
-          "description": "Token defines the token to use for authentication.",
+          "description": "Token defines the credentials to use for authentication, this is a base64 encoded string.",
           "type": "string"
         },
         "tokenSecretRef": {
           "$ref": "#/definitions/io.k8s.api.core.v1.SecretKeySelector",
-          "description": "TokenSecretRef defines the project secret to use for token authentication. Will be used if `Token` is not provided."
+          "description": "TokenSecretRef defines the project secret to use as credentials for authentication. Will be used if `Token` is not provided."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectSpec": {
+      "properties": {
+        "http": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectCredentials",
+          "description": "HTTP defines additional http related settings like credentials, to be specified as base64 encoded strings."
+        },
+        "ssh": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.GitProjectCredentials",
+          "description": "SSH defines additional ssh related settings like private keys, to be specified as base64 encoded strings."
         }
       },
       "type": "object"
@@ -10040,6 +10705,10 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern": {
       "properties": {
+        "devPodWorkspace": {
+          "description": "DevPodWorkspace holds the namespace pattern to use for DevPod workspaces",
+          "type": "string"
+        },
         "space": {
           "description": "Space holds the namespace pattern to use for space instances",
           "type": "string"
@@ -10274,202 +10943,11 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerClusterRef": {
-      "properties": {
-        "cluster": {
-          "description": "Cluster is the connected cluster the space will be created in",
-          "type": "string"
-        },
-        "namespace": {
-          "description": "Namespace is the namespace inside the connected cluster holding the space",
-          "type": "string"
-        },
-        "persistentVolumeClaimTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplate",
-          "description": "PersistentVolumeClaimTemplate holds additional options for the persistent volume claim"
-        },
-        "podTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPodTemplate",
-          "description": "PodTemplate holds additional options for the runner pod"
-        },
-        "serviceTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplate",
-          "description": "ServiceTemplate holds additional options for the service"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplate": {
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "Metadata holds the template metadata"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplateSpec",
-          "description": "Spec holds the template spec"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPersistentVolumeClaimTemplateSpec": {
-      "properties": {
-        "accessModes": {
-          "description": "accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
-          "items": {
-            "enum": [
-              "ReadOnlyMany",
-              "ReadWriteMany",
-              "ReadWriteOnce",
-              "ReadWriteOncePod"
-            ],
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "storageClassName": {
-          "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
-          "type": "string"
-        },
-        "storageSize": {
-          "description": "storageSize is the size of the storage to reserve for the pvc",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPodTemplate": {
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "Metadata holds the template metadata"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPodTemplateSpec",
-          "description": "Spec holds the template spec"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerPodTemplateSpec": {
-      "properties": {
-        "affinity": {
-          "$ref": "#/definitions/io.k8s.api.core.v1.Affinity",
-          "description": "Set the Affinity for the Runner Pod"
-        },
-        "env": {
-          "description": "List of environment variables to set in the container. Cannot be updated.",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.EnvVar"
-          },
-          "type": "array"
-        },
-        "envFrom": {
-          "description": "List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.EnvFromSource"
-          },
-          "type": "array"
-        },
-        "hostAliases": {
-          "description": "Set host aliases for the Runner Pod",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.HostAlias"
-          },
-          "type": "array"
-        },
-        "image": {
-          "description": "Runner pod image to use other than default",
-          "type": "string"
-        },
-        "initContainers": {
-          "description": "Set up Init Containers for the Runner",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.Container"
-          },
-          "type": "array"
-        },
-        "nodeSelector": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Set the NodeSelector for the Runner Pod",
-          "type": "object"
-        },
-        "resource": {
-          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-          "description": "Resources requirements"
-        },
-        "tolerations": {
-          "description": "Set the Tolerations for the Runner Pod",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.Toleration"
-          },
-          "type": "array"
-        },
-        "volumeMounts": {
-          "description": "Set Volume Mounts for the Runner Pod",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
-          },
-          "type": "array"
-        },
-        "volumes": {
-          "description": "Set Volumes for the Runner Pod",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.Volume"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerRef": {
       "properties": {
         "runner": {
           "description": "Runner is the connected runner the workspace will be created in",
           "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplate": {
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "Metadata holds the template metadata"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplateSpec",
-          "description": "Spec holds the template spec"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerServiceTemplateSpec": {
-      "properties": {
-        "type": {
-          "description": "type determines how the Service is exposed. Defaults to ClusterIP\n\nPossible enum values:\n - `\"ClusterIP\"` means a service will only be accessible inside the cluster, via the cluster IP.\n - `\"ExternalName\"` means a service consists of only a reference to an external name that kubedns or equivalent will return as a CNAME record, with no exposing or proxying of any pods involved.\n - `\"LoadBalancer\"` means a service will be exposed via an external load balancer (if the cloud provider supports it), in addition to 'NodePort' type.\n - `\"NodePort\"` means a service will be exposed on one port of every node, in addition to 'ClusterIP' type.",
-          "enum": [
-            "ClusterIP",
-            "ExternalName",
-            "LoadBalancer",
-            "NodePort"
-          ],
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSHProjectSpec": {
-      "properties": {
-        "token": {
-          "description": "Token defines the private ssh key to use for authentication, this is a base64 encoded string.",
-          "type": "string"
-        },
-        "tokenSecretRef": {
-          "$ref": "#/definitions/io.k8s.api.core.v1.SecretKeySelector",
-          "description": "TokenSecretRef defines the project secret to use as private ssh key for authentication. Will be used if `Token` is not provided."
         }
       },
       "type": "object"
@@ -11088,6 +11566,64 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceResolvedTarget": {
+      "properties": {
+        "cluster": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetNamespace",
+          "description": "Cluster is the reference to the cluster holding this workspace"
+        },
+        "space": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetName",
+          "description": "Space is the reference to the space holding this workspace"
+        },
+        "virtualCluster": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetNamespace",
+          "description": "Cluster is the reference to the virtual cluster holding this workspace"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTarget": {
+      "properties": {
+        "cluster": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetName",
+          "description": "Cluster is the reference to the cluster holding this workspace"
+        },
+        "virtualCluster": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetName",
+          "description": "Cluster is the reference to the virtual cluster holding this workspace"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetName": {
+      "properties": {
+        "name": {
+          "description": "Name is the name of the target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTargetNamespace": {
+      "properties": {
+        "name": {
+          "description": "Name is the name of the object",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace within the cluster.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.ui.v1.NavBarButton": {
@@ -16317,6 +16853,27 @@
         "platform"
       ],
       "type": "object"
+    },
+    "io.k8s.metrics.pkg.apis.metrics.v1beta1.ContainerMetrics": {
+      "description": "ContainerMetrics sets resource usage metrics of a container.",
+      "properties": {
+        "name": {
+          "description": "Container name corresponding to the one from pod.spec.containers.",
+          "type": "string"
+        },
+        "usage": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "The memory usage is the memory working set.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "usage"
+      ],
+      "type": "object"
     }
   },
   "info": {
@@ -16346,12 +16903,6 @@
         "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
       }
     },
-    "cliMode-zGM7B9tA": {
-      "in": "query",
-      "name": "cliMode",
-      "type": "boolean",
-      "uniqueItems": true
-    },
     "container-C23hHG_w": {
       "in": "query",
       "name": "container",
@@ -16363,12 +16914,6 @@
       "in": "query",
       "name": "continue",
       "type": "string",
-      "uniqueItems": true
-    },
-    "debug-EtJFGyrW": {
-      "in": "query",
-      "name": "debug",
-      "type": "boolean",
       "uniqueItems": true
     },
     "fieldManager-7c6nTn1T": {
@@ -16453,17 +16998,17 @@
       "type": "string",
       "uniqueItems": true
     },
-    "options-wZwpYqqU": {
-      "in": "query",
-      "name": "options",
-      "type": "string",
-      "uniqueItems": true
-    },
     "orphanDependents-uRB25kX5": {
       "description": "Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.",
       "in": "query",
       "name": "orphanDependents",
       "type": "boolean",
+      "uniqueItems": true
+    },
+    "path-RHIocHeS": {
+      "in": "query",
+      "name": "path",
+      "type": "string",
       "uniqueItems": true
     },
     "pretty-tJGM1-ng": {
@@ -16519,6 +17064,12 @@
       "type": "integer",
       "uniqueItems": true
     },
+    "taskID--LcZhepU": {
+      "in": "query",
+      "name": "taskID",
+      "type": "string",
+      "uniqueItems": true
+    },
     "timeoutSeconds-yvYezaOC": {
       "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
       "in": "query",
@@ -16536,12 +17087,6 @@
       "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
       "in": "query",
       "name": "watch",
-      "type": "boolean",
-      "uniqueItems": true
-    },
-    "webMode-bwFb_48f": {
-      "in": "query",
-      "name": "webMode",
       "type": "boolean",
       "uniqueItems": true
     }
@@ -22452,275 +22997,27 @@
         }
       }
     },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/delete": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect GET requests to delete of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1GetNamespacedDevPodWorkspaceInstanceDelete",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodDeleteOptions",
-          "version": "v1"
-        }
-      },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/cancel": {
       "parameters": [
         {
-          "description": "name of the DevPodDeleteOptions",
-          "in": "path",
-          "name": "name",
-          "required": true,
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
           "type": "string",
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
         },
         {
-          "$ref": "#/parameters/options-wZwpYqqU"
-        }
-      ],
-      "post": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect POST requests to delete of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1PostNamespacedDevPodWorkspaceInstanceDelete",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodDeleteOptions",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/getstatus": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect GET requests to getstatus of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1GetNamespacedDevPodWorkspaceInstanceGetstatus",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodStatusOptions",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the DevPodStatusOptions",
-          "in": "path",
-          "name": "name",
-          "required": true,
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
           "type": "string",
           "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/options-wZwpYqqU"
-        }
-      ],
-      "post": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect POST requests to getstatus of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1PostNamespacedDevPodWorkspaceInstanceGetstatus",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodStatusOptions",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/ssh": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect GET requests to ssh of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1GetNamespacedDevPodWorkspaceInstanceSsh",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodSshOptions",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the DevPodSshOptions",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/options-wZwpYqqU"
-        }
-      ],
-      "post": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect POST requests to ssh of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1PostNamespacedDevPodWorkspaceInstanceSsh",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodSshOptions",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/state": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read state of the specified DevPodWorkspaceInstance",
-        "operationId": "readManagementLoftShV1NamespacedDevPodWorkspaceInstanceState",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceState",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the DevPodWorkspaceInstanceState",
+          "description": "name of the DevPodWorkspaceInstanceCancel",
           "in": "path",
           "name": "name",
           "required": true,
@@ -22738,33 +23035,16 @@
         "consumes": [
           "*/*"
         ],
-        "description": "create state of a DevPodWorkspaceInstance",
-        "operationId": "createManagementLoftShV1NamespacedDevPodWorkspaceInstanceState",
+        "description": "create cancel of a DevPodWorkspaceInstance",
+        "operationId": "createManagementLoftShV1NamespacedDevPodWorkspaceInstanceCancel",
         "parameters": [
           {
             "in": "body",
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceCancel"
             }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
           }
         ],
         "produces": [
@@ -22775,19 +23055,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceCancel"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceCancel"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceState"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceCancel"
             }
           }
         },
@@ -22800,26 +23080,27 @@
         "x-kubernetes-action": "post",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodWorkspaceInstanceState",
+          "kind": "DevPodWorkspaceInstanceCancel",
           "version": "v1"
         }
       }
     },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/stop": {
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/download": {
       "get": {
         "consumes": [
           "*/*"
         ],
-        "description": "connect GET requests to stop of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1GetNamespacedDevPodWorkspaceInstanceStop",
+        "description": "read download of the specified DevPodWorkspaceInstance",
+        "operationId": "readManagementLoftShV1NamespacedDevPodWorkspaceInstanceDownload",
         "produces": [
-          "*/*"
+          "application/json",
+          "application/yaml"
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceDownload"
             }
           }
         },
@@ -22829,16 +23110,16 @@
         "tags": [
           "managementLoftSh_v1"
         ],
-        "x-kubernetes-action": "connect",
+        "x-kubernetes-action": "get",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodStopOptions",
+          "kind": "DevPodWorkspaceInstanceDownload",
           "version": "v1"
         }
       },
       "parameters": [
         {
-          "description": "name of the DevPodStopOptions",
+          "description": "name of the DevPodWorkspaceInstanceDownload",
           "in": "path",
           "name": "name",
           "required": true,
@@ -22849,23 +23130,29 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/options-wZwpYqqU"
+          "$ref": "#/parameters/path-RHIocHeS"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
-      ],
-      "post": {
+      ]
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/log": {
+      "get": {
         "consumes": [
           "*/*"
         ],
-        "description": "connect POST requests to stop of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1PostNamespacedDevPodWorkspaceInstanceStop",
+        "description": "read log of the specified DevPodWorkspaceInstance",
+        "operationId": "readManagementLoftShV1NamespacedDevPodWorkspaceInstanceLog",
         "produces": [
-          "*/*"
+          "application/json",
+          "application/yaml"
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceLog"
             }
           }
         },
@@ -22875,13 +23162,175 @@
         "tags": [
           "managementLoftSh_v1"
         ],
-        "x-kubernetes-action": "connect",
+        "x-kubernetes-action": "get",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodStopOptions",
+          "kind": "DevPodWorkspaceInstanceLog",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/follow-VM_libi3"
+        },
+        {
+          "description": "name of the DevPodWorkspaceInstanceLog",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/taskID--LcZhepU"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/stop": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "name of the DevPodWorkspaceInstanceStop",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create stop of a DevPodWorkspaceInstance",
+        "operationId": "createManagementLoftShV1NamespacedDevPodWorkspaceInstanceStop",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStop"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStop"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStop"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceStop"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceStop",
           "version": "v1"
         }
       }
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/tasks": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read tasks of the specified DevPodWorkspaceInstance",
+        "operationId": "readManagementLoftShV1NamespacedDevPodWorkspaceInstanceTasks",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceTasks"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "DevPodWorkspaceInstanceTasks",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the DevPodWorkspaceInstanceTasks",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/taskID--LcZhepU"
+        }
+      ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/troubleshoot": {
       "get": {
@@ -22933,45 +23382,26 @@
       ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/devpodworkspaceinstances/{name}/up": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "connect GET requests to up of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1GetNamespacedDevPodWorkspaceInstanceUp",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "connect",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "DevPodUpOptions",
-          "version": "v1"
-        }
-      },
       "parameters": [
         {
-          "$ref": "#/parameters/cliMode-zGM7B9tA"
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
         },
         {
-          "$ref": "#/parameters/debug-EtJFGyrW"
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
         },
         {
-          "description": "name of the DevPodUpOptions",
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "name of the DevPodWorkspaceInstanceUp",
           "in": "path",
           "name": "name",
           "required": true,
@@ -22982,26 +23412,46 @@
           "$ref": "#/parameters/namespace-vgWSWtn3"
         },
         {
-          "$ref": "#/parameters/options-wZwpYqqU"
-        },
-        {
-          "$ref": "#/parameters/webMode-bwFb_48f"
+          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
         "consumes": [
           "*/*"
         ],
-        "description": "connect POST requests to up of DevPodWorkspaceInstance",
-        "operationId": "connectManagementLoftShV1PostNamespacedDevPodWorkspaceInstanceUp",
+        "description": "create up of a DevPodWorkspaceInstance",
+        "operationId": "createManagementLoftShV1NamespacedDevPodWorkspaceInstanceUp",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUp"
+            }
+          }
+        ],
         "produces": [
-          "*/*"
+          "application/json",
+          "application/yaml"
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUp"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUp"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DevPodWorkspaceInstanceUp"
             }
           }
         },
@@ -23011,10 +23461,10 @@
         "tags": [
           "managementLoftSh_v1"
         ],
-        "x-kubernetes-action": "connect",
+        "x-kubernetes-action": "post",
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
-          "kind": "DevPodUpOptions",
+          "kind": "DevPodWorkspaceInstanceUp",
           "version": "v1"
         }
       }
@@ -26710,52 +27160,6 @@
         }
       }
     },
-    "/apis/management.loft.sh/v1/projects/{name}/runners": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read runners of the specified Project",
-        "operationId": "readManagementLoftShV1ProjectRunners",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectRunners"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "ProjectRunners",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the ProjectRunners",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ]
-    },
     "/apis/management.loft.sh/v1/projects/{name}/status": {
       "get": {
         "consumes": [
@@ -27273,729 +27677,6 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "ResetAccessKey",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/runners": {
-      "delete": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "delete collection of Runner",
-        "operationId": "deleteManagementLoftShV1CollectionRunner",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-2Y1dVQaQ"
-          },
-          {
-            "$ref": "#/parameters/continue-QfD61s0i"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-          },
-          {
-            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
-            "$ref": "#/parameters/labelSelector-5Zw57w4C"
-          },
-          {
-            "$ref": "#/parameters/limit-1NfNmdNH"
-          },
-          {
-            "$ref": "#/parameters/orphanDependents-uRB25kX5"
-          },
-          {
-            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-          },
-          {
-            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-          },
-          {
-            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-          },
-          {
-            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-          },
-          {
-            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "deletecollection",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "list or watch objects of kind Runner",
-        "operationId": "listManagementLoftShV1Runner",
-        "parameters": [
-          {
-            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-          },
-          {
-            "$ref": "#/parameters/continue-QfD61s0i"
-          },
-          {
-            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-          },
-          {
-            "$ref": "#/parameters/labelSelector-5Zw57w4C"
-          },
-          {
-            "$ref": "#/parameters/limit-1NfNmdNH"
-          },
-          {
-            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-          },
-          {
-            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-          },
-          {
-            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-          },
-          {
-            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-          },
-          {
-            "$ref": "#/parameters/watch-XNNPZGbK"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerList"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "list",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ],
-      "post": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "create a Runner",
-        "operationId": "createManagementLoftShV1Runner",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "post",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/runners/{name}": {
-      "delete": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "delete a Runner",
-        "operationId": "deleteManagementLoftShV1Runner",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-2Y1dVQaQ"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
-            "$ref": "#/parameters/orphanDependents-uRB25kX5"
-          },
-          {
-            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-            }
-          },
-          "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "delete",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read the specified Runner",
-        "operationId": "readManagementLoftShV1Runner",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the Runner",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ],
-      "patch": {
-        "consumes": [
-          "application/json-patch+json",
-          "application/merge-patch+json",
-          "application/strategic-merge-patch+json",
-          "application/apply-patch+yaml"
-        ],
-        "description": "partially update the specified Runner",
-        "operationId": "patchManagementLoftShV1Runner",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-78PwaGsr"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-7c6nTn1T"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/force-tOGGb0Yi"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "patch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "put": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "replace the specified Runner",
-        "operationId": "replaceManagementLoftShV1Runner",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "put",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/runners/{name}/accesskey": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read accesskey of the specified Runner",
-        "operationId": "readManagementLoftShV1RunnerAccesskey",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerAccessKey"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "RunnerAccessKey",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the RunnerAccessKey",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/runners/{name}/config": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read config of the specified Runner",
-        "operationId": "readManagementLoftShV1RunnerConfig",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.RunnerConfig"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "RunnerConfig",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the RunnerConfig",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/runners/{name}/status": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read status of the specified Runner",
-        "operationId": "readManagementLoftShV1RunnerStatus",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the Runner",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ],
-      "patch": {
-        "consumes": [
-          "application/json-patch+json",
-          "application/merge-patch+json",
-          "application/strategic-merge-patch+json",
-          "application/apply-patch+yaml"
-        ],
-        "description": "partially update status of the specified Runner",
-        "operationId": "patchManagementLoftShV1RunnerStatus",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-78PwaGsr"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-7c6nTn1T"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/force-tOGGb0Yi"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "patch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "put": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "replace status of the specified Runner",
-        "operationId": "replaceManagementLoftShV1RunnerStatus",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Runner"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "put",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
           "version": "v1"
         }
       }
@@ -33362,152 +33043,6 @@
         },
         {
           "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/watch/runners": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "watch individual changes to a list of Runner. deprecated: use the 'watch' parameter with a list operation instead.",
-        "operationId": "watchManagementLoftShV1RunnerList",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "watchlist",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/watch/runners/{name}": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "watch changes to an object of kind Runner. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
-        "operationId": "watchManagementLoftShV1Runner",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "watch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "Runner",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "description": "name of the Runner",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
         },
         {
           "$ref": "#/parameters/pretty-tJGM1-ng"
