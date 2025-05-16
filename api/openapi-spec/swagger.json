@@ -94,7 +94,15 @@
     "com.github.loft-sh.admin-apis.pkg.licenseapi.Feature": {
       "description": "Feature contains information regarding to a feature",
       "properties": {
+        "allowBefore": {
+          "description": "AllowBefore is an optional timestamp. If set, licenses issued before this time are allowed to use the feature even if it's not included in the license.",
+          "type": "string"
+        },
         "displayName": {
+          "type": "string"
+        },
+        "module": {
+          "description": "Name of the module that this feature belongs to",
           "type": "string"
         },
         "name": {
@@ -302,6 +310,10 @@
       "properties": {
         "displayName": {
           "description": "DisplayName is for display purposes.",
+          "type": "string"
+        },
+        "module": {
+          "description": "Name of the module that this limit belongs to",
           "type": "string"
         },
         "name": {
@@ -3924,7 +3936,7 @@
         },
         "runnerRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RunnerRef",
-          "description": "Deprecated: Use TargetRef instead RunnerRef is the reference to the runner holding this workspace"
+          "description": "RunnerRef is the reference to the runner holding this workspace"
         },
         "target": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.WorkspaceTarget",
@@ -4715,12 +4727,20 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.FeatureStatus": {
       "description": "FeatureStatus holds the status",
       "properties": {
+        "allowBefore": {
+          "description": "AllowBefore is an optional timestamp. If set, licenses issued before this time are allowed to use the feature even if it's not included in the license.",
+          "type": "string"
+        },
         "displayName": {
           "type": "string"
         },
         "internal": {
           "description": "Internal marks internal features that should not be shown on the license view",
           "type": "boolean"
+        },
+        "module": {
+          "description": "Name of the module that this feature belongs to",
+          "type": "string"
         },
         "name": {
           "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
@@ -10094,7 +10114,7 @@
         },
         "provider": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DevPodWorkspaceProvider",
-          "description": "Provider holds the legacy VM provider configuration\n\nDeprecated: use fields on template instead"
+          "description": "Provider holds the legacy VM provider configuration"
         },
         "workspaceEnv": {
           "additionalProperties": {
