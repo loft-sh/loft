@@ -2271,6 +2271,13 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationOIDC": {
       "properties": {
+        "allowedClaims": {
+          "description": "AllowedExtraClaims are claims of interest that are not part of User by default but may be provided by the OIDC provider.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "caFile": {
           "description": "Path to a PEM encoded root certificate of the provider. Optional",
           "type": "string"
@@ -3241,45 +3248,6 @@
         }
       },
       "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterVirtualClusterDefaults": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "defaultTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplate",
-          "description": "DefaultTemplate is the default virtual cluster template"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "latestVersion": {
-          "description": "LatestVersion is the latest virtual cluster version",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "values": {
-          "description": "Default values for the virtual cluster chart",
-          "type": "string"
-        },
-        "warning": {
-          "description": "Warning should be somehow shown to the user when there is a problem retrieving the defaults",
-          "type": "string"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "ClusterVirtualClusterDefaults",
-          "version": "v1"
-        }
-      ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.Config": {
       "description": "Config holds the loft configuration",
@@ -5364,7 +5332,7 @@
           "type": "array"
         },
         "identity": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyIdentity",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSOIdentity",
           "description": "If available, contains information about the sso login data for this access key"
         },
         "identityRefresh": {
@@ -6336,7 +6304,7 @@
           "type": "array"
         },
         "identity": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyIdentity",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSOIdentity",
           "description": "If available, contains information about the sso login data for this access key"
         },
         "identityRefresh": {
@@ -7913,6 +7881,13 @@
           "description": "The users email address",
           "type": "string"
         },
+        "extraClaims": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ExtraClaims are additional claims that have been added to the user by an admin.",
+          "type": "object"
+        },
         "groups": {
           "description": "The groups the user has access to",
           "items": {
@@ -8545,47 +8520,6 @@
       "required": [
         "verbs"
       ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyIdentity": {
-      "properties": {
-        "connector": {
-          "description": "Connector is the name of the connector this access key was created from",
-          "type": "string"
-        },
-        "connectorData": {
-          "description": "ConnectorData holds data used by the connector for subsequent requests after initial authentication, such as access tokens for upstream providers.\n\nThis data is never shared with end users, OAuth clients, or through the API.",
-          "format": "byte",
-          "type": "string"
-        },
-        "email": {
-          "description": "The user email",
-          "type": "string"
-        },
-        "emailVerified": {
-          "description": "If the user email was verified",
-          "type": "boolean"
-        },
-        "groups": {
-          "description": "The groups from the identity provider",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "preferredUsername": {
-          "description": "The preferred username / display name",
-          "type": "string"
-        },
-        "userId": {
-          "description": "The subject of the user",
-          "type": "string"
-        },
-        "username": {
-          "description": "The username",
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyOIDC": {
@@ -10972,6 +10906,54 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSOIdentity": {
+      "properties": {
+        "connector": {
+          "description": "Connector is the name of the connector this access key was created from",
+          "type": "string"
+        },
+        "connectorData": {
+          "description": "ConnectorData holds data used by the connector for subsequent requests after initial authentication, such as access tokens for upstream providers.\n\nThis data is never shared with end users, OAuth clients, or through the API.",
+          "format": "byte",
+          "type": "string"
+        },
+        "email": {
+          "description": "The user email",
+          "type": "string"
+        },
+        "emailVerified": {
+          "description": "If the user email was verified",
+          "type": "boolean"
+        },
+        "extraClaims": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ExtraClaims are claims that are not otherwise contained in this struct but may be provided by the OIDC provider. Only extra claims that are allowed by the auth config are included.",
+          "type": "object"
+        },
+        "groups": {
+          "description": "The groups from the identity provider",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "preferredUsername": {
+          "description": "The preferred username / display name",
+          "type": "string"
+        },
+        "userId": {
+          "description": "The subject of the user",
+          "type": "string"
+        },
+        "username": {
+          "description": "The username",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.SecretRef": {
       "description": "SecretRef is the reference to a secret containing the user password",
       "properties": {
@@ -11430,29 +11412,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplate": {
-      "description": "VirtualClusterTemplate holds the virtualClusterTemplate information",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateStatus"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition": {
       "properties": {
         "access": {
@@ -11515,57 +11474,6 @@
           "type": "string"
         }
       },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateSpec": {
-      "description": "VirtualClusterTemplateSpec holds the specification",
-      "properties": {
-        "access": {
-          "description": "Access holds the access rights for users and teams",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
-          },
-          "type": "array"
-        },
-        "description": {
-          "description": "Description describes the virtual cluster template",
-          "type": "string"
-        },
-        "displayName": {
-          "description": "DisplayName is the name that is shown in the UI",
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
-          "description": "Owner holds the owner of this object"
-        },
-        "parameters": {
-          "description": "Parameters define additional app parameters that will set helm values",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AppParameter"
-          },
-          "type": "array"
-        },
-        "spaceTemplateRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateSpaceTemplateRef",
-          "description": "DEPRECATED: SpaceTemplate to use to create the virtual cluster space if it does not exist"
-        },
-        "template": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
-          "description": "Template holds the virtual cluster template"
-        },
-        "versions": {
-          "description": "Versions are different versions of the template that can be referenced as well",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateVersion"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateStatus": {
-      "description": "VirtualClusterTemplateStatus holds the status",
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateVersion": {
@@ -20054,52 +19962,6 @@
           "version": "v1"
         }
       }
-    },
-    "/apis/management.loft.sh/v1/clusters/{name}/virtualclusterdefaults": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read virtualclusterdefaults of the specified Cluster",
-        "operationId": "readManagementLoftShV1ClusterVirtualclusterdefaults",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterVirtualClusterDefaults"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "ClusterVirtualClusterDefaults",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the ClusterVirtualClusterDefaults",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ]
     },
     "/apis/management.loft.sh/v1/configs": {
       "parameters": [

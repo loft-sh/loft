@@ -2942,52 +2942,6 @@
       }
     }
   },
-  "/apis/management.loft.sh/v1/clusters/{name}/virtualclusterdefaults": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read virtualclusterdefaults of the specified Cluster",
-      "operationId": "readManagementLoftShV1ClusterVirtualclusterdefaults",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterVirtualClusterDefaults"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "ClusterVirtualClusterDefaults",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "description": "name of the ClusterVirtualClusterDefaults",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ]
-  },
   "/apis/management.loft.sh/v1/configs": {
     "parameters": [
       {
