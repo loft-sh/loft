@@ -55,7 +55,7 @@ spec:
         - name: loft-data
           emptyDir: {}
       {{- end }}
-      {{- if .Values.additionalCA }}
+      {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
         - name: loft-additional-ca
           secret:
             secretName: loft-additional-ca
@@ -160,7 +160,7 @@ spec:
         {{- end }}
           - mountPath: /var/lib/loft
             name: loft-data
-        {{- if .Values.additionalCA }}
+        {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
           - name: loft-additional-ca
             mountPath: /etc/ssl/certs/loft-additional-ca.crt
             readOnly: true
