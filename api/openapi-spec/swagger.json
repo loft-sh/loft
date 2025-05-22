@@ -2271,7 +2271,7 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationOIDC": {
       "properties": {
-        "allowedClaims": {
+        "allowedExtraClaims": {
           "description": "AllowedExtraClaims are claims of interest that are not part of User by default but may be provided by the OIDC provider.",
           "items": {
             "type": "string"
