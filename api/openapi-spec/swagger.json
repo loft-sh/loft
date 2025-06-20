@@ -11330,6 +11330,10 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterHelmChart": {
       "properties": {
+        "insecureSkipTlsVerify": {
+          "description": "InsecureSkipTlsVerify skips the TLS verification for the helm chart",
+          "type": "boolean"
+        },
         "name": {
           "description": "the name of the helm chart",
           "type": "string"
