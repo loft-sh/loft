@@ -1,5 +1,0 @@
-Set the `$VERSION` variable to the Loft version you want to upgrade to OR set it to the current version using:
-```bash
-CHART=$(kubectl get service loft -n loft -o jsonpath={.metadata.labels.chart})
-VERSION=${CHART:5}
-```
