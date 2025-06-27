@@ -1,8 +1,0 @@
-<p>With sleep mode, you can put {props.name}s to sleep which means that Loft will set <code>replicas: 0</code> for all replica-controlled resources such as <code>Deployments</code> and <code>StatefulSets</code> inside the {props.name}. This means that Kubernetes will delete all pods but the entire configuration of resources within the {props.name} is still there.</p>
-
-<p>Sleep mode can be:</p>
-<ul>
-<li>Invoked manually</li>
-<li>Triggered by an inactivity timeout (no one has ran a <code>kubectl</code> command or accessed an ingress in this {props.name} for X minutes)</li>
-<li>Scheduled using a CRON syntax</li>
-</ul>
