@@ -15,6 +15,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.org/websocket-services: loft
     {{- with .Values.ingress.annotations }}
       {{- toYaml . | nindent 4 }}
