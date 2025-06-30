@@ -17046,7 +17046,7 @@
       "consumes": [
         "application/json"
       ],
-      "description": "get the code version",
+      "description": "get the version information for this server",
       "operationId": "getCodeVersion",
       "produces": [
         "application/json"
