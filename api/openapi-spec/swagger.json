@@ -11566,6 +11566,49 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.ui.v1.CspPolicy": {
+      "properties": {
+        "Connect": {
+          "type": "string"
+        },
+        "Font": {
+          "type": "string"
+        },
+        "Frame": {
+          "type": "string"
+        },
+        "Image": {
+          "type": "string"
+        },
+        "Script": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Script",
+        "Image",
+        "Connect",
+        "Frame",
+        "Font"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.ui.v1.ExternalURLs": {
+      "properties": {
+        "allow": {
+          "description": "Allow specifies which external URLs can be called. In addition to the predefined modules, - \"vcluster\" (license page, feature descriptions, ...) - \"gtm\" (google tag manager) - \"featurebase\" any URL can be added to this list. This will allow the UI to make any request to this URL.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "enabled": {
+          "description": "Enabled determines if requests to external URLs from the UI should be allowed at all",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.ui.v1.NavBarButton": {
       "properties": {
         "icon": {
@@ -11630,6 +11673,10 @@
           },
           "type": "array"
         },
+        "externalURLs": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.ExternalURLs",
+          "description": "External URLs that can be called from the UI"
+        },
         "legalTemplate": {
           "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
           "type": "string"
@@ -11693,6 +11740,10 @@
           "description": "DefaultVClusterVersion is the default version of vClusters",
           "type": "string"
         },
+        "externalURLs": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.ExternalURLs",
+          "description": "External URLs that can be called from the UI"
+        },
         "hasHelmRelease": {
           "description": "HasHelmRelease indicates whether the vCluster Platform instance has been installed via Helm",
           "type": "boolean"
@@ -11749,6 +11800,19 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.ui.v1.UISettingsStatus": {
       "description": "UISettingsStatus holds the status",
+      "properties": {
+        "cspConfig": {
+          "description": "CspConfig holds the raw csp config from the user",
+          "type": "string"
+        },
+        "csps": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.CspPolicy"
+          },
+          "description": "Csps holds Content Security Policies",
+          "type": "object"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmRelease": {
