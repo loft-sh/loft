@@ -188,6 +188,13 @@ serviceMonitor:
 config:
   audit:
     enabled: true
+  uiSettings:
+    externalURLs:
+      enabled: true
+      allow:
+      - vcluster
+      - gtm
+      - featurebase
 
 # Enables running loft agent with a security context that:
 # - disables privileged escalation
@@ -211,7 +218,7 @@ podSecurityContext: {}
 
 # Loft *agent* default values to use, options can be seen in the loft-agent chart values:
 # https://github.com/loft-sh/loft/blob/main/chart/values.yaml
-# If loft.sh/agent-values annotation is set, then all these values are ignored 
+# If loft.sh/agent-values annotation is set, then all these values are ignored
 agentValues: {}
 
 # if the webhook should be deployed
