@@ -11722,6 +11722,13 @@
           "description": "AccentColor is the color value (ex: \"#12345\") to use for the accent",
           "type": "string"
         },
+        "availableVClusterVersions": {
+          "description": "AvailableVClusterVersions lists all virtual cluster versions available to the platform instance",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.VClusterVersion"
+          },
+          "type": "array"
+        },
         "customCss": {
           "description": "CustomCSS holds URLs with custom css files that should be included when loading the UI",
           "items": {
@@ -11811,6 +11818,19 @@
           },
           "description": "Csps holds Content Security Policies",
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.ui.v1.VClusterVersion": {
+      "properties": {
+        "prerelease": {
+          "description": "PreRelease determines if the version is marked as prerelease",
+          "type": "boolean"
+        },
+        "tagName": {
+          "description": "TagName is the full tag name",
+          "type": "string"
         }
       },
       "type": "object"
