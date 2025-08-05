@@ -150,6 +150,8 @@ spec:
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
         {{- end }}
+        - name: LOFT_MANAGER_IMAGE
+          value: {{ (default (include "loft.image" .) .Values.image) | quote }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
