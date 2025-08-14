@@ -98,6 +98,10 @@ spec:
         {{- end }}
         {{- end }}
         env:
+        {{- if not .Values.admin.create }}
+        - name: ADMIN_SKIP_CREATE
+          value: "true"
+        {{- end }}
         - name: ADMIN_EMAIL
           value: {{ .Values.admin.email | quote }}
         - name: CHART_VERSION

@@ -2,6 +2,8 @@
 agentOnly: false
 
 # If an admin user should be created during deployment
+# Any previously created admin user will not be deleted
+# when this is changed to false.
 admin:
   create: true
   username: admin
