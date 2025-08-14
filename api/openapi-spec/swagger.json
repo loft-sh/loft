@@ -4883,6 +4883,9 @@
         "nodeProviderBCMTestConnectionResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderBCMTestConnectionResult"
         },
+        "nodeProviderCalculateCostResult": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderCalculateCostResult"
+        },
         "sleepModeConfig": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.cluster.v1.SleepModeConfig"
         },
@@ -5418,7 +5421,7 @@
       "properties": {
         "nodeGroups": {
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderBCMNodeGroup"
           },
           "type": "array"
         },
@@ -5432,6 +5435,24 @@
       "required": [
         "nodes",
         "nodeGroups"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderBCMNodeGroup": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "nodes"
       ],
       "type": "object"
     },
@@ -5464,6 +5485,18 @@
       "required": [
         "success",
         "message"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderCalculateCostResult": {
+      "properties": {
+        "cost": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cost"
       ],
       "type": "object"
     },
