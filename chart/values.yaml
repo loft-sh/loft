@@ -190,13 +190,6 @@ serviceMonitor:
 config:
   audit:
     enabled: true
-  uiSettings:
-    externalURLs:
-      enabled: true
-      allow:
-      - vcluster
-      - gtm
-      - featurebase
 
 # Enables running loft agent with a security context that:
 # - disables privileged escalation
