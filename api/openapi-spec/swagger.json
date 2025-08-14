@@ -12812,16 +12812,12 @@
         "Frame": {
           "type": "string"
         },
-        "Image": {
-          "type": "string"
-        },
         "Script": {
           "type": "string"
         }
       },
       "required": [
         "Script",
-        "Image",
         "Connect",
         "Frame",
         "Font"
@@ -12831,14 +12827,14 @@
     "com.github.loft-sh.api.v4.pkg.apis.ui.v1.ExternalURLs": {
       "properties": {
         "allow": {
-          "description": "Allow specifies which external URLs can be called. In addition to the predefined modules, - \"vcluster\" (license page, feature descriptions, ...) - \"gtm\" (google tag manager) - \"featurebase\" any URL can be added to this list. This will allow the UI to make any request to this URL.",
+          "description": "Allow specifies which external URLs can be called. In addition to the predefined modules, - \"vcluster\" (license page, feature descriptions, ...) - \"gtm\" (google tag manager) - \"featurebase\" (changelog) any URL can be added to this list. This will allow the UI to make any request to this URL. This is only active when Block is true.",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
-        "enabled": {
-          "description": "Enabled determines if requests to external URLs from the UI should be allowed at all",
+        "block": {
+          "description": "Block determines if requests to external URLs from the UI should be blocked",
           "type": "boolean"
         }
       },
