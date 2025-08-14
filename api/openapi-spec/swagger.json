@@ -5196,6 +5196,10 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeClaimSpec": {
       "description": "NodeClaimSpec defines spec of node claim.",
       "properties": {
+        "controlPlane": {
+          "description": "ControlPlane indicates if the node claim is for a control plane node.",
+          "type": "boolean"
+        },
         "desiredCapacity": {
           "additionalProperties": {
             "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
@@ -5337,6 +5341,13 @@
         "providerRef": {
           "description": "ProviderRef is the name of the NodeProvider that this NodeEnvironment is based on.",
           "type": "string"
+        },
+        "requirements": {
+          "description": "Requirements are the requirements for the NodeEnvironment.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.NodeSelectorRequirement"
+          },
+          "type": "array"
         },
         "vClusterRef": {
           "description": "VClusterRef references source vCluster. This is required.",
@@ -5558,10 +5569,6 @@
         "kubeVirt": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
-        },
-        "pods": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderPods",
-          "description": "Pods configures a node provider based on Kubernetes Pods. This can be used for simpler, pod-based node provisioning for testing or demos."
         },
         "terraform": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform",
@@ -8922,6 +8929,10 @@
           "description": "Parameters are values to pass to the template. The values should be encoded as YAML string where each parameter is represented as a top-level field key.",
           "type": "string"
         },
+        "standalone": {
+          "description": "Standalone specifies if the virtual cluster is standalone and not hosted in another Kubernetes cluster.",
+          "type": "boolean"
+        },
         "template": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
           "description": "Template is the inline template to use for virtual cluster creation. This is mutually exclusive with templateRef."
@@ -11353,6 +11364,83 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtClusterRef": {
+      "properties": {
+        "cluster": {
+          "description": "Cluster is the connected cluster the VMs will be created in",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace inside the connected cluster holding VMs",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cluster",
+        "namespace"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtNodeTypeSpec": {
+      "description": "KubeVirtNodeTypeSpec defines single NodeType spec for KubeVirt provider type.",
+      "properties": {
+        "cost": {
+          "description": "Cost is the instance cost. The higher the cost, the less likely it is to be selected. If empty, cost is automatically calculated from the resources specified.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "mergeVirtualMachineTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "MergeVirtualMachineTemplate will be merged into base VirtualMachine template for this NodeProvider. This allows overwriting of specific fields from top level template by individual NodeTypes This is mutually exclusive with VirtualMachineTemplate"
+        },
+        "name": {
+          "description": "Name is the name of this node type.",
+          "type": "string"
+        },
+        "overhead": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeOverhead",
+          "description": "Overhead defines the resource overhead for this node type."
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties returns a flexible set of properties that may be selected for scheduling.",
+          "type": "object"
+        },
+        "providerRef": {
+          "description": "ProviderRef is the node provider to use for this node type.",
+          "type": "string"
+        },
+        "region": {
+          "description": "Region is the region of the node type.",
+          "type": "string"
+        },
+        "resources": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Resources lists the full resources for a single node.",
+          "type": "object"
+        },
+        "virtualMachineTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "VirtualMachineTemplate is a full KubeVirt VirtualMachine template to use for this NodeType. This is mutually exclusive with MergeVirtualMachineTemplate"
+        },
+        "zone": {
+          "description": "Zone is the zone of the node type. If empty, will default to \"global\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.LocalClusterAccessSpec": {
       "properties": {
         "clusterRoles": {
@@ -11542,26 +11630,36 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt": {
       "description": "NodeProviderKubeVirt defines the configuration for a KubeVirt node provider.",
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderPods": {
-      "description": "NodeProviderPodsSpec defines the configuration for a pod-based node provider.",
       "properties": {
-        "image": {
-          "description": "Image is the container image to use for the pod-based node provider.",
-          "type": "string"
+        "clusterRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtClusterRef",
+          "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+        },
+        "nodeTypes": {
+          "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtNodeTypeSpec"
+          },
+          "type": "array"
+        },
+        "virtualMachineTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "VirtualMachineTemplate is a KubeVirt VirtualMachine template to use by NodeTypes managed by this NodeProvider"
         }
       },
+      "required": [
+        "nodeTypes"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform": {
       "properties": {
         "nodeEnvironmentTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSource",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
           "description": "NodeEnvironmentTemplate is the template to use for this node environment."
         },
         "nodeTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSource",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
           "description": "NodeTemplate is the template to use for this node provider."
         },
         "nodeTypes": {
@@ -12224,7 +12322,7 @@
           "type": "string"
         },
         "nodeTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSource",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
           "description": "NodeTemplate is the template to use for this node type."
         },
         "overhead": {
@@ -12263,14 +12361,35 @@
       ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSource": {
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate": {
       "properties": {
+        "driftDetection": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateDriftDetection",
+          "description": "DriftDetection is the drift detection configuration to use for this node type."
+        },
         "git": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSourceGit",
           "description": "Git is the git repository to use for this node type."
         },
         "inline": {
           "description": "Inline is the inline template to use for this node type.",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "Timeout is the timeout to use for the terraform operations. Defaults to 60m.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateDriftDetection": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled is the flag to enable drift detection.",
+          "type": "boolean"
+        },
+        "interval": {
+          "description": "Interval is the interval to use for drift detection. Defaults to 10m.",
           "type": "string"
         }
       },
@@ -12292,6 +12411,10 @@
             "type": "string"
           },
           "type": "array"
+        },
+        "fetchInterval": {
+          "description": "FetchInterval is the interval to use for refetching the git repository. Defaults to 5m. Refetching only checks for remote changes but does not do a complete repull.",
+          "type": "string"
         },
         "password": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SecretRef",
