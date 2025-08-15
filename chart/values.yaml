@@ -151,6 +151,14 @@ audit:
     #storageClassName: my-storage-class
     # Optional custom accessModes
     #accessModes: ["ReadWriteOnce"]
+  securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+        - ALL
+    runAsNonRoot: true
+    runAsUser: 1000
 
 # Prometheus Service Monitor Configuration
 serviceMonitor:
@@ -163,7 +171,7 @@ serviceMonitor:
   labels: {}
 
 # Loft config to use, all options can be seen at:
-# https://www.vcluster.com/docs/platform/configure/config
+# https://loft.sh/docs/admin/config
 config:
   audit:
     enabled: true
@@ -196,6 +204,9 @@ agentValues: {}
 # if the webhook should be deployed
 webhook:
   create: true
+
+# host aliases to use for the deployment
+hostAliases: []
 
 # Configures structured logging within Loft
 logging:
