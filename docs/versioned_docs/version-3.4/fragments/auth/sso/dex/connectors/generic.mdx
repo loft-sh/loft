@@ -1,0 +1,40 @@
+Create the file `dex-config.yaml` with the following dex configuration:
+```yaml {4,6,8,11-14}
+ingress:
+  enabled: true
+  hosts:
+  - host: dex.yourcompany.tld                             # Use $DEX_HOSTNAME
+    paths:
+      - path: /
+config:
+  issuer: https://dex.yourcompany.tld                     # "https://" + $DEX_HOSTNAME
+  connectors:
+  - {YOUR_CONNECTOR_CONFIG}                               # SEE LINKS BELOW! (do not remove the '-' and indent correctly)
+  staticClients:
+  - name: Loft
+    id: loft                                              # Define a $DEX_CLIENT_ID
+    secret: XXXXXXXXXXXXXX                                # Define a $DEX_CLIENT_SECRET (can be any secret key)
+    redirectURIs:
+    - 'https://loft.mycompany.tld/auth/oidc/callback'     # Loft URL + /auth/oidc/callback
+  oauth2:
+    skipApprovalScreen: true
+  web:
+    http: 0.0.0.0:5556
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+```
+
+Check the official [artifacthub.io](https://artifacthub.io/packages/helm/dex/dex) page for all available options.
+
+To fill the `connectors` section shown above, go to the appropriate docs page for the auth provider you want to use in combination with dex:
+- [Microsoft](https://dexidp.io/docs/connectors/microsoft/)
+- [Google](https://dexidp.io/docs/connectors/google/)
+- [OpenID Connect](https://dexidp.io/docs/connectors/oidc/)
+- [OpenShift](https://dexidp.io/docs/connectors/openshift/)
+- [LinkedIn](https://dexidp.io/docs/connectors/linkedin/)
+- [AuthProxy](https://dexidp.io/docs/connectors/authproxy/)
+- [Bitbucket Cloud](https://dexidp.io/docs/connectors/bitbucketcloud/)
+- [Atlassian Crowd](https://dexidp.io/docs/connectors/atlassian-crowd/)
+- [Gitea](https://dexidp.io/docs/connectors/gitea/)

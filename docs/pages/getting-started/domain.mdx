@@ -1,0 +1,406 @@
+---
+title: "Configure External Access & TLS"
+sidebar_label: "Optional: Domain & TLS"
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Flow, { Step } from '@site/src/components/Flow'
+import PartialExposeNginx  from './_partials/external-access-nginx.mdx'
+import PartialExposeNginxManual  from './_partials/external-access-nginx-manual.mdx'
+import PartialExposeLoadBalancerAWS from './_partials/external-access-loadbalancer-aws.mdx'
+import PartialExposeLoadBalancerOther from './_partials/external-access-loadbalancer-other.mdx'
+import PartialExposeLoadBalancerApply from './_partials/external-access-loadbalancer-apply.mdx'
+import PartialAdminSetVersion from '../admin/_partials/set-version.mdx'
+import PartialExposeLoadBalancerExternalIP from './_partials/external-access-loadbalancer-get-external-ip.mdx'
+import PartialExposeLoadBalancerValidate from './_partials/external-access-loadbalancer-validate.mdx'
+import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
+
+
+After deploying Loft, you may want to be able to access the deployment via a routable IP address
+or a resolvable domain name. You may also wish to secure the deployment with a TLS certificate.
+This is of course extra useful for sharing Loft access with other members of your team who may
+or may not have direct access to Kubernetes!
+
+:::tip Requirements
+Getting Loft set up to be accessed via routable IP or domain name, and to be secured via TLS
+requires the cluster that Loft is deployed in to have an available load balancer or ingress
+controller, appropriate DNS settings to be in place, and some mechanism for assigning TLS
+certificates (i.e. cert-manager).
+:::
+
+
+## External Access
+
+Loft, like any other service in Kubernetes, can be exposed in a few ways -- in this section
+we'll outline how to expose Loft via an ingress controller (nginx ingress controller in this
+example), as well as by a `LoadBalancer`.
+
+<details>
+    <summary>External Access via NGINX Ingress Controller</summary>
+<Tabs
+    defaultValue="automatic"
+    values={[
+        {label: 'Automatic or Existing Installation', value: 'automatic'},
+        {label: 'Manual Ingress Controller Installation', value: 'manual'},
+    ]}>
+    <TabItem value="automatic">
+        <PartialExposeNginx/>
+    </TabItem>
+    <TabItem value="manual">
+        <PartialExposeNginxManual/>
+    </TabItem>
+</Tabs>
+</details>
+
+
+<details>
+    <summary>External Access via LoadBalancer</summary>
+
+<Flow>
+    <Step>
+        <Tabs
+            defaultValue="aws"
+            values={[
+                {label: 'AWS ELB + ACM', value: 'aws'},
+                {label: 'Other Load Balancers', value: 'other'},
+            ]}>
+            <TabItem value="aws">
+                <PartialExposeLoadBalancerAWS/>
+            </TabItem>
+            <TabItem value="other">
+                <PartialExposeLoadBalancerOther/>
+            </TabItem>
+        </Tabs>
+    </Step>
+    <Step>
+        <PartialExposeLoadBalancerApply/>
+    </Step>
+    <Step>
+        <PartialExposeLoadBalancerExternalIP/>
+    </Step>
+    <Step>
+        <PartialExposeLoadBalancerValidate/>
+    </Step>
+</Flow>
+</details>
+
+
+## Configure TLS
+
+<details>
+  <summary>
+
+### Cert-Manager
+
+  </summary>
+
+<Flow id="cert-manager">
+  <Step>
+
+Install `cert-manager` to your cluster:
+```bash
+helm upgrade --install  cert-manager cert-manager  --repository-config=''\
+  --namespace cert-manager  --create-namespace \
+  --repo https://charts.jetstack.io \
+  --set installCRDs=true \
+  --wait
+```
+
+  </Step>
+  <Step>
+
+Edit your existing `loft.yaml` file, or create a new file named `loft.yaml` with content:
+```yaml {3-4}
+ingress:
+  annotations:
+    # Make sure the following line matches the name of your issuer (or use the section below to create one)
+    cert-manager.io/cluster-issuer: lets-encrypt-http-issuer
+  tls:
+    enabled: true
+    secret: tls-loft
+
+certIssuer:
+  create: true                                      # Change this if you already have your own cert-issuer
+  name: lets-encrypt-http-issuer
+  email: "YOUR_EMAIL"                               # REQUIRED
+  secretName: loft-letsencrypt-credentials
+  httpResolver:
+    enabled: true
+    ingressClass: nginx
+  resolvers: []
+  server: https://acme-v02.api.letsencrypt.org/directory
+```
+
+  </Step>
+  <Step>
+    <PartialAdminSetVersion/>
+  </Step>
+  <Step>
+    <PartialAdminUpgrade/>
+  </Step>
+</Flow>
+
+</details>
+
+<details>
+  <summary>
+
+### AWS Certificate Manager (ACM)
+
+  </summary>
+
+<Tabs
+  defaultValue="ingress"
+  values={[
+    { label: 'Domain via Ingress', value: 'ingress', },
+    { label: 'Domain via Load Balancer', value: 'lb', },
+  ]
+}>
+<TabItem value="ingress">
+
+<Flow id="acm-ingress">
+  <Step>
+
+Determine the External-IP address of your ingress:
+```
+kubectl get ingress -n loft
+NAME           CLASS    HOSTS                ADDRESS          PORTS     AGE
+loft-ingress   <none>   loft.mydomain.tld    x.x.x.x          80, 443   10m
+                                             ^^^^^^^
+```
+
+  </Step>
+  <Step>
+
+Find the AWS Elastic Load Balancer(ELB) for this IP address in the AWS console
+
+  </Step>
+  <Step>
+
+Switch to the tab `Listeners`
+
+  </Step>
+  <Step>
+
+In the column "SSL Certificates", click on the link `View/edit certificates`
+
+  </Step>
+  <Step>
+
+Click on the `+` Synbol next to the tab `Certificates` and add your Access Control Manager (ACM) managed certificate to the ingress controller's Load Balancer
+
+  </Step>
+</Flow>
+
+</TabItem>
+<TabItem value="lb">
+
+Make sure to follow the [Load Balancer > AWS ELB + ACM](#1-configure-domain) guide above.
+
+</TabItem>
+</Tabs>
+
+</details>
+
+<details>
+  <summary>
+
+### Manually Provisioned Certificate
+
+  </summary>
+
+<Flow id="cert-manual">
+  <Step>
+
+Create a Kubernetes secret from your certificate:
+```bash
+kubectl create secret generic tls-loft -n loft --type=kubernetes.io/tls \
+  --from-file=tls.crt=tls.crt \
+  --from-file=tls.key=tls.key
+```
+
+  </Step>
+  <Step>
+
+Edit your existing `loft.yaml` file, or create a new file named `loft.yaml` with content:
+
+<Tabs
+  defaultValue="ingress"
+  values={[
+    { label: 'Loft Ingress handles TLS', value: 'ingress', },
+    { label: 'Loft Pod handles TLS', value: 'loft', },
+    { label: 'Load Balancer handles TLS', value: 'lb', },
+  ]
+}>
+<TabItem value="ingress">
+
+```yaml
+ingress:
+  tls:
+    enabled: true
+    secret: tls-loft      # Make sure this matches the name of your cert from the previous step
+```
+
+</TabItem>
+<TabItem value="loft">
+
+```yaml
+tls:
+  enabled: true
+  secret: tls-loft      # Make sure this matches the name of your cert from the previous step
+```
+
+</TabItem>
+<TabItem value="lb">
+
+This must be configured outside of the Loft deployment
+
+</TabItem>
+</Tabs>
+
+  </Step>
+  <Step>
+    <PartialAdminSetVersion/>
+  </Step>
+  <Step>
+    <PartialAdminUpgrade/>
+  </Step>
+</Flow>
+
+</details>
+
+<details>
+  <summary>
+
+### Self-Signed Certificate
+
+  </summary>
+
+<Flow id="cert-self-signed">
+  <Step>
+
+Create a new private key:
+```
+openssl genrsa -out tls.key 4096
+```
+
+  </Step>
+  <Step>
+
+Create a file named `ssl.conf` with the following content:
+``` {9-12,26-27}
+[ req ]
+default_bits       = 4096
+distinguished_name = req_distinguished_name
+x509_extensions    = v3_ca
+req_extensions     = v3_req
+x509_extensions    = usr_cert
+
+[ req_distinguished_name ]
+organizationName          = Organization Name (eg, company)
+organizationName_default  = loft
+commonName                = Common Name (e.g. server FQDN or YOUR name)
+commonName_default        = loft.mydomain.tld
+
+[ usr_cert ]
+basicConstraints  = CA:FALSE
+nsCertType        = client, server
+keyUsage          = digitalSignature
+extendedKeyUsage  = serverAuth, clientAuth
+
+[ v3_req ]
+subjectAltName   = @alt_names
+extendedKeyUsage = serverAuth, clientAuth
+basicConstraints = CA:FALSE
+keyUsage         = digitalSignature
+
+[ alt_names ]
+DNS.1 = localhost
+```
+
+  </Step>
+  <Step>
+
+Create a certificate signing request:
+```bash
+openssl req -new -sha256 \
+    -out tls.csr \
+    -key tls.key \
+    -config ssl.conf
+```
+
+  </Step>
+  <Step>
+
+Generate the certificate:
+```bash
+openssl x509 -req \
+    -sha256 \
+    -days 3650 \
+    -in tls.csr \
+    -signkey tls.key \
+    -out tls.crt \
+    -extensions v3_req \
+    -extfile ssl.conf
+```
+
+  </Step>
+  <Step>
+
+Create a Kubernetes secret from your certificate:
+```bash
+kubectl create secret generic tls-loft -n loft --type=kubernetes.io/tls \
+  --from-file=tls.crt=tls.crt \
+  --from-file=tls.key=tls.key
+```
+
+  </Step>
+  <Step>
+
+Edit your existing `loft.yaml` file, or create a new file named `loft.yaml` with content:
+
+<Tabs
+  defaultValue="ingress"
+  values={[
+    { label: 'Loft Ingress handles TLS', value: 'ingress', },
+    { label: 'Loft Pod handles TLS', value: 'loft', },
+    { label: 'Load Balancer handles TLS', value: 'lb', },
+  ]
+}>
+<TabItem value="ingress">
+
+```yaml
+ingress:
+  tls:
+    enabled: true
+    secret: tls-loft      # Make sure this matches the name of your cert from the previous step
+```
+
+</TabItem>
+<TabItem value="loft">
+
+```yaml
+tls:
+  enabled: true
+  secret: tls-loft      # Make sure this matches the name of your cert from the previous step
+```
+
+</TabItem>
+<TabItem value="lb">
+
+This must be configured outside of the Loft deployment
+
+</TabItem>
+</Tabs>
+
+  </Step>
+  <Step>
+    <PartialAdminSetVersion/>
+  </Step>
+  <Step>
+    <PartialAdminUpgrade/>
+  </Step>
+</Flow>
+
+</details>

@@ -1,0 +1,288 @@
+---
+title: "Aggregating Metrics"
+sidebar_label: "Aggregating Metrics"
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import GrafanaExample from '@site/static/media/screenshots/grafana-example.png'
+
+This document provides a guide on configuring OpenTelemetry with Prometheus to collect workload metrics from across multiple vClusters and aggregate by
+Project, vCluster, and Space. This approach utilizes shared OpenTelemetry DaemonSets on the Host Cluster without requiring individual collector installations per vCluster.
+
+### Prerequisites:
+
+- Prometheus deployed and reachable from all connected clusters with the [OTLP-reciever feature flag](https://prometheus.io/docs/prometheus/latest/feature_flags/#otlp-receiver) enabled.
+
+### Deploy OpenTelemetry Collector on each Host Cluster
+
+Deploy the built-in OpenTelemetry App on each connected Host Cluster.
+This OpenTelemetry App accepts the Prometheus connection information and deploys [opentelemetry-collector](https://opentelemetry.io/docs/collector/)
+as a Daemonset via Helm.
+
+The OpenTelemetry Collector Agent on each node will push metrics about the workloads running on that node to the Prometheus instance. The metrics will have the vCluster, Loft Platform and Kubernetes metadata associated with the workloads as labels.
+
+<Flow id="cluster-install-app">
+  <Step>
+    Go to the <NavStep>Clusters</NavStep> dropdown using the menu on the left, and select the <NavStep>Clusters</NavStep> view.
+  </Step>
+  <Step>
+    Click on the Cluster where you are installing the Opentelemetry Collector App.
+  </Step>
+  <Step>
+    Navigate to the <NavStep>Apps</NavStep> tab.
+  </Step>
+  <Step>
+    Click on the <NavStep>OpenTelemetry Collector</NavStep> App.
+  </Step>
+  <Step>
+    Enter the Prometheus connection endpoint and auth info as prompted.
+  </Step>
+  <Step>
+    Click on the <Button>Install</Button> button to finish.
+  </Step>
+</Flow>
+
+
+## Create Prometheus Queries
+
+Now that we’ve started collecting data with OpenTelemetry, we can aggregate the metrics using the associated labels like the vCluster name.
+
+Here’s an example Prometheus query showing the CPU usage aggregated by the vCluster name:
+
+```
+sum by(loft_virtualcluster_name) (k8s_pod_cpu_time_seconds_total{loft_virtualcluster_name=~".+"})`
+```
+
+List of available labels from Loft:
+
+- `loft_project_name`
+- `loft_virtualcluster_name`
+- `loft_space_name`
+- `loft_cluster_name`.
+
+## Create Grafana Dashboard
+
+### Prerequisites:
+
+- Grafana isntance connected to the Prometheus instance.
+
+Let’s demonstrate how these aggregated metrics would look using Grafana. This example dashboard will visualize the CPU and Memory usage aggregated by vCluster, Project and Space.
+
+You can then [import](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/) the example Dashboard JSON below by copying it into the Grafana interface.
+
+<img src={GrafanaExample} width="100% "/>
+
+```json
+{
+  "title": "CPU and Memory usage by Project, Space, Virtual Cluster",
+  "panels": [
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum by(loft_virtualcluster_name) (k8s_pod_cpu_time_seconds_total{loft_virtualcluster_name=~\".+\"})",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "CPU Usage by Virtual Cluster",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum by (loft_virtualcluster_name) (k8s_pod_memory_usage_bytes{loft_virtualcluster_name=~\".+\"})\n/1024/1024",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Memory Usage (GiB) by Virtual Cluster",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "sum by(loft_project_name) (k8s_pod_cpu_time_seconds_total{loft_project_name=~\".+\"}) / 1024 / 1024",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "CPU Usage by Project",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum by (loft_project_name) (k8s_pod_memory_usage_bytes{loft_project_name=~\".+\"})\n/1024/1024",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Memory Usage (GiB) by Project",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum by(loft_space_name) (k8s_pod_cpu_time_seconds_total{loft_space_name=~\".+\"})",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "CPU Usage by Space",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum by (loft_space_name) (k8s_pod_memory_usage_bytes{loft_space_name=~\".+\"})\n/1024/1024",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Memory Usage (GiB) by Space",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 38
+}
+```
+
+
+
+
+

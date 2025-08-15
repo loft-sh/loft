@@ -1,0 +1,37 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can retrieve all allowed templates through this API.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Run the following command:
+```bash
+# Exchange my-object in the url below with the name of the Project Templates
+kubectl get --raw "/kubernetes/management/apis/management.loft.sh/v1/projects/my-object/templates"
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Run the following curl command:
+```bash
+# Exchange my-object in the url below with the name of the Project Templates
+curl -s -X GET --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/projects/my-object/templates" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

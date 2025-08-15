@@ -1,0 +1,38 @@
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+
+<Flow id="create-space-ui">
+  <Step>
+    Go to the <NavStep>Projects</NavStep> view using the menu on the left
+  </Step>
+  <Step>
+    Click on Spaces and the <Button>Create Space</Button> button
+  </Step>
+  <Step>
+    In the popup select the space template and click the <Button>Select</Button> button
+  </Step>
+  <Step>
+    Optional: Select a cluster where to create the space in. If no cluster is specified, Loft will automatically select one for you.
+  </Step>
+  <Step>
+    Specify a name of the space at the top and optionally configure the template parameters and space access.
+  </Step>
+  <Step>
+    Click on the <Button>Create Space</Button> button
+  </Step>
+  <Step>
+
+Retrieve a kube-context for this space using Loft CLI:
+```bash
+loft use space [space-name] --project my-project
+```
+
+  </Step>
+</Flow>
+
+:::info
+The Kubernetes namespace in the underlying cluster this space points to usually has a different name than the space inside the project to avoid conflicts, you can adjust the space name pattern within a project.
+:::

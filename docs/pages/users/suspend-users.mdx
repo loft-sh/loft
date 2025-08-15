@@ -1,0 +1,27 @@
+---
+title: Suspend
+sidebar_label: Suspend
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+Users can be locked, to temporarily suspend their access to Loft. By doing so, the user won't be
+able to login or access any spaces / virtual clusters anymore. Access keys generated for the
+user won't work anymore as long as the user is locked. This is a useful feature to temporarily
+lock an user if you want to preserve the users environments without deleting the user.
+
+<Flow id="lock-user">
+    <Step>
+        Select the <NavStep>Users</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        In the user row you want to lock, hover over the blue drop down arrow and select
+        <Label>Lock User</Label> from the menu options.
+    </Step>
+    <Step>
+        To unlock the user, select <Label>Unlock User</Label> from the same drop down menu.
+    </Step>
+</Flow>

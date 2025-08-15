@@ -1,0 +1,46 @@
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Input from '@site/src/components/Input'
+import Expander from '@site/src/components/Expander'
+
+import CreateSpaceStep1 from '@site/static/media/ui/screenshots/auth/login/login.png'
+import CreateSpaceStep2 from '@site/static/media/ui/screenshots/spaces/create-space/button-open-drawer.png'
+
+
+<Flow id="create-helm-app-ui">
+  <Step>
+    Go to the <NavStep>Apps</NavStep> view using the menu on the left
+  </Step>
+  <Step>
+    Click on the <Button>Create App</Button> button
+  </Step>
+  <Step>
+    Use the field <Label>Display Name</Label> to define the name of this app
+  </Step>
+  <Step>
+    Use <Label>App Definition</Label>, ensure that the <Label>helm</Label> tab is selected
+  </Step>
+  <Step>
+    Use the <Label>Chart Name</Label> field to specify the <Input>Chart Name</Input>
+  </Step>
+  <Step>
+    Use the <Label>Chart Version</Label> field to specify the <Input>x.x.x</Input> version of the chart
+  </Step>
+  <Step>
+    Use the <Label>Chart Repository</Label> field to specify the <Input>https://chart.repo.url</Input> where Loft can find the chart you specified above and specify a username and password below if the chart repository URL is password protected
+  </Step>
+  <Step>
+    OPTIONAL: Use the <Label>Chart Values</Label> field to specify the <Input>yaml: values</Input> for this chart
+  </Step>
+  <Step>
+    OPTIONAL: Expand the <Expander>Parameters</Expander> section to specify parameters that you can use as placeholders in your Kubernetes manifests (previous step) and users will be asked to fill when deploying this app
+  </Step>
+  <Step>
+    OPTIONAL: Expand the <Expander>Display Options</Expander> section to specify how users will see this app in Loft UI, e.g. specify an icon for the app, define if Loft should mark this app as recommended app, and/or provide a <Expander>Readme</Expander> for this app
+  </Step>
+  <Step image="">
+    Click on the <Button>Create</Button> button at the very bottom
+  </Step>
+</Flow>

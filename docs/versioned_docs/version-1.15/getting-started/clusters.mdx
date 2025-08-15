@@ -1,0 +1,100 @@
+---
+title: Prepare User Clusters
+sidebar_label: 2. Prepare Clusters
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import ConnectOtherClusterFragment from '../fragments/clusters/connect-other-cluster.mdx'
+import InstallAppsFragment from '../fragments/clusters/apps/install-apps.mdx'
+
+
+Connecting clusters to Loft is the first step to making these clusters available to your engineers.
+
+
+## 1. Connect Clusters
+You succesfully installed Loft to a Kubernetes cluster. You can now either give engineers access to this cluster OR you can connect separate Kubernetes clusters for your team.
+
+<Tabs
+  defaultValue="single-cluster"
+  values={[
+    { label: 'Use a single cluster', value: 'single-cluster', },
+    { label: 'Use multiple clusters', value: 'multi-cluster', },
+  ]
+}>
+<TabItem value="single-cluster">
+
+Small teams with a low budget may prefer to run Loft in a Kubernetes cluster and make the same Kubernetes cluster available to their engineers. 
+
+In this case, you will **not** have to do anything because the cluster that you installed Loft to has already been automatically connected to Loft during the installation process.
+
+If you click on the `Cluster` view in the UI, you will be able to see this cluster as `loft-cluster`.
+
+:::tip Add Clusters Later
+If you want to just run a proof-of-concept project with Loft or you just want to keep it simple in the beginning, you can use the single-cluster approach and then switch to the multi-cluster setup at any time by simply adding additional clusters later on.
+:::
+
+</TabItem>
+<TabItem value="multi-cluster">
+
+When using Loft with multiple clusters, Loft iself runs in one of the clusters and then you connect the clusters you want to make available for your engineers to run their workloads on. While this approach is generally more expensive, it also provides additional security and stability because Loft is isolated in a cluster separated from the workloads of your engineers.
+
+:::info Connecting Cluster ≠ Access For Users
+Connecting a cluster to Loft does **not** automatically give any user access to the cluster. Users need a so-called "Account" for a cluster to get access to it. We will discuss cluster accounts when adding the user authentication in the next step of this guide.
+:::
+
+You can connect clusters via the UI as well as via kubectl:
+
+<ConnectOtherClusterFragment/>
+
+</TabItem>
+</Tabs>
+
+
+## 2. Add Shared Services *(optional)*
+While your engineers will be able to deploy their own Helm charts and other applications to the namespaces and virtual clusters that they create, you may want to provide a certain set of shared services that a majority of your engineers need.
+
+Common examples of shared service you may want to install into each connected cluster are:
+- ingress-nginx as an ingress controller for incoming traffic via (sub-)domains
+- cert-manager + cert-issuer for automatically provisioning SSL certificates for ingresses
+
+### 2.1 Ingress Controller
+To install ingress-nginx as an ingress controller, go to `Clusters > [CLUSTER_NAME] > Cluster (Tab)` and click on the app `ingress-nginx` to install it.
+
+<InstallAppsFragment/>
+
+### 2.2 Cluster Subdomain
+An ingress controller alone is not doing much if there is no domain pointing to the ingress controller. Loft provides a service for free wildcard subdomains. 
+
+Make sure you open the UI view `Clusters > [CLUSTER_NAME] > Cluster (Tab)` and then:
+1. Enter a subdomain prefix under `Cluster Subdomain for Spaces` (e.g. use your company name)
+2. Enter the external IP address of the Kubernetes service of your ingress controller (see info below)
+3. Click the `Update` button and confirm the operation
+
+:::caution Ingress Controller External-IP
+If you installed the recommended app `ingress-nginx` via the Loft UI (see above), the input field named `Ingress Controller External-IP` will be filled automatically. If this input is empty, wait a couple of minutes and then **reload the page** in your browser.
+:::
+
+After configuring a cluster subdomain, you will be able to create Kubernetes ingresses in this cluster with any subdomain in the form of `[subdomain].yourprefix.kubedev.sh`
+
+:::info Custom Subdomain
+If you want to use your custom subdomain, you have 2 options:
+1. Take the value shown as `Cluster Subdomain for Spaces` and set a DNS A-record (for IPs) or CNAME-record (for subdomains) to this value.
+2. Create a `yourprefix.kubedev.sh` subdomain (follow instructions above) and then set a CNAME record from your custom subdomain to `dns.yourprefix.kubedev.sh`.
+
+Option 2 allows you to update the DNS for your custom subdomain by clicking a single button in the Loft UI.
+:::
+
+
+### 2.3 Cert Manager + Issuer
+To automatically provision SSL certificates with Let's Encrypt, you need to install the apps:
+- `cert-manager`
+- `cert-issuer` (make sure to provide a valid email address in the `Chart Values` textarea on the right)
+
+<InstallAppsFragment/>
+
+After installing the `cert-manager` and `cert-issuer` apps, you will automatically get valid SSL certificates for all ingresses that:
+- have the annotation `cert-manager.io/cluster-issuer: lets-encrypt-http-issuer`
+- define a `tls` section for the appropricate ingress rules
+
+For more information on how to configure your ingresses, take a look at the [cert-manager documentation](https://cert-manager.io/docs/usage/ingress/#how-it-works).

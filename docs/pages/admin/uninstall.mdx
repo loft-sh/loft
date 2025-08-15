@@ -1,0 +1,41 @@
+---
+title: Uninstall Loft
+sidebar_label: Uninstall Loft
+---
+
+## Delete Helm Release
+```bash
+helm delete -n loft loft
+```
+
+Please make sure you also uninstall kiosk, if you have connected the loft cluster:
+
+```bash
+helm delete -n loft loft-agent
+```
+
+## Delete Namespace (optional)
+```bash
+kubectl delete ns loft
+```
+
+If you have deleted the namespace **without** deleting the loft and loft-agent helm releases beforehand, please make sure the api-services and webhooks are deleted correctly:
+```bash
+# loft agent api service and webhook
+kubectl delete apiservice v1.cluster.loft.sh
+kubectl delete validatingwebhookconfiguration loft-agent
+```
+
+## Delete CRDs (optional)
+```bash
+kubectl api-resources --api-group='storage.loft.sh' -o name | xargs kubectl delete crd
+```
+
+Delete kiosk resources (such as accounts, templates, templateinstances):
+```bash
+kubectl api-resources --api-group='config.kiosk.sh' -o name | xargs kubectl delete crd
+```
+
+:::warning Data Loss
+Deleting the Loft CRDs will also remove all Loft objects inside your cluster, e.g. `Cluster`, `Team`, and `User`. This **cannot** be undone.
+:::

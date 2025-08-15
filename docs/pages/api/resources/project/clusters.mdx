@@ -1,0 +1,38 @@
+---
+title: Retrieve Project Clusters
+sidebar_label: Retrieve Project Clusters
+---
+import Reference from "../../_partials/resources/projects/clusters/reference.mdx"
+import SubResourceGet from "../../_partials/resources/projects/clusters/subresourceget.mdx"
+
+This API can be used to retrieve all allowed clusters of this project.
+
+## Example Project Clusters
+
+An example Project Clusters:
+```yaml
+apiVersion: management.loft.sh/v1
+clusters:
+- apiVersion: management.loft.sh/v1
+  kind: Cluster
+  metadata:
+    creationTimestamp: null
+    name: my-cluster
+  spec:
+    config: {}
+  status: {}
+kind: ProjectClusters
+metadata:
+  creationTimestamp: null
+
+```
+
+## Project Clusters Reference
+
+<Reference />
+
+## Project Clusters (Get)
+
+<SubResourceGet />
+
+

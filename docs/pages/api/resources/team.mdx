@@ -1,0 +1,54 @@
+---
+title: Team
+sidebar_label: Team
+---
+import Reference from "../_partials/resources/teams/reference.mdx"
+import Retrieve from "../_partials/resources/teams/retrieve.mdx"
+import Create from "../_partials/resources/teams/create.mdx"
+import Update from "../_partials/resources/teams/update.mdx"
+import Delete from "../_partials/resources/teams/delete.mdx"
+
+Teams are composed of multiple users and define a way to manage cluster access or other objects for multiple users at once. You can assign users automatically to teams by their groups, which can be synced from an authentication provider. Teams can also access Loft through their own access keys and own spaces or other objects.
+
+## Example Team
+
+An example Team:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Team
+metadata:
+  creationTimestamp: null
+  name: my-team
+spec:
+  clusterRoles:
+  - name: loft-management-admin
+  description: All users in this team have full admin access to all clusters
+  displayName: Global Admins
+  groups:
+  - loft:admins
+  username: loftadmins
+status: {}
+
+```
+
+## Team Reference
+
+<Reference />
+
+## Retrieve: Teams
+
+<Retrieve />
+
+## Create: Team
+
+<Create />
+
+## Update: Team
+
+<Update />
+
+## Delete: Team
+
+<Delete />
+
+

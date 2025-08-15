@@ -1,0 +1,109 @@
+---
+title: Use In Templates
+sidebar_label: Use In Templates
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+Apps can be referred to in both space and virtual cluster templates. When an App is included in
+a template, that app will be deployed in the given resource upon creation. Creating templates
+that refer to Apps is a great way to create a repeatable environment for development, testing,
+or even production uses.
+
+<Tabs
+    defaultValue="vcluster"
+    values={[
+        {label: 'Virtual Cluster Template', value: 'vcluster'},
+        {label: 'Space Template', value: 'space'},
+    ]}>
+    <TabItem value="vcluster">
+        <Flow id="add-app-vcluster-template">
+            <Step>
+                Select the <NavStep>Templates</NavStep> field on the left menu bar.
+            </Step>
+            <Step>
+                From the Templates sub-menu, select the Virtual Clusters option.
+            </Step>
+            <Step>
+                Edit an existing template, or create a new virtual cluster template.
+            </Step>
+            <Step>
+                Click the <Label>Apps</Label> configuration tab. <br></br><br></br><b>Note: </b>
+                the apps defined in this section of the template configuration are apps to be
+                deployed *in* the virtual cluster!
+            </Step>
+            <Step>
+                From the drop down menu <Label>Add a new App ...</Label> select an App that you
+                would like to be included as part of the template. You can select as many Apps
+                as you would like here by simply selecting another App from the drop down menu.
+                If you accidentally add one, or add one you do not want, click the trash icon
+                next to the Apps name to remove it from the template.
+            </Step>
+            <Step>
+                For each App you added to the template, you can configure the default namespace,
+                and any App parameters supplied by the App. For helm Apps you can also configure
+                the helm release-name.
+            </Step>
+            <Step>
+                Click the <Label>Space</Label> configuration tab.
+            </Step>
+            <Step>
+                Expand the <Label>Space Apps</Label> configuration section.
+                <br></br><br></br><b>Note:</b> the apps defined in this section of the template
+                configuration are apps to be deployed in the *space* the virtual cluster will be
+                deployed in (not inside the virtual cluster itself).
+            </Step>
+            <Step>
+                From the drop down menu <Label>Add a new App ...</Label> select an App that you
+                would like to be included as part of the template. You can select as many Apps
+                as you would like here by simply selecting another App from the drop down menu.
+                If you accidentally add one, or add one you do not want, click the trash icon
+                next to the Apps name to remove it from the template.
+            </Step>
+            <Step>
+                For each App you added to the template, you can any App parameters supplied by the
+                App. For helm Apps you can also configure the helm release-name.
+            </Step>
+            <Step>
+                Finish configuring anything else you'd like on your template, then click the
+                <Button>Save Changes</Button> button.
+            </Step>
+        </Flow>
+    </TabItem>
+    <TabItem value="space">
+        <Flow id="add-app-space-template">
+            <Step>
+                Select the <NavStep>Templates</NavStep> field on the left menu bar.
+            </Step>
+            <Step>
+                From the Templates sub-menu, select the Spaces option.
+            </Step>
+            <Step>
+                Edit an existing template, or create a new virtual cluster template.
+            </Step>
+            <Step>
+                Click the <Label>Apps</Label> configuration tab.
+            </Step>
+            <Step>
+                From the drop down menu <Label>Add a new App ...</Label> select an App that you
+                would like to be included as part of the template. You can select as many Apps
+                as you would like here by simply selecting another App from the drop down menu.
+                If you accidentally add one, or add one you do not want, click the trash icon
+                next to the Apps name to remove it from the template.
+            </Step>
+            <Step>
+                For each App you added to the template, you can any App parameters supplied by the
+                App. For helm Apps you can also configure the helm release-name.
+            </Step>
+            <Step>
+                Finish configuring anything else you'd like on your project, then click the
+                <Button>Save Changes</Button> button.
+            </Step>
+        </Flow>
+    </TabItem>
+</Tabs>

@@ -1,0 +1,149 @@
+---
+title: Troubleshooting + Common Issues
+sidebar_label: Troubleshooting
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import PartialAdminSetVersion from '../../admin/_partials/set-version.mdx'
+import PartialAdminUpgrade from '../../admin/_partials/upgrade.mdx'
+
+
+This page provides help for common issues you may experience when installing Loft.
+
+## Troubleshooting Tips
+
+### Flag `--reset`
+If you need a clean Loft installation, you can use the `--reset` flag to tell Loft CLI to purge any previous Loft installs:
+```bash
+loft start --reset    # --insecure  ...add any other `loft start` flags if needed
+```
+
+### Debug `ImageErr` + `ImagePullBackOff`
+If your Loft pods are not starting because the Loft images cannot be pulled, you may need to [use a private image registry](#offline-images) rather than pulling Loft images from Docker Hub.
+
+
+### Use Port-Forwarding 
+You can always try to connect to Loft directly and circumvent any potential networking issues introduced at the load balancer and ingress controller level.
+
+To start port-forwarding, either use `loft start` or run:
+```
+kubectl port-forward deploy/loft -n loft 8080:443
+```
+
+After that you can access Loft at `https://localhost:8080`. You can even login with the Loft CLI to this URL with:
+```
+loft login localhost:8080 --insecure
+```
+
+If you can access Loft via port-forwarding only, this is usually an indicator that the problem might be related to a misconfigured Load Balancer or Ingress Controller.
+
+
+## Air-Gapped / Offline / VPC Clusters
+If your cluster is air-gapped, within a VPC or restricts network connectivity in other ways, you may need:
+- An [Offline License Key](#offline-license-key)
+- To [Use A Private Image Registry](#offline-images) rather than pulling Loft images from Docker Hub
+
+### Offline License Key
+If your cluster does not allow the Loft pod to connect the Loft license server, you have 2 options:
+
+<details>
+  <summary>
+
+Allow requests to `license.loft.sh` **(preferred)**
+
+  </summary>
+
+To connect to the license server, you need to allow any HTTP requests from the Loft pod(s) to `https://license.loft.sh/*`.
+
+</details>
+
+
+<details>
+  <summary>Activate Loft with an Offline License Key</summary>
+
+<Flow id="offline-license-key">
+  <Step>
+
+Contact [sales@loft.sh](mailto:sales@loft.sh) to purchase an offline license key or to request a trial license key
+
+  </Step>
+  <Step>
+
+Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
+```yaml
+env:
+  LICENSE_KEY: "YOUR_LICENSE_KEY"
+```
+
+  </Step>
+  <Step>
+    <PartialAdminSetVersion/>
+  </Step>
+  <Step>
+    <PartialAdminUpgrade/>
+  </Step>
+</Flow>
+
+</details>
+
+
+### Offline Images
+If your cluster is not able to pull images from Docker Hub, you have to push the Loft images into your private registry. To find out which images are required, we publish a file called `loft-images.txt` with each Loft release.
+
+Follow these instructions to download all Loft ind import them to your private registry:
+
+<Flow id="offline-images">
+  <Step>
+    <PartialAdminSetVersion/>
+  </Step>
+  <Step>
+
+Set your private registry as variable:
+```bash
+REGISTRY=ecr.io/myteam      # THIS SHOULD BE A PREFIX / DO NOT INCLUDE ANY LOFT_IMAGE PATHS
+```
+
+  </Step>
+  <Step>
+
+Download the file `loft-images.txt` and the required scripts called `download-images.sh` and `push-images.sh` and make them executable:
+```bash
+wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/loft-images.txt
+wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/download-images.sh
+wget https://github.com/loft-sh/loft/releases/download/v${VERSION}/push-images.sh
+
+chmod +x ./download-images.sh
+chmod +x ./push-images.sh
+```
+
+  </Step>
+  <Step>
+
+Run `download-images.sh` to download all images locally:
+```bash
+./download-images.sh --image-list loft-images.txt
+```
+
+  </Step>
+  <Step>
+
+Run `push-images.sh` to push all downloaded images to your private registry:
+```bash
+./push-images.sh --registry ${REGISTRY}
+```
+
+  </Step>
+  <Step>
+
+Edit your existing `loft.yaml` file or create a new file named `loft.yaml` with content:
+```yaml
+image=${REGISTRY}/loftsh/loft:${VERSION}    # Replace ${REGISTRY} and ${VERSION}
+env:
+  DEFAULT_IMAGE_REGISTRY: ${REGISTRY}       # Replace ${REGISTRY}
+```
+
+  </Step>
+  <Step>
+    <PartialAdminUpgrade/>
+  </Step>
+</Flow>

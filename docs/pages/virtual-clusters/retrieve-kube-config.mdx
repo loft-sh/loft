@@ -1,0 +1,68 @@
+---
+title: Retrieve Kube Config
+sidebar_label: Retrieve Kube Config
+---
+
+To "use" a virtual cluster, as in connect to the virtual cluster Kubernetes API server, you can
+manually construct a kube config or use the Loft CLI to automatically create and update your
+kube config.
+
+
+## Retrieve via CLI
+
+The easiest way to retrieve a kube config for your virtual cluster is by using the Loft CLI.
+
+You can update your current kube-config by running the following command:
+```bash
+loft use vcluster my-vcluster --project my-project
+```
+
+If you want to print the kube config, you can run this command instead:
+```bash
+loft use vcluster my-vcluster --project my-project --print
+```
+
+:::info
+Depending on if you have direct [cluster endpoints](../clusters/multi-region-mode) or
+[ingress endpoints for virtual clusters](../virtual-clusters/ingress-access)
+enabled, the resulting kube config will look different
+:::
+
+
+## Kube Config Without CLI
+
+You can also create the kube config manually by creating an [access key](../users/access-keys) for
+your user first and then using the following template, with the following placeholders:
+
+* **$PROJECT**: the project the virtual cluster is in
+* **$VIRTUAL_CLUSTER**: the virtual cluster name to connect to
+* **$LOFT_HOST**: the loft host you connect to
+* **$ACCESS_KEY**: the access key to use
+
+Then replace these placeholders in the following template and save it as `my-kube-config.yaml`:
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    server: https://$LOFT_URL/kubernetes/project/$PROJECT/virtualcluster/$VIRTUAL_CLUSTER
+    # Optional: if the server uses an insecure certificate
+    # insecure-skip-tls-verify: true
+  name: loft
+contexts:
+- context:
+    cluster: loft
+    user: loft
+  name: loft
+current-context: loft
+users:
+- name: loft
+  user:
+    token: $ACCESS_KEY
+```
+
+You can then access your virtual cluster by using the freshly created kube config file:
+```bash
+KUBECONFIG=my-kube-config.yaml kubectl get namespaces
+```

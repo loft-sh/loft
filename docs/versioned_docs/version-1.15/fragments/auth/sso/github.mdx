@@ -1,0 +1,96 @@
+import Step from '@site/src/components/Step'
+import DisablePasswordAuthFragment from '../disable-password-auth.mdx'
+
+<Step>1</Step>
+
+**Create A GitHub App**
+
+In GitHub, navigate to `Settings > Developer Settings > OAuth Apps` and [create a new OAuth App](https://github.com/settings/applications/new) with the following settings:
+- Application name: Loft Login via GitHub
+- Homepage URL: https://loft.yourcompany.tld = `https:// + $LOFT_HOSTNAME`
+- Auth callback URL: https://loft.yourcompany.tld/auth/github/callback = `https:// + $LOFT_HOSTNAME + /auth/github/callback`
+
+Remember the `$GITHUB_CLIENT_ID` and `$GITHUB_CLIENT_SECRET` that GitHub generates for your OAuth application because you will need it in the next step.
+
+
+<Step>2</Step>
+
+**Create Loft Config For GitHub**
+
+To tell Loft to use github for SSO, navigate to `Admin > Config` in Loft and adjust your config as shown below:
+```yaml
+auth:
+  # Tell loft to use github authentication
+  github:
+    # 
+    # 
+    # REQUIRED CONFIGURATION
+    #
+    #
+    # ClientID of the github application. Can be string literal or pulled from the environment.
+    clientId: $CLIENTID
+    # ClientSecret of the github application. Can be string literal or pulled from the environment.
+    clientSecret: $CLIENTSECRET
+    # Callback URL in the form of https://your-loft-domain/auth/github/callback
+    redirectURI: https://loft.my.domain/auth/github/callback
+    # 
+    # 
+    # OPTIONAL CONFIGURATION
+    #
+    #
+    # (Optional) Loft queries the following organizations for group information. 
+	# Group claims are formatted as "(org):(team)".
+	# For example if a user is part of the "engineering" team of the "coreos"
+	# org, the group claim would include "coreos:engineering".
+	#
+	# If orgs are specified in the config then user MUST be a member of at least one
+	# of the specified orgs to authenticate with loft.
+	orgs:
+	  # Organization name in github (not slug, full name)
+	- name: My Organization
+	  # (Optional) Names of teams in a github organization. A user will be able to
+	  # authenticate if they are members of at least one of these teams.
+	  teams:
+	  - myteam
+    # (Optional) Required ONLY for GitHub Enterprise.
+    # This is the Hostname of the GitHub Enterprise account listed on the
+	# management console.
+    hostName: my-github.org
+    # (Optional) Required ONLY for GitHub Enterprise.
+    # Used to support self-signed or untrusted CA root certificates.
+    rootCA: /certs/github.ca
+    # (Optional) Cluster Account Templates that will be automatically added for new users 
+	# logging in through this authentication
+	clusterAccountTemplates: 
+	  # The name of the cluster account template
+	- name: my-cluster-account-template
+      sync: true
+	# (Optional) A mapping between groups and cluster account templates. 
+	# If the user has a certain group, the cluster account template 
+	# will be added during creation
+	groupClusterAccountTemplates:
+	  # Name of the group from the token
+	  - group: my-group
+	    # Names of the cluster account templates to apply
+	    clusterAccountTemplates: 
+	    - name: my-cluster-account-template
+          sync: true
+```
+
+<Step>3</Step>
+
+**Authenticate via GitHub**
+
+After saving the new Loft configuration, Loft will restart and you should be able to log in via GitHub. Beware that only members of your organization on GitHub can sign in and that everyone must grant access to view their organization during the login process.
+
+:::warning Must Grant Access To Organization
+Users **must** grant access to the organization you configured dex for in step 2 above, otherwise they will **not** be able to log in.
+:::
+
+
+<Step>4</Step>
+
+**Disable Username + Password Authentication** (optional)
+
+<DisablePasswordAuthFragment/>
+

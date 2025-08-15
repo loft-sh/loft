@@ -1,0 +1,9 @@
+To use Loft CLI as the impersonated user, you can run the following command while impersonation is active:
+```bash
+loft login localhost:9898 --insecure    # or use your loft.domain.tld instead of localhost, and ideally with a valid SSL cert and without the --insecure flag
+```
+
+You can verify the login and print your user information via:
+```bash
+loft login
+```

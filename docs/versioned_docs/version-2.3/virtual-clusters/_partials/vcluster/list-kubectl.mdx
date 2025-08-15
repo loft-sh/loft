@@ -1,0 +1,21 @@
+import Flow, { Step } from '@site/src/components/Flow'
+
+
+<Flow id="list-vcluster-kubectl">
+  <Step>
+
+If you do not have a kube-context for the space (host namespace) where you want to list virtual clusters in, you can set up a kube-context using:
+```bash
+loft use space [space-name]
+```
+
+  </Step>
+  <Step>
+
+Run this kubectl command to get a list of virtual clusters in this namespace:
+```bash
+kubectl get virtualclusters
+```
+
+  </Step>
+</Flow>

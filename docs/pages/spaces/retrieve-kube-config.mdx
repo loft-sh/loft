@@ -1,0 +1,60 @@
+---
+title: Retrieve Kube Config
+sidebar_label: Retrieve Kube Config
+---
+
+You can either manually construct a kube config to access your space or use the loft CLI to automatically create a kube config.
+
+## Retrieve via CLI
+
+You can update your current kube-config by running the following command:
+```
+loft use space my-space --project my-project
+```
+
+If you want to print the kube config, you can run this command instead:
+```
+loft use space my-space --project my-project --print
+```
+
+:::info
+Depending on if you have direct cluster endpoints enabled, the kube config will look different
+:::
+
+## Kube Config Without CLI
+
+You can create the kube config also manually by creating an access key for your user first and then using the following template, with the following placeholders:
+* **$PROJECT**: the project the space is in
+* **$SPACE**: the space name to connect to
+* **$NAMESPACE**: the target namespace (check the `spec.clusterRef.namespace` field in the SpaceInstance object)
+* **$LOFT_HOST**: the loft host you connect to
+* **$ACCESS_KEY**: the access key to use
+
+Then replace these placeholders in the following template and save it as `my-kube-config.yaml`:
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    server: https://$LOFT_URL/kubernetes/project/$PROJECT/space/$SPACE
+    # Optional: if the server uses an insecure certificate
+    # insecure-skip-tls-verify: true
+  name: loft
+contexts:
+- context:
+    cluster: loft
+    namespace: $NAMESPACE
+    user: loft
+  name: loft
+current-context: loft
+users:
+- name: loft
+  user:
+    token: $ACCESS_KEY
+```
+
+Then you can access your space with:
+```yaml
+KUBECONFIG=my-kube-config.yaml kubectl get pods
+```

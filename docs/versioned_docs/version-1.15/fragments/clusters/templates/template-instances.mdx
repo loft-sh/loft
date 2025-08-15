@@ -1,0 +1,10 @@
+After enforcing a template for a certain account, Loft will instantiate the template in every **new** space that is being created with this account. These instances of a template can be tracked with the Loft CRD TemplateInstance.
+
+To list all TemplateInstances in a certain namespace, run the following command:
+```bash
+kubectl get templateinstance -n [NAMESPACE]
+```
+
+:::info Template Sync
+Template instances keep track of the Helm charts and manifests they are creating. When the underlying template changes, the instance will automatically update the Helm chart or the modified manifests to keep everything in sync with the template.
+:::

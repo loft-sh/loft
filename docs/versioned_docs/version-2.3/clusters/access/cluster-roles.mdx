@@ -1,0 +1,52 @@
+---
+title: Cluster Roles Templates
+sidebar_label: Cluster Roles
+---
+
+import Field from '@site/src/components/Field'
+
+Cluster roles in Loft are defining templates for Kubernetes ClusterRoles that are intended to grant permissions to the clusters connected to Loft. The benefit of using Loft's cluster roles is that they are automatically synchronized to your connected clusters which means that multi-cluster RBAC configuration can be managed from a single source of truth to reduce complexity and management effort.
+
+
+## Configuration
+
+### Metadata
+
+#### Display Name
+<Field crd="ClusterRoleTemplate" jsonPath="spec.displayName" img={require('@site/static/media/v2/screenshots/cluster-roles/field-display-name.png').default} />
+
+#### Kubernetes Name
+<Field crd="ClusterRoleTemplate" jsonPath="metadata.name" img={require('@site/static/media/v2/screenshots/cluster-roles/field-name.png').default} />
+
+#### Description
+<Field crd="ClusterRoleTemplate" jsonPath="spec.description" img={require('@site/static/media/v2/screenshots/cluster-roles/field-description.png').default} />
+
+#### Labels
+<Field crd="ClusterRoleTemplate" jsonPath="metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/cluster-roles/field-labels.png').default} />
+
+#### Annotations
+<Field crd="ClusterRoleTemplate" jsonPath="metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/cluster-roles/field-annotations.png').default} />
+
+
+### ClusterRole Template
+
+#### RBAC Rules
+<Field crd="ClusterRoleTemplate" jsonPath="spec.localClusterRoleTemplate.spec.clusterRoleTemplate.rules" type="RBACRule[]" img={require('@site/static/media/v2/screenshots/cluster-roles/field-rbac-rules.png').default} />
+
+#### Aggregation
+<Field crd="ClusterRoleTemplate" jsonPath="spec.localClusterRoleTemplate.spec.clusterRoleTemplate.aggregationRule" type="RBACAggregationRule{}" img={require('@site/static/media/v2/screenshots/cluster-roles/field-aggregation-rules.png').default} />
+
+#### Labels
+<Field crd="ClusterRoleTemplate" jsonPath="spec.localClusterRoleTemplate.metadata.labels" type="string[]" img={require('@site/static/media/v2/screenshots/cluster-roles/field-template-labels.png').default} />
+
+#### Annotations
+<Field crd="ClusterRoleTemplate" jsonPath="spec.localClusterRoleTemplate.metadata.annotations" type="string[]" img={require('@site/static/media/v2/screenshots/cluster-roles/field-template-annotations.png').default} />
+
+
+### Clusters
+<Field crd="ClusterRoleTemplate" jsonPath="spec.clusters" type="string[]" img={require('@site/static/media/v2/screenshots/cluster-roles/field-clusters.png').default} />
+
+
+### Access To Cluster Role
+<Field crd="ClusterRoleTemplate" jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/cluster-roles/field-access.png').default} />
+

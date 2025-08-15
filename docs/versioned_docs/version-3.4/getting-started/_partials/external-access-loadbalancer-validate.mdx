@@ -1,0 +1,20 @@
+Make sure Loft is reachable at the load balancer's external address, you can check that with curl as
+shown below, or simply browse to the address in your browser of choice:
+
+```bash
+curl https://x.x.x.x/version --insecure | jq
+{
+  "kind": "Version",
+  "apiVersion": "version.loft.sh",
+  "metadata": {
+    "creationTimestamp": null
+  },
+  "version": "v3.0.0",
+  "major": "3",
+  "minor": "0",
+  "instance": "",
+  "kubeVersion": "v1.24.2",
+  "newerVersion": "",
+  "shouldUpgrade": false
+}
+```

@@ -1,0 +1,36 @@
+---
+title: Using Connected Cluster API in Loft
+sidebar_label: Connected Clusters
+---
+
+Loft acts as a reverse proxy for requests that target a specific connected cluster, with the following differences to directly accessing the kubernetes cluster without Loft:
+- Loft will authenticate the request by the provided access key and resolve it into subject and groups that will be forwarded to the kubernetes cluster. The subject and groups are then used by the targeted kubernetes cluster and [kiosk](https://github.com/loft-sh/kiosk) to determine cluster and account access through RBAC. 
+- If the request targets a namespace, the request will count as activity for [sleep mode](../../spaces/sleep-mode.mdx).
+- If auditing is enabled, Loft will log the request.
+- Loft will also collect certain [metrics](../../admin/guides/metrics.mdx) about the request that can be scraped later with Prometheus.
+
+In order to access a connected cluster through Loft, you'll need a Loft access key. See [access keys](../../api/access-keys.mdx) for more information how to create a new access key.
+
+With the access key `$ACCESS_KEY` and the cluster name `$CLUSTER`, you can then query the kubernetes API of the connected cluster like any other kubernetes API server by prefixing `/kubernetes/cluster/$CLUSTER/`:
+```bash
+# Retrieve all namespaces (use --insecure if you are using a self signed certificate)
+$ curl https://my-loft.com/kubernetes/cluster/$CLUSTER/api/v1/namespaces \
+        -H "Authorization: Bearer $ACCESS_KEY"
+{
+  "kind": "NamespaceList",
+  "apiVersion": "v1",
+  "metadata": {
+    "selfLink": "/api/v1/namespaces",
+    "resourceVersion": "2735295"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "kube-system",
+        "selfLink": "/api/v1/namespaces/kube-system",
+...
+```
+
+:::info RBAC Permissions
+What a user can do within a connected cluster is managed through [Cluster Access](../../clusters/access/cluster-access.mdx)
+:::

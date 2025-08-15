@@ -1,0 +1,1948 @@
+
+import Metadata from "../metadata/reference.mdx"
+
+<Metadata />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `spec` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `displayName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-displayName}
+
+DisplayName is the name that should be displayed in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `description` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-description}
+
+Description describes a space instance
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `owner` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner}
+
+Owner holds the owner of this object
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `user` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner-user}
+
+User specifies a Loft user.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `team` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner-team}
+
+Team specifies a Loft team.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `templateRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-templateRef}
+
+TemplateRef holds the space template reference
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-templateRef-name}
+
+Name holds the name of the template to reference.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-templateRef-version}
+
+Version holds the template version to use. Version is expected to
+be in semantic versioning format. Alternatively, you can also exchange
+major, minor or patch with an 'x' to tell Loft to automatically select
+the latest major, minor or patch version.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `syncOnce` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-templateRef-syncOnce}
+
+SyncOnce tells the controller to sync the instance once with the template.
+This is useful if you want to sync an instance after a template was changed.
+To automatically sync an instance with a template, use 'x.x.x' as version
+instead.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `template` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template}
+
+Template is the inline template to use for space creation. This is mutually
+exclusive with templateRef.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `metadata` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-metadata}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `labels` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-metadata-labels}
+
+Labels are labels on the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `annotations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-metadata-annotations}
+
+Annotations are annotations on the object
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `instanceTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-instanceTemplate}
+
+InstanceTemplate holds the space instance template
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `metadata` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-instanceTemplate-metadata}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `labels` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-instanceTemplate-metadata-labels}
+
+Labels are labels on the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `annotations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-instanceTemplate-metadata-annotations}
+
+Annotations are annotations on the object
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `objects` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-objects}
+
+Objects are Kubernetes style yamls that should get deployed into the virtual cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `charts` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts}
+
+Charts are helm charts that should get deployed
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-name}
+
+Name is the chart name in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-version}
+
+Version is the chart version in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `repoURL` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-repoURL}
+
+RepoURL is the repo url where the chart can be found
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-username}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `usernameRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-usernameRef}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-usernameRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-usernameRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-usernameRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-usernameRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `password` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-password}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `passwordRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-passwordRef}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-passwordRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-passwordRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-passwordRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-passwordRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `insecureSkipTlsVerify` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-template-charts-insecureSkipTlsVerify}
+
+If tls certificate checks for the chart download should be skipped
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-releaseName}
+
+ReleaseName is the preferred release name of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-releaseNamespace}
+
+ReleaseNamespace is the preferred release namespace of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-values}
+
+Values are the values that should get passed to the chart
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `wait` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-template-charts-wait}
+
+Wait determines if Loft should wait during deploy for the app to become ready
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `timeout` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-charts-timeout}
+
+Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `apps` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-apps}
+
+Apps specifies the apps that should get deployed by this template
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-apps-name}
+
+Name of the target app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `namespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-apps-namespace}
+
+Namespace specifies in which target namespace the app should
+get deployed in
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-apps-releaseName}
+
+ReleaseName is the name of the app release
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-apps-version}
+
+Version of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-apps-parameters}
+
+Parameters to use for the app
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-access}
+
+The space access
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `defaultClusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-access-defaultClusterRole}
+
+Specifies which cluster role should get applied to users or teams that do not
+match a rule below.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `rules` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-access-rules}
+
+Rules defines which users and teams should have which access to the virtual
+cluster. If no rule matches an authenticated incoming user, the user will get cluster admin
+access.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-access-rules-users}
+
+Users this rule matches. * means all users.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-access-rules-teams}
+
+Teams that this rule matches.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `clusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-template-access-rules-clusterRole}
+
+ClusterRole is the cluster role that should be assigned to the
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `clusterRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef}
+
+ClusterRef is the reference to the connected cluster holding
+this space
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `cluster` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-cluster}
+
+Cluster is the connected cluster the space will be created in
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `namespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRef-namespace}
+
+Namespace is the namespace inside the connected cluster holding the space
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters}
+
+Parameters are values to pass to the template.
+The values should be encoded as YAML string where each parameter is represented as a top-level field key.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `extraAccessRules` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-extraAccessRules}
+
+ExtraAccessRules defines extra rules which users and teams should have which access to the virtual
+cluster.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-extraAccessRules-users}
+
+Users this rule matches. * means all users.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-extraAccessRules-teams}
+
+Teams that this rule matches.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `clusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-extraAccessRules-clusterRole}
+
+ClusterRole is the cluster role that should be assigned to the
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access}
+
+Access holds the access rights for users and teams
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-name}
+
+Name is an optional name that is used for this access rule
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `verbs` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-verbs}
+
+Verbs is a list of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule. VerbAll represents all kinds.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `subresources` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-subresources}
+
+Subresources defines the sub resources that are allowed by this access rule
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-users}
+
+Users specifies which users should be able to access this secret with the aforementioned verbs
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-teams}
+
+Teams specifies which teams should be able to access this secret with the aforementioned verbs
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `status` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `phase` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-phase}
+
+Phase describes the current phase the space instance is in
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `reason` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-reason}
+
+Reason describes the reason in machine-readable form
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `message` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-message}
+
+Message describes the reason in human-readable form
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `conditions` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-conditions}
+
+Conditions holds several conditions the virtual cluster might be in
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `spaceObjects` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects}
+
+SpaceObjects are the objects that were applied within the virtual cluster space
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `lastAppliedObjects` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-lastAppliedObjects}
+
+LastAppliedObjects holds the status for the objects that were applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `charts` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-charts}
+
+Charts are the charts that were applied
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-charts-name}
+
+Name of the chart that was applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `namespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-charts-namespace}
+
+Namespace of the chart that was applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `lastAppliedChartConfigHash` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-charts-lastAppliedChartConfigHash}
+
+LastAppliedChartConfigHash is the last applied configuration
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `apps` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-apps}
+
+Apps are the apps that were applied
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-apps-name}
+
+Name of the target app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `namespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-apps-namespace}
+
+Namespace specifies in which target namespace the app should
+get deployed in
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-apps-releaseName}
+
+ReleaseName is the name of the app release
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-apps-version}
+
+Version of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-spaceObjects-apps-parameters}
+
+Parameters to use for the app
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `space` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space}
+
+Space is the template rendered with all the parameters
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `metadata` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-metadata}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `labels` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-metadata-labels}
+
+Labels are labels on the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `annotations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-metadata-annotations}
+
+Annotations are annotations on the object
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `instanceTemplate` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-instanceTemplate}
+
+InstanceTemplate holds the space instance template
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `metadata` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-instanceTemplate-metadata}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `labels` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-instanceTemplate-metadata-labels}
+
+Labels are labels on the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `annotations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-instanceTemplate-metadata-annotations}
+
+Annotations are annotations on the object
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `objects` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-objects}
+
+Objects are Kubernetes style yamls that should get deployed into the virtual cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `charts` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts}
+
+Charts are helm charts that should get deployed
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-name}
+
+Name is the chart name in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-version}
+
+Version is the chart version in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `repoURL` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-repoURL}
+
+RepoURL is the repo url where the chart can be found
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-username}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `usernameRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-usernameRef}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-usernameRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-usernameRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-usernameRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-usernameRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `password` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-password}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `passwordRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-passwordRef}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-passwordRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-passwordRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-passwordRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-passwordRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `insecureSkipTlsVerify` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#status-space-charts-insecureSkipTlsVerify}
+
+If tls certificate checks for the chart download should be skipped
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-releaseName}
+
+ReleaseName is the preferred release name of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-releaseNamespace}
+
+ReleaseNamespace is the preferred release namespace of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-values}
+
+Values are the values that should get passed to the chart
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `wait` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#status-space-charts-wait}
+
+Wait determines if Loft should wait during deploy for the app to become ready
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `timeout` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-charts-timeout}
+
+Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `apps` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-apps}
+
+Apps specifies the apps that should get deployed by this template
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-apps-name}
+
+Name of the target app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `namespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-apps-namespace}
+
+Namespace specifies in which target namespace the app should
+get deployed in
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `releaseName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-apps-releaseName}
+
+ReleaseName is the name of the app release
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-apps-version}
+
+Version of the app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-apps-parameters}
+
+Parameters to use for the app
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access}
+
+The space access
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `defaultClusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access-defaultClusterRole}
+
+Specifies which cluster role should get applied to users or teams that do not
+match a rule below.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `rules` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access-rules}
+
+Rules defines which users and teams should have which access to the virtual
+cluster. If no rule matches an authenticated incoming user, the user will get cluster admin
+access.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access-rules-users}
+
+Users this rule matches. * means all users.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access-rules-teams}
+
+Teams that this rule matches.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `clusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-space-access-rules-clusterRole}
+
+ClusterRole is the cluster role that should be assigned to the
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `ignoreReconciliation` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">true</span> <span className="config-field-enum"></span> {#status-ignoreReconciliation}
+
+IgnoreReconciliation tells the controller to ignore reconciliation for this instance -- this
+is primarily used when migrating virtual cluster instances from project to project; this
+prevents a situation where there are two virtual cluster instances representing the same
+virtual cluster which could cause issues with concurrent reconciliations of the same object.
+Once the virtual cluster instance has been cloned and placed into the new project, this
+(the "old") virtual cluster instance can safely be deleted.
+
+</summary>
+
+
+
+</details>
+
+
+</details>

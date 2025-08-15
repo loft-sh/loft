@@ -1,0 +1,64 @@
+---
+title: Import Spaces
+sidebar_label: Import Spaces
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import PartialSpaceImportCLI  from './_partials/space/import-cli.mdx'
+
+Namespaces and Spaces created prior to Loft 3.0 can be imported into a project. This process will
+automatically create a 'SpaceInstance' resource, and cause it to be shown under the
+requested project.
+
+Importing namespaces and legacy spaces can be accomplished via the Loft UI or the Loft CLI.
+
+:::warning
+Not every namespace can be imported into a project, as Loft prevents you from importing system critical namespaces, such as the namespace Loft is installed in as well as kube-system and default.
+:::
+
+<Tabs
+    defaultValue="ui"
+    values={[
+        {label: 'UI', value: 'ui'},
+        {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui">
+        <Flow id="import-space">
+            <Step>
+                Select the <NavStep>Clusters</NavStep> field on the left menu bar.
+            </Step>
+            <Step>
+                In the main work pane, click on the cluster containing the legacy space
+                you would like to import.
+            </Step>
+            <Step>
+                In the Cluster Management view, click the <Button>Namespaces</Button>
+                button on the top navigation tabs bar.
+            </Step>
+            <Step>
+                Find the space/namespace you would like to import in the list of namespaces. Click
+                the drop down arrow next to the space name. In the drop down menu click the
+                <Label>Import</Label> button.
+            </Step>
+            <Step>
+                In the pop-up box, select the project you would like to import the space into from
+                the <Label>Select Project</Label> drop down box.
+            </Step>
+            <Step>
+                <b>[Optional]</b> provide a name for the new 'SpaceInstance' resource,
+                if you do not provide a name, Loft will use the name of the legacy space.
+            </Step>
+            <Step>
+                Click the <Button>Import</Button> button.
+            </Step>
+        </Flow>
+    </TabItem>
+    <TabItem value="cli">
+        <PartialSpaceImportCLI/>
+    </TabItem>
+</Tabs>

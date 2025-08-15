@@ -1,0 +1,79 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to create a new DevPodWorkspaceTemplate.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DevPodWorkspaceTemplate
+metadata:
+  creationTimestamp: null
+  name: my-devpod-workspace-template
+spec:
+  displayName: my-display-name
+  parameters:
+  - variable: myVar
+  template:
+    provider:
+      name: kubernetes
+      options:
+        KUBERNETES_NAMESPACE:
+          value: '{{ .Values.loft.name }}'
+status: {}
+
+```
+
+Then create the DevPodWorkspaceTemplate `my-devpod-workspace-template` with:
+```bash
+kubectl create -f object.yaml 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Create a file `object.yaml` with the following contents:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: DevPodWorkspaceTemplate
+metadata:
+  creationTimestamp: null
+  name: my-devpod-workspace-template
+spec:
+  displayName: my-display-name
+  parameters:
+  - variable: myVar
+  template:
+    provider:
+      name: kubernetes
+      options:
+        KUBERNETES_NAMESPACE:
+          value: '{{ .Values.loft.name }}'
+status: {}
+
+```
+
+Run the following curl command to create a new DevPodWorkspaceTemplate `my-devpod-workspace-template`:
+```bash
+curl -s -X POST --insecure \
+     "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/devpodworkspacetemplates" \
+     --data-binary "$(cat object.yaml)" \
+     -H "Content-Type: application/yaml" \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

@@ -1,0 +1,101 @@
+---
+title: Loft Configuration
+sidebar_label: Loft Config
+---
+
+import LoftConfig from "../api/_partials/resources/config/reference.mdx";
+
+The Loft config allows you to modify Loft's behaviour and enable or disable certain features, such as [SSO login](../users/openid-connect), [custom branding](../admin/guides/custom-branding) or [auditing](../admin/audit).
+
+## Changing Loft Config
+
+Loft config can be applied directly via helm values or through the Loft UI in `Admin` > `Config`. Using helm values allows you to declaratively deploy Loft.
+
+When using helm you can apply the Loft config via a `values.yaml` file. This also makes it possible to deploy Loft through GitOps solutions such as ArgoCD. An example Loft `values.yaml` could look like this:
+
+```yaml
+config:
+  loftHost: my-loft-host.com
+  audit:
+    enabled: true
+  auth:
+    github:
+      clientId: $CLIENT_ID
+      clientSecret: $CLIENT_SECRET
+      redirectURI: https://my-loft-host.com/auth/github/callback
+```
+
+For a complete overview what helm values are possible, please take a look at the [Loft github repository](https://github.com/loft-sh/loft/tree/master/chart) directly.
+
+### Changing the Loft Host variable
+
+After setting up the platform and TLS certificates and configuring the ingress to use a custom domain, one should change the `loftHost` variable shown above.
+Initially, that value will be set to the URL of either the Loft Router domain or no domain in the case of air-gapped setups.
+This value should be equal to the hostname specified in the ingress resource for accessing the platform.
+
+:::info
+This value of the `loftHost` variable should only be the hostname that Loft is reachable at and not contain protocols (such as HTTP) or subpaths.
+:::
+
+After changing the `loftHost`, all currently connected clusters must be redeployed by running the same connection commands in the corresponding Kubernetes context.
+See the instructions [on connecting Clusters](../clusters/connect-cluster) for more guidance.
+
+Clusters will also have to be reconnected if the `additionalCA` or `insecureSkipVerify` values are changed after the initial setup.
+
+### Sensitive Information in the Loft Config
+
+Some fields within the Loft config allow placeholders for environment variables, such as the `clientId` and `clientSecret` fields. This makes it possible to not expose the sensitive information directly inside the Loft values and instead mount this information into Loft through an external secret.
+
+To load the github clientId and clientSecret through a Kubernetes secret `my-secret`, use the following configuration:
+
+```yaml
+envValueFrom:
+  CLIENT_ID:
+    secretKeyRef:
+      name: my-secret
+      key: client_id
+  CLIENT_SECRET:
+    secretKeyRef:
+      name: my-secret
+      key: client_secret
+
+config:
+  auth:
+    github:
+      clientId: $CLIENT_ID
+      clientSecret: $CLIENT_SECRET
+      redirectURI: https://my-loft-host.com/auth/github/callback
+```
+
+Then use helm to apply this configuration:
+
+```
+helm upgrade loft loft --install \
+  --repo https://charts.loft.sh/ \
+  --version $VERSION
+  --namespace loft \
+  --create-namespace \
+  --values values.yaml
+```
+
+:::info
+Make sure to replace the $VERSION in the above statement with the Loft version you are using
+:::
+
+### Custom HTTP Headers
+
+Loft allows you to add custom HTTP headers to all requests that are sent to the Loft API. This can be useful if you want to add custom headers to all requests, such as `X-Frame-Options` or `X-XSS-Protection`.
+
+To add custom HTTP headers, use the following configuration:
+
+```yaml
+config:
+  auth:
+    customHttpHeaders:
+      X-Frame-Options: SAMEORIGIN
+      X-XSS-Protection: 1; mode=block
+```
+
+## Config Reference
+
+<LoftConfig />

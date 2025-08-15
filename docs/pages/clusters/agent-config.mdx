@@ -1,0 +1,58 @@
+---
+title: Agent Config
+sidebar_label: Agent Config
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Input from '@site/src/components/Input'
+import Expander from '@site/src/components/Expander'
+
+As outlined in the 'What are Clusters' section, during the initial setup, Loft tries to install a Loft Agent on the connected cluster to handle further communication with the cluster. Loft allows certain level of control over the installation and upgradation of the Loft Agent release.
+
+### Disable Loft Agent
+
+There might be cases where you don't want Loft to automatically handle loft-agent updates for you and you want to manually install or upgrade the loft agent. This can be achieved either by setting the environment variable `DISABLE_AGENT` to `true` in the Loft container or by setting the annotation `loft.sh/cluster-ignore-agent: 'true'` on a connected cluster. This can be achieved in the Loft UI as below
+<Flow id="cluster-disable-loft-agent">
+  <Step>
+    Go to the <NavStep>Clusters</NavStep> view using the menu on the left.
+  </Step>
+  <Step>
+    Click the drop down arrow next to the cluster name you wish to modify. In the drop down menu click the <Label>Edit</Label> button.
+  </Step>
+  <Step>
+    In the drawer that appears from the right, click on the <Label>Agent</Label> configuration pane and select the 'Ignore Agent' checkbox.
+  </Step>
+  <Step>
+    Click on the <Button>Save Changes</Button>  button.
+  </Step>
+</Flow>
+
+:::warning
+If you do not install loft agent into a connected cluster at all, certain functionality, such as Spaces, Virtual Clusters, Apps, Accounts, Account Quotas & Security Templates will not be available in the cluster
+:::
+
+### Agent Values
+
+The Loft Agent is installed on the connected cluster as a Helm Release. You can provide additional values for the release by setting the `loft.sh/agent-values` annotation on the Cluster object. These values would be merged with the default configuration values of the Agent's chart and subsequently applied to the Agent release. This can be achieved in the Loft UI as below.
+<Flow id="cluster-extravalues-loft-agent">
+  <Step>
+    Go to the <NavStep>Clusters</NavStep> view using the menu on the left.
+  </Step>
+  <Step>
+    Click the drop down arrow next to the cluster name you wish to modify. In the drop down menu click the <Label>Edit</Label> button.
+  </Step>
+  <Step>
+    In the drawer that appears from the right, click on the <Label>Agent</Label> configuration pane. Provide the values in the textarea under <Label>Extra Agent Values</Label> in the YAML format.
+  </Step>
+  <Step>
+    Click on the <Button>Save Changes</Button>  button.
+  </Step>
+</Flow>
+
+### Troubleshooting
+
+If you encounter issues while configuring agent values or deploying it manually, you might want to take a look at the [Cluster troubleshooting](./cluster-troubleshooting) guide.
+

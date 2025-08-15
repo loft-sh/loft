@@ -1,0 +1,99 @@
+---
+title: Space Templates
+sidebar_label: Space Templates
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Field from '@site/src/components/Field'
+import PartialSpaceTemplateCreateUI from './_partials/space-template/create-ui.mdx'
+import PartialSpaceTemplateInstantiateUI from './_partials/space-template/instantiate-ui.mdx'
+import PartialSpaceTemplateInstantiateCLI from './_partials/space-template/instantiate-cli.mdx'
+
+
+Loft allows you to create templates for spaces. Unlike [Space Constraints](../clusters/access/space-constraints.mdx) which are enforced for a space, space templates are optional templates that a user can choose to apply when creating a space.
+
+Common use cases for space templates may be:
+- Adding development tooling to a namespace
+- Deploying pre-populated databases with test data
+- Equipping new namespaces with optional credentials such as image pull secrets
+
+:::caution Security Templates
+Do **not** use space templates for setting up security-related resources such as NetworkPolicies or LimitRanges. Instead, use **[Space Constraints](../clusters/access/space-constraints.mdx)** to enforce tenant isolation and other security measures.
+:::
+
+## Working with Space Templates
+
+<details>
+  <summary>1. Create Space Template</summary>
+  <PartialSpaceTemplateCreateUI/>
+</details>
+
+<details>
+  <summary>2. Use Space Template To Create A Space</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+    ]}>
+    <TabItem value="ui"><PartialSpaceTemplateInstantiateUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceTemplateInstantiateCLI/></TabItem>
+  </Tabs>
+</details>
+
+
+## Configuration
+
+### Metadata
+
+#### Display Name
+<Field jsonPath="spec.displayName" img={require('@site/static/media/v2/screenshots/space-templates/field-display-name.png').default} />
+
+#### Kubernetes Name
+<Field jsonPath="metadata.name" img={require('@site/static/media/v2/screenshots/space-templates/field-name.png').default} />
+
+#### Description
+<Field jsonPath="spec.description" img={require('@site/static/media/v2/screenshots/space-templates/field-description.png').default} />
+
+#### Labels
+<Field jsonPath="metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/space-templates/field-labels.png').default} />
+
+#### Annotations
+<Field jsonPath="metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/space-templates/field-annotations.png').default} />
+
+
+### Template For Spaces
+
+#### Labels
+<Field jsonPath="spec.template.metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/space-templates/field-space-labels.png').default} />
+
+#### Annotations
+<Field jsonPath="spec.template.metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/space-templates/field-space-annotations.png').default} />
+
+
+### Sleep Mode
+
+#### Inactivity Timeout
+<Field jsonPath='spec.template.metadata.annotations["sleepmode.loft.sh/sleep-after"]' img={require('@site/static/media/v2/screenshots/space-templates/field-inactivity-sleep.png').default} />
+
+#### Auto-Delete Timeout
+<Field jsonPath='spec.template.metadata.annotations["sleepmode.loft.sh/delete-after"]' img={require('@site/static/media/v2/screenshots/space-templates/field-inactivity-delete.png').default} />
+
+#### Sleep Schedule
+<Field jsonPath='spec.template.metadata.annotations["sleepmode.loft.sh/sleep-schedule"]' img={require('@site/static/media/v2/screenshots/space-templates/field-schedule-sleep.png').default} />
+
+#### Wake-Up Schedule
+<Field jsonPath='spec.template.metadata.annotations["sleepmode.loft.sh/wakeup-schedule"]' img={require('@site/static/media/v2/screenshots/space-templates/field-schedule-wakeup.png').default} />
+
+#### Scheduling Timezone
+<Field jsonPath='spec.template.metadata.annotations["sleepmode.loft.sh/timezone"]' img={require('@site/static/media/v2/screenshots/space-templates/field-schedule-timezone.png').default} />
+
+
+#### Apps
+<Field jsonPath='spec.template.apps' type="AppRef[]" img={require('@site/static/media/v2/screenshots/space-templates/field-apps.png').default} />
+
+
+### Access To Space Template
+<Field jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/space-templates/field-access.png').default} />
+

@@ -1,0 +1,38 @@
+---
+title: Retrieve Project Members
+sidebar_label: Retrieve Project Members
+---
+import Reference from "../../_partials/resources/projects/members/reference.mdx"
+import SubResourceGet from "../../_partials/resources/projects/members/subresourceget.mdx"
+
+This API can be used to retrieve all users and teams that are members of this project. Does not include loft wide admins.
+
+## Example Project Members
+
+An example Project Members:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ProjectMembers
+metadata:
+  creationTimestamp: null
+teams:
+- info:
+    displayName: My Team
+    name: my-team
+users:
+- info:
+    displayName: My User
+    email: my-email
+    name: my-user
+
+```
+
+## Project Members Reference
+
+<Reference />
+
+## Project Members (Get)
+
+<SubResourceGet />
+
+

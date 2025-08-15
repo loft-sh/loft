@@ -1,0 +1,62 @@
+---
+title: Retrieve Project Templates
+sidebar_label: Retrieve Project Templates
+---
+import Reference from "../../_partials/resources/projects/templates/reference.mdx"
+import SubResourceGet from "../../_partials/resources/projects/templates/subresourceget.mdx"
+
+This API can be used to retrieve all allowed templates of this project.
+
+## Example Project Templates
+
+An example Project Templates:
+```yaml
+apiVersion: management.loft.sh/v1
+defaultSpaceTemplate: my-default-space-template
+defaultVirtualClusterTemplate: my-default-vcluster-template
+kind: ProjectTemplates
+metadata:
+  creationTimestamp: null
+spaceTemplates:
+- apiVersion: management.loft.sh/v1
+  kind: SpaceTemplate
+  metadata:
+    creationTimestamp: null
+    name: my-default-space-template
+  spec:
+    template:
+      instanceTemplate:
+        metadata: {}
+      metadata: {}
+  status: {}
+virtualClusterTemplates:
+- apiVersion: management.loft.sh/v1
+  kind: VirtualClusterTemplate
+  metadata:
+    creationTimestamp: null
+    name: my-default-vcluster-template
+  spec:
+    template:
+      accessPoint:
+        ingress: {}
+      helmRelease:
+        chart: {}
+      instanceTemplate:
+        metadata: {}
+      metadata: {}
+      pro: {}
+      spaceTemplate:
+        metadata: {}
+  status: {}
+
+```
+
+## Project Templates Reference
+
+<Reference />
+
+## Project Templates (Get)
+
+<SubResourceGet />
+
+

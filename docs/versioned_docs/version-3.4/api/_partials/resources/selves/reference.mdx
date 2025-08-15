@@ -1,0 +1,842 @@
+
+import Metadata from "../metadata/reference.mdx"
+
+<Metadata />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `spec` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `accessKey` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-accessKey}
+
+AccessKey is an optional access key to use instead of the provided one
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `status` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `user` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user}
+
+The name of the currently logged in user
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-name}
+
+Name is the kubernetes name of the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `displayName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-displayName}
+
+The display name shown in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `icon` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-icon}
+
+Icon is the icon of the user / team
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-username}
+
+The username that is used to login
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `email` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-email}
+
+The users email address
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `subject` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-subject}
+
+The user subject
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams}
+
+Teams are the teams the user is part of
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams-name}
+
+Name is the kubernetes name of the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `displayName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams-displayName}
+
+The display name shown in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `icon` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams-icon}
+
+Icon is the icon of the user / team
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams-username}
+
+The username that is used to login
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `email` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams-email}
+
+The users email address
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `subject` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-user-teams-subject}
+
+The user subject
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `team` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team}
+
+The name of the currently logged in team
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team-name}
+
+Name is the kubernetes name of the object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `displayName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team-displayName}
+
+The display name shown in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `icon` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team-icon}
+
+Icon is the icon of the user / team
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team-username}
+
+The username that is used to login
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `email` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team-email}
+
+The users email address
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `subject` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-team-subject}
+
+The user subject
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `accessKey` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKey}
+
+The name of the currently used access key
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `accessKeyScope` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope}
+
+The scope of the currently used access key
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `allowLoftCli` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#status-accessKeyScope-allowLoftCli}
+
+AllowLoftCLI allows certain read-only management requests to
+make sure loft cli works correctly with this specific access key.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `projects` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-projects}
+
+Projects specifies the projects the access key should have access to.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-projects-project}
+
+Project is the name of the project. You can specify * to select all projects.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `spaces` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-spaces}
+
+Spaces specifies the spaces the access key is allowed to access.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-spaces-project}
+
+Project is the name of the project.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `space` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-spaces-space}
+
+Space is the name of the space. You can specify * to select all spaces.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `virtualClusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-virtualClusters}
+
+VirtualClusters specifies the virtual clusters the access key is allowed to access.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-virtualClusters-project}
+
+Project is the name of the project.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `virtualCluster` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-virtualClusters-virtualCluster}
+
+VirtualCluster is the name of the virtual cluster to access. You can specify * to select all virtual clusters.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `rules` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules}
+
+DEPRECATED: Use Projects, Spaces and VirtualClusters instead
+Rules specifies the rules that should apply to the access key.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `verbs` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-verbs}
+
+The verbs that match this rule.
+An empty list implies every verb.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `resources` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-resources}
+
+Resources that this rule matches. An empty list implies all kinds in all API groups.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `group` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-resources-group}
+
+Group is the name of the API group that contains the resources.
+The empty string represents the core API group.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `resources` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-resources-resources}
+
+Resources is a list of resources this rule applies to.
+
+For example:
+'pods' matches pods.
+'pods/log' matches the log subresource of pods.
+'*' matches all resources and their subresources.
+'pods/*' matches all subresources of pods.
+'*/scale' matches all scale subresources.
+
+If wildcard is present, the validation rule will ensure resources do not
+overlap with each other.
+
+An empty list implies all resources and subresources in this API groups apply.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `resourceNames` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-resources-resourceNames}
+
+ResourceNames is a list of resource instance names that the policy matches.
+Using this field requires Resources to be specified.
+An empty list implies that every instance of the resource is matched.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `namespaces` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-namespaces}
+
+Namespaces that this rule matches.
+The empty string "" matches non-namespaced resources.
+An empty list implies every namespace.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `nonResourceURLs` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-nonResourceURLs}
+
+NonResourceURLs is a set of URL paths that should be checked.
+*s are allowed, but only as the full, final step in the path.
+Examples:
+ "/metrics" - Log requests for apiserver metrics
+ "/healthz*" - Log all health checks
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `requestTargets` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-requestTargets}
+
+RequestTargets is a list of request targets that are allowed.
+An empty list implies every request.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `cluster` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-cluster}
+
+Cluster that this rule matches. Only applies to cluster requests.
+If this is set, no requests for non cluster requests are allowed.
+An empty cluster means no restrictions will apply.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `virtualClusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-virtualClusters}
+
+VirtualClusters that this rule matches. Only applies to virtual cluster requests.
+An empty list means no restrictions will apply.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-virtualClusters-name}
+
+Name of the virtual cluster. Empty means all virtual clusters.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `namespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyScope-rules-virtualClusters-namespace}
+
+Namespace of the virtual cluster. Empty means all namespaces.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `accessKeyType` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-accessKeyType}
+
+The type of the currently used access key
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `subject` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-subject}
+
+The subject of the currently logged in user
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `uid` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-uid}
+
+UID is the user uid
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `groups` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-groups}
+
+The groups of the currently logged in user
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `chatAuthToken` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-chatAuthToken}
+
+ChatAuthToken is the token used to authenticate with the in-product chat widget in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `instanceID` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-instanceID}
+
+InstanceID is the loft instance id
+
+</summary>
+
+
+
+</details>
+
+
+</details>

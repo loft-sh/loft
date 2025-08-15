@@ -1,0 +1,2011 @@
+
+import Metadata from "../metadata/reference.mdx"
+
+<Metadata />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `spec` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `displayName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-displayName}
+
+DisplayName is the name that should be displayed in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `description` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-description}
+
+Description describes an app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `owner` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner}
+
+Owner holds the owner of this object
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `user` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner-user}
+
+User specifies a Loft user.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `team` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner-team}
+
+Team specifies a Loft team.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `clusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusters}
+
+Clusters are the clusters this app can be installed in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `recommendedApp` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-recommendedApp}
+
+RecommendedApp specifies where this app should show up as recommended app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `defaultNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-defaultNamespace}
+
+DefaultNamespace is the default namespace this app should installed
+in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `readme` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-readme}
+
+Readme is a longer markdown string that describes the app.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `icon` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-icon}
+
+Icon holds an URL to the app icon
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `config` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config}
+
+Config is the helm config to use to deploy the helm release
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `chart` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart}
+
+Chart holds information about a chart that should get deployed
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-name}
+
+Name is the chart name in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-version}
+
+Version is the chart version in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `repoURL` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-repoURL}
+
+RepoURL is the repo url where the chart can be found
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-username}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `usernameRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-usernameRef}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-usernameRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-usernameRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-usernameRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-usernameRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `password` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-password}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `passwordRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-passwordRef}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-passwordRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-passwordRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-passwordRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-chart-passwordRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `insecureSkipTlsVerify` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-config-chart-insecureSkipTlsVerify}
+
+If tls certificate checks for the chart download should be skipped
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `manifests` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-manifests}
+
+Manifests holds kube manifests that will be deployed as a chart
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `bash` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-bash}
+
+Bash holds the bash script to execute in a container in the target
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `script` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-bash-script}
+
+Script is the script to execute.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `image` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-bash-image}
+
+Image is the image to use for this app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `clusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-bash-clusterRole}
+
+ClusterRole is the cluster role to use for this job
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-values}
+
+Values is the set of extra Values added to the chart.
+These values merge with the default values inside of the chart.
+You can use golang templating in here with values from parameters.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-parameters}
+
+Parameters are additional helm chart values that will get merged
+with config and are then used to deploy the helm chart.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `annotations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-config-annotations}
+
+Annotations are extra annotations for this helm release
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `wait` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-wait}
+
+Wait determines if Loft should wait during deploy for the app to become ready
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `timeout` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-timeout}
+
+Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters}
+
+Parameters define additional app parameters that will set helm values
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `variable` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-variable}
+
+Variable is the path of the variable. Can be foo or foo.bar for nested objects.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `label` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-label}
+
+Label is the label to show for this parameter
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `description` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-description}
+
+Description is the description to show for this parameter
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `type` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-type}
+
+Type of the parameter. Can be one of:
+string, multiline, boolean, enum and password
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `options` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-options}
+
+Options are the options if type is enum
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `min` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">integer</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-min}
+
+Min is the minimum number if type is number
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `max` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">integer</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-max}
+
+Max is the maximum number if type is number
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `required` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-parameters-required}
+
+Required specifies if this parameter is required
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `defaultValue` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-defaultValue}
+
+DefaultValue is the default value if none is specified
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `placeholder` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-placeholder}
+
+Placeholder shown in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `invalidation` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-invalidation}
+
+Invalidation regex that if matched will reject the input
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `validation` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-validation}
+
+Validation regex that if matched will allow the input
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `section` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-parameters-section}
+
+Section where this app should be displayed. Apps with the same section name will be grouped together
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `streamContainer` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer}
+
+DEPRECATED: Use config.bash instead
+StreamContainer can be used to stream a containers logs instead of the helm output.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `selector` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-selector}
+
+Label selector for pods. The newest matching pod will be used to stream logs from
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `matchLabels` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-selector-matchLabels}
+
+matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is "key", the
+operator is "In", and the values array contains only "value". The requirements are ANDed.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `matchExpressions` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-selector-matchExpressions}
+
+matchExpressions is a list of label selector requirements. The requirements are ANDed.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-selector-matchExpressions-key}
+
+key is the label key that the selector applies to.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `operator` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-selector-matchExpressions-operator}
+
+operator represents a key's relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-selector-matchExpressions-values}
+
+values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `container` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-streamContainer-container}
+
+Container is the container name to use
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `versions` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions}
+
+Versions are different app versions that can be referenced
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `defaultNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-defaultNamespace}
+
+DefaultNamespace is the default namespace this app should installed
+in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `readme` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-readme}
+
+Readme is a longer markdown string that describes the app.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `icon` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-icon}
+
+Icon holds an URL to the app icon
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `config` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config}
+
+Config is the helm config to use to deploy the helm release
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `chart` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart}
+
+Chart holds information about a chart that should get deployed
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-name}
+
+Name is the chart name in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-version}
+
+Version is the chart version in the repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `repoURL` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-repoURL}
+
+RepoURL is the repo url where the chart can be found
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-username}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `usernameRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-usernameRef}
+
+The username that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-usernameRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-usernameRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-usernameRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-usernameRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `password` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-password}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `passwordRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-passwordRef}
+
+The password that is required for this repository
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `projectSecretRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-passwordRef-projectSecretRef}
+
+ProjectSecretRef holds the reference to a project secret
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `project` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-passwordRef-projectSecretRef-project}
+
+Project is the project name where the secret is located in.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-passwordRef-projectSecretRef-name}
+
+Name of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-chart-passwordRef-projectSecretRef-key}
+
+Key of the project secret to use.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `insecureSkipTlsVerify` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-versions-config-chart-insecureSkipTlsVerify}
+
+If tls certificate checks for the chart download should be skipped
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `manifests` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-manifests}
+
+Manifests holds kube manifests that will be deployed as a chart
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `bash` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-bash}
+
+Bash holds the bash script to execute in a container in the target
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `script` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-bash-script}
+
+Script is the script to execute.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `image` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-bash-image}
+
+Image is the image to use for this app
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `clusterRole` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-bash-clusterRole}
+
+ClusterRole is the cluster role to use for this job
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-values}
+
+Values is the set of extra Values added to the chart.
+These values merge with the default values inside of the chart.
+You can use golang templating in here with values from parameters.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-parameters}
+
+Parameters are additional helm chart values that will get merged
+with config and are then used to deploy the helm chart.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `annotations` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-config-annotations}
+
+Annotations are extra annotations for this helm release
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `wait` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-versions-wait}
+
+Wait determines if Loft should wait during deploy for the app to become ready
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `timeout` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-timeout}
+
+Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `parameters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters}
+
+Parameters define additional app parameters that will set helm values
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `variable` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-variable}
+
+Variable is the path of the variable. Can be foo or foo.bar for nested objects.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `label` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-label}
+
+Label is the label to show for this parameter
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `description` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-description}
+
+Description is the description to show for this parameter
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `type` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-type}
+
+Type of the parameter. Can be one of:
+string, multiline, boolean, enum and password
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `options` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-options}
+
+Options are the options if type is enum
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `min` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">integer</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-min}
+
+Min is the minimum number if type is number
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `max` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">integer</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-max}
+
+Max is the maximum number if type is number
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `required` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-versions-parameters-required}
+
+Required specifies if this parameter is required
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `defaultValue` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-defaultValue}
+
+DefaultValue is the default value if none is specified
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `placeholder` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-placeholder}
+
+Placeholder shown in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `invalidation` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-invalidation}
+
+Invalidation regex that if matched will reject the input
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `validation` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-validation}
+
+Validation regex that if matched will allow the input
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `section` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-parameters-section}
+
+Section where this app should be displayed. Apps with the same section name will be grouped together
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `streamContainer` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer}
+
+DEPRECATED: Use config.bash instead
+StreamContainer can be used to stream a containers logs instead of the helm output.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `selector` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-selector}
+
+Label selector for pods. The newest matching pod will be used to stream logs from
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `matchLabels` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-selector-matchLabels}
+
+matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is "key", the
+operator is "In", and the values array contains only "value". The requirements are ANDed.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `matchExpressions` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-selector-matchExpressions}
+
+matchExpressions is a list of label selector requirements. The requirements are ANDed.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `key` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-selector-matchExpressions-key}
+
+key is the label key that the selector applies to.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `operator` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-selector-matchExpressions-operator}
+
+operator represents a key's relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-selector-matchExpressions-values}
+
+values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `container` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-streamContainer-container}
+
+Container is the container name to use
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-versions-version}
+
+Version is the version. Needs to be in X.X.X format.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access}
+
+Access holds the access rights for users and teams
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-name}
+
+Name is an optional name that is used for this access rule
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `verbs` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-verbs}
+
+Verbs is a list of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule. VerbAll represents all kinds.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `subresources` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-subresources}
+
+Subresources defines the sub resources that are allowed by this access rule
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-users}
+
+Users specifies which users should be able to access this secret with the aforementioned verbs
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-teams}
+
+Teams specifies which teams should be able to access this secret with the aforementioned verbs
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `manifests` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-manifests}
+
+DEPRECATED: Use config instead
+manifest represents kubernetes resources that will be deployed into the target namespace
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `helm` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm}
+
+DEPRECATED: Use config instead
+helm defines the configuration for a helm deployment
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm-name}
+
+Name of the chart to deploy
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `values` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm-values}
+
+The additional helm values to use. Expected block string
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `version` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm-version}
+
+Version is the version of the chart to deploy
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `repoUrl` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm-repoUrl}
+
+The repo url to use
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `username` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm-username}
+
+The username to use for the selected repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `password` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-helm-password}
+
+The password to use for the selected repository
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `insecure` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-helm-insecure}
+
+Determines if the remote location uses an insecure
+TLS certificate.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `status` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status}
+
+
+
+</summary>
+
+
+
+</details>

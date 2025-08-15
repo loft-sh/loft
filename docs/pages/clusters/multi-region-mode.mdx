@@ -1,0 +1,129 @@
+---
+title: Multi-Region Mode
+sidebar_label: Multi-Region Mode
+---
+
+Running Loft in Multi-Region Mode provides a way to avoid the central Loft instance and directly connect to a connected Loft cluster. By default, all Kubernetes contexts that are created through Loft will route all Kubernetes traffic (such as `kubectl get pods` etc.) through the central Loft instance.
+This allows Loft to handle authentication, authorization, auditing, sleep mode activity etc. 
+
+However, if you have multiple connected clusters in a Loft instance that are spread across the globe, the traffic redirection through the central Loft gateway can increase request delay. A solution to this are direct cluster endpoints, which avoid rerouting traffic to the central Loft instance and rather handle authentication, authorization etc. directly within the connected cluster through the installed Loft agent.
+
+## Enabling Multi-Region Mode
+
+Enabling Multi-Region Mode can be achieved by exposing Direct Cluster Endpoints. These are bundled into the automatically installed loft agent and can be enabled via an annotation on the connected cluster object.
+
+In order for the direct cluster endpoint to work correctly, you need to expose the Loft agent either via an Ingress or a LoadBalancer / NodePort service first. The easiest way is to create an `ingress.yaml` like this and apply it via `kubectl`:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loft-agent-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8 32k"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
+    nginx.org/websocket-services: loft-agent
+    cert-manager.io/cluster-issuer: my-cluster-issuer
+spec:
+  rules:
+    - host: my-cluster-endpoint.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: loft-agent
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - my-cluster-endpoint.com
+      secretName: name-of-tls-secret
+```
+
+Then apply the ingress via `kubectl`:
+
+```
+kubectl apply -n loft -f ingress.yaml 
+ingress.networking.k8s.io/loft-agent-ingress created
+```
+
+:::tip
+As kubectl requires an HTTPS connection, the direct cluster endpoint has to be reachable by HTTPS as well. By default, the ingress will use a self-signed certificate, however this is insecure and it is recommended to use either cert-manager to issue a Let's Encrypt certificate or to use a trusted self signed certificate.
+:::
+
+After creating the ingress, please make sure that the direct cluster endpoint is reachable:
+
+```
+# Omit --insecure if have a valid TLS certificate
+curl https://my-cluster-endpoint.com/healthz -I --insecure
+
+HTTP/2 200 
+date: Mon, 30 Aug 2021 08:40:20 GMT
+access-control-allow-headers: *
+access-control-allow-methods: POST, GET, OPTIONS, PUT, DELETE, PATCH
+access-control-allow-origin: *
+cache-control: no-cache, private
+strict-transport-security: max-age=15724800; includeSubDomains
+
+```
+
+## Enable a Direct Cluster Endpoint
+
+In order to tell Loft to use a direct cluster endpoint for a connected cluster, you will need to add an annotation to the cluster object.
+
+```yaml
+apiVersion: management.loft.sh/v1
+kind: Cluster
+metadata:
+  name: test
+  annotations:
+    # Domain of the direct cluster endpoint
+    loft.sh/direct-cluster-endpoint: my-direct-cluster-endpoint.com
+    #
+    # Optional option to tell Loft the endpoint is insecure
+    #
+    #loft.sh/direct-cluster-endpoint-insecure: 'true'
+    #
+    # Optional option to use this base64 encoded ca cert for the endpoint
+    #
+    #loft.sh/direct-cluster-endpoint-ca-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC...
+spec:
+  config: {}
+```
+
+The following annotations can be specified:
+
+* **loft.sh/direct-cluster-endpoint**: This is the domain name that should be used to connect to the cluster directly. This usually corresponds to the ingress host that you have specified earlier. As soon as this annotation is set, the direct cluster endpoint for the connected cluster is turned on and will be preferred in future over the central Loft instance
+* **loft.sh/direct-cluster-endpoint-insecure** (Optional): If this is `true`, Loft will create Kubernetes contexts with `insecure-skip-tls-verify: true` for this endpoint
+* **loft.sh/direct-cluster-endpoint-ca-data** (Optional): Base64 encoded ca cert of the direct cluster endpoint
+
+## Using a Direct Cluster Endpoint
+
+If a direct cluster endpoint is enabled via the `loft.sh/direct-cluster-endpoint` annotation on a connected cluster, the Loft commands `loft use space`, `loft use cluster`, `loft use vcluster`, `loft create space` and `loft create vcluster` will now use the direct cluster endpoint instead of the central Loft gateway.
+
+The CLI will also notify you when running one of the above commands if a direct cluster endpoint is used:
+```bash
+loft use space my-space --cluster my-connected-cluster
+[info]   Using direct cluster endpoint at https://my-cluster-endpoint.com
+[done] √ Successfully updated kube context to use space my-space in cluster my-connected-cluster
+```
+
+You can then check which server is contacted by running:
+
+```
+kubectl get ns -v 6
+I0624 15:53:30.287997   70943 loader.go:379] Config loaded from file:  /xxx/.kube/config
+I0624 15:53:30.307530   70943 round_trippers.go:445] GET https://my-cluster-endpoint.com/kubernetes/cluster/api/v1/namespaces?limit=500 200 OK in 13 milliseconds
+NAME              STATUS   AGE
+default           Active   164m
+kube-node-lease   Active   164m
+kube-public       Active   164m
+kube-system       Active   164m
+```
+
+As you can see, `kubectl` now routes the traffic directly to the direct cluster endpoint instead of the central Loft instance. 

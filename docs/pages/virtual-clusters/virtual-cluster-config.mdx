@@ -1,0 +1,129 @@
+---
+title: Virtual Cluster Config
+sidebar_label: Virtual Cluster Config
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+Virtual clusters managed by Loft have 100% feature parity with the open-source vcluster project,
+that is, any configuration options available in the vcluster project are available for
+configuration from within your Loft deployment.
+
+There are three primary configuration components for virtual clusters, the distribution, the
+vcluster version, and any values that should be passed to the vcluster deployment.
+
+
+# Distributions
+
+The distribution of a vcluster is the actual Kubernetes distribution that is deployed in the
+virtual cluster. By default, this is `k3s`, however other distributions are supported. Please
+see the vcluster [documentation](https://www.vcluster.com/docs/operator/other-distributions) for
+additional information pertaining to virtual cluster distributions.
+
+In the context of Loft, virtual cluster distributions can be configured when deploying virtual
+clusters via the Loft UI as follows.
+
+<Flow id="create-vcluster-with-vclusterdistribution">
+    <Step>
+        Select the <NavStep>Projects</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        Select the project you'd like to create the virtual cluster instance in from the Project
+        drop down menu.
+    </Step>
+    <Step>
+        Click the <Button>Create Virtual Cluster</Button> button.
+    </Step>
+    <Step>
+        Click the <Button>Select</Button> button to skip selecting a virtual cluster template.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, you should see a <Label>Virtual
+        Kubernetes Distribution</Label> drop down box. Select your desired distribution from
+        this drop down box.
+    </Step>
+    <Step>
+        Finish configuring anything else you'd like on your virtual cluster, then click the
+        <Button>Create Virtual Cluster</Button> button.
+    </Step>
+</Flow>
+
+:::info Virtual Cluster Templates
+The distribution can also be set in virtual cluster templates!
+:::
+
+# vcluster Version
+
+The vcluster Version is the actual version of the vcluster project to use in the virtual cluster.
+You can check out the vcluster releases on the vcluster [release page](https://github.com/loft-sh/vcluster/releases).
+
+Providing the vcluster version is optional, if you do not provide a version, the Loft will
+create the virtual cluster with the default version associated with current version of Loft.
+
+<Flow id="create-vcluster-with-vclusterversion">
+    <Step>
+        Select the <NavStep>Projects</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        Select the project you'd like to create the virtual cluster instance in from the Project
+        drop down menu.
+    </Step>
+    <Step>
+        Click the <Button>Create Virtual Cluster</Button> button.
+    </Step>
+    <Step>
+        Click the <Button>Select</Button> button to skip selecting a virtual cluster template.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, you should see a <Label>Virtual
+        Cluster Version</Label> text box. Enter the desired version in the format `vX.Y.Z`, for
+        example `v0.13.0`.
+    </Step>
+    <Step>
+        Finish configuring anything else you'd like on your virtual cluster, then click the
+        <Button>Save Changes</Button> button.
+    </Step>
+</Flow>
+
+:::info Virtual Cluster Templates
+The version can also be set in virtual cluster templates!
+:::
+
+# vcluster Values
+
+Virtual clusters settings are configurable via helm values. Virtual clusters created via Loft
+can be provided any desired helm values. Please refer to your distribution of choice's helm
+values in the vcluster repository helm charts [directory](https://github.com/loft-sh/vcluster/tree/main/charts).
+
+<Flow id="create-vcluster-with-vclustervalues">
+    <Step>
+        Select the <NavStep>Projects</NavStep> field on the left menu bar.
+    </Step>
+    <Step>
+        Select the project you'd like to create the virtual cluster instance in from the Project
+        drop down menu.
+    </Step>
+    <Step>
+        Click the <Button>Create Virtual Cluster</Button> button.
+    </Step>
+    <Step>
+        Click the <Button>Select</Button> button to skip selecting a virtual cluster template.
+    </Step>
+    <Step>
+        In the drawer that appears from the right, you should see a <Label>Helm Values for
+        Virtual Cluster Chart</Label> text box. Enter any desired helm values in this field --
+        note that the text entered must be valid YAML, and the values should correspond to
+        appropriate value fields in your charts values!
+    </Step>
+    <Step>
+        Finish configuring anything else you'd like on your virtual cluster, then click the
+        <Button>Save Changes</Button> button.
+    </Step>
+</Flow>
+
+:::info Virtual Cluster Templates
+The values can also be set in virtual cluster templates!
+:::

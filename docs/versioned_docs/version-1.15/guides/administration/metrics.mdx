@@ -1,0 +1,55 @@
+---
+title: Scrape Prometheus Metrics for loft
+sidebar_label: Prometheus Metrics
+---
+
+Loft exposes several [prometheus style](https://prometheus.io/docs/practices/naming/) metrics that can be scraped. If you want to monitor other applications with loft take a look at the [monitoring guide](../monitoring.mdx) instead.
+
+## Create the Prometheus ServiceMonitor
+
+The metrics can be scraped with the included `ServiceMonitor` in the loft chart, which can be deployed with helm. In order for this to work, make sure you have installed a [prometheus operator](https://github.com/prometheus-operator/prometheus-operator) into your cluster. You'll also need to upgrade your loft release with the following command to create the `ServiceMonitor`:
+
+```bash
+# Make sure you change serviceMonitor.namespace if your prometheus installation requires this.
+helm upgrade loft loft --repo https://charts.loft.sh/ \
+  --namespace loft \
+  --reuse-values \
+  --set serviceMonitor.enabled=true \
+  --set serviceMonitor.namespace=loft
+```
+
+## Access the metrics endpoint directly without a ServiceMonitor
+
+Loft will expose its internal metrics at `https://my-loft-subdomain.my-url.com/metrics`. 
+By default loft will require an `Authorization` http header field with a kubernetes bearer token that has access to the non resource url `/metrics` in the kubernetes cluster where loft is installed.
+If the header is not provided, loft will deny the request.
+
+:::info Disable metrics authentication
+If you wish to scrape metrics without authentication, you can disable it via the environment variable `INSECURE_METRICS=true` in the loft helm chart.  
+:::
+
+If you have kubernetes service account token that has the appropriate rights, you can access the metrics via curl:
+```bash
+# Add an optional --insecure, if your loft instance is using an untrusted certificate
+$ curl https://my-loft-subdomain.my-url.com/metrics -H "Authorization: Bearer eyJhbGci..."
+
+# HELP apiserver_audit_event_total [ALPHA] Counter of audit events generated and sent to the audit backend.
+# TYPE apiserver_audit_event_total counter
+apiserver_audit_event_total 0
+# HELP apiserver_audit_requests_rejected_total [ALPHA] Counter of apiserver requests rejected due to an error in audit logging backend.
+# TYPE apiserver_audit_requests_rejected_total counter
+apiserver_audit_requests_rejected_total 0
+...
+```
+## Which metrics are exposed?
+
+Loft collects metrics from its internal components and merges them together into a single metrics endpoint at `/metrics`. The following component metrics are merged together:
+- **API gateway metrics**: loft exposes metrics for its internal api gateway such as the total amount of requests (`apigateway_ENDPOINT_request_total`), request latency (`apigateway_ENDPOINT_request_duration_seconds`) and request sizes (`apigateway_ENDPOINT_response_sizes`) for the different endpoints. The metrics have different labels depending on the endpoint. The following endpoints and metrics are available:
+  - **ui**: all requests that target loft UI assets (metrics are `apigateway_ui_request_total`, `apigateway_ui_request_duration_seconds`, `apigateway_ui_response_sizes`)
+  - **auth**: all requests that target loft authentication endpoints (such as login, token refresh etc.)
+  - **kubernetes**: all forwarded requests that target a kubernetes cluster. The targeted backend is provided by a label and can be either `management` (the integrated loft kubernetes api server), `cluster` (a request forwarded to a connected cluster) or `vcluster` (a virtual kubernetes cluster deployed by loft). Further labels are provided as well such as kubernetes resource, api version, api group, subresource etc.
+  - **grafana**: all forwarded requests to a grafana instance in a connected cluster
+  - **oidc**: all requests that target the internal OIDC server
+- **Integrated Kubernetes API server metrics**: all internal kubernetes api server metrics are exposed. An incomplete list can be found in the [kubernetes repository](https://github.com/kubernetes/apiserver/blob/master/pkg/endpoints/metrics/metrics.go)
+- **Integrated Controller manager metrics**: all loft management cluster controller metrics are exposed. 
+- **Go runtime metrics**: some general metrics about the golang runtime and resource usage are exposed.

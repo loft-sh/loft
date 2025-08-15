@@ -1,0 +1,49 @@
+.field {
+  display: block;
+  font-weight: 600;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 10%);
+
+  figure {
+    max-width: 700px;
+    margin: -3px !important;
+    padding: 0 !important;
+
+    img {
+      margin: 0 !important;
+      max-width: 100%;
+    }
+  }
+
+  &[data-type^="Access"] figure {
+    max-height: 250px;
+
+    img {
+      max-height: none;
+    }
+  }
+
+  .jsonpath {
+    display: flex;
+    align-items: center;
+    margin: -10px 0 0;
+    padding-left: 15px;
+    background: transparent;
+    border-top: 1px solid rgb(237, 237, 237);
+    background: #fff;
+
+    .label {
+      flex: 0 0 auto;
+      font-size: 0.9em;
+    }
+
+    pre {
+      flex: 1;
+      border-radius: 0;
+      margin: 0 0 0 1em;
+      display: inline-block;
+      background: #f9fcff;
+    }
+  }
+}

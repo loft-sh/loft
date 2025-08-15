@@ -1,0 +1,373 @@
+{
+  "version-1.15/adminSidebar": [
+    {
+      "type": "doc",
+      "id": "version-1.15/introduction"
+    },
+    {
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-1.15/quickstart"
+        },
+        {
+          "type": "category",
+          "label": "Full Setup Guide",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-1.15/getting-started/setup"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/getting-started/clusters"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/getting-started/auth"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/getting-started/cluster-accounts"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/getting-started/limits-isolation"
+            }
+          ],
+          "collapsible": true
+        }
+      ],
+      "collapsible": true
+    },
+    {
+      "type": "category",
+      "label": "Self-Service",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-1.15/self-service/namespaces"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/self-service/virtual-clusters"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/self-service/sleep-mode"
+        }
+      ],
+      "collapsible": true
+    },
+    {
+      "type": "category",
+      "label": "Multi-Tenancy",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/clusters"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/accounts"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/account-quotas"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/policies"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/templates"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/shared-secrets"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/apps"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/space-templates"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/multi-tenancy/virtual-cluster-templates"
+        }
+      ],
+      "collapsible": true
+    },
+    {
+      "type": "category",
+      "label": "Users & Authentication",
+      "items": [
+        {
+          "type": "category",
+          "label": "User Management",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/users"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/teams"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/profiles"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/access-keys"
+            }
+          ],
+          "collapsible": true
+        },
+        {
+          "type": "category",
+          "label": "Authentication + SSO",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/password"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/github"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/gitlab"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/google"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/microsoft"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/oidc"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/okta"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/ldap"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/saml"
+            },
+            {
+              "type": "doc",
+              "id": "version-1.15/auth/sso/others"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/auth/account-templates"
+        }
+      ],
+      "collapsible": true
+    },
+    {
+      "type": "category",
+      "label": "Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/onboarding"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/exposing-loft"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/api"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/ci-cd-pipelines"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/multi-region-mode"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/monitoring"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/oidc"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/air-gapped-installation"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/metrics"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/auditing"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/high-availability"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/self-signed-certificate"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/reset-admin-password"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/config-reference"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/upgrade"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/troubleshooting"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/guides/administration/uninstall"
+        }
+      ],
+      "collapsible": true
+    },
+    {
+      "type": "category",
+      "label": "Integrations",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-1.15/integrations/harbor"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/integrations/dex"
+        }
+      ],
+      "collapsible": true
+    },
+    {
+      "type": "doc",
+      "id": "version-1.15/architecture"
+    },
+    {
+      "type": "category",
+      "label": "CLI Reference",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_connect_vcluster"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_create_space"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_create_vcluster"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_delete_space"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_delete_vcluster"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_generate_admin-kube-config"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_get_user"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_list_clusters"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_list_spaces"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_list_teams"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_list_vclusters"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_login"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_sleep"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_token"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_upgrade"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_use_cluster"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_use_space"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_use_vcluster"
+        },
+        {
+          "type": "doc",
+          "id": "version-1.15/commands/loft_wakeup"
+        }
+      ],
+      "collapsible": true,
+      "collapsed": true
+    },
+    {
+      "type": "link",
+      "label": "↗️ DevSpace",
+      "href": "https://devspace.sh/"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+
+Upgrade Loft via:
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    { label: 'CLI', value: 'cli', },
+    { label: 'helm', value: 'helm', },
+  ]
+}>
+<TabItem value="cli">
+
+To upgrade Loft via Loft CLI, run:
+```bash
+loft start --upgrade --version=$VERSION --values=loft.yaml
+```
+
+</TabItem>
+<TabItem value="helm">
+
+To upgrade Loft via `helm`, run:
+```bash
+helm upgrade loft loft -n loft --repository-config '' --repo https://charts.loft.sh \
+  --version $VERSION \
+  --reuse-values \
+  -f loft.yaml
+```
+
+</TabItem>
+</Tabs>

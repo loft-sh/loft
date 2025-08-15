@@ -1,0 +1,139 @@
+---
+title: Accessing the Loft API
+sidebar_label: Loft API
+---
+
+The Loft API server provides multiple endpoints to communicate with. Depending on the endpoint, Loft will proxy the request either to its internal Kubernetes API server, to a connected Kubernetes cluster, to a virtual Kubernetes cluster or handle it internally.
+
+The different endpoints can be reached by providing a prefix in front of the actual Kubernetes path (e.g. `https://my-loft-domain.com/$PREFIX/$KUBERNETES_PATH`). Based on this prefix, Loft will know how to route the request to the correct destination.
+
+### Loft API Server Endpoints
+
+There are several Kubernetes path prefixes for Loft that will target different Kubernetes API servers:
+- **/kubernetes/management/**: Prefix that proxies the request to the internal Loft management Kubernetes API server.
+- **/kubernetes/cluster/$CLUSTER/**: Prefix that proxies incoming Kubernetes requests to the connected cluster $CLUSTER.
+- **/kubernetes/virtualcluster/$CLUSTER/$NAMESPACE/$VCLUSTER/**: Prefix that proxies incoming Kubernetes requests to the virtual cluster $VCLUSTER in namespace $NAMESPACE in the connected cluster $CLUSTER.
+
+For example, if you would want to retrieve pods from a connected cluster `loft-cluster`, the corresponding Kubernetes URL would be `https://my-loft-domain/kubernetes/cluster/loft-cluster/api/v1/pods`. 
+
+With that knowledge, you can also create a kube config to use `kubectl` to query that cluster directly through Loft (basically what `loft use cluster` is doing internally):
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    server: https://my-loft-domain.com/kubernetes/cluster/loft-cluster
+  name: loft_loft-cluster
+contexts:
+- context:
+    cluster: loft_loft-cluster
+    user: loft_loft-cluster
+  name: loft_loft-cluster
+current-context: loft_loft-cluster
+users:
+- name: loft_loft-cluster
+  user:
+    token: ACCESS_KEY
+```
+
+Other non kubernetes endpoints exposed by Loft:
+- **/auth/**: Authentication endpoints that are used by the Loft UI to login a user
+- **/oidc/**: Endpoint for the internal OIDC server. See [loft as OIDC provider](./oidc.mdx) for more details.
+- **/grafana/$CLUSTER/**: All requests to this endpoint will be proxied to the cluster's grafana instance (if there is any). Used by the Loft UI to show [grafana dashboards](./monitoring.mdx) in the monitoring tab.
+
+### Accessing the Loft management API directly 
+
+The Loft management API is a Kubernetes API server that only serves virtual resources (not persisted in etcd) that facilitate interaction with Loft. These resources are primarily used by the Loft UI and CLI to change state in the Kubernetes cluster where Loft is installed in, without the need to have cluster wide access.
+
+In order to access the Loft management api, you'll need a Loft access key. See [access keys](./ci-cd-pipelines.mdx#authentication) for more information how to create a new access key.
+
+With the access key, you can then query the Loft management API like any other kubernetes API server by prefixing `/kubernetes/management/`:
+```bash
+# Retrieve all users (use --insecure if you are using a self signed certificate)
+$ curl https://my-loft.com/kubernetes/management/apis/management.loft.sh/v1/users \
+        -H "Authorization: Bearer $ACCESS_KEY"
+{
+  "kind": "UserList",
+  "apiVersion": "management.loft.sh/v1",
+  "metadata": {
+    
+  },
+  "items": [
+    {
+      "kind": "User",
+      "apiVersion": "management.loft.sh/v1",
+      "metadata": {
+        "name": "admin",
+...
+```
+
+:::warning
+The Loft management API does only support resources in the API group `management.loft.sh` and you won't be able to query any pods, namespaces or other kubernetes resources from it. 
+:::
+
+To view what resources are available in the management API Kubernetes server, take a look at the [loft API repository](https://github.com/loft-sh/api/tree/master/pkg/apis/management/v1).
+
+### Accessing a connected cluster through Loft directly
+
+Loft acts as a reverse proxy for requests that target a specific connected cluster, with the following differences to directly accessing the kubernetes cluster without Loft:
+- Loft will authenticate the request by the provided access key and resolve it into subject and groups that will be forwarded to the kubernetes cluster. The subject and groups are then used by the targeted kubernetes cluster and [kiosk](https://github.com/loft-sh/kiosk) to determine cluster and account access through RBAC. 
+- If the request targets a namespace, the request will count as activity for [sleep mode](../self-service/sleep-mode.mdx).
+- If [auditing](./administration/auditing.mdx) is enabled, Loft will log the request.
+- Loft will also collect certain [metrics](./administration/metrics.mdx) about the request that can be scraped later with Prometheus.
+
+In order to access a connected cluster through Loft, you'll need a Loft access key. See [access keys](./ci-cd-pipelines.mdx#authentication) for more information how to create a new access key.
+
+With the access key `$ACCESS_KEY` and the cluster name `$CLUSTER`, you can then query the kubernetes API of the connected cluster like any other kubernetes API server by prefixing `/kubernetes/cluster/$CLUSTER/`:
+```bash
+# Retrieve all namespaces (use --insecure if you are using a self signed certificate)
+$ curl https://my-loft.com/kubernetes/cluster/$CLUSTER/api/v1/namespaces \
+        -H "Authorization: Bearer $ACCESS_KEY"
+{
+  "kind": "NamespaceList",
+  "apiVersion": "v1",
+  "metadata": {
+    "selfLink": "/api/v1/namespaces",
+    "resourceVersion": "2735295"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "kube-system",
+        "selfLink": "/api/v1/namespaces/kube-system",
+...
+```
+
+:::info RBAC Permissions
+What a user can do within a cluster is managed through [Accounts](../multi-tenancy/accounts.mdx)
+:::
+
+### Accessing a virtual cluster through Loft directly
+
+Loft is able to proxy [virtual cluster](../self-service/virtual-clusters.mdx) requests similar to proxying connected cluster requests.
+
+In order to access a virtual cluster through Loft, you'll need a Loft access key. See [access keys](./ci-cd-pipelines.mdx#authentication) for more information how to create a new access key.
+
+With the access key `$ACCESS_KEY`, the virtual cluster name `$VCLUSTER`, the namespace `$NAMESPACE` where the virtual cluster was created in and the cluster name `$CLUSTER` where the namespace is in, you can then query the kubernetes API of the virtual cluster like any other kubernetes API server by prefixing `/kubernetes/virtualcluster/$CLUSTER/$NAMESPACE/$VCLUSTER/`:
+```bash
+# Retrieve all namespaces (use --insecure if you are using a self signed certificate)
+$ curl https://my-loft.com/kubernetes/virtualcluster/$CLUSTER/$NAMESPACE/$VCLUSTER/api/v1/namespaces \
+        -H "Authorization: Bearer $ACCESS_KEY"
+{
+  "kind": "NamespaceList",
+  "apiVersion": "v1",
+  "metadata": {
+    "selfLink": "/api/v1/namespaces",
+    "resourceVersion": "2735295"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "kube-system",
+        "selfLink": "/api/v1/namespaces/kube-system",
+...
+```
+
+:::info RBAC Permissions
+In order for a user to access a virtual cluster the user needs the RBAC permission `get` on the resource `virtualclusters` in the api group `storage.loft.sh` with api version `v1` in the namespace where the virtual cluster is in or cluster wide
+:::
+

@@ -1,0 +1,128 @@
+---
+title: Spaces
+sidebar_label: Spaces
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Field from '@site/src/components/Field'
+
+import PartialSpaceDiagramNamespace from './_partials/diagrams/namespace.mdx'
+import PartialSpaceCreateUI from './_partials/space/create-ui.mdx'
+import PartialSpaceCreateCLI from './_partials/space/create-cli.mdx'
+import PartialSpaceCreateKubectl from './_partials/space/create-kubectl.mdx'
+import PartialSpaceDeleteUI from './_partials/space/delete-ui.mdx'
+import PartialSpaceDeleteCLI from './_partials/space/delete-cli.mdx'
+import PartialSpaceDeleteKubectl from './_partials/space/delete-kubectl.mdx'
+import PartialSpaceListUI from './_partials/space/list-ui.mdx'
+import PartialSpaceListCLI from './_partials/space/list-cli.mdx'
+import PartialSpaceListKubectl from './_partials/space/list-kubectl.mdx'
+
+Spaces are virtual resources that represent regular Kubernetes namespaces. Typically, non-admin users to not have the permission to list, create or delete namespaces in a shared Kubernetes clusters. That's why Loft adds the space resource to Kubernetes. Spaces are not stored in etcd but rather abstract from regular namespaces. Deleting a space will effectively delete the underlying namespace, for example. In turn, any labels and annotations set on a namespace will show up on the corresponding space as well. 
+
+<PartialSpaceDiagramNamespace/>
+
+
+## Working with Spaces
+Space and namespaces are directly coupled via a 1:1 relationship. But unlike with namespaces, it is safe to give non-admin users the permission to create and manage their own spaces.
+
+<details>
+  <summary>Create Spaces</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><PartialSpaceCreateUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceCreateCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceCreateKubectl/></TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>Delete Spaces</summary>
+  <Tabs
+    defaultValue="cli"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><PartialSpaceDeleteUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceDeleteCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceDeleteKubectl/></TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>List Spaces</summary>
+  <Tabs
+    defaultValue="ui"
+    values={[
+      {label: 'UI', value: 'ui'},
+      {label: 'CLI', value: 'cli'},
+      {label: 'kubectl', value: 'kubectl'},
+    ]}>
+    <TabItem value="ui"><PartialSpaceListUI/></TabItem>
+    <TabItem value="cli"><PartialSpaceListCLI/></TabItem>
+    <TabItem value="kubectl"><PartialSpaceListKubectl/></TabItem>
+  </Tabs>
+</details>
+
+<details>
+  <summary>Prevent Space Deletion</summary>
+
+  You can prevent space deletion, by setting the annotation `loft.sh/non-deletable` to `true`.
+
+</details>
+
+
+## Configuration
+
+### Owner
+<Field jsonPath="spec.user" default="name of current user" img={require('@site/static/media/v2/screenshots/spaces/field-owner.png').default} />
+
+
+### Template
+<Field default="name of current user" img={require('@site/static/media/v2/screenshots/spaces/field-template.png').default} />
+
+
+### Metadata
+
+#### Name
+<Field jsonPath="metadata.name" img={require('@site/static/media/v2/screenshots/spaces/field-name.png').default} />
+
+#### Labels
+<Field jsonPath="metadata.labels" type="map[string]string" img={require('@site/static/media/v2/screenshots/spaces/field-labels.png').default} />
+
+#### Annotations
+<Field jsonPath="metadata.annotations" type="map[string]string" img={require('@site/static/media/v2/screenshots/spaces/field-annotations.png').default} />
+
+
+### Sleep Mode
+
+#### Inactivity Timeout
+<Field jsonPath='metadata.annotations["sleepmode.loft.sh/sleep-after"]' img={require('@site/static/media/v2/screenshots/spaces/field-inactivity-sleep.png').default} />
+
+#### Auto-Delete Timeout
+<Field jsonPath='metadata.annotations["sleepmode.loft.sh/delete-after"]' img={require('@site/static/media/v2/screenshots/spaces/field-inactivity-delete.png').default} />
+
+#### Sleep Schedule
+<Field jsonPath='metadata.annotations["sleepmode.loft.sh/sleep-schedule"]' img={require('@site/static/media/v2/screenshots/spaces/field-schedule-sleep.png').default} />
+
+#### Wake-Up Schedule
+<Field jsonPath='metadata.annotations["sleepmode.loft.sh/wakeup-schedule"]' img={require('@site/static/media/v2/screenshots/spaces/field-schedule-wakeup.png').default} />
+
+#### Scheduling Timezone
+<Field jsonPath='metadata.annotations["sleepmode.loft.sh/timezone"]' img={require('@site/static/media/v2/screenshots/spaces/field-schedule-timezone.png').default} />
+
+
+### Apps
+<Field img={require('@site/static/media/v2/screenshots/spaces/field-apps.png').default} />
+
+
+### Access To Space
+<Field jsonPath="spec.access" type="Access[]" img={require('@site/static/media/v2/screenshots/spaces/field-access.png').default} />
+

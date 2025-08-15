@@ -1,0 +1,141 @@
+---
+title: Rancher
+sidebar_label: Rancher
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem'
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+The Platform provides several points of integration at the virtual cluster level. With the help of the vCluster.Pro plugin for Rancher, we can create, delete and manage vClusters from the Rancher Dashboard. Also, you can import any existing vClusters created within the platform into Rancher at the click of a button.
+
+## Setup
+
+### Installing the Rancher Plugin
+
+The plugin can be installed as below.
+<Flow id="install-rancher-plugin">
+  <Step>
+    In the Rancher Dashboard, click on the Hamburger menu and select<Label>Extensions</Label>.
+  </Step>
+  <Step>
+    Click on the kebab menu on the right and select<Label>Manage Repositories</Label>.
+  </Step>
+  <Step>
+    Click on the <Button>Create</Button>button on the right. Give the repository a name and enter <code>https://charts.loft.sh/</code> as Index URL. Finally click on the Create button at the bottom.
+  </Step>
+  <Step>
+    Navigate back to the<Label>Extensions</Label>page and click on Available tab. Click Install on the plugin named <b>VCluster.Pro</b>.
+  </Step>
+  <Step>
+    Once the plugin is installed, you will be redirected automatically to the Installed tab.
+  </Step>
+  <Step>
+    Finally, on the Cluster resource (<code>management.cattle.io/v1 group</code>) of the host cluster, add a <code>loft.sh/loft-hostname</code> label with the Loft hostname without protocol prefix, e.g. my-loft.demo.dev
+  </Step>
+</Flow>
+
+## Using the Rancher Plugin
+Installing the plugin lets us create and delete virtual clusters from the Rancher Dashboard. Additionally, you can also access the platform's dashboard directly from the UI.
+
+### Creating a virtual cluster
+<Flow id="rancher-plugin-create-vcluster">
+  <Step>
+    In the Rancher Dashboard, click on the <Button>Create Virtual Cluster</Button> button.
+  </Step>
+  <Step>
+    Enter a name for the virtual cluster and select the Loft Project in which you wish to create the virtual cluster. Only those projects which have the <a href="../projects/rancher/#project-based-rancher-integration">Rancher Integration</a> enabled would be displayed in the list.
+  </Step>
+  <Step>
+    Click the <Button>Create</Button> button which will take you to the <Label>Create VirtualClusterInstance</Label> page within the platform.
+  </Step>
+  <Step>
+    Click the <Label>Rancher</Label> configuration tab.
+  </Step>
+  <Step>
+    Slide the <Label>Add to Rancher</Label> slider to enabled.
+  </Step>
+  <Step>
+    Click on the <Button>Create</Button>button once you have configured the same as per your preference.
+  </Step>
+  <Step>
+    Navigate back to the Rancher Dashboard. The virtual cluster would be available and in <Label>Active</Label>state.
+  </Step>
+</Flow>
+
+### Deleting a virtual cluster
+<Flow id="rancher-plugin-delete-vcluster">
+  <Step>
+    In the Rancher Dashboard, click on the Delete icon for the virtual cluster you want to delete.
+  </Step>
+  <Step>
+    You will be redirected to the platform's VirtualClusterInstance Page for confirmation.
+  </Step>
+  <Step>
+    Click on the <Button>Delete</Button> to confirm. The virtual cluster will be deleted from Rancher.
+  </Step>
+</Flow>
+
+## Importing vClusters into Rancher
+Once a project has Rancher integration enabled, virtual clusters within that project are eligible to be
+synced into Rancher. You can enable virtual cluster import into Rancher during the virtual cluster creation step, or by enabling this feature on existing
+virtual clusters.
+
+:::info Make Sure Your Project Has Rancher Enabled!
+If the project your virtual cluster resides in does *not* have Rancher integration enabled, you
+will not see the Add to Rancher option! Please follow [this](../projects/rancher) guide to enable the same.
+:::
+
+<Tabs
+    defaultValue="creation"
+    values={[
+        {label: 'During Virtual Cluster Creation', value: 'creation'},
+        {label: 'On Existing Virtual Cluster', value: 'existing'},
+    ]}>
+    <TabItem value="creation">
+        <Flow id="enable-rancher-import-creation">
+            <Step>
+                From the Projects Navigator in the left hand pane, switch to the desired Project.
+            </Step>
+            <Step>
+                Click on Virtual Clusters and the <Button>Create Virtual Cluster</Button> button.
+            </Step>
+            <Step>
+                In the popup, optionally select the virtual cluster template, then click the
+                <Button>Configure</Button> button.
+            </Step>
+            <Step>
+                Click the <Label>Rancher</Label> configuration tab.
+            </Step>
+            <Step>
+                Slide the <Label>Add to Rancher</Label> slider to enabled.
+            </Step>
+            <Step>
+                Finish configuring anything else you'd like on your virtual cluster, then click the
+                <Button>Create</Button> button.
+            </Step>
+        </Flow>
+    </TabItem>
+    <TabItem value="existing">
+        <Flow id="enable-rancher-import-existing">
+            <Step>
+                From the Projects Navigator in the left hand pane, switch to the desired Project.
+            </Step>
+            <Step>
+                Find your desired virtual cluster in the virtual cluster list. Slide the
+                <Label>Add to Rancher</Label> slider to enabled.
+            </Step>
+        </Flow>
+    </TabItem>
+</Tabs>
+
+:::warning Disabling Rancher Integration
+You may disable the Rancher integration at a per virtual cluster or per project level by toggling the same sliders
+used to enable it. Disabling the integration at the virtual cluster level simply removes it in Rancher.
+Disabling the integration at the project level removes all virtual clusters from Rancher, so be careful
+when disabled at this level!
+:::
+

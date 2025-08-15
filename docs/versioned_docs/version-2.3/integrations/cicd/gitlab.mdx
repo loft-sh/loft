@@ -1,0 +1,79 @@
+---
+title: Using Loft in GitLab CI/CD
+sidebar_label: GitLab CI/CD
+---
+
+
+When using Loft with GitLab you can use the [official `loft-ci` image](https://hub.docker.com/r/loftsh/loft-ci) as either a base image or directly. See [Using the Container Image](#using-the-container-image) for details on the available tools. If additional tooling is needed for your CI/CD process, a custom image can be created.
+
+#### Spaces for Merge Requests
+
+This example shows how to create and delete a Space for running end-to-end tests for the default branch and merge requests. It assumes you have configured CI/CD variables `LOFT_URL` and `LOFT_ACCESS_KEY`.
+
+```yaml {}
+image: loftsh/loft-ci
+
+stages:
+  - test
+
+e2e:
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  stage: test
+  before_script:
+    - loft login $LOFT_URL --access-key $LOFT_ACCESS_KEY
+    - loft create space "${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}"
+    - apk add go make
+  script:
+    - kubectl apply -Rf ./kubernetes
+    - kubectl rollout status deployments/my-app
+    - make e2e
+  after_script:
+    - loft delete space "${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}"
+
+```
+
+**Explanation:**
+1. The `loftsh/loft-ci` image is used for all pipeline jobs and provides the `loft` CLI, the `devspace` CLI, and `kubectl`.
+2. The `before_script` first logs in to loft using the `$LOFT_URL` and `$LOFT_ACCESS_KEY` variables that you defined in GitLab. [See the GitLab docs for more information](https://docs.gitlab.com/ee/ci/variables/)
+3. The `before_script` then creates a space using [predefined GitLab variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html) to create a unique name for the space.
+4. Next `before_script` installs some additional tooling needed to run the end-to-end tests. For more complex scenarios creating a custom image is recommended.
+5. Then the `script` section uses `kubectl` to deploy the application to the space and waits for the `my-app` deployment to become ready. `make` is then used to run an end-to-end test suite.
+6. Finally `after_script` deletes the space. By using `after_script` we can ensure the space is deleted even if the tests fail.
+
+#### Virtual Clusters for Merge Requests
+
+This example shows how to create and delete a Virtual Cluster for running end-to-end tests for the default branch and merge requests. It assumes you have configured CI/CD variables `LOFT_URL` and `LOFT_ACCESS_KEY`.
+
+```yaml
+image: loftsh/loft-ci
+
+stages:
+  - test
+
+e2e:
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  stage: test
+  before_script:
+    - loft login $LOFT_URL --access-key $LOFT_ACCESS_KEY
+    - loft create vcluster "${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}"
+    - apk add go make
+  script:
+    - kubectl apply -Rf ./kubernetes
+    - kubectl rollout status deployments/my-app
+    - make e2e
+  after_script:
+    - loft delete vcluster "${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}" --delete-space
+
+```
+
+**Explanation:**
+1. The `loftsh/loft-ci` image is used for all pipeline jobs and provides the `loft` CLI, the `devspace` CLI, and `kubectl`.
+2. The `before_script` first logs in to loft using the `$LOFT_URL` and `$LOFT_ACCESS_KEY` variables that you defined in GitLab. [See the GitLab docs for more information](https://docs.gitlab.com/ee/ci/variables/)
+3. The `before_script` then creates a virtual cluster using [predefined GitLab variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html) to create a unique name.
+4. Next `before_script` installs some additional tooling needed to run the end-to-end tests. For more complex scenarios creating a custom image is recommended.
+5. Then the `script` section uses `kubectl` to deploy the application to the space and waits for the `my-app` deployment to become ready. `make` is then used to run an end-to-end test suite.
+6. Finally `after_script` deletes the virtual cluster, and passes `--delete-space` to ensure the corresponding space for the cluster is deleted. By using `after_script` we can ensure the space is deleted even if the tests fail.

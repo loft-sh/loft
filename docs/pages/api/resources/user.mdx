@@ -1,0 +1,53 @@
+---
+title: User
+sidebar_label: User
+---
+import Reference from "../_partials/resources/users/reference.mdx"
+import Retrieve from "../_partials/resources/users/retrieve.mdx"
+import Create from "../_partials/resources/users/create.mdx"
+import Update from "../_partials/resources/users/update.mdx"
+import Delete from "../_partials/resources/users/delete.mdx"
+
+Users that can access Loft.
+
+## Example User
+
+An example User:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: User
+metadata:
+  creationTimestamp: null
+  name: my-user
+spec:
+  clusterRoles:
+  - name: loft-management-admin
+  displayName: My User
+  email: myuser@test.com
+  subject: my-user
+  username: myuser
+status: {}
+
+```
+
+## User Reference
+
+<Reference />
+
+## Retrieve: Users
+
+<Retrieve />
+
+## Create: User
+
+<Create />
+
+## Update: User
+
+<Update />
+
+## Delete: User
+
+<Delete />
+
+

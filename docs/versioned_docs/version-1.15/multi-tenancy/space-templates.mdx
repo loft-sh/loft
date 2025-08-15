@@ -1,0 +1,139 @@
+---
+title: Space Templates
+sidebar_label: Space Templates
+---
+
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+Space Templates can be used to create different space profiles or set default options for space creation in connected clusters.
+
+## Workflows
+
+### Create a Space Template
+
+<Tabs
+    defaultValue="ui"
+    values={[
+        { label: 'UI', value: 'ui', },
+        { label: 'kubectl', value: 'kubectl', },
+    ]
+}>
+<TabItem value="ui">
+
+Navigate to Spaces > Space Templates. Click on the 'Add Space Template' button.
+
+<figure>
+    <img src="/docs/media/v1/ui/space-templates/add_space_template.png" alt="loft Space Templates" />
+    <figcaption>Add a new space template</figcaption>
+</figure>
+
+In the view you can modify the following sections:
+
+- Configuration: the default space metadata, automatic sleep and deletion time that should be used to create a new space. In addition, you can define apps here that should get deployed into the space on creation.
+- Access To Space Template: additional users and teams that should be able to access this space template in addition to all existing RBAC rules
+
+</TabItem>
+<TabItem value="kubectl">
+
+Create a `space-template.yaml` in the following form:
+
+```yaml
+apiVersion: storage.loft.sh/v1
+kind: SpaceTemplate
+metadata:
+  name: my-space-template
+spec:
+  template:
+    metadata:
+      annotations:
+        sleepmode.loft.sh/sleep-after: '600'
+    apps:
+      - name: my-app
+  access: []
+```
+    
+Then apply the space template to the cluster where Loft was installed with:
+
+```
+kubectl apply -f space-template.yaml
+```
+
+</TabItem>
+</Tabs>
+
+### Use a Space Template
+
+You can create a space from a template either through the Loft UI or the CLI.
+
+<Tabs
+    defaultValue="ui"
+    values={[
+        { label: 'UI', value: 'ui', },
+        { label: 'CLI', value: 'cli', },
+    ]
+}>
+<TabItem value="ui">
+
+Navigate to spaces and click on the 'Create Space' button. In the drawer you can select a space template or based on the cluster default a template will be preselected automatically.
+
+<figure>
+    <img src="/docs/media/v1/ui/space-templates/select_space_template.png" alt="loft Space Templates" />
+    <figcaption>Select a space template</figcaption>
+</figure>
+
+Afterwards you can still change the desired space configuration and press 'Create' to create the space.
+
+</TabItem>
+<TabItem value="cli">
+
+You can use the flag `--template` to select a space template to apply. For example, if you want to create a new space with the template `my-space-template` the command would look like this:
+
+```
+loft create space my-space --template my-space-template
+```
+
+Based on the target cluster configuration it might be possible that a template will be applied even though no `--template` is supplied.
+
+</TabItem>
+</Tabs>
+
+
+### Set Default Space Template
+
+Navigate to the Clusters view and click on 'Edit'. Select a space template that should be used as default template for creating new spaces in that specific connected cluster. Then press update to apply the changes.
+
+<figure>
+    <img src="/docs/media/v1/ui/space-templates/default_space_template.png" alt="loft Space Templates" />
+    <figcaption>Set a default space template</figcaption>
+</figure>
+
+### Delete Space Templates
+
+You can either delete a space template through the Loft UI or use kubectl. Deleting a space template will not delete any spaces that were created by this template.
+
+<Tabs
+    defaultValue="ui"
+    values={[
+        { label: 'UI', value: 'ui', },
+        { label: 'kubectl', value: 'kubectl', },
+    ]
+    }>
+<TabItem value="ui">
+
+Navigate to Spaces > Space Templates. Then click on the 'Delete' button.
+
+</TabItem>
+<TabItem value="kubectl">
+
+Delete the space template `my-space-template` by running the following command in the cluster where Loft is installed in:
+
+```
+kubectl delete spacetemplates my-space-template
+```
+
+</TabItem>
+</Tabs>
+
+

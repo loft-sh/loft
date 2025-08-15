@@ -1,0 +1,44 @@
+---
+title: Create
+sidebar_label: Create
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+import Link from "@docusaurus/Link"
+
+## Create A Project
+
+To get started creating a Project, in the Loft UI:
+
+<Flow id="create-project-ui">
+    <Step>
+        Navigate to the <NavStep>Projects</NavStep> view.
+    </Step>
+    <Step>
+        Next to the <Label>Project</Label> drop down, click the <Label>+</Label> button to open the create project drawer.
+    </Step>
+    <Step>
+        Click on <NavStep>Members</NavStep> and add your desired users or teams and their assigned project roles.
+        See the <Link to="./members">Members</Link> section for more details.
+    </Step>
+    <Step>
+        Next, click on <NavStep>Allowed Templates</NavStep> to set the templates allowed for the project's space and
+        virtual cluster instances. See <Link to="./templates">Templates</Link> for more details.
+    </Step>
+    <Step>
+        Next, click on <NavStep>Allowed Clusters</NavStep> to set the clusters that members should have access to.
+        See the <Link to="./clusters">Clusters</Link> section for further details.
+    </Step>
+    <Step>
+        Optionally, if you're an Argo CD user and want to enabled the Argo CD Integration, visit the <NavStep>Argo
+        CD</NavStep> section to configure. See the <Link to="./argocd">Argo CD</Link> documentation for further
+        details.
+    </Step>
+    <Step>
+        Once all project options have been specified, click the <Button>Save Changes</Button>.
+    </Step>
+</Flow>
+

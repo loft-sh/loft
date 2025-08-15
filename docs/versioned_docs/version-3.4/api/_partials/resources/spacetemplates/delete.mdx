@@ -1,0 +1,36 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to delete Space Templates.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Run the following command to delete Space Template `my-space-template`:
+```bash
+kubectl delete spacetemplates.management.loft.sh my-space-template 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Run the following curl command to delete Space Template `my-space-template`:
+```bash
+# Replace the my-space-template in the url below with the name of the Space Template you want to delete
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/spacetemplates/my-space-template" \
+     -X DELETE --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

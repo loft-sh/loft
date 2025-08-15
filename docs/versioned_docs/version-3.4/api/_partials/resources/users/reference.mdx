@@ -1,0 +1,1078 @@
+
+import Metadata from "../metadata/reference.mdx"
+
+<Metadata />
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `spec` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `displayName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-displayName}
+
+The display name shown in the UI
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `description` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-description}
+
+Description describes a cluster access object
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `owner` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner}
+
+Owner holds the owner of this object
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `user` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner-user}
+
+User specifies a Loft user.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `team` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-owner-team}
+
+Team specifies a Loft team.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `username` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-username}
+
+The username that is used to login
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `icon` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-icon}
+
+The URL to an icon that should be shown for the user
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `email` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-email}
+
+The users email address
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `subject` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-subject}
+
+The user subject as presented by the token
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `groups` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-groups}
+
+The groups the user has access to
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `ssoGroups` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-ssoGroups}
+
+SSOGroups is used to remember groups that were
+added from sso.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `passwordRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-passwordRef}
+
+A reference to the user password
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-passwordRef-secretName}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-passwordRef-secretNamespace}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-passwordRef-key}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `accessKeysRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-accessKeysRef}
+
+Deprecated: Use the Access Key CRD instead
+A reference to the users access keys
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-accessKeysRef-secretName}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-accessKeysRef-secretNamespace}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-accessKeysRef-key}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `codesRef` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-codesRef}
+
+A reference to the users access keys
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-codesRef-secretName}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-codesRef-secretNamespace}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-codesRef-key}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `imagePullSecrets` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-imagePullSecrets}
+
+ImagePullSecrets holds secret references to image pull
+secrets the user has access to.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `apiGroup` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-imagePullSecrets-apiGroup}
+
+APIGroup is the api group of the secret
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `kind` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-imagePullSecrets-kind}
+
+Kind is the kind of the secret
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-imagePullSecrets-secretName}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `secretNamespace` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-imagePullSecrets-secretNamespace}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `key` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-imagePullSecrets-key}
+
+
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `clusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterAccountTemplates}
+
+ClusterAccountTemplates that should be applied for the user
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterAccountTemplates-name}
+
+Name of the cluster account template to apply
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `sync` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-clusterAccountTemplates-sync}
+
+Sync defines if Loft should sync changes to the cluster account template
+to the cluster accounts and create new accounts if new clusters match the templates.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `accountName` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterAccountTemplates-accountName}
+
+AccountName is the name of the account that should
+be created. Defaults to the user or team kubernetes name.
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `tokenGeneration` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">integer</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-tokenGeneration}
+
+TokenGeneration can be used to invalidate all user tokens
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `disabled` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">boolean</span> <span className="config-field-default">false</span> <span className="config-field-enum"></span> {#spec-disabled}
+
+If disabled is true, an user will not be able to login anymore. All other user resources
+are unaffected and other users can still interact with this user
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `clusterRoles` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRoles}
+
+ClusterRoles define the cluster roles that the users should have assigned in the cluster.
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-clusterRoles-name}
+
+Name is the cluster role to assign
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `access` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access}
+
+Access holds the access rights for users and teams
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-name}
+
+Name is an optional name that is used for this access rule
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `verbs` <span className="config-field-required" data-required="true">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-verbs}
+
+Verbs is a list of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule. VerbAll represents all kinds.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `subresources` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-subresources}
+
+Subresources defines the sub resources that are allowed by this access rule
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `users` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-users}
+
+Users specifies which users should be able to access this secret with the aforementioned verbs
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#spec-access-teams}
+
+Teams specifies which teams should be able to access this secret with the aforementioned verbs
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+## `status` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status}
+
+
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `clusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters}
+
+Clusters holds information about which clusters the user has accounts in
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `phase` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-phase}
+
+Status holds the status of the account in the target cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `reason` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-reason}
+
+Reason describes why loft couldn't sync the account with a machine readable identifier
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `message` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-message}
+
+Message describes why loft couldn't sync the account in human language
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `cluster` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-cluster}
+
+Cluster is the cluster name of the user in the cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `accountsClusterTemplateStatus` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus}
+
+AccountsClusterTemplate status is the status of the account cluster template that was used
+to create the cluster account
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-name}
+
+Name is the name of the cluster account template
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `account` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-account}
+
+Account is the name of the account in the cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `accountTemplateHash` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-accountTemplateHash}
+
+AccountTemplateHash is the hash of the account template that was applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `ownsHash` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-ownsHash}
+
+OwnsHash is the hash of the owns part of the cluster account template that was
+applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+##### `lastTransitionTime` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-lastTransitionTime}
+
+Last time the condition transitioned from one status to another.
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `phase` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-phase}
+
+Status holds the status of the account in the target cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `reason` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-reason}
+
+Reason describes why loft couldn't sync the account with a machine readable identifier
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `message` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accountsClusterTemplateStatus-message}
+
+Message describes why loft couldn't sync the account in human language
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `accounts` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusters-accounts}
+
+Accounts is the account name of the user in the cluster
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+### `clusterAccountTemplates` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates}
+
+ClusterAccountTemplates holds information about which cluster account templates were applied
+DEPRECATED: Use status.clusters instead
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-name}
+
+Name of the cluster account template that was applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="true">
+<summary>
+
+#### `clusters` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">object[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-clusters}
+
+Clusters holds the cluster on which this template was applied
+
+</summary>
+
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `name` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-clusters-name}
+
+Name of the cluster where the cluster account template was applied
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `phase` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-clusters-phase}
+
+Status holds the status of the account in the target cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `reason` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-clusters-reason}
+
+Reason describes why loft couldn't sync the account with a machine readable identifier
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+##### `message` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-clusters-message}
+
+Message describes why loft couldn't sync the account in human language
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `phase` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-phase}
+
+Status holds the status of the account in the target cluster
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `reason` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-reason}
+
+Reason describes why loft couldn't sync the account with a machine readable identifier
+
+</summary>
+
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+#### `message` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-clusterAccountTemplates-message}
+
+Message describes why loft couldn't sync the account in human language
+
+</summary>
+
+
+
+</details>
+
+
+</details>
+
+
+
+<details className="config-field" data-expandable="false" open>
+<summary>
+
+### `teams` <span className="config-field-required" data-required="false">required</span> <span className="config-field-type">string[]</span> <span className="config-field-default"></span> <span className="config-field-enum"></span> {#status-teams}
+
+Teams the user is currently part of
+
+</summary>
+
+
+
+</details>
+
+
+</details>

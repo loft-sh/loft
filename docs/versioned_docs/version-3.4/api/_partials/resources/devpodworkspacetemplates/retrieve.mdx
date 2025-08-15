@@ -1,0 +1,52 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to retrieve DevPodWorkspaceTemplates.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+### Retrieve a list of DevPodWorkspaceTemplates
+Run the following command to list all DevPodWorkspaceTemplates:
+```bash
+kubectl get devpodworkspacetemplates.management.loft.sh  -o yaml
+```
+
+### Retrieve a single DevPodWorkspaceTemplate by name
+Run the following kubectl command to get DevPodWorkspaceTemplate `my-devpod-workspace-template`:
+```bash
+kubectl get devpodworkspacetemplates.management.loft.sh my-devpod-workspace-template  -o yaml
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+### Retrieve a list of DevPodWorkspaceTemplates
+Run the following curl command to list all DevPodWorkspaceTemplates:
+```bash
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/devpodworkspacetemplates" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+### Get a single DevPodWorkspaceTemplate by name
+Run the following curl command to get DevPodWorkspaceTemplate `my-devpod-workspace-template`:
+```bash
+# Exchange my-devpod-workspace-template in the url below with the name of the DevPodWorkspaceTemplate
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/devpodworkspacetemplates/my-devpod-workspace-template" \
+     -X GET --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

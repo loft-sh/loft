@@ -1,0 +1,41 @@
+import Flow, { Step } from '@site/src/components/Flow'
+
+
+<Flow id="create-vcluster-kubectl">
+  <Step>
+
+If you do not have a kube-context for the cluster where this space should be created in, you can set up a kube-context using:
+```bash
+loft use cluster [cluster-name]
+```
+
+  </Step>
+  <Step>
+
+Create a file named `vcluster.yaml` with the following content:
+```yaml {4}
+apiVersion: cluster.loft.sh/v1
+kind: VirtualCluster
+metadata:
+  name: vcluster-name             # Set the name for your virtual cluster here
+  namespace: vc-host-namespace    # Host namespace for the virtual cluster
+```
+
+  </Step>
+  <Step>
+
+Create the virtual cluster using kubectl:
+```bash
+kubectl apply -f vcluster.yaml
+```
+
+  </Step>
+  <Step>
+
+Retrieve a kube-context for this virtual cluster using Loft CLI:
+```bash
+loft use vcluster [vcluster-name]
+```
+
+  </Step>
+</Flow>

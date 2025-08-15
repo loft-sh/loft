@@ -1,0 +1,59 @@
+---
+title: Remote Virtual Clusters
+sidebar_label: Remote Virtual Clusters
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import NavStep from '@site/src/components/NavStep'
+import Button from '@site/src/components/Button'
+import Label from '@site/src/components/Label'
+
+This feature allows you to deploy the vCluster control plane in one cluster and the actual workloads into another cluster.
+
+:::info Pre-Requisites
+Currently this feature only works through a LoadBalancer.
+Hence the user needs to make sure that their control plane
+is able to schedule LoadBalancers that fill the `status.Ingress` field
+correctly with either and IP or a hostname. Compatibility has been tested
+in Google Cloud and AWS.
+
+Another requirement for this feature is that it expects a kube config to a headless vcluster installation,
+hence the target vcluster must be deployed as a headless vcluster.
+:::
+
+#### Create the remote vcluster
+
+Put the following configuration in `VirtualClusterInstance` resource:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: VirtualClusterInstance
+...
+...
+spec:
+  template:
+    helmRelease:
+      chart:
+        name: vcluster
+        repo: https://charts.loft.sh
+      # add any other values you want here
+      values: |-
+        service:
+          type: LoadBalancer
+    # This field is required to make sure Loft knows about deploying the workloads into a separate cluster
+    workloadVirtualClusterTemplate: {}
+    # You can specify specific workload cluster helm values via
+    # helmRelease:
+    #   values: ...
+  # This is the reference to the cluster where the control-plane is running
+  clusterRef:
+    namespace: vcluster-platform
+    virtualCluster: my-vcluster
+    cluster: cluster-1              # the k8s cluster where the vcluster control plane runs
+  # This is the reference to the cluster where the workloads are running
+  workloadClusterRef:
+    namespace: vcluster-workloads
+    virtualCluster: my-vcluster
+    cluster: cluster-2              # the k8s cluster where the actual workloads run
+```
+
+This will deploy the control-plane into `cluster-1` and the workloads into `cluster-2`.

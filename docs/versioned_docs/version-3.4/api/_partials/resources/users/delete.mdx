@@ -1,0 +1,36 @@
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+You can either use curl or kubectl to delete Users.
+
+<Tabs
+    defaultValue="kubectl"
+    values={[
+      {label: 'kubectl', value: 'kubectl'},
+      {label: 'curl', value: 'curl'},
+    ]}>
+  <TabItem value="kubectl">
+
+
+Run the following command to delete User `my-user`:
+```bash
+kubectl delete users.management.loft.sh my-user 
+```
+
+
+  </TabItem>
+  <TabItem value="curl">
+
+
+Run the following curl command to delete User `my-user`:
+```bash
+# Replace the my-user in the url below with the name of the User you want to delete
+curl -s "https://$LOFT_DOMAIN/kubernetes/management/apis/management.loft.sh/v1/users/my-user" \
+     -X DELETE --insecure \
+     -H "Authorization: Bearer $ACCESS_KEY"
+```
+
+
+  </TabItem>
+</Tabs>

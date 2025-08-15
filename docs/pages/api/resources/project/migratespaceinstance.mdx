@@ -1,0 +1,32 @@
+---
+title: Move Space To Other Project
+sidebar_label: Move Space To Other Project
+---
+import Reference from "../../_partials/resources/projects/migratespaceinstance/reference.mdx"
+import SubResourceCreate from "../../_partials/resources/projects/migratespaceinstance/subresourcecreate.mdx"
+
+This API can be used to move a space from one project to another.
+
+## Example Move Space To Other Project
+
+An example Move Space To Other Project:
+```yaml
+apiVersion: management.loft.sh/v1
+kind: ProjectMigrateSpaceInstance
+metadata:
+  creationTimestamp: null
+sourceSpaceInstance:
+  name: my-space
+  namespace: loft-p-my-other-project
+
+```
+
+## Move Space To Other Project Reference
+
+<Reference />
+
+## Move Space To Other Project (Create)
+
+<SubResourceCreate />
+
+

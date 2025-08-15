@@ -1,0 +1,54 @@
+---
+title: Troubleshooting
+sidebar_label: Troubleshooting
+---
+
+import Flow, { Step } from '@site/src/components/Flow'
+import PartialAdminSetVersion from '../admin/_partials/set-version.mdx'
+import PartialAdminUpgrade from '../admin/_partials/upgrade.mdx'
+
+While we hope you don't run into any issues while deploying Loft, it sometimes happens! This
+page contains some information that may help you resolve deployment issues. If you're still
+stuck, please join us on [Slack](https://slack.loft.sh/) where you can find a #Loft channel
+where you can ask other questions!
+
+
+## Troubleshooting Tips
+
+### Flag `--reset`
+
+If you need a clean Loft installation, you can use the `--reset` flag to tell Loft CLI to purge
+any previous Loft installs:
+
+```bash
+loft start --reset    # --insecure  ...add any other `loft start` flags if needed
+```
+
+
+### Debug `ImageErr` + `ImagePullBackOff`
+
+If your Loft pods are not starting because the Loft images cannot be pulled, you may need to
+[use a private image registry](../admin/guides/offline-installations/#offline-images) rather than
+pulling Loft images from Docker Hub.
+
+
+### Use Port-Forwarding
+
+You can always try to connect to Loft directly and circumvent any potential networking issues
+introduced at the load balancer and ingress controller level.
+
+To start port-forwarding, either use `loft start` or run:
+
+```bash
+kubectl port-forward deploy/loft -n loft 8080:10443
+```
+
+After that you can access Loft at `https://localhost:8080`. You can even login with the Loft CLI
+to this URL with:
+
+```bash
+loft login localhost:8080 --insecure
+```
+
+If you can access Loft via port-forwarding only, this is usually an indicator that the problem
+might be related to a misconfigured LoadBalancer or Ingress Controller.
