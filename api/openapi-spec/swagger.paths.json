@@ -9748,6 +9748,55 @@
       }
     }
   },
+  "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/snapshot": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read snapshot of the specified VirtualClusterInstance",
+      "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceSnapshot",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceSnapshot"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "VirtualClusterInstanceSnapshot",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the VirtualClusterInstanceSnapshot",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/nodeclaims": {
     "get": {
       "consumes": [
