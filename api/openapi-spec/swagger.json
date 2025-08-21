@@ -4890,6 +4890,9 @@
         "nodeProviderCalculateCostResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderCalculateCostResult"
         },
+        "nodeProviderTerraformValidateResult": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderTerraformValidateResult"
+        },
         "sleepModeConfig": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.cluster.v1.SleepModeConfig"
         },
@@ -5637,6 +5640,21 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderTerraformValidateResult": {
+      "properties": {
+        "output": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success",
+        "output"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeType": {
