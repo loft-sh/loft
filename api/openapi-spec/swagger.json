@@ -553,6 +553,11 @@
           "format": "int64",
           "type": "integer"
         },
+        "committed": {
+          "description": "Committed specifies the amount of resource consumption customers have committed to for a given billing period. It can be exceeded and will then be charged with overage fees.",
+          "format": "int64",
+          "type": "integer"
+        },
         "created": {
           "description": "TotalCreated is a continuous counter of the amount of resources ever created.",
           "format": "int64",
@@ -7749,6 +7754,22 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.StandalonePKI": {
+      "description": "StandalonePKI is a map of certificates filenames and certs",
+      "properties": {
+        "certificates": {
+          "additionalProperties": {
+            "format": "byte",
+            "type": "string"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "certificates"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.SubjectAccessReview": {
       "description": "User holds the user information",
       "properties": {
@@ -9390,18 +9411,27 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterStandaloneSpec": {
       "properties": {
+        "currentPKI": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.StandalonePKI",
+          "description": "CurrentPKI contains certs bundle for vCluster"
+        },
         "currentPeer": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.StandaloneEtcdPeer",
           "description": "CurrentPeer is the current peer that calls this API. The API will make sure this peer is added to the etcd peers list. If this is the first peer, it will be the coordinator."
         }
       },
       "required": [
-        "currentPeer"
+        "currentPeer",
+        "currentPKI"
       ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterStandaloneStatus": {
       "properties": {
+        "currentPKI": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.StandalonePKI",
+          "description": "PKI returns certs bundle for vCluster"
+        },
         "etcdPeers": {
           "description": "ETCDPeers holds the comma separated list of etcd peers addresses. It is used as a peer cache for vCluster Standalone deployed in HA mode via NodeProvider.",
           "items": {
@@ -9411,7 +9441,8 @@
         }
       },
       "required": [
-        "etcdPeers"
+        "etcdPeers",
+        "currentPKI"
       ],
       "type": "object"
     },
@@ -11678,6 +11709,11 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
+        "maxCapacity": {
+          "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
+          "format": "int64",
+          "type": "integer"
+        },
         "mergeVirtualMachineTemplate": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
           "description": "MergeVirtualMachineTemplate will be merged into base VirtualMachine template for this NodeProvider. This allows overwriting of specific fields from top level template by individual NodeTypes This is mutually exclusive with VirtualMachineTemplate"
@@ -12601,6 +12637,11 @@
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
+        },
+        "maxCapacity": {
+          "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
+          "format": "int64",
+          "type": "integer"
         },
         "name": {
           "description": "Name is the name of this node type.",
