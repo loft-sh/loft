@@ -4895,6 +4895,9 @@
         "nodeProviderCalculateCostResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderCalculateCostResult"
         },
+        "nodeProviderExecResult": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderExecResult"
+        },
         "nodeProviderTerraformValidateResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderTerraformValidateResult"
         },
@@ -5543,6 +5546,21 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderExecResult": {
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success",
+        "message"
+      ],
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderExecSpec": {
       "properties": {
@@ -11711,7 +11729,7 @@
         },
         "maxCapacity": {
           "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
-          "format": "int64",
+          "format": "int32",
           "type": "integer"
         },
         "mergeVirtualMachineTemplate": {
@@ -12640,7 +12658,7 @@
         },
         "maxCapacity": {
           "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
-          "format": "int64",
+          "format": "int32",
           "type": "integer"
         },
         "name": {
@@ -12731,6 +12749,10 @@
           "description": "Commit is the commit SHA to checkout",
           "type": "string"
         },
+        "credentials": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SecretRef",
+          "description": "Credentials is the reference to a secret containing the username and password for the git repository."
+        },
         "extraEnv": {
           "description": "ExtraEnv is the extra environment variables to use for the clone",
           "items": {
@@ -12742,10 +12764,6 @@
           "description": "FetchInterval is the interval to use for refetching the git repository. Defaults to 5m. Refetching only checks for remote changes but does not do a complete repull.",
           "type": "string"
         },
-        "password": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SecretRef",
-          "description": "Password is the reference to a secret containing the password for the git repository."
-        },
         "repository": {
           "description": "Repository is the repository to clone",
           "type": "string"
@@ -12753,10 +12771,6 @@
         "subPath": {
           "description": "SubPath is the subpath in the repo to use",
           "type": "string"
-        },
-        "username": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SecretRef",
-          "description": "Username is the reference to a secret containing the username for the git repository."
         }
       },
       "type": "object"
