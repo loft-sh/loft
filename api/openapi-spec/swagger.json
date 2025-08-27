@@ -494,6 +494,22 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlatformDatabase": {
+      "description": "PlatformDatabase contains information about the local platform database installation",
+      "properties": {
+        "creationTimestamp": {
+          "type": "string"
+        },
+        "isReady": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "isReady",
+        "creationTimestamp"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.PriceTier": {
       "description": "PriceTier defines a tier within a plan",
       "properties": {
@@ -5006,6 +5022,10 @@
         "license": {
           "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.License",
           "description": "License is the license data received from the license server."
+        },
+        "platformDatabase": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlatformDatabase",
+          "description": "PlatformDatabase shows information about the platform database installation"
         },
         "resourceUsage": {
           "additionalProperties": {
