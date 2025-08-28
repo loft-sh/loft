@@ -5425,16 +5425,16 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentSpec": {
       "description": "NodeEnvironmentSpec defines spec of node environment.",
       "properties": {
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties are the properties for the NodeEnvironment.",
+          "type": "object"
+        },
         "providerRef": {
           "description": "ProviderRef is the name of the NodeProvider that this NodeEnvironment is based on.",
           "type": "string"
-        },
-        "requirements": {
-          "description": "Requirements are the requirements for the NodeEnvironment.",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.NodeSelectorRequirement"
-          },
-          "type": "array"
         },
         "vClusterRef": {
           "description": "VClusterRef references source vCluster. This is required.",
@@ -5837,20 +5837,12 @@
           "description": "ProviderRef is the node provider to use for this node type.",
           "type": "string"
         },
-        "region": {
-          "description": "Region is the region of the node type.",
-          "type": "string"
-        },
         "resources": {
           "additionalProperties": {
             "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
           },
           "description": "Resources lists the full resources for a single node.",
           "type": "object"
-        },
-        "zone": {
-          "description": "Zone is the zone of the node type. If empty, will default to \"global\".",
-          "type": "string"
         }
       },
       "type": "object"
@@ -5884,6 +5876,13 @@
         "reason": {
           "description": "Reason describes the reason in machine-readable form",
           "type": "string"
+        },
+        "requirements": {
+          "description": "Requirements is the calculated requirements based of the properties for the node type.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.NodeSelectorRequirement"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -6626,68 +6625,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectNodeType": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectNodeTypeStatus"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectNodeTypeStatus": {
-      "properties": {
-        "capacity": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeCapacity",
-          "description": "Capacity is the capacity of the node type."
-        },
-        "conditions": {
-          "description": "Conditions holds several conditions the node type might be in",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
-          },
-          "type": "array"
-        },
-        "cost": {
-          "description": "Cost is the calculated instance cost from the resources specified or the price specified from spec. The higher the cost, the less likely it is to be selected.",
-          "format": "int64",
-          "type": "integer"
-        },
-        "message": {
-          "description": "Message describes the reason in human-readable form",
-          "type": "string"
-        },
-        "phase": {
-          "description": "Phase is the current lifecycle phase of the NodeType.",
-          "type": "string"
-        },
-        "reason": {
-          "description": "Reason describes the reason in machine-readable form",
-          "type": "string"
-        },
-        "requirements": {
-          "description": "Requirements of the node type computed from the node type properties",
-          "items": {
-            "$ref": "#/definitions/io.k8s.api.core.v1.NodeSelectorRequirement"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectNodeTypes": {
       "properties": {
         "apiVersion": {
@@ -6704,7 +6641,7 @@
         "nodeTypes": {
           "description": "NodeTypes holds all the allowed node types for the project",
           "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectNodeType"
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeType"
           },
           "type": "array"
         }
@@ -10331,20 +10268,12 @@
           "description": "ProviderRef is the node provider to use for this node type.",
           "type": "string"
         },
-        "region": {
-          "description": "Region is the region of the node type.",
-          "type": "string"
-        },
         "resources": {
           "additionalProperties": {
             "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
           },
           "description": "Resources lists the full resources for a single node.",
           "type": "object"
-        },
-        "zone": {
-          "description": "Zone is the zone of the node type. If empty, will default to \"global\".",
-          "type": "string"
         }
       },
       "required": [
@@ -11850,10 +11779,6 @@
           "description": "ProviderRef is the node provider to use for this node type.",
           "type": "string"
         },
-        "region": {
-          "description": "Region is the region of the node type.",
-          "type": "string"
-        },
         "resources": {
           "additionalProperties": {
             "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
@@ -11864,10 +11789,6 @@
         "virtualMachineTemplate": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
           "description": "VirtualMachineTemplate is a full KubeVirt VirtualMachine template to use for this NodeType. This is mutually exclusive with MergeVirtualMachineTemplate"
-        },
-        "zone": {
-          "description": "Zone is the zone of the node type. If empty, will default to \"global\".",
-          "type": "string"
         }
       },
       "required": [
@@ -12106,6 +12027,32 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeType": {
+      "description": "NodeType holds the information of a node type.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeStatus"
+        }
+      },
+      "required": [
+        "metadata"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeCapacity": {
       "description": "IMPORTANT: DO NOT use omitempty for values in NodeTypeCapacity. The values are used in NodePool calculations and for UI.",
       "properties": {
@@ -12171,20 +12118,53 @@
           "description": "ProviderRef is the node provider to use for this node type.",
           "type": "string"
         },
-        "region": {
-          "description": "Region is the region of the node type.",
-          "type": "string"
-        },
         "resources": {
           "additionalProperties": {
             "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
           },
           "description": "Resources lists the full resources for a single node.",
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeStatus": {
+      "description": "NodeTypeStatus holds the status of a node type",
+      "properties": {
+        "capacity": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeCapacity",
+          "description": "Capacity is the capacity of the node type."
         },
-        "zone": {
-          "description": "Zone is the zone of the node type. If empty, will default to \"global\".",
+        "conditions": {
+          "description": "Conditions holds several conditions the node type might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "cost": {
+          "description": "Cost is the calculated instance cost from the resources specified or the price specified from spec. The higher the cost, the less likely it is to be selected.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "message": {
+          "description": "Message describes the reason in human-readable form",
           "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the current lifecycle phase of the NodeType.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason describes the reason in machine-readable form",
+          "type": "string"
+        },
+        "requirements": {
+          "description": "Requirements is the calculated requirements based of the properties for the node type.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.NodeSelectorRequirement"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -12779,20 +12759,12 @@
           "description": "ProviderRef is the node provider to use for this node type.",
           "type": "string"
         },
-        "region": {
-          "description": "Region is the region of the node type.",
-          "type": "string"
-        },
         "resources": {
           "additionalProperties": {
             "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
           },
           "description": "Resources lists the full resources for a single node.",
           "type": "object"
-        },
-        "zone": {
-          "description": "Zone is the zone of the node type. If empty, will default to \"global\".",
-          "type": "string"
         }
       },
       "required": [
