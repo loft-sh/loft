@@ -4898,6 +4898,12 @@
         "license": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.License"
         },
+        "nodeClaimData": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeClaimData"
+        },
+        "nodeEnvironmentData": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentData"
+        },
         "nodeProviderBCMGetResourcesResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderBCMGetResourcesResult"
         },
@@ -5199,6 +5205,27 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeClaimData": {
+      "properties": {
+        "operations": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Operation"
+          },
+          "description": "Operations that were applied to the node claim.",
+          "type": "object"
+        },
+        "state": {
+          "description": "Terraform state of the node claim.",
+          "format": "byte",
+          "type": "string"
+        },
+        "userData": {
+          "description": "UserData that should be used to start the node.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeClaimList": {
       "properties": {
         "apiVersion": {
@@ -5340,6 +5367,28 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentData": {
+      "properties": {
+        "operations": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Operation"
+          },
+          "description": "Operations that were applied to the node environment.",
+          "type": "object"
+        },
+        "outputs": {
+          "description": "Outputs of the node environment.",
+          "format": "byte",
+          "type": "string"
+        },
+        "state": {
+          "description": "Terraform state of the node environment.",
+          "format": "byte",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentList": {
       "properties": {
@@ -5996,6 +6045,32 @@
       "required": [
         "verbs"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.Operation": {
+      "properties": {
+        "endTimestamp": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "EndTimestamp of the operation."
+        },
+        "error": {
+          "description": "Error of the operation.",
+          "type": "string"
+        },
+        "logs": {
+          "description": "Logs of the operation.",
+          "format": "byte",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase of the operation.",
+          "type": "string"
+        },
+        "startTimestamp": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "StartTimestamp of the operation."
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OwnedAccessKey": {
