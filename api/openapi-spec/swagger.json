@@ -2814,6 +2814,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AgentAuditConfig",
           "description": "Audit holds the agent audit config"
         },
+        "authenticateVersionEndpoint": {
+          "description": "AuthenticateVersionEndpoint will force authentication for the '/version' endpoint. Will only work with vCluster v0.27 & later",
+          "type": "boolean"
+        },
         "cluster": {
           "description": "Cluster is the cluster the agent is running in.",
           "type": "string"
@@ -3325,6 +3329,10 @@
         "auth": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Authentication",
           "description": "Authentication holds the information for authentication"
+        },
+        "authenticateVersionEndpoint": {
+          "description": "AuthenticateVersionEndpoint will force authentication for the '/version' endpoint. Will only work with vCluster v0.27 & later",
+          "type": "boolean"
         },
         "cloud": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Cloud",
