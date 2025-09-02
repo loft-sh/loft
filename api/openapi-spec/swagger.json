@@ -12064,13 +12064,8 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeCapacity": {
       "description": "IMPORTANT: DO NOT use omitempty for values in NodeTypeCapacity. The values are used in NodePool calculations and for UI.",
       "properties": {
-        "available": {
-          "description": "Available is the number of available nodes of this type",
-          "format": "int32",
-          "type": "integer"
-        },
-        "provisioned": {
-          "description": "Provisioned is the number of already provisioned nodes of this type",
+        "claimed": {
+          "description": "Claimed is the number of already claimed nodes of this type",
           "format": "int32",
           "type": "integer"
         },
@@ -12082,8 +12077,7 @@
       },
       "required": [
         "total",
-        "available",
-        "provisioned"
+        "claimed"
       ],
       "type": "object"
     },
