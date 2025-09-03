@@ -5287,8 +5287,8 @@
           "description": "KubeletArgs are additional arguments to pass to the kubelet.",
           "type": "object"
         },
-        "nodeTypeRef": {
-          "description": "NodeTypeRef is the name of the NodeType that this NodeClaim is based on.",
+        "providerRef": {
+          "description": "ProviderRef is the name of the NodeProvider that this NodeClaim is based on.",
           "type": "string"
         },
         "requirements": {
@@ -5311,6 +5311,10 @@
             "$ref": "#/definitions/io.k8s.api.core.v1.Taint"
           },
           "type": "array"
+        },
+        "typeRef": {
+          "description": "TypeRef is the full name of the NodeType that this NodeClaim is based on.",
+          "type": "string"
         },
         "vClusterRef": {
           "description": "VClusterRef references source vCluster. This is required.",
@@ -6645,6 +6649,13 @@
         },
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "nodeProviders": {
+          "description": "NodeProviders holds all the allowed node providers for the project",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProvider"
+          },
+          "type": "array"
         },
         "nodeTypes": {
           "description": "NodeTypes holds all the allowed node types for the project",
@@ -11966,6 +11977,29 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProvider": {
+      "description": "NodeProvider holds the information of a node provider config. This resource defines various ways a node can be provisioned or configured.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderStatus"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderBCM": {
       "description": "NodeProviderBCMSpec defines the configuration for a BCM node provider.",
       "properties": {
@@ -12013,6 +12047,53 @@
       "required": [
         "nodeTypes"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderSpec": {
+      "description": "NodeProviderSpec defines the desired state of NodeProvider. Only one of the provider types (Pods, BCM, Kubevirt) should be specified at a time.",
+      "properties": {
+        "bcm": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderBCM",
+          "description": "BCM configures a node provider for BCM Bare Metal Cloud environments."
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "kubeVirt": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
+          "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
+        },
+        "terraform": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform",
+          "description": "Terraform configures a node provider using Terraform, enabling nodes to be provisioned using Terraform."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderStatus": {
+      "description": "NodeProviderStatus defines the observed state of NodeProvider.",
+      "properties": {
+        "conditions": {
+          "description": "Conditions describe the current state of the platform NodeProvider.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "message": {
+          "description": "Message is a human-readable message indicating details about why the NodeProvider is in its current state.",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the current lifecycle phase of the NodeProvider.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason describes the reason in machine-readable form",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform": {
@@ -12776,10 +12857,6 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate": {
       "properties": {
-        "driftDetection": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateDriftDetection",
-          "description": "DriftDetection is the drift detection configuration to use for this node type."
-        },
         "git": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSourceGit",
           "description": "Git is the git repository to use for this node type."
@@ -12790,19 +12867,6 @@
         },
         "timeout": {
           "description": "Timeout is the timeout to use for the terraform operations. Defaults to 60m.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateDriftDetection": {
-      "properties": {
-        "enabled": {
-          "description": "Enabled is the flag to enable drift detection.",
-          "type": "boolean"
-        },
-        "interval": {
-          "description": "Interval is the interval to use for drift detection. Defaults to 10m.",
           "type": "string"
         }
       },
