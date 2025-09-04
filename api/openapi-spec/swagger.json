@@ -10254,6 +10254,10 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
+          "description": "Metadata holds metadata to add to this managed NodeType."
+        },
         "name": {
           "description": "Name is the name of this node type.",
           "type": "string"
@@ -11779,6 +11783,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
           "description": "MergeVirtualMachineTemplate will be merged into base VirtualMachine template for this NodeProvider. This allows overwriting of specific fields from top level template by individual NodeTypes This is mutually exclusive with VirtualMachineTemplate"
         },
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
+          "description": "Metadata holds metadata to add to this managed NodeType."
+        },
         "name": {
           "description": "Name is the name of this node type.",
           "type": "string"
@@ -11893,6 +11901,25 @@
         "displayName": {
           "description": "DisplayName is the name that should be shown in the UI",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta": {
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations holds annotations to add to this managed NodeType.",
+          "type": "object"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Labels holds labels to add to this managed NodeType.",
+          "type": "object"
         }
       },
       "type": "object"
@@ -12818,6 +12845,10 @@
           "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
           "format": "int32",
           "type": "integer"
+        },
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
+          "description": "Metadata holds metadata to add to this managed NodeType."
         },
         "name": {
           "description": "Name is the name of this node type.",
