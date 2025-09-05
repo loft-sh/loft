@@ -2,6 +2,8 @@
 agentOnly: false
 
 # If an admin user should be created during deployment
+# Any previously created admin user will not be deleted
+# when this is changed to false.
 admin:
   create: true
   username: admin
@@ -25,6 +27,19 @@ ingress:
   tls:
     enabled: true
     secret: loft-tls
+
+# Ingress options to use for devpod workspaces behind an ingress
+devpodIngress:
+  enabled: false
+  name: loft-devpod-ingress
+  # labels: {}            # {key: value} map of labels for the ingress
+  # annotations: {}       # {key: value} map of annotations for the ingress
+  host: "*.devpod.mydomain.tld"
+  ingressClass: nginx
+  path: /
+  tls:
+    enabled: true
+    secret: loft-devpod-tls
 
 # TLS configuration with a custom cert and key
 # Make sure the secret exists prior to deploying loft,
@@ -151,6 +166,14 @@ audit:
     #storageClassName: my-storage-class
     # Optional custom accessModes
     #accessModes: ["ReadWriteOnce"]
+  securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+        - ALL
+    runAsNonRoot: true
+    runAsUser: 1000
 
 # Prometheus Service Monitor Configuration
 serviceMonitor:
@@ -163,7 +186,7 @@ serviceMonitor:
   labels: {}
 
 # Loft config to use, all options can be seen at:
-# https://www.vcluster.com/docs/platform/configure/config
+# https://loft.sh/docs/admin/config
 config:
   audit:
     enabled: true
@@ -190,12 +213,15 @@ podSecurityContext: {}
 
 # Loft *agent* default values to use, options can be seen in the loft-agent chart values:
 # https://github.com/loft-sh/loft/blob/main/chart/values.yaml
-# agent values cluster annotations take precedent over these values
+# If loft.sh/agent-values annotation is set, then all these values are ignored
 agentValues: {}
 
 # if the webhook should be deployed
 webhook:
   create: true
+
+# host aliases to use for the deployment
+hostAliases: []
 
 # Configures structured logging within Loft
 logging:
