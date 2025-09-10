@@ -5,7 +5,7 @@ agentOnly: false
 # Any previously created admin user will not be deleted
 # when this is changed to false.
 admin:
-  create: true
+  create: true            # When set to false through a CLI override, the CLI must also include --no-login argument
   username: admin
   password: "my-password"
 
