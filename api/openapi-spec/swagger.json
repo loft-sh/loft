@@ -502,11 +502,15 @@
         },
         "isReady": {
           "type": "boolean"
+        },
+        "latestUpdateTimestamp": {
+          "type": "string"
         }
       },
       "required": [
         "isReady",
-        "creationTimestamp"
+        "creationTimestamp",
+        "latestUpdateTimestamp"
       ],
       "type": "object"
     },
