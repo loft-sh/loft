@@ -10032,6 +10032,10 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AppReference": {
       "properties": {
+        "hash": {
+          "description": "Hash is the hash of the app configuration",
+          "type": "string"
+        },
         "name": {
           "description": "Name of the target app",
           "type": "string"
