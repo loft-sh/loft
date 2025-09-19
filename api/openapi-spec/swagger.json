@@ -7073,6 +7073,10 @@
           "description": "ForceName specifies if the name should be used or creation will fail.",
           "type": "boolean"
         },
+        "kubernetesVersion": {
+          "description": "KubernetesVersion is the Kubernetes version of the virtual cluster.",
+          "type": "string"
+        },
         "name": {
           "description": "Name is the virtual cluster instance name. If the name is already taken, the platform will construct a name for the vcluster based on the service uid and this name.",
           "type": "string"
@@ -7101,6 +7105,10 @@
       "properties": {
         "name": {
           "description": "Name is the actual name of the virtual cluster instance.",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace of the virtual cluster instance.",
           "type": "string"
         }
       },
@@ -9291,6 +9299,10 @@
         "ignoreReconciliation": {
           "description": "IgnoreReconciliation tells the controller to ignore reconciliation for this instance -- this is primarily used when migrating virtual cluster instances from project to project; this prevents a situation where there are two virtual cluster instances representing the same virtual cluster which could cause issues with concurrent reconciliations of the same object. Once the virtual cluster instance has been cloned and placed into the new project, this (the \"old\") virtual cluster instance can safely be deleted.",
           "type": "boolean"
+        },
+        "kubernetesVersion": {
+          "description": "KubernetesVersion is the Kubernetes version of the virtual cluster.",
+          "type": "string"
         },
         "message": {
           "description": "Message describes the reason in human-readable form why the cluster is in the current phase",
