@@ -5291,6 +5291,13 @@
           "description": "KubeletArgs are additional arguments to pass to the kubelet.",
           "type": "object"
         },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties are extra properties for the NodeClaim.",
+          "type": "object"
+        },
         "providerRef": {
           "description": "ProviderRef is the name of the NodeProvider that this NodeClaim is based on.",
           "type": "string"
@@ -5717,6 +5724,13 @@
         "kubeVirt": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties are global properties that are applied to all node claims and environments managed by this provider.",
+          "type": "object"
         },
         "terraform": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform",
@@ -12111,6 +12125,13 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
         },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties are global properties that are applied to all node claims and environments managed by this provider.",
+          "type": "object"
+        },
         "terraform": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform",
           "description": "Terraform configures a node provider using Terraform, enabling nodes to be provisioned using Terraform."
@@ -12146,7 +12167,7 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform": {
       "properties": {
         "nodeEnvironmentTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNodeEnvironmentTemplate",
           "description": "NodeEnvironmentTemplate is the template to use for this node environment."
         },
         "nodeTemplate": {
@@ -12845,6 +12866,31 @@
         },
         "version": {
           "description": "Version holds the template version to use. Version is expected to be in semantic versioning format. Alternatively, you can also exchange major, minor or patch with an 'x' to tell Loft to automatically select the latest major, minor or patch version.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNodeEnvironmentTemplate": {
+      "properties": {
+        "git": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSourceGit",
+          "description": "Git is the git repository to use for this node type."
+        },
+        "infrastructure": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
+          "description": "Infrastructure is the infrastructure template to use for this node environment."
+        },
+        "inline": {
+          "description": "Inline is the inline template to use for this node type.",
+          "type": "string"
+        },
+        "kubernetes": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
+          "description": "Kubernetes is the kubernetes template to use for this node environment."
+        },
+        "timeout": {
+          "description": "Timeout is the timeout to use for the terraform operations. Defaults to 60m.",
           "type": "string"
         }
       },
