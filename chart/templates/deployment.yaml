@@ -66,6 +66,9 @@ spec:
         command: ["loft", "agent"]
         {{- end }}
         image: {{ default (include "loft.image" .) .Values.image }}
+        {{- if .Values.imagePullPolicy }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- end }}
         ports:
           - name: http
             containerPort: 8080
