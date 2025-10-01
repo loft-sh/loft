@@ -100,11 +100,11 @@ replicaCount: 1
 # Resources of the loft deployment
 resources:
   requests:
-    memory: 256Mi
-    cpu: 200m
+    cpu: 750m
+    memory: 1Gi
   limits:
+    cpu: "4"
     memory: 4Gi
-    cpu: "2"
 
 # Additional volumes that should be mounted to the loft deployment
 volumes: []
