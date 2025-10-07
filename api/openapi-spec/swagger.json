@@ -9191,6 +9191,36 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceShell": {
+      "description": "VirtualClusterInstanceShell creates a pod for the requesting user",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterShellSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterShellStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterInstanceShell",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceSnapshot": {
       "properties": {
         "apiVersion": {
@@ -9473,6 +9503,22 @@
         },
         "schema": {
           "description": "Schema is the schema of the virtual cluster",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterShellSpec": {
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterShellStatus": {
+      "properties": {
+        "podName": {
+          "description": "PodName is the name of the shell pod that was created",
+          "type": "string"
+        },
+        "podNamespace": {
+          "description": "PodNamespace is the namespace of the shell pod that was created",
           "type": "string"
         }
       },
@@ -28836,6 +28882,94 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "VirtualClusterNodeAccessKey",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/shell": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "name of the VirtualClusterInstanceShell",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create shell of a VirtualClusterInstance",
+        "operationId": "createManagementLoftShV1NamespacedVirtualClusterInstanceShell",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceShell"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceShell"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceShell"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceShell"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterInstanceShell",
           "version": "v1"
         }
       }
