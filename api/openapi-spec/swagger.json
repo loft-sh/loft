@@ -2362,6 +2362,10 @@
           "description": "loft redirect uri. E.g. https://loft.my.domain/auth/oidc/callback",
           "type": "string"
         },
+        "resource": {
+          "description": "Resource, if specified, is the value that is set for the \"resource\" url parameter when making requests to the OIDC /token endpoint",
+          "type": "string"
+        },
         "scopes": {
           "description": "Scopes that should be sent to the server. If empty, defaults to \"email\" and \"profile\".",
           "items": {
