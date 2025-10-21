@@ -42,30 +42,187 @@ tests:
             value: "true"
           count: 1
 
-  - it: Preferred node anti-affinity is applied by default
+  - it: Preferred node anti-affinity is not applied by default
     asserts:
       - hasDocuments:
           count: 1
-      - equal:
+      - notExists:
           path: spec.template.spec.affinity
-          value:
-            nodeAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                preference:
-                  matchExpressions:
-                  - key: eks.amazonaws.com/capacityType
-                    operator: NotIn
-                    values:
+
+  - it: Preferred node anti-affinity is applied when activated
+    set:
+      affinity:
+        nodeAffinity:
+          preferNotToRunOnSpotInstances:
+            enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: eks.amazonaws.com/capacityType
+                  operator: NotIn
+                  values:
                     - SPOT
-                  - key: kubernetes.azure.com/scalesetpriority
-                    operator: NotIn
-                    values:
+                - key: kubernetes.azure.com/scalesetpriority
+                  operator: NotIn
+                  values:
                     - spot
-                  - key: cloud.google.com/gke-provisioning
-                    operator: NotIn
-                    values:
+                - key: cloud.google.com/gke-provisioning
+                  operator: NotIn
+                  values:
                     - spot
+            weight: 50
+
+  - it: Preferred node anti-affinity is applied together with additional term
+    set:
+      affinity:
+        nodeAffinity:
+          preferNotToRunOnSpotInstances:
+            enabled: true
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: foo/bar
+                    operator: In
+                    values:
+                      - bla
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: eks.amazonaws.com/capacityType
+                  operator: NotIn
+                  values:
+                    - SPOT
+                - key: kubernetes.azure.com/scalesetpriority
+                  operator: NotIn
+                  values:
+                    - spot
+                - key: cloud.google.com/gke-provisioning
+                  operator: NotIn
+                  values:
+                    - spot
+            weight: 50
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: foo/bar
+                  operator: In
+                  values:
+                    - bla
+            weight: 100
+
+  - it: Preferred node anti-affinity is applied with only additional term
+    set:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: foo/bar
+                    operator: In
+                    values:
+                      - bla
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          count: 1
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: foo/bar
+                  operator: In
+                  values:
+                    - bla
+            weight: 100
+
+  - it: Required node affinity is applied when set
+    set:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                matchExpressions:
+                  - key: foo/bar
+                    operator: In
+                    values:
+                      - bla
+    asserts:
+      - equal:
+          path: spec.template.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution
+          value:
+            nodeSelectorTerms:
+              matchExpressions:
+                - key: foo/bar
+                  operator: In
+                  values:
+                    - bla
+
+  - it: Preferred pod affinity is applied when set
+    set:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 11
+              podAffinityTerm:
+                topologyKey: affinity/preferred
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            podAffinityTerm:
+              topologyKey: affinity/preferred
+            weight: 11
+
+  - it: Required pod affinity is applied when set
+    set:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: affinity/required
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution
+          content:
+            topologyKey: affinity/required
+
+  - it: Preferred pod anti-affinity is applied when set
+    set:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 42
+              podAffinityTerm:
+                topologyKey: anti-affinity/preferred
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            podAffinityTerm:
+              topologyKey: anti-affinity/preferred
+            weight: 42
+
+  - it: Required pod anti-affinity is applied when set
+    set:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: anti-affinity/required
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution
+          content:
+            topologyKey: anti-affinity/required
 
   - it: Deployment strategy is applied correctly for Recreate
     asserts:

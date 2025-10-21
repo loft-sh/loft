@@ -239,20 +239,56 @@ podDisruptionBudget:
   # maxUnavailable: 1
 
 affinity:
+  # podAffinity section from Kubernetes Pod's spec.affinity.podAffinity
+  podAffinity: {}
+
+  # podAffinity section from Kubernetes Pod's spec.affinity.podAntiAffinity
+  podAntiAffinity: {}
+
   nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 1
-        preference:
-          matchExpressions:
-            - key: eks.amazonaws.com/capacityType
-              operator: NotIn
-              values:
-                - SPOT
-            - key: kubernetes.azure.com/scalesetpriority
-              operator: NotIn
-              values:
-                - spot
-            - key: cloud.google.com/gke-provisioning
-              operator: NotIn
-              values:
-                - spot
+    preferNotToRunOnSpotInstances:
+      # If enabled, node anti-affinities are added to pods to prefer not to run on spot instances. This works on
+      # Google Kubernetes Engine, Azure Kubernetes Service and AWS Elastic Kubernetes Service Classic
+      # (only EKS managed nodes, not EKS auto-mode).
+      enabled: false
+
+      # The terms used to create node anti-affinities for spot instances
+      terms:
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: eks.amazonaws.com/capacityType
+                operator: NotIn
+                values:
+                  - SPOT
+              - key: kubernetes.azure.com/scalesetpriority
+                operator: NotIn
+                values:
+                  - spot
+              - key: cloud.google.com/gke-provisioning
+                operator: NotIn
+                values:
+                  - spot
+
+    # preferredDuringSchedulingIgnoredDuringExecution is the Kubernetes Pod's
+    # spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution section
+    preferredDuringSchedulingIgnoredDuringExecution: []
+#      - weight: 70
+#        preference:
+#          matchExpressions:
+#            - key: some/key
+#              operator: NotIn
+#              values:
+#                - value1
+
+    # requiredDuringSchedulingIgnoredDuringExecution is the Kubernetes Pod's
+    # spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution section.
+    requiredDuringSchedulingIgnoredDuringExecution: {}
+#      nodeSelectorTerms:
+#        - matchExpressions:
+#            - key: some/key
+#              operator: In
+#              values:
+#                - value1
+#                - value2
+

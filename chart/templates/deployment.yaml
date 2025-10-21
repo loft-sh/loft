@@ -196,10 +196,39 @@ spec:
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       {{- end }}
-      {{- if .Values.affinity }}
-      affinity:
-{{ toYaml .Values.affinity | indent 8 }}
+
+      {{- $preferredSchedulingTerms := list -}}
+      {{- if .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.enabled }}
+        {{- range $index, $term := .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.terms -}}
+          {{- $preferredSchedulingTerms = append $preferredSchedulingTerms $term -}}
+        {{- end }}
       {{- end }}
+      {{- range $index, $term := .Values.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution -}}
+        {{- $preferredSchedulingTerms = append $preferredSchedulingTerms $term -}}
+      {{- end }}
+      {{- if  or .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution $preferredSchedulingTerms .Values.affinity.podAffinity .Values.affinity.podAntiAffinity }}
+      affinity:
+        {{- if  or .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution $preferredSchedulingTerms }}
+        nodeAffinity:
+          {{- if $preferredSchedulingTerms  }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+{{ toYaml $preferredSchedulingTerms | indent 12 }}
+          {{- end }}
+          {{- if .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution }}
+          requiredDuringSchedulingIgnoredDuringExecution:
+{{ toYaml .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution | indent 12 }}
+          {{- end }}
+        {{- end }}
+        {{- if or .Values.affinity.podAffinity }}
+        podAffinity:
+{{ toYaml .Values.affinity.podAffinity | indent 10 }}
+        {{- end }}
+        {{- if or .Values.affinity.podAntiAffinity }}
+        podAntiAffinity:
+{{ toYaml .Values.affinity.podAntiAffinity | indent 10 }}
+        {{- end }}
+      {{- end }}
+
       {{- if .Values.tolerations }}
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
