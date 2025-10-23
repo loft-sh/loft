@@ -198,7 +198,7 @@ spec:
       {{- end }}
 
       {{- $preferredSchedulingTerms := list -}}
-      {{- if .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.enabled }}
+      {{- if and .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.enabled }}
         {{- range $index, $term := .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.terms -}}
           {{- $preferredSchedulingTerms = append $preferredSchedulingTerms $term -}}
         {{- end }}
