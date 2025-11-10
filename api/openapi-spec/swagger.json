@@ -4491,7 +4491,7 @@
       "description": "NodeClaimSpec defines spec of node claim.",
       "properties": {
         "controlPlane": {
-          "description": "ControlPlane indicates if the node claim is for a control plane node.",
+          "description": "ControlPlane indicates if the node claim is for a control plane node. This is intentionally not omitempty as we want to ensure that the control plane is always set for easier checking in for example terraform templates.",
           "type": "boolean"
         },
         "desiredCapacity": {
@@ -4550,6 +4550,7 @@
         }
       },
       "required": [
+        "providerRef",
         "vClusterRef"
       ],
       "type": "object"
@@ -4665,6 +4666,10 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentSpec": {
       "description": "NodeEnvironmentSpec defines spec of node environment.",
       "properties": {
+        "controlPlane": {
+          "description": "ControlPlane indicates if the node environment is a control plane environment. This is intentionally not omitempty as we want to ensure that the control plane is always set for easier checking in for example terraform templates.",
+          "type": "boolean"
+        },
         "properties": {
           "additionalProperties": {
             "type": "string"
@@ -4933,6 +4938,10 @@
         "bcm": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderBCM",
           "description": "BCM configures a node provider for BCM Bare Metal Cloud environments."
+        },
+        "clusterAPI": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterAPI",
+          "description": "ClusterAPI configures a node provider using Cluster API, enabling nodes to be provisioned using Cluster API. This requires the vCluster to be deployed with Cluster API as well."
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
@@ -9728,6 +9737,74 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ClusterAPINodeTypeSpec": {
+      "properties": {
+        "bootstrapConfigTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "BootstrapConfigTemplate is a template for the bootstrap config. Currently only KubeadmConfig is supported."
+        },
+        "cost": {
+          "description": "Cost is the instance cost. The higher the cost, the less likely it is to be selected. If empty, cost is automatically calculated from the resources specified.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "infrastructureMachineTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "InfrastructureMachineTemplate is a template for the infrastructure machine, e.g. AWSMachine"
+        },
+        "maxCapacity": {
+          "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "mergeBootstrapConfigTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "MergeBootstrapConfigTemplate will be merged into base BootstrapConfig template for this NodeProvider. This allows overwriting of specific fields from top level template by individual NodeTypes This is mutually exclusive with BootstrapConfigTemplate"
+        },
+        "mergeInfrastructureMachineTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "MergeInfrastructureMachineTemplate will be merged into base InfrastructureMachine template for this NodeProvider. This allows overwriting of specific fields from top level template by individual NodeTypes This is mutually exclusive with InfrastructureMachineTemplate"
+        },
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
+          "description": "Metadata holds metadata to add to this managed NodeType."
+        },
+        "name": {
+          "description": "Name is the name of this node type.",
+          "type": "string"
+        },
+        "overhead": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeOverhead",
+          "description": "Overhead defines the resource overhead for this node type."
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties returns a flexible set of properties that may be selected for scheduling.",
+          "type": "object"
+        },
+        "providerRef": {
+          "description": "ProviderRef is the node provider to use for this node type.",
+          "type": "string"
+        },
+        "resources": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Resources lists the full resources for a single node.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ClusterRef": {
       "properties": {
         "cluster": {
@@ -10095,23 +10172,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtClusterRef": {
-      "properties": {
-        "cluster": {
-          "description": "Cluster is the connected cluster the VMs will be created in",
-          "type": "string"
-        },
-        "namespace": {
-          "description": "Namespace is the namespace inside the connected cluster holding VMs",
-          "type": "string"
-        }
-      },
-      "required": [
-        "cluster",
-        "namespace"
-      ],
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtNodeTypeSpec": {
       "description": "KubeVirtNodeTypeSpec defines single NodeType spec for KubeVirt provider type.",
       "properties": {
@@ -10398,11 +10458,51 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterAPI": {
+      "properties": {
+        "bootstrapConfigTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "BootstrapConfigTemplate is a template for the bootstrap config. Currently only KubeadmConfig is supported."
+        },
+        "clusterRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
+          "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+        },
+        "infrastructureMachineTemplate": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "InfrastructureMachineTemplate is a template for the infrastructure machine, e.g. AWSMachine"
+        },
+        "nodeTypes": {
+          "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ClusterAPINodeTypeSpec"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef": {
+      "properties": {
+        "cluster": {
+          "description": "Cluster is the connected cluster the VMs will be created in",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace inside the connected cluster holding VMs",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cluster"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt": {
       "description": "NodeProviderKubeVirt defines the configuration for a KubeVirt node provider.",
       "properties": {
         "clusterRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtClusterRef",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
           "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
         },
         "nodeTypes": {
@@ -10428,6 +10528,10 @@
         "bcm": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderBCM",
           "description": "BCM configures a node provider for BCM Bare Metal Cloud environments."
+        },
+        "clusterAPI": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterAPI",
+          "description": "ClusterAPI configures a node provider using Cluster API, enabling nodes to be provisioned using Cluster API. This requires the vCluster to be deployed with Cluster API as well."
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
@@ -11678,6 +11782,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.ExternalURLs",
           "description": "External URLs that can be called from the UI"
         },
+        "faviconURL": {
+          "description": "FaviconURL is url pointing to the favicon to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
+          "type": "string"
+        },
         "legalTemplate": {
           "description": "LegalTemplate is a text (html) string containing the legal template to prompt to users when authenticating to Loft",
           "type": "string"
@@ -11691,7 +11799,7 @@
           "type": "string"
         },
         "logoURL": {
-          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "description": "LogoURL is url pointing to the logo to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
           "type": "string"
         },
         "navBarButtons": {
@@ -11710,7 +11818,7 @@
           "type": "string"
         },
         "smallLogoURL": {
-          "description": "SmallLogoURL is url pointing to the small logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "description": "SmallLogoURL is url pointing to the small logo to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
           "type": "string"
         }
       },
@@ -11752,6 +11860,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.ExternalURLs",
           "description": "External URLs that can be called from the UI"
         },
+        "faviconURL": {
+          "description": "FaviconURL is url pointing to the favicon to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
+          "type": "string"
+        },
         "hasHelmRelease": {
           "description": "HasHelmRelease indicates whether the vCluster Platform instance has been installed via Helm",
           "type": "boolean"
@@ -11773,7 +11885,7 @@
           "type": "string"
         },
         "logoURL": {
-          "description": "LogoURL is url pointing to the logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "description": "LogoURL is url pointing to the logo to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
           "type": "string"
         },
         "navBarButtons": {
@@ -11800,7 +11912,7 @@
           "type": "string"
         },
         "smallLogoURL": {
-          "description": "SmallLogoURL is url pointing to the small logo to use in the Loft UI. This path must be accessible for clients accessing the Loft UI!",
+          "description": "SmallLogoURL is url pointing to the small logo to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
           "type": "string"
         }
       },
