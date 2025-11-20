@@ -8703,6 +8703,63 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsage": {
+      "description": "VirtualClusterResourceUsage holds information about a virtual cluster's usage of node resources.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsageStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterResourceUsage",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsageMap": {
+      "properties": {
+        "capacity": {
+          "additionalProperties": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "description": "Capacity is a map of resources to their total amounts across all attached nodes.",
+          "type": "object"
+        },
+        "nodes": {
+          "description": "Nodes is the total count of nodes attached to the virtual cluster.",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "nodes"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsageStatus": {
+      "properties": {
+        "resourceUsage": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsageMap",
+          "description": "ResourceUsage contains the aggregated result of the queries to the virtual cluster's nodes."
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterRole": {
       "properties": {
         "assignedVia": {
@@ -8993,9 +9050,6 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SnapshotRequestError"
         },
         "phase": {
-          "type": "string"
-        },
-        "snapshotHandle": {
           "type": "string"
         }
       },
@@ -21496,6 +21550,55 @@
           "version": "v1"
         }
       }
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/resourceusage": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read resourceusage of the specified VirtualClusterInstance",
+        "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceResourceusage",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsage"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterResourceUsage",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the VirtualClusterResourceUsage",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/shell": {
       "parameters": [
