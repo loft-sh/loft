@@ -65,7 +65,7 @@ spec:
         {{- if .Values.agentOnly }}
         command: ["loft", "agent"]
         {{- end }}
-        image: {{ default (include "loft.image" .) .Values.image }}
+        image: {{ include "loft.image" . }}
         {{- if .Values.imagePullPolicy }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         {{- end }}
@@ -158,7 +158,7 @@ spec:
           value: "true"
         {{- end }}
         - name: LOFT_MANAGER_IMAGE
-          value: {{ (default (include "loft.image" .) .Values.image) | quote }}
+          value: {{ include "loft.image" . | quote }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
@@ -182,7 +182,7 @@ spec:
       {{- if .Values.audit }}
       {{- if .Values.audit.enableSideCar }}
       - name: audit
-        image: "{{ .Values.audit.image }}"
+        image: {{ include "loft.auditImage" . }}
         command: ["sh"]
         args: ["-c", "touch /var/lib/loft/audit.log && tail -F /var/lib/loft/audit.log"]
         volumeMounts:
