@@ -1,0 +1,51 @@
+{{- if .Capabilities.APIVersions.Has "app.k8s.io/v1beta1/Application" }}
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "{{ .Release.Name }}"
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+  annotations:
+    marketplace.cloud.google.com/deploy-info: '{"partner_id": "bji0uLnnv1", "product_id": "vcluster", "partner_name": "vCluster Labs"}'
+spec:
+  descriptor:
+    type: vClusterPlatform
+    version: {{ .Chart.Version }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "{{ .Release.Name }}"
+  addOwnerRef: true
+  componentKinds:
+    # Core
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: ServiceAccount
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Secret
+    - group: policy
+      kind: PodDisruptionBudget
+    # Workloads
+    - group: apps
+      kind: Deployment
+    # Networking
+    - group: networking.k8s.io
+      kind: Ingress
+    # RBAC
+    - group: rbac.authorization.k8s.io
+      kind: Role
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+    # Admission webhooks used by the chart
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+{{- end }}
