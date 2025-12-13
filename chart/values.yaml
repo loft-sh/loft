@@ -303,3 +303,6 @@ affinity:
 #                - value1
 #                - value2
 
+# config for using the chart in GCP Marketplace
+gcpMarketplace:
+  enabled: false

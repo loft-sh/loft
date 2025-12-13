@@ -1,4 +1,4 @@
-{{- if .Capabilities.APIVersions.Has "app.k8s.io/v1beta1/Application" }}
+{{- if .Values.gcpMarketplace.enabled }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
