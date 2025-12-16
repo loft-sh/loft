@@ -1,4 +1,4 @@
-{{- if (default false .Values.gcpMarketplace.enabled) }}
+{{- if (dig "gcpMarketplace" "enabled" false (.Values|merge (dict) )) }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
