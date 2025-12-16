@@ -1,4 +1,4 @@
-{{- if .Values.gcpMarketplace.enabled }}
+{{- if (default false .Values.gcpMarketplace.enabled) }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
