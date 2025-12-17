@@ -742,3 +742,23 @@ tests:
           content:
             name: "LOFT_MANAGER_IMAGE"
             value: "ghcr.io/loft-sh/loft:0.0.0"
+
+  - it: Setting env.LOFT_MANAGER_IMAGE does not result in duplicate environment variables
+    set:
+      env:
+        LOFT_MANAGER_IMAGE: ghcr.io/loft-sh/enterprise:release-test
+      audit:
+        enableSideCar: true
+        imageRef:
+          repository: custom/busybox
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/enterprise:release-test"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:0.0.0"

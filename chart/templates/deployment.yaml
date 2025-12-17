@@ -157,8 +157,10 @@ spec:
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
         {{- end }}
+        {{- if not (hasKey .Values.env "LOFT_MANAGER_IMAGE") }}
         - name: LOFT_MANAGER_IMAGE
           value: {{ include "loft.image" . | quote }}
+        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
