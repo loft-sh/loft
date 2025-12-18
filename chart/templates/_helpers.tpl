@@ -31,8 +31,6 @@ Default image name for a given product
   {{- if .Values.product -}}
     {{- if eq .Values.product "vcluster-pro" -}}
       {{- printf "ghcr.io/loft-sh/vcluster-platform:%s" .Chart.Version -}}
-    {{- else if eq .Values.product "devpod-pro" -}}
-      {{- printf "ghcr.io/loft-sh/devpod-pro:%s" .Chart.Version -}}
     {{- else -}}
       {{ include "loft.defaultImage" . }}
     {{- end -}}
