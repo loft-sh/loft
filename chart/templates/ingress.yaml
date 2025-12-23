@@ -15,6 +15,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.org/websocket-services: loft
     {{- with .Values.ingress.annotations }}
       {{- toYaml . | nindent 4 }}
@@ -27,7 +28,7 @@ spec:
   ingressClassName: {{ .Values.ingress.ingressClass }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host }}
+    - host: {{ .Values.ingress.host | quote }}
       http:
         paths:
           - path: {{ .Values.ingress.path }}
@@ -40,7 +41,7 @@ spec:
   {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        - {{ .Values.ingress.host }}
+        - {{ .Values.ingress.host | quote }}
       {{- if .Values.ingress.tls.secret }}
       secretName: {{ .Values.ingress.tls.secret }}
       {{- end }}
