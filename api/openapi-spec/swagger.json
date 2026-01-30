@@ -123,6 +123,22 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.FeatureUsage": {
+      "description": "FeatureUsage holds information about whether a feature is used and its status",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "used": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "used",
+        "status"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.Invoice": {
       "description": "Invoice provides details about an invoice",
       "properties": {
@@ -210,6 +226,10 @@
         },
         "routes": {
           "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes"
+        },
+        "usageData": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.UsageData",
+          "description": "Usage data contains  resource usage information for a platform deployment"
         }
       },
       "type": "object"
@@ -310,6 +330,29 @@
       },
       "required": [
         "name"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.NodeInfo": {
+      "description": "NodeInfo holds information about a single node",
+      "properties": {
+        "capacity": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "creation_timestamp": {
+          "type": "string"
+        },
+        "machine_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "machine_id",
+        "creation_timestamp",
+        "capacity"
       ],
       "type": "object"
     },
@@ -590,6 +633,94 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.UsageData": {
+      "description": "UsageData holds information for an instance deployment of vCluster Platform",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.UsageDataDetails",
+          "description": "Details contains the details of the usage data"
+        },
+        "featureUsage": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.FeatureUsage"
+          },
+          "description": "FeatureUsage contains the usage of features",
+          "type": "object"
+        },
+        "resourceUsage": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount"
+          },
+          "description": "ResourceUsage contains the usage of resources",
+          "type": "object"
+        }
+      },
+      "required": [
+        "featureUsage",
+        "resourceUsage",
+        "details"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.UsageDataDetails": {
+      "description": "UsageDataDetails holds detailed information about the nodes and virtual cluster for an instance deployment of vCluster Platform",
+      "properties": {
+        "nodes": {
+          "description": "Nodes contains the details of the nodes",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.NodeInfo"
+          },
+          "type": "array"
+        },
+        "vClusters": {
+          "description": "VClusters contains the details of the virtual clusters",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.VirtualClusterInfo"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "nodes",
+        "vClusters"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.admin-apis.pkg.licenseapi.VirtualClusterInfo": {
+      "description": "VirtualClusterInfo holds information about a single virtual cluster",
+      "properties": {
+        "creation_timestamp": {
+          "type": "string"
+        },
+        "is_available": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "node_machine_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "uid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "name",
+        "namespace",
+        "creation_timestamp",
+        "is_available",
+        "node_machine_ids"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.agentapi.v4.pkg.apis.loft.cluster.v1.Bash": {
