@@ -22,7 +22,7 @@ ingress:
   # labels: {}            # {key: value} map of labels for the ingress
   # annotations: {}       # {key: value} map of annotations for the ingress
   host: loft.mydomain.tld
-  ingressClass: nginx
+  ingressClass: nginx # ingress-nginx is deprecated, soon you will need to specify the class explicitly
   path: /
   tls:
     enabled: true
