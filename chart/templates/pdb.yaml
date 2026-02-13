@@ -1,0 +1,24 @@
+{{ if (dig "podDisruptionBudget" "create" "true" (.Values|merge (dict) )) }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "loft.fullname" . }}
+  labels:
+    app: {{ template "loft.fullname" . }}
+    release: {{ .Release.Name }}
+spec:
+  {{- if .Values.podDisruptionBudget }}
+  minAvailable: {{ (dig "podDisruptionBudget" "minAvailable" "" (.Values|merge (dict) )) }}
+  {{- else }}
+  minAvailable: 1
+  {{- end }}
+  {{- if (dig "podDisruptionBudget" "maxUnavailable" false (.Values|merge (dict) ))  }}
+  maxUnavailable: {{ (dig "podDisruptionBudget" "maxUnavailable" "" (.Values|merge (dict) )) }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ template "loft.fullname" . }}
+      release: {{ .Release.Name }}
+{{ end }}
+

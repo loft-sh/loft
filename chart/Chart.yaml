@@ -1,0 +1,35 @@
+apiVersion: v2
+name: loft
+description: Secure Cluster Sharing, Self-Service Namespace Provisioning and Virtual Clusters
+home: https://loft.sh
+icon: https://static.loft.sh/loft/logo/loft-logo.svg
+sources:
+- https://github.com/loft-sh/loft
+keywords:
+- developer
+- development
+- sharing
+- share
+- multi-tenancy
+- tenancy
+- cluster
+- space
+- namespace
+- vcluster
+- vclusters
+maintainers:
+- name: Loft Labs, Inc.
+  email: info@loft.sh
+  url: https://twitter.com/loft_sh
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+version: 4.6.1

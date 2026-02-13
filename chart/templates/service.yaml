@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loft
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "loft.fullname" . }}
+    loft.sh/service: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    {{- with .Values.service.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if or .Values.service.annotations .Values.commonAnnotations }}
+  annotations:
+    {{- with .Values.service.annotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.commonAnnotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      nodePort: {{ .Values.service.httpNodePort }}
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 10443
+      nodePort: {{ .Values.service.httpsNodePort }}
+      protocol: TCP
+  selector:
+    app: {{ template "loft.fullname" . }}
+    release: {{ .Release.Name }}

@@ -1,0 +1,201 @@
+suite: Deployment
+templates:
+  - deployment.yaml
+
+tests:
+  - it: allow double LEADER_ELECTION_ENABLED
+    release:
+      name: my-release
+      namespace: my-namespace
+    set:
+      replicaCount: 3
+      env:
+        LEADER_ELECTION_ENABLED: "false"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "false"
+          count: 1
+
+  - it: automatic LEADER_ELECTION_ENABLED
+    release:
+      name: my-release
+      namespace: my-namespace
+    set:
+      replicaCount: 3
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+          count: 1
+
+  - it: Preferred node anti-affinity is applied by default
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.affinity
+          value:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                  - key: eks.amazonaws.com/capacityType
+                    operator: NotIn
+                    values:
+                    - SPOT
+                  - key: kubernetes.azure.com/scalesetpriority
+                    operator: NotIn
+                    values:
+                    - spot
+                  - key: cloud.google.com/gke-provisioning
+                    operator: NotIn
+                    values:
+                    - spot
+
+  - it: Deployment strategy is applied correctly for Recreate
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.strategy.type
+          value: Recreate
+
+  - it: Deployment strategy is applied correctly for RollingUpdate
+    set:
+      replicaCount: 2
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.strategy.type
+          value: RollingUpdate
+      - equal:
+          path: spec.strategy.rollingUpdate.maxSurge
+          value: 1
+      - equal:
+          path: spec.strategy.rollingUpdate.maxUnavailable
+          value: 1
+  - it: SecurityContext defaults
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.privileged
+          value: false
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation
+          value: false
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.capabilities.drop[0]
+          value: "ALL"
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.runAsNonRoot
+          value: true
+
+  - it: SecurityContext kyverno strict policies
+    set:
+      podSecurityContext:
+        runAsGroup: 1000
+        fsGroup: 1000
+        supplementalGroups:
+          - 1000
+      securityContext:
+        allowPrivilegeEscalation: false
+        privileged: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    asserts:
+      - hasDocuments:
+          count: 1
+      # container checks
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.privileged
+          value: false
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation
+          value: false
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.capabilities.drop[0]
+          value: "ALL"
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.runAsNonRoot
+          value: true
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.runAsUser
+          value: 1000
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.runAsGroup
+          value: 1000
+      # pod checks
+      - equal:
+          path: spec.template.spec.securityContext.runAsGroup
+          value: 1000
+      - equal:
+          path: spec.template.spec.securityContext.fsGroup
+          value: 1000
+      - equal:
+          path: spec.template.spec.securityContext.supplementalGroups[0]
+          value: 1000
+  - it: SecurityContext kyverno strict policies (backward compatibility with .enabled)
+    set:
+      podSecurityContext:
+        runAsGroup: 1000
+        fsGroup: 1000
+        supplementalGroups:
+          - 1000
+      securityContext:
+        enabled: true
+        allowPrivilegeEscalation: false
+        privileged: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notExists:
+          path: spec.template.spec.containers[0].securityContext.enabled
+  - it: SecurityContext kyverno strict policies (backward compatibility with .enabled=false)
+    set:
+      podSecurityContext:
+        runAsGroup: 1000
+        fsGroup: 1000
+        supplementalGroups:
+          - 1000
+      securityContext:
+        enabled: false
+        allowPrivilegeEscalation: false
+        privileged: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notExists:
+          path: spec.template.spec.containers[0].securityContext.enabled

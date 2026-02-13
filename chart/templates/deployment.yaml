@@ -1,0 +1,188 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "loft.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    {{- with .Values.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if or .Values.annotations .Values.commonAnnotations }}
+  annotations:
+    {{- with .Values.annotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.commonAnnotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "loft.fullname" . }}
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+{{ include "loft.strategy" . | indent 4}}
+  template:
+    metadata:
+      labels:
+        app: {{ template "loft.fullname" . }}
+        release: {{ .Release.Name }}
+{{- if .Values.podLabels }}
+{{ toYaml .Values.podLabels | indent 8 }}
+{{- end }}
+      {{- if .Values.podAnnotations }}
+      annotations:
+{{ toYaml .Values.podAnnotations | indent 8 }}
+      {{- end }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: {{ template "loft.serviceAccountName" . }}
+      volumes:
+      {{- if .Values.volumes }}
+{{ toYaml .Values.volumes | indent 8 }}
+      {{- end }}
+      {{- if or (and .Values.persistence .Values.persistence.enabled) (and .Values.audit .Values.audit.persistence.enabled) }}
+        - name: loft-data
+          persistentVolumeClaim:
+            claimName: {{ template "loft.fullname" . }}-audit
+      {{- else }}
+        - name: loft-data
+          emptyDir: {}
+      {{- end }}
+      {{- if .Values.additionalCA }}
+        - name: loft-additional-ca
+          secret:
+            secretName: loft-additional-ca
+      {{- end }}
+      containers:
+      - name: manager
+        {{- if .Values.agentOnly }}
+        command: ["loft", "agent"]
+        {{- end }}
+        image: {{ default (include "loft.image" .) .Values.image }}
+        ports:
+          - name: http
+            containerPort: 8080
+          - name: https
+            containerPort: 10443
+          - name: https-webhook
+            containerPort: 9443
+          - name: http-wakeup
+            containerPort: 9090
+        {{- if .Values.livenessProbe }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          failureThreshold: 30
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        {{- end }}
+        {{- end }}
+        {{- if .Values.readinessProbe }}
+        {{- if .Values.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          failureThreshold: 30
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        {{- end }}
+        {{- end }}
+        env:
+        - name: ADMIN_EMAIL
+          value: {{ .Values.admin.email | quote }}
+        - name: CHART_VERSION
+          value: {{ .Chart.Version }}
+        {{- if .Values.admin.password }}
+        - name: ADMIN_PASSWORD_HASH
+          value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
+        {{- if (gt (int .Values.replicaCount) 1) }}
+        {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
+        - name: LEADER_ELECTION_ENABLED
+          value: "true"
+        {{- end }}
+        {{- end }}
+        {{- range $key, $value := .Values.envValueFrom }}
+        - name: {{ $key | quote }}
+          valueFrom:
+{{ toYaml $value | indent 12 }}
+        {{- end }}
+        {{- if .Values.tls }}
+        {{- if .Values.tls.enabled }}
+        - name: PROXY_TLS_CERT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.tls.secret }}
+              key: {{ .Values.tls.crtKey }}
+        - name: PROXY_TLS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.tls.secret }}
+              key: {{ .Values.tls.keyKey }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.logging }}
+        - name: LOFT_LOG_ENCODING
+          value: {{ default "console" .Values.logging.encoding }}
+        - name: LOFT_LOG_LEVEL
+          value: {{ default "info" .Values.logging.level }}
+        {{- end }}
+        {{- if .Values.insecureSkipVerify }}
+        - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
+          value: "true"
+        {{- end }}
+        {{- range $key, $value := .Values.env }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        volumeMounts:
+        {{- if .Values.volumeMounts }}
+{{ toYaml .Values.volumeMounts | indent 10 }}
+        {{- end }}
+          - mountPath: /var/lib/loft
+            name: loft-data
+        {{- if .Values.additionalCA }}
+          - name: loft-additional-ca
+            mountPath: /etc/ssl/certs/loft-additional-ca.crt
+            readOnly: true
+            subPath: ca.crt
+        {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 | replace "enabled: true" "" | replace "enabled: false" "" }}
+      {{- if .Values.audit }}
+      {{- if .Values.audit.enableSideCar }}
+      - name: audit
+        image: "{{ .Values.audit.image }}"
+        command: ["sh"]
+        args: ["-c", "touch /var/lib/loft/audit.log && tail -F /var/lib/loft/audit.log"]
+        volumeMounts:
+        - mountPath: /var/lib/loft
+          name: loft-data
+      {{- end }}
+      {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}

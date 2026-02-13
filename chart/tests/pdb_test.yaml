@@ -1,0 +1,78 @@
+suite: PodDisruptionBudget
+templates:
+  - pdb.yaml
+
+tests:
+  - it: enabled by default
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.minAvailable
+          value: 1
+      - isNull:
+          path: spec.maxUnavailable
+
+  - it: enabled by default on upgrade
+    set:
+      podDisruptionBudget: {}
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.minAvailable
+          value: 1
+      - isNull:
+          path: spec.maxUnavailable
+
+  - it: can be disabled
+    set:
+      podDisruptionBudget:
+        create: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: minAvailable is set correctly
+    set:
+      podDisruptionBudget:
+        create: true
+        minAvailable: 2
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.minAvailable
+          value: 2
+      - isNull:
+          path: spec.maxUnavailable
+
+  - it: maxUnavailable is set correctly
+    set:
+      podDisruptionBudget:
+        create: true
+        maxUnavailable: 2
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.maxUnavailable
+          value: 2
+      - isNull:
+          path: spec.minAnavailable
+
+  - it: selector is set correctly
+    release:
+      name: loft
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.selector.matchLabels.app
+          value: loft
+      - equal:
+          path: spec.selector.matchLabels.release
+          value: loft
+      - equal:
+          path: spec.minAvailable
+          value: 1
