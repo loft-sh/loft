@@ -1,728 +1,5 @@
 {
   "definitions": {
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Analytics": {
-      "description": "Analytics is a struct that represents the analytics server and the requests that should be sent to it. This information is sent to Loft instances when they check in with the license server.",
-      "properties": {
-        "endpoint": {
-          "description": "Endpoint is the endpoint for the analytics server.",
-          "type": "string"
-        },
-        "requests": {
-          "description": "Requests is a slice of requested resources to return analytics for.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Request"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Announcement": {
-      "description": "Announcement contains an announcement that should be shown within the Loft instance. This information is sent to Loft instances when they check in with the license server.",
-      "properties": {
-        "body": {
-          "description": "Body contains the main message of the announcement in HTML format.",
-          "type": "string"
-        },
-        "buttons": {
-          "description": "Buttons to show alongside the announcement",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button"
-          },
-          "type": "array"
-        },
-        "name": {
-          "description": "Name contains the resource name of the announcement",
-          "type": "string"
-        },
-        "title": {
-          "description": "Title contains the title of the announcement in HTML format.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.BlockRequest": {
-      "description": "BlockRequest tells the instance to block certain requests due to overages (limit exceeded) the license server.",
-      "properties": {
-        "group": {
-          "description": "Group is the api group.",
-          "type": "string"
-        },
-        "overage": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount"
-        },
-        "resource": {
-          "description": "Resource is the resource name for the request.",
-          "type": "string"
-        },
-        "verbs": {
-          "description": "Verbs is the list of verbs for the request.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Button": {
-      "description": "Button is an object that represents a button in the Loft UI that links to some external service for handling operations for licensing for example.",
-      "properties": {
-        "direct": {
-          "description": "Direct indicates if the Loft front end should directly hit this endpoint. If false, it means that the Loft front end will be hitting the license server first to generate a one time token for the operation; this also means that there will be a redirect URL in the response to the request for this and that link should be followed by the front end.",
-          "type": "boolean"
-        },
-        "displayText": {
-          "description": "DisplayText is the text to display on the button. If display text is unset the button will never be shown in the loft UI.",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the name of the button (ButtonName). Optional.",
-          "type": "string"
-        },
-        "url": {
-          "description": "URL is the link at the other end of the button.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "url"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Feature": {
-      "description": "Feature contains information regarding to a feature",
-      "properties": {
-        "allowBefore": {
-          "description": "AllowBefore is an optional timestamp. If set, licenses issued before this time are allowed to use the feature even if it's not included in the license.",
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "module": {
-          "description": "Name of the module that this feature belongs to",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
-          "type": "string"
-        },
-        "preview": {
-          "description": "Preview represents whether the feature can be previewed if a user's license does not allow the feature",
-          "type": "boolean"
-        },
-        "status": {
-          "description": "Status shows the status of the feature (see type FeatureStatus)",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.FeatureUsage": {
-      "description": "FeatureUsage holds information about whether a feature is used and its status",
-      "properties": {
-        "status": {
-          "type": "string"
-        },
-        "used": {
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "used",
-        "status"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Invoice": {
-      "description": "Invoice provides details about an invoice",
-      "properties": {
-        "currency": {
-          "description": "Currency specifies the currency of Total in 3-character ISO 4217 code Default is: \"\" (representing USD)",
-          "type": "string"
-        },
-        "date": {
-          "description": "Date contains the unix timestamp marking the date this invoices was or will be created",
-          "format": "int64",
-          "type": "integer"
-        },
-        "total": {
-          "description": "Total is the total of the invoice",
-          "format": "int64",
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.License": {
-      "description": "License is a struct representing the license data sent to a Loft instance after checking in with the license server.",
-      "properties": {
-        "analytics": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Analytics",
-          "description": "Analytics indicates the analytics endpoints and which requests should be sent to the analytics server."
-        },
-        "annotations": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Annotations contains additional metadata about the license.",
-          "type": "object"
-        },
-        "announcement": {
-          "description": "Announcements is a map string/string such that we can easily add any additional data without needing to change types. For now, we will use the keys \"name\" and \"content\".",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Announcement"
-          },
-          "type": "array"
-        },
-        "block": {
-          "description": "BlockRequests specifies which requests the product should block when a limit is exceeded.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.BlockRequest"
-          },
-          "type": "array"
-        },
-        "buttons": {
-          "description": "Buttons is a slice of license server endpoints (buttons) that the Loft instance may need to hit. Each Button contains the display text and link for the front end to work with.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Button"
-          },
-          "type": "array"
-        },
-        "domainToken": {
-          "description": "DomainToken holds the JWT with the URL that the Loft instance is publicly available on. (via Loft router)",
-          "type": "string"
-        },
-        "entity": {
-          "description": "Entity holds a name for an organization, person or entity this product is licensed for. This will be displayed to the user.",
-          "type": "string"
-        },
-        "instance": {
-          "description": "InstanceID contains the instance id of the Loft instance",
-          "type": "string"
-        },
-        "isOffline": {
-          "description": "IsOffline indicates if the license is an offline license or not.",
-          "type": "boolean"
-        },
-        "modules": {
-          "description": "Modules is a list of modules.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Module"
-          },
-          "type": "array"
-        },
-        "plans": {
-          "description": "Plans contains a list of plans",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Plan"
-          },
-          "type": "array"
-        },
-        "routes": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes"
-        },
-        "usageData": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.UsageData",
-          "description": "Usage data contains  resource usage information for a platform deployment"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute": {
-      "description": "LicenseAPIRoute is a single route of the license api",
-      "properties": {
-        "direct": {
-          "description": "Tells the frontend whether to make a direct request or to make it via the backend (via generic license api request)",
-          "type": "boolean"
-        },
-        "method": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoutes": {
-      "description": "LicenseAPIRoutes contains all key routes of the license api",
-      "properties": {
-        "chatAuth": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "checkout": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "featureDetails": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "featurePreview": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "featureSetup": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "moduleActivation": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "modulePreview": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        },
-        "portal": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.LicenseAPIRoute"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Limit": {
-      "description": "Limit defines a limit set in the license",
-      "properties": {
-        "displayName": {
-          "description": "DisplayName is for display purposes.",
-          "type": "string"
-        },
-        "module": {
-          "description": "Name of the module that this limit belongs to",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the name of the resource (ResourceName)",
-          "type": "string"
-        },
-        "quantity": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount",
-          "description": "Limit specifies the limit for this resource."
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Module": {
-      "description": "Module is a struct representing a module of the product",
-      "properties": {
-        "displayName": {
-          "type": "string"
-        },
-        "features": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Feature"
-          },
-          "type": "array"
-        },
-        "limits": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Limit"
-          },
-          "type": "array"
-        },
-        "name": {
-          "description": "Name of the module (ModuleName)",
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.NodeInfo": {
-      "description": "NodeInfo holds information about a single node",
-      "properties": {
-        "capacity": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        },
-        "creation_timestamp": {
-          "type": "string"
-        },
-        "machine_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "machine_id",
-        "creation_timestamp",
-        "capacity"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Plan": {
-      "description": "Plan definition",
-      "properties": {
-        "addons": {
-          "description": "AddOns are plans that can be added to this plan",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Plan"
-          },
-          "type": "array"
-        },
-        "displayName": {
-          "description": "DisplayName is the display name of the plan",
-          "type": "string"
-        },
-        "features": {
-          "description": "Features is a list of features included in the plan",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "id": {
-          "description": "ID of the plan",
-          "type": "string"
-        },
-        "invoice": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Invoice",
-          "description": "UpcomingInvoice provides a preview of the next invoice that will be created for this Plan"
-        },
-        "limits": {
-          "description": "Limits is a list of resources included in the plan and their limits",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Limit"
-          },
-          "type": "array"
-        },
-        "period": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPeriod",
-          "description": "Period provides information about the plan's current period This is nil unless this is the active plan"
-        },
-        "prices": {
-          "description": "Prices provides details about the available prices (depending on the interval, for example)",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPrice"
-          },
-          "type": "array"
-        },
-        "status": {
-          "description": "Status is the status of the plan There should only be 1 active plan at the top-level (not including AddOns) The respective price in Prices will have the active status as well",
-          "type": "string"
-        },
-        "trial": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Trial",
-          "description": "Trial provides details about a planned, ongoing or expired trial"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlanExpiration": {
-      "description": "PlanExpiration provides details about the expiration of a plan",
-      "properties": {
-        "expiresAt": {
-          "description": "ExpiresAt is the unix timestamp of when the plan expires",
-          "format": "int64",
-          "type": "integer"
-        },
-        "upgradesTo": {
-          "description": "UpgradesTo states the name of the plan that is replacing the current one upon its expiration If this is nil, then this plan just expires (i.e. the subscription may be canceled, paused, etc.)",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPeriod": {
-      "description": "PlanPeriod provides details about the period of the plan",
-      "properties": {
-        "end": {
-          "description": "CurrentPeriodEnd contains the unix timestamp marking the end of the current period",
-          "format": "int64",
-          "type": "integer"
-        },
-        "start": {
-          "description": "CurrentPeriodStart contains the unix timestamp marking the start of the current period",
-          "format": "int64",
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlanPrice": {
-      "description": "PlanPrice defines a price for the plan",
-      "properties": {
-        "exp": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlanExpiration",
-          "description": "Expiration provides information about when this plan expires"
-        },
-        "id": {
-          "description": "ID of the price",
-          "type": "string"
-        },
-        "interval": {
-          "description": "Interval contains the time span of each period (e.g. month, year)",
-          "type": "string"
-        },
-        "intervalCount": {
-          "description": "IntervalCount specifies if the number of intervals (e.g. 3 [months])",
-          "format": "double",
-          "type": "number"
-        },
-        "quantity": {
-          "description": "Quantity sets the quantity the TierResource is supposed to be at If this is the active price, then this is the subscription quantity (currently purchased quantity)",
-          "format": "double",
-          "type": "number"
-        },
-        "resource": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.TierResource",
-          "description": "TierResource provides details about the main resource the tier quantity relates to This may be nil for plans that don't have their quantity tied to a resource"
-        },
-        "status": {
-          "description": "Status is the status of the price (PlanStatus) If the plan is active, one of its prices must be active as well",
-          "type": "string"
-        },
-        "tierMode": {
-          "description": "TierMode defines how tiers should be used",
-          "type": "string"
-        },
-        "tiers": {
-          "description": "Tiers is a list of tiers in this plan",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PriceTier"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.PlatformDatabase": {
-      "description": "PlatformDatabase contains information about the local platform database installation",
-      "properties": {
-        "creationTimestamp": {
-          "type": "string"
-        },
-        "isReady": {
-          "type": "boolean"
-        },
-        "latestUpdateTimestamp": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "isReady",
-        "creationTimestamp",
-        "latestUpdateTimestamp"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.PriceTier": {
-      "description": "PriceTier defines a tier within a plan",
-      "properties": {
-        "currency": {
-          "description": "Currency specifies the currency of UnitPrice and FlatFee in 3-character ISO 4217 code Default is: \"\" (representing USD)",
-          "type": "string"
-        },
-        "flatFee": {
-          "description": "FlatFee is the flat fee for this tier",
-          "format": "double",
-          "type": "number"
-        },
-        "max": {
-          "description": "MaxQuantity is the max quantity that can be purchased",
-          "format": "double",
-          "type": "number"
-        },
-        "min": {
-          "description": "MinQuantity is the quantity included in this plan",
-          "format": "double",
-          "type": "number"
-        },
-        "unitPrice": {
-          "description": "UnitPrice is the price per unit in this tier",
-          "format": "double",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Request": {
-      "description": "Request represents a request analytics information for an apigroup/resource and a list of verb actions for that resource.",
-      "properties": {
-        "group": {
-          "description": "Group is the api group.",
-          "type": "string"
-        },
-        "resource": {
-          "description": "Resource is the resource name for the request.",
-          "type": "string"
-        },
-        "verbs": {
-          "description": "Verbs is the list of verbs for the request.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount": {
-      "description": "ResourceCount stores the number of existing, active and total number of resources created.",
-      "properties": {
-        "active": {
-          "description": "Active specifies the number of currently active resource (non-sleeping).",
-          "format": "int64",
-          "type": "integer"
-        },
-        "committed": {
-          "description": "Committed specifies the amount of resource consumption customers have committed to for a given billing period. It can be exceeded and will then be charged with overage fees.",
-          "format": "int64",
-          "type": "integer"
-        },
-        "created": {
-          "description": "TotalCreated is a continuous counter of the amount of resources ever created.",
-          "format": "int64",
-          "type": "integer"
-        },
-        "total": {
-          "description": "Total specifies the number of currently existing resources.",
-          "format": "int64",
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.TierResource": {
-      "description": "TierResource provides details about the main resource the tier quantity relates to",
-      "properties": {
-        "name": {
-          "description": "Name of the resource (ResourceName)",
-          "type": "string"
-        },
-        "status": {
-          "description": "Status defines which resources will be counted towards the limit (e.g. active, total, total created etc.)",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.Trial": {
-      "description": "Trial represents a trial",
-      "properties": {
-        "displayName": {
-          "description": "DisplayName is a display name for the trial",
-          "type": "string"
-        },
-        "downgradesTo": {
-          "description": "DowngradesTo states the name of the plan that is replacing the current one once the trial expires If this is nil, then this plan just expires (i.e. the subscription may be canceled, paused, etc.)",
-          "type": "string"
-        },
-        "end": {
-          "description": "End is the unix timestamp stating when the trial will end or ended",
-          "format": "int64",
-          "type": "integer"
-        },
-        "id": {
-          "description": "ID is the unique id of this trial",
-          "type": "string"
-        },
-        "start": {
-          "description": "Start is the unix timestamp stating when the trial was started",
-          "format": "int64",
-          "type": "integer"
-        },
-        "status": {
-          "description": "Status is the status of this trial (TrialStatus)",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.UsageData": {
-      "description": "UsageData holds information for an instance deployment of vCluster Platform",
-      "properties": {
-        "details": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.UsageDataDetails",
-          "description": "Details contains the details of the usage data"
-        },
-        "featureUsage": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.FeatureUsage"
-          },
-          "description": "FeatureUsage contains the usage of features",
-          "type": "object"
-        },
-        "resourceUsage": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount"
-          },
-          "description": "ResourceUsage contains the usage of resources",
-          "type": "object"
-        }
-      },
-      "required": [
-        "featureUsage",
-        "resourceUsage",
-        "details"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.UsageDataDetails": {
-      "description": "UsageDataDetails holds detailed information about the nodes and virtual cluster for an instance deployment of vCluster Platform",
-      "properties": {
-        "nodes": {
-          "description": "Nodes contains the details of the nodes",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.NodeInfo"
-          },
-          "type": "array"
-        },
-        "vClusters": {
-          "description": "VClusters contains the details of the virtual clusters",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.VirtualClusterInfo"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "nodes",
-        "vClusters"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.admin-apis.pkg.licenseapi.VirtualClusterInfo": {
-      "description": "VirtualClusterInfo holds information about a single virtual cluster",
-      "properties": {
-        "creation_timestamp": {
-          "type": "string"
-        },
-        "is_available": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "namespace": {
-          "type": "string"
-        },
-        "node_machine_ids": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "uid": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "uid",
-        "name",
-        "namespace",
-        "creation_timestamp",
-        "is_available",
-        "node_machine_ids"
-      ],
-      "type": "object"
-    },
     "com.github.loft-sh.agentapi.v4.pkg.apis.loft.cluster.v1.Bash": {
       "properties": {
         "clusterRole": {
@@ -1734,7 +1011,7 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.AnnouncementStatus": {
       "properties": {
         "announcement": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.Announcement",
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Announcement",
           "description": "Announcement is the html announcement that should be displayed in the frontend"
         }
       },
@@ -4341,16 +3618,16 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.LicenseStatus": {
       "properties": {
         "license": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.License",
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.License",
           "description": "License is the license data received from the license server."
         },
         "platformDatabase": {
-          "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.PlatformDatabase",
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.PlatformDatabase",
           "description": "PlatformDatabase shows information about the platform database installation"
         },
         "resourceUsage": {
           "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.ResourceCount"
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.ResourceCount"
           },
           "description": "ResourceUsage shows the current usage of license limit.",
           "type": "object"
@@ -8308,6 +7585,36 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodStatus": {
+      "description": "VirtualClusterDebugShellPodStatus contains selectable vcluster pod metadata.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "phase": {
+          "type": "string"
+        },
+        "ready": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodsStatus": {
+      "properties": {
+        "pods": {
+          "description": "Pods are available virtual cluster pods that can be selected for debug shell.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodStatus"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellSpec": {
       "description": "VirtualClusterDebugShellSpec defines the target pod for the debug shell.",
       "properties": {
@@ -8448,6 +7755,32 @@
         {
           "group": "management.loft.sh",
           "kind": "VirtualClusterInstanceDebugShell",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceDebugShellPods": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodsStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterInstanceDebugShellPods",
           "version": "v1"
         }
       ]
@@ -12212,6 +11545,729 @@
       },
       "type": "object"
     },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Analytics": {
+      "description": "Analytics is a struct that represents the analytics server and the requests that should be sent to it. This information is sent to Loft instances when they check in with the license server.",
+      "properties": {
+        "endpoint": {
+          "description": "Endpoint is the endpoint for the analytics server.",
+          "type": "string"
+        },
+        "requests": {
+          "description": "Requests is a slice of requested resources to return analytics for.",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Request"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Announcement": {
+      "description": "Announcement contains an announcement that should be shown within the Loft instance. This information is sent to Loft instances when they check in with the license server.",
+      "properties": {
+        "body": {
+          "description": "Body contains the main message of the announcement in HTML format.",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Buttons to show alongside the announcement",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Button"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name contains the resource name of the announcement",
+          "type": "string"
+        },
+        "title": {
+          "description": "Title contains the title of the announcement in HTML format.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.BlockRequest": {
+      "description": "BlockRequest tells the instance to block certain requests due to overages (limit exceeded) the license server.",
+      "properties": {
+        "group": {
+          "description": "Group is the api group.",
+          "type": "string"
+        },
+        "overage": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.ResourceCount"
+        },
+        "resource": {
+          "description": "Resource is the resource name for the request.",
+          "type": "string"
+        },
+        "verbs": {
+          "description": "Verbs is the list of verbs for the request.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Button": {
+      "description": "Button is an object that represents a button in the Loft UI that links to some external service for handling operations for licensing for example.",
+      "properties": {
+        "direct": {
+          "description": "Direct indicates if the Loft front end should directly hit this endpoint. If false, it means that the Loft front end will be hitting the license server first to generate a one time token for the operation; this also means that there will be a redirect URL in the response to the request for this and that link should be followed by the front end.",
+          "type": "boolean"
+        },
+        "displayText": {
+          "description": "DisplayText is the text to display on the button. If display text is unset the button will never be shown in the loft UI.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of the button (ButtonName). Optional.",
+          "type": "string"
+        },
+        "url": {
+          "description": "URL is the link at the other end of the button.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Feature": {
+      "description": "Feature contains information regarding to a feature",
+      "properties": {
+        "allowBefore": {
+          "description": "AllowBefore is an optional timestamp. If set, licenses issued before this time are allowed to use the feature even if it's not included in the license.",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "module": {
+          "description": "Name of the module that this feature belongs to",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of the feature (FeatureName) This cannot be FeatureName because it needs to be downward compatible e.g. older Loft version doesn't know a newer feature but it will still be received and still needs to be rendered in the license view",
+          "type": "string"
+        },
+        "preview": {
+          "description": "Preview represents whether the feature can be previewed if a user's license does not allow the feature",
+          "type": "boolean"
+        },
+        "status": {
+          "description": "Status shows the status of the feature (see type FeatureStatus)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.FeatureUsage": {
+      "description": "FeatureUsage holds information about whether a feature is used and its status",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "used": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "used",
+        "status"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Invoice": {
+      "description": "Invoice provides details about an invoice",
+      "properties": {
+        "currency": {
+          "description": "Currency specifies the currency of Total in 3-character ISO 4217 code Default is: \"\" (representing USD)",
+          "type": "string"
+        },
+        "date": {
+          "description": "Date contains the unix timestamp marking the date this invoices was or will be created",
+          "format": "int64",
+          "type": "integer"
+        },
+        "total": {
+          "description": "Total is the total of the invoice",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.License": {
+      "description": "License is a struct representing the license data sent to a Loft instance after checking in with the license server.",
+      "properties": {
+        "analytics": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Analytics",
+          "description": "Analytics indicates the analytics endpoints and which requests should be sent to the analytics server."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations contains additional metadata about the license.",
+          "type": "object"
+        },
+        "announcement": {
+          "description": "Announcements is a map string/string such that we can easily add any additional data without needing to change types. For now, we will use the keys \"name\" and \"content\".",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Announcement"
+          },
+          "type": "array"
+        },
+        "block": {
+          "description": "BlockRequests specifies which requests the product should block when a limit is exceeded.",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.BlockRequest"
+          },
+          "type": "array"
+        },
+        "buttons": {
+          "description": "Buttons is a slice of license server endpoints (buttons) that the Loft instance may need to hit. Each Button contains the display text and link for the front end to work with.",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Button"
+          },
+          "type": "array"
+        },
+        "domainToken": {
+          "description": "DomainToken holds the JWT with the URL that the Loft instance is publicly available on. (via Loft router)",
+          "type": "string"
+        },
+        "entity": {
+          "description": "Entity holds a name for an organization, person or entity this product is licensed for. This will be displayed to the user.",
+          "type": "string"
+        },
+        "instance": {
+          "description": "InstanceID contains the instance id of the Loft instance",
+          "type": "string"
+        },
+        "isOffline": {
+          "description": "IsOffline indicates if the license is an offline license or not.",
+          "type": "boolean"
+        },
+        "modules": {
+          "description": "Modules is a list of modules.",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Module"
+          },
+          "type": "array"
+        },
+        "plans": {
+          "description": "Plans contains a list of plans",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Plan"
+          },
+          "type": "array"
+        },
+        "routes": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoutes"
+        },
+        "usageData": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.UsageData",
+          "description": "Usage data contains  resource usage information for a platform deployment"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.LicenseAPIRoute": {
+      "description": "LicenseAPIRoute is a single route of the license api",
+      "properties": {
+        "direct": {
+          "description": "Tells the frontend whether to make a direct request or to make it via the backend (via generic license api request)",
+          "type": "boolean"
+        },
+        "method": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.LicenseAPIRoutes": {
+      "description": "LicenseAPIRoutes contains all key routes of the license api",
+      "properties": {
+        "chatAuth": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "checkout": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "featureDetails": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "featurePreview": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "featureSetup": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "moduleActivation": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "modulePreview": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        },
+        "portal": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.LicenseAPIRoute"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Limit": {
+      "description": "Limit defines a limit set in the license",
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is for display purposes.",
+          "type": "string"
+        },
+        "module": {
+          "description": "Name of the module that this limit belongs to",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of the resource (ResourceName)",
+          "type": "string"
+        },
+        "quantity": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.ResourceCount",
+          "description": "Limit specifies the limit for this resource."
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Module": {
+      "description": "Module is a struct representing a module of the product",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Feature"
+          },
+          "type": "array"
+        },
+        "limits": {
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Limit"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name of the module (ModuleName)",
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.NodeInfo": {
+      "description": "NodeInfo holds information about a single node",
+      "properties": {
+        "capacity": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "creation_timestamp": {
+          "type": "string"
+        },
+        "machine_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "machine_id",
+        "creation_timestamp",
+        "capacity"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Plan": {
+      "description": "Plan definition",
+      "properties": {
+        "addons": {
+          "description": "AddOns are plans that can be added to this plan",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Plan"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the display name of the plan",
+          "type": "string"
+        },
+        "features": {
+          "description": "Features is a list of features included in the plan",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "id": {
+          "description": "ID of the plan",
+          "type": "string"
+        },
+        "invoice": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Invoice",
+          "description": "UpcomingInvoice provides a preview of the next invoice that will be created for this Plan"
+        },
+        "limits": {
+          "description": "Limits is a list of resources included in the plan and their limits",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Limit"
+          },
+          "type": "array"
+        },
+        "period": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.PlanPeriod",
+          "description": "Period provides information about the plan's current period This is nil unless this is the active plan"
+        },
+        "prices": {
+          "description": "Prices provides details about the available prices (depending on the interval, for example)",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.PlanPrice"
+          },
+          "type": "array"
+        },
+        "status": {
+          "description": "Status is the status of the plan There should only be 1 active plan at the top-level (not including AddOns) The respective price in Prices will have the active status as well",
+          "type": "string"
+        },
+        "trial": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.Trial",
+          "description": "Trial provides details about a planned, ongoing or expired trial"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.PlanExpiration": {
+      "description": "PlanExpiration provides details about the expiration of a plan",
+      "properties": {
+        "expiresAt": {
+          "description": "ExpiresAt is the unix timestamp of when the plan expires",
+          "format": "int64",
+          "type": "integer"
+        },
+        "upgradesTo": {
+          "description": "UpgradesTo states the name of the plan that is replacing the current one upon its expiration If this is nil, then this plan just expires (i.e. the subscription may be canceled, paused, etc.)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.PlanPeriod": {
+      "description": "PlanPeriod provides details about the period of the plan",
+      "properties": {
+        "end": {
+          "description": "CurrentPeriodEnd contains the unix timestamp marking the end of the current period",
+          "format": "int64",
+          "type": "integer"
+        },
+        "start": {
+          "description": "CurrentPeriodStart contains the unix timestamp marking the start of the current period",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.PlanPrice": {
+      "description": "PlanPrice defines a price for the plan",
+      "properties": {
+        "exp": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.PlanExpiration",
+          "description": "Expiration provides information about when this plan expires"
+        },
+        "id": {
+          "description": "ID of the price",
+          "type": "string"
+        },
+        "interval": {
+          "description": "Interval contains the time span of each period (e.g. month, year)",
+          "type": "string"
+        },
+        "intervalCount": {
+          "description": "IntervalCount specifies if the number of intervals (e.g. 3 [months])",
+          "format": "double",
+          "type": "number"
+        },
+        "quantity": {
+          "description": "Quantity sets the quantity the TierResource is supposed to be at If this is the active price, then this is the subscription quantity (currently purchased quantity)",
+          "format": "double",
+          "type": "number"
+        },
+        "resource": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.TierResource",
+          "description": "TierResource provides details about the main resource the tier quantity relates to This may be nil for plans that don't have their quantity tied to a resource"
+        },
+        "status": {
+          "description": "Status is the status of the price (PlanStatus) If the plan is active, one of its prices must be active as well",
+          "type": "string"
+        },
+        "tierMode": {
+          "description": "TierMode defines how tiers should be used",
+          "type": "string"
+        },
+        "tiers": {
+          "description": "Tiers is a list of tiers in this plan",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.PriceTier"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.PlatformDatabase": {
+      "description": "PlatformDatabase contains information about the local platform database installation",
+      "properties": {
+        "creationTimestamp": {
+          "type": "string"
+        },
+        "isReady": {
+          "type": "boolean"
+        },
+        "latestUpdateTimestamp": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "isReady",
+        "creationTimestamp",
+        "latestUpdateTimestamp"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.PriceTier": {
+      "description": "PriceTier defines a tier within a plan",
+      "properties": {
+        "currency": {
+          "description": "Currency specifies the currency of UnitPrice and FlatFee in 3-character ISO 4217 code Default is: \"\" (representing USD)",
+          "type": "string"
+        },
+        "flatFee": {
+          "description": "FlatFee is the flat fee for this tier",
+          "format": "double",
+          "type": "number"
+        },
+        "max": {
+          "description": "MaxQuantity is the max quantity that can be purchased",
+          "format": "double",
+          "type": "number"
+        },
+        "min": {
+          "description": "MinQuantity is the quantity included in this plan",
+          "format": "double",
+          "type": "number"
+        },
+        "unitPrice": {
+          "description": "UnitPrice is the price per unit in this tier",
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Request": {
+      "description": "Request represents a request analytics information for an apigroup/resource and a list of verb actions for that resource.",
+      "properties": {
+        "group": {
+          "description": "Group is the api group.",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Resource is the resource name for the request.",
+          "type": "string"
+        },
+        "verbs": {
+          "description": "Verbs is the list of verbs for the request.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.ResourceCount": {
+      "description": "ResourceCount stores the number of existing, active and total number of resources created.",
+      "properties": {
+        "active": {
+          "description": "Active specifies the number of currently active resource (non-sleeping).",
+          "format": "int64",
+          "type": "integer"
+        },
+        "committed": {
+          "description": "Committed specifies the amount of resource consumption customers have committed to for a given billing period. It can be exceeded and will then be charged with overage fees.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "created": {
+          "description": "TotalCreated is a continuous counter of the amount of resources ever created.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "total": {
+          "description": "Total specifies the number of currently existing resources.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.TierResource": {
+      "description": "TierResource provides details about the main resource the tier quantity relates to",
+      "properties": {
+        "name": {
+          "description": "Name of the resource (ResourceName)",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status defines which resources will be counted towards the limit (e.g. active, total, total created etc.)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.Trial": {
+      "description": "Trial represents a trial",
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is a display name for the trial",
+          "type": "string"
+        },
+        "downgradesTo": {
+          "description": "DowngradesTo states the name of the plan that is replacing the current one once the trial expires If this is nil, then this plan just expires (i.e. the subscription may be canceled, paused, etc.)",
+          "type": "string"
+        },
+        "end": {
+          "description": "End is the unix timestamp stating when the trial will end or ended",
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "description": "ID is the unique id of this trial",
+          "type": "string"
+        },
+        "start": {
+          "description": "Start is the unix timestamp stating when the trial was started",
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "description": "Status is the status of this trial (TrialStatus)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.UsageData": {
+      "description": "UsageData holds information for an instance deployment of vCluster Platform",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.UsageDataDetails",
+          "description": "Details contains the details of the usage data"
+        },
+        "featureUsage": {
+          "additionalProperties": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.FeatureUsage"
+          },
+          "description": "FeatureUsage contains the usage of features",
+          "type": "object"
+        },
+        "resourceUsage": {
+          "additionalProperties": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.ResourceCount"
+          },
+          "description": "ResourceUsage contains the usage of resources",
+          "type": "object"
+        }
+      },
+      "required": [
+        "featureUsage",
+        "resourceUsage",
+        "details"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.UsageDataDetails": {
+      "description": "UsageDataDetails holds detailed information about the nodes and virtual cluster for an instance deployment of vCluster Platform",
+      "properties": {
+        "nodes": {
+          "description": "Nodes contains the details of the nodes",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.NodeInfo"
+          },
+          "type": "array"
+        },
+        "vClusters": {
+          "description": "VClusters contains the details of the virtual clusters",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1admin-apis~1pkg~1licenseapi.VirtualClusterInfo"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "nodes",
+        "vClusters"
+      ],
+      "type": "object"
+    },
+    "github.com/loft-sh/admin-apis/pkg/licenseapi.VirtualClusterInfo": {
+      "description": "VirtualClusterInfo holds information about a single virtual cluster",
+      "properties": {
+        "creation_timestamp": {
+          "type": "string"
+        },
+        "is_available": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "node_machine_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "uid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "name",
+        "namespace",
+        "creation_timestamp",
+        "is_available",
+        "node_machine_ids"
+      ],
+      "type": "object"
+    },
     "io.k8s.api.authentication.v1.UserInfo": {
       "description": "UserInfo holds the information about the user needed to implement the user.Info interface.",
       "properties": {
@@ -13853,8 +13909,7 @@
         },
         "details": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.StatusDetails",
-          "description": "Extended data associated with the reason.  Each reason may define its own extended details. This field is optional and the data returned is not guaranteed to conform to any schema except that defined by the reason type.",
-          "x-kubernetes-list-type": "atomic"
+          "description": "Extended data associated with the reason.  Each reason may define its own extended details. This field is optional and the data returned is not guaranteed to conform to any schema except that defined by the reason type."
         },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
@@ -14091,6 +14146,12 @@
         "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
       }
     },
+    "command-AvCQHph8": {
+      "in": "query",
+      "name": "command",
+      "type": "string",
+      "uniqueItems": true
+    },
     "container-C23hHG_w": {
       "in": "query",
       "name": "container",
@@ -14240,6 +14301,24 @@
       "type": "integer",
       "uniqueItems": true
     },
+    "stderr-H9qM7eRe": {
+      "in": "query",
+      "name": "stderr",
+      "type": "boolean",
+      "uniqueItems": true
+    },
+    "stdin-WPEMzu9p": {
+      "in": "query",
+      "name": "stdin",
+      "type": "boolean",
+      "uniqueItems": true
+    },
+    "stdout-LaYlrRBh": {
+      "in": "query",
+      "name": "stdout",
+      "type": "boolean",
+      "uniqueItems": true
+    },
     "tailLines-IUlNmndG": {
       "in": "query",
       "name": "tailLines",
@@ -14256,6 +14335,12 @@
     "timestamps-PiWwxWJa": {
       "in": "query",
       "name": "timestamps",
+      "type": "boolean",
+      "uniqueItems": true
+    },
+    "tty-bebOnIEL": {
+      "in": "query",
+      "name": "tty",
       "type": "boolean",
       "uniqueItems": true
     },
@@ -21237,24 +21322,57 @@
       ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/debug-shell": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "connect GET requests to debug-shell of VirtualClusterInstance",
+        "operationId": "connectManagementLoftShV1GetNamespacedVirtualClusterInstanceDebugShell",
+        "parameters": [
+          {
+            "$ref": "#/parameters/command-AvCQHph8"
+          },
+          {
+            "$ref": "#/parameters/container-C23hHG_w"
+          },
+          {
+            "$ref": "#/parameters/stderr-H9qM7eRe"
+          },
+          {
+            "$ref": "#/parameters/stdin-WPEMzu9p"
+          },
+          {
+            "$ref": "#/parameters/stdout-LaYlrRBh"
+          },
+          {
+            "$ref": "#/parameters/tty-bebOnIEL"
+          }
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "connect",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterInstanceDebugShell",
+          "version": "v1"
+        }
+      },
       "parameters": [
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        },
         {
           "description": "name of the VirtualClusterInstanceDebugShell",
           "in": "path",
@@ -21265,9 +21383,6 @@
         },
         {
           "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
         }
       ],
       "post": {
@@ -21284,6 +21399,26 @@
             "schema": {
               "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceDebugShell"
             }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/pretty-tJGM1-ng"
           }
         ],
         "produces": [
@@ -21323,6 +21458,55 @@
           "version": "v1"
         }
       }
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/debug-shell-pods": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read debug-shell-pods of the specified VirtualClusterInstance",
+        "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceDebugShellPods",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceDebugShellPods"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterInstanceDebugShellPods",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the VirtualClusterInstanceDebugShellPods",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/externaldatabase": {
       "parameters": [
