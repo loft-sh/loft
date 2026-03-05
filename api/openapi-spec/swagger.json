@@ -6138,10 +6138,6 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern",
           "description": "NamespacePattern specifies template patterns to use for creating each space or virtual cluster's namespace"
         },
-        "namespaceTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ProjectNamespaceTemplate",
-          "description": "NamespaceTemplate defines metadata that should be applied to the project's namespace on creation. This is useful for environments where admission controllers (e.g., Kyverno) require specific labels or annotations on namespaces."
-        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
@@ -6336,6 +6332,10 @@
         "serviceUID": {
           "description": "ServiceUID uniquely identifies the virtual cluster based on the service uid.",
           "type": "string"
+        },
+        "standalone": {
+          "description": "Standalone specifies if the vCluster is standalone",
+          "type": "boolean"
         },
         "values": {
           "description": "Values specifies the vCluster config.",
@@ -10982,16 +10982,6 @@
         "resources": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
           "description": "Resources are compute resource required by the OpenCost backend"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ProjectNamespaceTemplate": {
-      "description": "ProjectNamespaceTemplate defines metadata to apply to the auto-created project namespace.",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "The namespace metadata"
         }
       },
       "type": "object"
