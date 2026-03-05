@@ -1,3 +1,9 @@
+{{- if and .Values.multiRegion.enabled (eq .Values.multiRegion.dataSource "") -}}
+  {{ fail "multiRegion.dataSource must be set when multiRegion.enabled is true" }}
+{{- end }}
+{{- if and .Values.multiRegion.enabled (eq .Values.multiRegion.host "") -}}
+  {{ fail "multiRegion.host must be set when multiRegion.enabled is true" }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -127,6 +133,9 @@ spec:
         - name: LEADER_ELECTION_ENABLED
           value: "true"
         {{- end }}
+        {{- else if .Values.multiRegion.enabled }}
+        - name: LEADER_ELECTION_ENABLED
+          value: "true"
         {{- end }}
         {{- range $key, $value := .Values.envValueFrom }}
         - name: {{ $key | quote }}
@@ -160,6 +169,32 @@ spec:
         {{- if not (hasKey .Values.env "LOFT_MANAGER_IMAGE") }}
         - name: LOFT_MANAGER_IMAGE
           value: {{ include "loft.image" . | quote }}
+        {{- end }}
+        {{- if .Values.multiRegion.enabled }}
+        {{- if .Values.config.loftHost }}
+        - name: LOFT_HOST
+          value: {{ .Values.config.loftHost | quote }}
+        {{- end }}
+        - name: LOFT_MULTI_REGION_PLATFORM
+          value: "true"
+        - name: LOFT_MULTI_REGION_PLATFORM_HOST
+          value: {{ .Values.multiRegion.host | quote }}
+        - name: LOFT_EMBEDDED_K8S
+          value: "true"
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE
+          value: {{ .Values.multiRegion.dataSource | quote }}
+        {{- if .Values.multiRegion.dataSourceIdentityProvider }}
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE_IDENTITY_PROVIDER
+          value: {{ .Values.multiRegion.dataSourceIdentityProvider | quote }}
+        {{- end }}
+        {{- if (gt (int .Values.multiRegion.dataSourceMaxConnections) 1) }}
+        - name: LOFT_EMBEDDED_K8S_MAX_DATABASE_CONNECTIONS
+          value: {{ .Values.multiRegion.dataSourceMaxConnections | quote }}
+        {{- end }}
+        {{- if (gt (int .Values.multiRegion.dataSourceMaxIdleConnections) 1) }}
+        - name: LOFT_EMBEDDED_K8S_MAX_IDLE_CONNECTIONS
+          value: {{ .Values.multiRegion.dataSourceMaxIdleConnections | quote }}
+        {{- end }}
         {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}

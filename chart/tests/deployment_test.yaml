@@ -762,3 +762,113 @@ tests:
           content:
             name: "LOFT_MANAGER_IMAGE"
             value: "ghcr.io/loft-sh/loft:0.0.0"
+  - it: Setting multiRegion.enabled configures required environment variables
+    set:
+      replicaCount: 0
+      multiRegion:
+        enabled: true
+        dataSource: your-rds-endpoint.region.rds.amazonaws.com
+        dataSourceIdentityProvider: aws
+        host: us.loft.example.com
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MULTI_REGION_PLATFORM"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MULTI_REGION_PLATFORM_HOST"
+            value: "us.loft.example.com"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE"
+            value: "your-rds-endpoint.region.rds.amazonaws.com"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE_IDENTITY_PROVIDER"
+            value: "aws"
+  - it: Setting multiRegion.enabled with high availability configures required environment variables
+    set:
+      replicaCount: 3
+      config:
+        loftHost: loft.example.com
+      multiRegion:
+        enabled: true
+        dataSource: your-rds-endpoint.region.rds.amazonaws.com
+        dataSourceIdentityProvider: aws
+        dataSourceMaxConnections: 5
+        dataSourceMaxIdleConnections: 3
+        host: us.loft.example.com
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_HOST"
+            value: "loft.example.com"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MULTI_REGION_PLATFORM"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE"
+            value: "your-rds-endpoint.region.rds.amazonaws.com"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE_IDENTITY_PROVIDER"
+            value: "aws"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_MAX_DATABASE_CONNECTIONS"
+            value: "5"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_MAX_IDLE_CONNECTIONS"
+            value: "3"
+  - it: Setting multiRegion.enabled without dataSource fails
+    set:
+      replicaCount: 3
+      multiRegion:
+        enabled: true
+        hostname: us.loft.example.com
+    asserts:
+      - failedTemplate:
+          errorMessage: "multiRegion.dataSource must be set when multiRegion.enabled is true"
+  - it: Setting multiRegion.enabled without hostname fails
+    set:
+      replicaCount: 3
+      multiRegion:
+        enabled: true
+        dataSource: your-rds-endpoint.region.rds.amazonaws.com
+    asserts:
+      - failedTemplate:
+          errorMessage: "multiRegion.host must be set when multiRegion.enabled is true"
