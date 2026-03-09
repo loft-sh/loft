@@ -196,6 +196,36 @@ spec:
           value: {{ .Values.multiRegion.dataSourceMaxIdleConnections | quote }}
         {{- end }}
         {{- end }}
+        {{- if (eq true (dig "agent" "leastPrivilegeMode" "enabled" false .Values.agentValues)) }}
+        - name: LOFT_AGENT_VALUES_AGENT_LPM_ENABLED
+          value: "true"
+        {{- end }}
+        {{- if (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled) }}
+        - name: LOFT_AGENT_LPM_ENABLED
+          value: "true"
+        {{- if not .Values.agent.leastPrivilegeMode.clusterAccess.enabled }}
+        - name: LOFT_AGENT_LPM_CLUSTER_ACCESS_ENABLED
+          value: "false"
+        {{- end }}
+        {{- if not .Values.agent.leastPrivilegeMode.projectQuotas.enabled }}
+        - name: LOFT_AGENT_LPM_PROJECT_QUOTAS_ENABLED
+          value: "false"
+        {{- end }}
+        {{- if not .Values.agent.leastPrivilegeMode.secrets.enabled }}
+        - name: LOFT_AGENT_LPM_SECRETS_ENABLED
+          value: "false"
+        {{- end }}
+        {{- if not .Values.agent.leastPrivilegeMode.sleepMode.enabled }}
+        - name: LOFT_AGENT_LPM_SLEEP_MODE_ENABLED
+          value: "false"
+        {{- end }}
+        {{- if .Values.agent.leastPrivilegeMode.namespaceAdminRole.enabled }}
+        - name: LOFT_AGENT_LPM_NAMESPACE_ADMIN_ROLE_ENABLED
+          value: "true"
+        {{- end }}
+        {{- end }}
+        - name: LOFT_AGENT_SERVICE_ACCOUNT_NAME
+          value: {{ template "loft.serviceAccountName" . }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}

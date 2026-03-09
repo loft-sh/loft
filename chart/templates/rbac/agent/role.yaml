@@ -1,0 +1,50 @@
+{{- if (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled .Values.agent.leastPrivilegeMode.role.enabled) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vcluster-platform-agent
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  {{- if .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml .Values.commonAnnotations | nindent 4 }}
+  {{- end }}
+rules:
+{{- if .Values.agent.leastPrivilegeMode.role.overwriteRules }}
+{{ toYaml .Values.agent.leastPrivilegeMode.role.overwriteRules | indent 2 }}
+{{- else }}
+  - apiGroups: [ "" ]
+    resources: [ "configmaps" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "" ]
+    resources: [ "events" ]
+    verbs: [ "create", "list", "patch" ]
+
+  - apiGroups: [ "" ]
+    resources: [ "pods" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "" ]
+    resources: [ "services" ]
+    verbs: [ "create", "delete", "get", "list", "watch" ]
+
+  - apiGroups: [ "apps" ]
+    resources: [ "deployments" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "coordination.k8s.io" ]
+    resources: [ "leases" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+{{- if .Values.agent.leastPrivilegeMode.role.extraRules }}
+{{ toYaml .Values.agent.leastPrivilegeMode.role.extraRules | indent 2 }}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -326,3 +326,28 @@ affinity:
 # config for using the chart in GCP Marketplace
 gcpMarketplace:
   enabled: false
+
+# fine-grained control over the vCluster Platform Agent permissions and features that are enabled
+agent:
+  leastPrivilegeMode:
+    enabled: false
+    clusterAccess:
+      enabled: true
+    projectQuotas:
+      enabled: true
+    secrets:
+      enabled: true
+    sleepMode:
+      enabled: true
+    role:
+      enabled: true
+      extraRules: []
+      overwriteRules: []
+    clusterRole:
+      enabled: true
+      extraRules: []
+      overwriteRules: []
+    namespaceAdminRole:
+      enabled: true
+      extraRules: []
+      overwriteRules: []
