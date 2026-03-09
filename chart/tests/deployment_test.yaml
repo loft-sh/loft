@@ -762,6 +762,47 @@ tests:
           content:
             name: "LOFT_MANAGER_IMAGE"
             value: "ghcr.io/loft-sh/loft:0.0.0"
+  - it: Setting env.LOFT_EMBEDDED_K8S true adds "vcluster.com/platform-config-hash" annotation
+    set:
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - exists:
+          path: spec.template.metadata.annotations["vcluster.com/platform-config-hash"]
+  - it: platformConfigHash annotation does not exist when LOFT_EMBEDDED_K8S is not set
+    asserts:
+      - notExists:
+          path: spec.template.metadata.annotations["vcluster.com/platform-config-hash"]
+  - it: platformConfigHash annotation does not exist when LOFT_EMBEDDED_K8S is false
+    set:
+      env:
+        LOFT_EMBEDDED_K8S: "false"
+    asserts:
+      - notExists:
+          path: spec.template.metadata.annotations["vcluster.com/platform-config-hash"]
+  - it: Setting agentValues adds "vcluster.com/default-agent-values-config-hash" annotation when embedded
+    set:
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+      agentValues:
+        someKey: someValue
+    asserts:
+      - exists:
+          path: spec.template.metadata.annotations["vcluster.com/default-agent-values-config-hash"]
+  - it: \"vcluster.com/default-agent-values-config-hash\" annotation does not exist when agentValues is not set
+    set:
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - notExists:
+          path: spec.template.metadata.annotations["vcluster.com/default-agent-values-config-hash"]
+  - it: defaultAgentValuesConfigHash annotation does not exist when not embedded
+    set:
+      agentValues:
+        someKey: someValue
+    asserts:
+      - notExists:
+          path: spec.template.metadata.annotations["vcluster.com/default-agent-values-config-hash"]
   - it: Setting multiRegion.enabled configures required environment variables
     set:
       replicaCount: 0

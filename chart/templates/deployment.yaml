@@ -1,3 +1,5 @@
+{{- $isEmbedded := eq (.Values.env.LOFT_EMBEDDED_K8S | toString) "true" -}}
+
 {{- if and .Values.multiRegion.enabled (eq .Values.multiRegion.dataSource "") -}}
   {{ fail "multiRegion.dataSource must be set when multiRegion.enabled is true" }}
 {{- end }}
@@ -42,9 +44,19 @@ spec:
 {{- if .Values.podLabels }}
 {{ toYaml .Values.podLabels | indent 8 }}
 {{- end }}
-      {{- if .Values.podAnnotations }}
+      {{- if or .Values.podAnnotations $isEmbedded }}
       annotations:
-{{ toYaml .Values.podAnnotations | indent 8 }}
+        {{- if $isEmbedded }}
+        {{- if .Values.config }}
+        vcluster.com/platform-config-hash: {{ toYaml .Values.config | b64enc | sha256sum | quote }}
+        {{- end }}
+        {{- if .Values.agentValues }}
+        vcluster.com/default-agent-values-config-hash: {{ toYaml .Values.agentValues | b64enc | sha256sum | quote }}
+        {{- end }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+{{ toYaml . | indent 8 }}
+        {{- end }}
       {{- end }}
     spec:
       terminationGracePeriodSeconds: 10
@@ -169,6 +181,22 @@ spec:
         {{- if not (hasKey .Values.env "LOFT_MANAGER_IMAGE") }}
         - name: LOFT_MANAGER_IMAGE
           value: {{ include "loft.image" . | quote }}
+        {{- end }}
+        {{- if $isEmbedded }}
+        {{- if .Values.config }}
+        - name: LOFT_MANAGER_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: loft-manager-config
+              key: config
+        {{- end }}
+        {{- if .Values.agentValues }}
+        - name: LOFT_DEFAULT_AGENT_VALUES
+          valueFrom:
+            secretKeyRef:
+              name: loft-default-agent-values
+              key: values
+        {{- end }}
         {{- end }}
         {{- if .Values.multiRegion.enabled }}
         {{- if .Values.config.loftHost }}
