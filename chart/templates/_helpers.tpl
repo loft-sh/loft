@@ -105,3 +105,11 @@ rollingUpdate:
   {{- end }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+True when config.database is set and enabled (safe when .Values.config or .Values.config.database is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.configDatabaseEnabled" . }}.
+*/}}
+{{- define "loft.configDatabaseEnabled" -}}
+{{- if and .Values.config .Values.config.database .Values.config.database.enabled }}{{ true }}{{ end -}}
+{{- end -}}
