@@ -3436,6 +3436,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.CostControl",
           "description": "CostControl holds the settings related to the Cost Control ROI dashboard and its metrics gathering infrastructure"
         },
+        "database": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.DatabaseKine",
+          "description": "Database represents the database connection settings when deploying the platform with an embedded Kubernetes backed by kine"
+        },
         "devPodSubDomain": {
           "description": "DEPRECATED: DevPodSubDomain holds a subdomain in the following form *.workspace.my-domain.com DevPodSubDomain holds a subdomain in the following form *.workspace.my-domain.com",
           "type": "string"
@@ -3752,6 +3756,42 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DatabaseConnectorStatus": {
       "description": "DatabaseConnectorStatus holds the status",
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.DatabaseKine": {
+      "properties": {
+        "caFile": {
+          "description": "CaFile is the ca file to use for the database. This is optional.",
+          "type": "string"
+        },
+        "certFile": {
+          "description": "CertFile is the cert file to use for the database. This is optional.",
+          "type": "string"
+        },
+        "dataSource": {
+          "description": "DataSource is the kine dataSource to use for the database. This depends on the database format. This is optional for the external database. Examples: * mysql: mysql://username:password@tcp(hostname:3306)/k3s * postgres: postgres://username:password@hostname:5432/k3s",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Enabled defines if the database should be used.",
+          "type": "boolean"
+        },
+        "extraArgs": {
+          "description": "ExtraArgs are additional arguments to pass to Kine.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "identityProvider": {
+          "description": "IdentityProvider is the kine identity provider to use when generating temporary authentication tokens for enhanced security. This is optional for the external database. Examples: * aws: RDS IAM Authentication",
+          "type": "string"
+        },
+        "keyFile": {
+          "description": "KeyFile is the key file to use for the database. This is optional.",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.DirectClusterEndpointToken": {
@@ -12380,6 +12420,19 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.ui.v1.MultiRegion": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled indicates whether multi-region is enabled",
+          "type": "boolean"
+        },
+        "region": {
+          "description": "Region is the region where this vCluster Platform instance is running",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.ui.v1.NavBarButton": {
       "properties": {
         "icon": {
@@ -12497,6 +12550,10 @@
           "description": "AccentColor is the color value (ex: \"#12345\") to use for the accent",
           "type": "string"
         },
+        "agentNamespace": {
+          "description": "AgentNamespace is the namespace where the connected cluster agents are deployed by default",
+          "type": "string"
+        },
         "availableVClusterVersions": {
           "description": "AvailableVClusterVersions lists all virtual cluster versions available to the platform instance",
           "items": {
@@ -12553,6 +12610,10 @@
         "logoURL": {
           "description": "LogoURL is url pointing to the logo to use in the vCluster Platform UI. This path must be accessible for clients accessing the vCluster Platform UI!",
           "type": "string"
+        },
+        "multiRegion": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.MultiRegion",
+          "description": "MultiRegion holds the multi-region configuration"
         },
         "navBarButtons": {
           "description": "NavBarButtons holds extra nav bar buttons",
