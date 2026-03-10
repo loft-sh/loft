@@ -1,10 +1,19 @@
-{{- $isEmbedded := eq (.Values.env.LOFT_EMBEDDED_K8S | toString) "true" -}}
+{{- $isEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
 
-{{- if and .Values.multiRegion.enabled (eq .Values.multiRegion.dataSource "") -}}
-  {{ fail "multiRegion.dataSource must be set when multiRegion.enabled is true" }}
+{{- if and (include "loft.multiRegionEnabled" .) (not (include "loft.configDatabaseEnabled" .)) -}}
+  {{ fail "config.database.enabled must be true when multiRegion.enabled is true" }}
 {{- end }}
-{{- if and .Values.multiRegion.enabled (eq .Values.multiRegion.host "") -}}
+{{- if and (include "loft.multiRegionEnabled" .) (eq (default "" .Values.multiRegion.host) "") -}}
   {{ fail "multiRegion.host must be set when multiRegion.enabled is true" }}
+{{- end }}
+{{- if include "loft.multiRegionEnabled" . -}}
+  {{- $dataSource := "" }}
+  {{- if and .Values.config .Values.config.database }}
+  {{- $dataSource = .Values.config.database.dataSource | default "" | toString }}
+  {{- end }}
+  {{- if or (eq $dataSource "") (hasPrefix "sqlite" $dataSource) }}
+  {{ fail "multiRegion requires a non-empty external data source (sqlite is not allowed)" }}
+  {{- end }}
 {{- end }}
 apiVersion: apps/v1
 kind: Deployment
@@ -145,7 +154,7 @@ spec:
         - name: LEADER_ELECTION_ENABLED
           value: "true"
         {{- end }}
-        {{- else if .Values.multiRegion.enabled }}
+        {{- else if or (include "loft.multiRegionEnabled" .) (include "loft.configDatabaseEnabled" .) }}
         - name: LEADER_ELECTION_ENABLED
           value: "true"
         {{- end }}
@@ -198,7 +207,45 @@ spec:
               key: values
         {{- end }}
         {{- end }}
-        {{- if .Values.multiRegion.enabled }}
+        {{- if include "loft.configDatabaseEnabled" . }}
+        - name: LOFT_EMBEDDED_K8S
+          value: "true"
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE
+          value: {{ .Values.config.database.dataSource | quote }}
+        {{- if .Values.config.database.identityProvider }}
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE_IDENTITY_PROVIDER
+          value: {{ .Values.config.database.identityProvider | quote }}
+        {{- end }}
+        {{- if .Values.config.database.caFile }}
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE_CA_FILE
+          value: {{ .Values.config.database.caFile | quote }}
+        {{- end }}
+        {{- if .Values.config.database.keyFile }}
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE_KEY_FILE
+          value: {{ .Values.config.database.keyFile | quote }}
+        {{- end }}
+        {{- if .Values.config.database.certFile }}
+        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE_CERT_FILE
+          value: {{ .Values.config.database.certFile | quote }}
+        {{- end }}
+        {{- $otherArgs := list }}
+        {{- range .Values.config.database.extraArgs }}
+        {{- if hasPrefix "--datastore-max-open-connections=" . }}
+        - name: LOFT_EMBEDDED_K8S_MAX_DATABASE_CONNECTIONS
+          value: {{ trimPrefix "--datastore-max-open-connections=" . | quote }}
+        {{- else if hasPrefix "--datastore-max-idle-connections=" . }}
+        - name: LOFT_EMBEDDED_K8S_MAX_IDLE_CONNECTIONS
+          value: {{ trimPrefix "--datastore-max-idle-connections=" . | quote }}
+        {{- else }}
+        {{- $otherArgs = append $otherArgs . }}
+        {{- end }}
+        {{- end }}
+        {{- if $otherArgs }}
+        - name: LOFT_EMBEDDED_K8S_DATABASE_EXTRA_ARGS
+          value: {{ toJson $otherArgs | quote }}
+        {{- end }}
+        {{- end }}
+        {{- if include "loft.multiRegionEnabled" . }}
         {{- if .Values.config.loftHost }}
         - name: LOFT_HOST
           value: {{ .Values.config.loftHost | quote }}
@@ -207,21 +254,9 @@ spec:
           value: "true"
         - name: LOFT_MULTI_REGION_PLATFORM_HOST
           value: {{ .Values.multiRegion.host | quote }}
-        - name: LOFT_EMBEDDED_K8S
-          value: "true"
-        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE
-          value: {{ .Values.multiRegion.dataSource | quote }}
-        {{- if .Values.multiRegion.dataSourceIdentityProvider }}
-        - name: LOFT_EMBEDDED_K8S_DATA_SOURCE_IDENTITY_PROVIDER
-          value: {{ .Values.multiRegion.dataSourceIdentityProvider | quote }}
-        {{- end }}
-        {{- if (gt (int .Values.multiRegion.dataSourceMaxConnections) 1) }}
-        - name: LOFT_EMBEDDED_K8S_MAX_DATABASE_CONNECTIONS
-          value: {{ .Values.multiRegion.dataSourceMaxConnections | quote }}
-        {{- end }}
-        {{- if (gt (int .Values.multiRegion.dataSourceMaxIdleConnections) 1) }}
-        - name: LOFT_EMBEDDED_K8S_MAX_IDLE_CONNECTIONS
-          value: {{ .Values.multiRegion.dataSourceMaxIdleConnections | quote }}
+        {{- if .Values.multiRegion.region }}
+        - name: LOFT_MULTI_REGION_PLATFORM_REGION
+          value: {{ .Values.multiRegion.region | quote }}
         {{- end }}
         {{- end }}
         {{- if (eq true (dig "agent" "leastPrivilegeMode" "enabled" false .Values.agentValues)) }}

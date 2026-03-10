@@ -803,13 +803,54 @@ tests:
     asserts:
       - notExists:
           path: spec.template.metadata.annotations["vcluster.com/default-agent-values-config-hash"]
+  - it: Setting config.database.enabled configures required environment variables
+    set:
+      replicaCount: 0
+      config:
+        database:
+          enabled: true
+          dataSource: your-rds-endpoint.region.rds.amazonaws.com
+          identityProvider: aws
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LEADER_ELECTION_ENABLED"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE"
+            value: "your-rds-endpoint.region.rds.amazonaws.com"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE_IDENTITY_PROVIDER"
+            value: "aws"
+  - it: Renders when multiRegion is null and does not set multi-region env vars
+    set:
+      multiRegion: null
+    asserts:
+      - exists:
+          path: spec.template.spec.containers[0].env
+      - notExists:
+          path: spec.template.spec.containers[0].env.LOFT_MULTI_REGION_PLATFORM
   - it: Setting multiRegion.enabled configures required environment variables
     set:
       replicaCount: 0
+      config:
+        database:
+          enabled: true
+          dataSource: your-rds-endpoint.region.rds.amazonaws.com
+          identityProvider: aws
       multiRegion:
         enabled: true
-        dataSource: your-rds-endpoint.region.rds.amazonaws.com
-        dataSourceIdentityProvider: aws
+        region: us-east-1
         host: us.loft.example.com
     asserts:
       - contains:
@@ -830,6 +871,11 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
+            name: "LOFT_MULTI_REGION_PLATFORM_REGION"
+            value: "us-east-1"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: "LOFT_EMBEDDED_K8S"
             value: "true"
       - contains:
@@ -847,12 +893,15 @@ tests:
       replicaCount: 3
       config:
         loftHost: loft.example.com
+        database:
+          enabled: true
+          dataSource: your-rds-endpoint.region.rds.amazonaws.com
+          identityProvider: aws
+          extraArgs:
+            - --datastore-max-open-connections=5
+            - --datastore-max-idle-connections=3
       multiRegion:
         enabled: true
-        dataSource: your-rds-endpoint.region.rds.amazonaws.com
-        dataSourceIdentityProvider: aws
-        dataSourceMaxConnections: 5
-        dataSourceMaxIdleConnections: 3
         host: us.loft.example.com
     asserts:
       - contains:
@@ -895,6 +944,67 @@ tests:
           content:
             name: "LOFT_EMBEDDED_K8S_MAX_IDLE_CONNECTIONS"
             value: "3"
+  - it: config.database.extraArgs additional args set LOFT_EMBEDDED_K8S_DATABASE_EXTRA_ARGS
+    set:
+      config:
+        database:
+          enabled: true
+          dataSource: postgres://localhost/db
+          extraArgs:
+            - --datastore-max-open-connections=5
+            - --custom-arg=value
+            - --another-flag
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_MAX_DATABASE_CONNECTIONS"
+            value: "5"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATABASE_EXTRA_ARGS"
+            value: "[\"--custom-arg=value\",\"--another-flag\"]"
+  - it: config.database.caFile, keyFile, certFile set LOFT_EMBEDDED_K8S_DATA_SOURCE_CA_FILE, KEY_FILE, CERT_FILE
+    set:
+      config:
+        database:
+          enabled: true
+          dataSource: postgres://localhost/db
+          caFile: /etc/certs/ca.pem
+          keyFile: /etc/certs/tls.key
+          certFile: /etc/certs/tls.crt
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE_CA_FILE"
+            value: "/etc/certs/ca.pem"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE_KEY_FILE"
+            value: "/etc/certs/tls.key"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_EMBEDDED_K8S_DATA_SOURCE_CERT_FILE"
+            value: "/etc/certs/tls.crt"
+  - it: config.database caFile, keyFile, certFile env vars not set when config.database.enabled is false
+    set:
+      config:
+        database:
+          enabled: false
+          caFile: /etc/certs/ca.pem
+          keyFile: /etc/certs/tls.key
+          certFile: /etc/certs/tls.crt
+    asserts:
+      - notExists:
+          path: spec.template.spec.containers[0].env.LOFT_EMBEDDED_K8S_DATA_SOURCE_CA_FILE
+      - notExists:
+          path: spec.template.spec.containers[0].env.LOFT_EMBEDDED_K8S_DATA_SOURCE_KEY_FILE
+      - notExists:
+          path: spec.template.spec.containers[0].env.LOFT_EMBEDDED_K8S_DATA_SOURCE_CERT_FILE
   - it: Setting multiRegion.enabled without dataSource fails
     set:
       replicaCount: 3
@@ -903,13 +1013,41 @@ tests:
         hostname: us.loft.example.com
     asserts:
       - failedTemplate:
-          errorMessage: "multiRegion.dataSource must be set when multiRegion.enabled is true"
+          errorMessage: "config.database.enabled must be true when multiRegion.enabled is true"
   - it: Setting multiRegion.enabled without hostname fails
     set:
       replicaCount: 3
+      config:
+        database:
+          enabled: true
       multiRegion:
         enabled: true
-        dataSource: your-rds-endpoint.region.rds.amazonaws.com
     asserts:
       - failedTemplate:
           errorMessage: "multiRegion.host must be set when multiRegion.enabled is true"
+  - it: multiRegion.enabled with empty data source fails
+    set:
+      replicaCount: 3
+      config:
+        database:
+          enabled: true
+          dataSource: ""
+      multiRegion:
+        enabled: true
+        host: us.loft.example.com
+    asserts:
+      - failedTemplate:
+          errorMessage: "multiRegion requires a non-empty external data source (sqlite is not allowed)"
+  - it: multiRegion.enabled with sqlite data source fails
+    set:
+      replicaCount: 3
+      config:
+        database:
+          enabled: true
+          dataSource: "sqlite:///var/lib/state.db"
+      multiRegion:
+        enabled: true
+        host: us.loft.example.com
+    asserts:
+      - failedTemplate:
+          errorMessage: "multiRegion requires a non-empty external data source (sqlite is not allowed)"

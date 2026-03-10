@@ -1,4 +1,4 @@
-{{- $isEmbedded := or (eq (.Values.env.LOFT_EMBEDDED_K8S | toString) "true") (include "loft.configDatabaseEnabled" .) -}}
+{{- $isEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
 
 {{- if .Values.apiservice }}
 {{- if .Values.apiservice.create }}

@@ -80,6 +80,30 @@ Populate audit image ref
   {{- end -}}
 {{- end -}}
 
+{{/*
+True when multiRegion is set and enabled (safe when .Values.multiRegion is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.multiRegionEnabled" . }}.
+*/}}
+{{- define "loft.multiRegionEnabled" -}}
+{{- if and .Values.multiRegion .Values.multiRegion.enabled }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when config.database is set and enabled (safe when .Values.config or .Values.config.database is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.configDatabaseEnabled" . }}.
+*/}}
+{{- define "loft.configDatabaseEnabled" -}}
+{{- if and .Values.config .Values.config.database .Values.config.database.enabled }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when env.LOFT_EMBEDDED_K8S is set to "true" (safe when .Values.env is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.envEmbeddedK8sEnabled" . }}.
+*/}}
+{{- define "loft.envEmbeddedK8sEnabled" -}}
+{{- if eq (.Values.env.LOFT_EMBEDDED_K8S | toString) "true" }}{{ true }}{{ end -}}
+{{- end -}}
+
 {{- define "loft.strategyType" -}}
   {{- if and .Values.strategy .Values.strategy.type -}}
     {{- .Values.strategy.type -}}
@@ -104,12 +128,4 @@ rollingUpdate:
   maxUnavailable: 1
   {{- end }}
 {{- end -}}
-{{- end -}}
-
-{{/*
-True when config.database is set and enabled (safe when .Values.config or .Values.config.database is nil).
-Output is truthy when enabled, empty otherwise; use in {{ if include "loft.configDatabaseEnabled" . }}.
-*/}}
-{{- define "loft.configDatabaseEnabled" -}}
-{{- if and .Values.config .Values.config.database .Values.config.database.enabled }}{{ true }}{{ end -}}
 {{- end -}}

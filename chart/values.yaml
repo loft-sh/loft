@@ -1,26 +1,6 @@
 # If agentOnly is true, will deploy only the agent
 agentOnly: false
 
-multiRegion:
-  # If multiRegion is true, will deploy the platform for multi-region fail-over.
-  enabled: false
-
-  # hostnames of the regional platform ingress
-  host: ""
-
-  # data source to use for the distributed control plane cluster. This must
-  # be a database supported by kine and be available to all regions
-  dataSource: ""
-  # use a cloud provider's identity based authentication
-  # - aws: use IAM Authentication for RDS
-  dataSourceIdentityProvider: ""
-
-  # max connections to the database
-  dataSourceMaxConnections: 3
-
-  # max idle connections to the database
-  dataSourceMaxIdleConnections: 0
-
 # If an admin user should be created during deployment
 # Any previously created admin user will not be deleted
 # when this is changed to false.
@@ -208,6 +188,35 @@ serviceMonitor:
 config:
   audit:
     enabled: true
+
+  # database is unset by default. When set, it configures the embedded Kubernetes (kine) database
+  # connection. Uncomment to use an external database with the embedded platform.
+  # database:
+  #   # Enable use of an external database for the embedded control plane (kine).
+  #   enabled: false
+  #   # dataSource is the kine data source URL. Examples:
+  #   #   mysql: mysql://username:password@tcp(hostname:3306)/k3s
+  #   #   postgres: postgres://username:password@hostname:5432/k3s
+  #   dataSource: ""
+  #   # identityProvider for authentication (e.g. "aws" for RDS IAM). Optional.
+  #   identityProvider: ""
+  #   # Paths to TLS files for the database connection. Optional.
+  #   caFile: ""
+  #   keyFile: ""
+  #   certFile: ""
+  #   # extraArgs: additional arguments passed to kine (e.g. --datastore-max-open-connections=5).
+  #   extraArgs: []
+
+
+# multiRegion is unset by default. When set, it configures the platform for multi-region fail-over.
+# Uncomment to deploy with multi-region. Requires config.database to be enabled.
+# multiRegion:
+#   # Enable multi-region deployment.
+#   enabled: false
+#   # Host for the regional platform ingress.
+#   host: ""
+#   # Region identifier for this platform instance.
+#   region: ""
 
 # Enables running loft agent with a security context that:
 # - disables privileged escalation
