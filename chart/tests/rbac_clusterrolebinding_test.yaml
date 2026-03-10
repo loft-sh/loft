@@ -1,0 +1,61 @@
+suite: rbac clusterrolebinding test
+templates:
+  - templates/rbac/clusterrolebinding.yaml
+
+tests:
+  - it: generates a clusterrolebinding with default values
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: ClusterRoleBinding
+      - equal:
+          path: roleRef.name
+          value: cluster-admin
+  - it: generates a clusterrolebinding when agentOnly is set
+    set:
+      agentOnly: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: ClusterRoleBinding
+      - equal:
+          path: roleRef.name
+          value: cluster-admin
+  - it: does not generate a clusterrolebinding when agentOnly and agent.leastPrivilegeMode.enabled are set
+    set:
+      agentOnly: true
+      agent:
+        leastPrivilegeMode:
+          enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: does not generate a clusterrolebinding when env.LOFT_EMBEDDED_K8S is true
+    set:
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: does not generate a clusterrolebinding when multiRegion.enabled is true
+    set:
+      multiRegion:
+        enabled: true
+        dataSource: "postgres://rds/local"
+        host: "loft.example.com"
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: does not generate a clusterrolebinding when config.database is enabled
+    set:
+      config:
+        database:
+          enabled: true
+          dataSource: "postgres://localhost/loft"
+    asserts:
+      - hasDocuments:
+          count: 0

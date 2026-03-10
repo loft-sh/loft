@@ -27,18 +27,81 @@ Default image name for a given product
 {{- printf "ghcr.io/loft-sh/loft:%s" .Chart.Version -}}
 {{- end -}}
 
+{{/*
+Populate image ref for a given product
+*/}}
+{{- define "loft.imageRef" -}}
+{{- $registry := default "ghcr.io" .Values.imageRef.registry -}}
+{{- $repository := coalesce .Values.imageRef.repository .repo "loft-sh/vcluster-platform" -}}
+{{- $tag := default .Chart.Version .Values.imageRef.tag -}}
+{{- printf "%s/%s:%s" $registry $repository $tag -}}
+{{- end -}}
+
 {{- define "loft.image" -}}
   {{- if .Values.product -}}
     {{- if eq .Values.product "vcluster-pro" -}}
-      {{- printf "ghcr.io/loft-sh/vcluster-platform:%s" .Chart.Version -}}
-    {{- else if eq .Values.product "devpod-pro" -}}
-      {{- printf "ghcr.io/loft-sh/devpod-pro:%s" .Chart.Version -}}
+	  {{- if .Values.imageRef -}}
+	    {{ include "loft.imageRef" $ }}
+	  {{- else -}}
+		{{- printf "ghcr.io/loft-sh/vcluster-platform:%s" .Chart.Version -}}
+	  {{- end -}}
     {{- else -}}
-      {{ include "loft.defaultImage" . }}
+	  {{- if .Values.imageRef -}}
+	    {{ include "loft.imageRef" (merge (dict "repo" "loft-sh/loft") $) }}
+	  {{- else -}}
+        {{ coalesce .Values.image (include "loft.defaultImage" .) }}
+	  {{- end -}}
     {{- end -}}
   {{- else -}}
-    {{ include "loft.defaultImage" . }}
+	{{- if .Values.imageRef -}}
+	  {{ include "loft.imageRef" (merge (dict "repo" "loft-sh/loft") $) }}
+	{{- else -}}
+      {{ coalesce .Values.image (include "loft.defaultImage" .) }}
+	{{- end -}}
   {{- end -}}
+{{- end -}}
+
+
+{{/*
+Populate audit image ref
+*/}}
+{{- define "loft.auditImageRef" -}}
+{{- $registry := default "docker.io" .Values.audit.imageRef.registry -}}
+{{- $repository := default "library/alpine" .Values.audit.imageRef.repository -}}
+{{- $tag := default "3.13.1" .Values.audit.imageRef.tag -}}
+{{- printf "%s/%s:%s" $registry $repository $tag -}}
+{{- end -}}
+
+{{- define "loft.auditImage" -}}
+  {{- if .Values.audit.imageRef -}}
+    {{ include "loft.auditImageRef" . }}
+  {{- else -}}
+    {{ default "library/alpine:3.13.1" .Values.audit.image }}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+True when multiRegion is set and enabled (safe when .Values.multiRegion is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.multiRegionEnabled" . }}.
+*/}}
+{{- define "loft.multiRegionEnabled" -}}
+{{- if and .Values.multiRegion .Values.multiRegion.enabled }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when config.database is set and enabled (safe when .Values.config or .Values.config.database is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.configDatabaseEnabled" . }}.
+*/}}
+{{- define "loft.configDatabaseEnabled" -}}
+{{- if and .Values.config .Values.config.database .Values.config.database.enabled }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when env.LOFT_EMBEDDED_K8S is set to "true" (safe when .Values.env is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.envEmbeddedK8sEnabled" . }}.
+*/}}
+{{- define "loft.envEmbeddedK8sEnabled" -}}
+{{- if eq (.Values.env.LOFT_EMBEDDED_K8S | toString) "true" }}{{ true }}{{ end -}}
 {{- end -}}
 
 {{- define "loft.strategyType" -}}
