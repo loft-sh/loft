@@ -4550,6 +4550,10 @@
           "description": "DesiredCapacity specifies the resources requested by the NodeClaim.",
           "type": "object"
         },
+        "displayName": {
+          "description": "DisplayName is the name of the NodeClaim that is displayed in the UI.",
+          "type": "string"
+        },
         "environmentRef": {
           "description": "EnvironmentRef is the name of the NodeEnvironment that this NodeClaim is based on.",
           "type": "string"
@@ -4732,6 +4736,10 @@
         "controlPlane": {
           "description": "ControlPlane indicates if the node environment is a control plane environment. This is intentionally not omitempty as we want to ensure that the control plane is always set for easier checking in for example terraform templates.",
           "type": "boolean"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the NodeClaim that is displayed in the UI.",
+          "type": "string"
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
@@ -6270,6 +6278,10 @@
         "namespacePattern": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern",
           "description": "NamespacePattern specifies template patterns to use for creating each space or virtual cluster's namespace"
+        },
+        "namespaceTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ProjectNamespaceTemplate",
+          "description": "NamespaceTemplate defines metadata that should be applied to the project's namespace on creation. This is useful for environments where admission controllers (e.g., Kyverno) require specific labels or annotations on namespaces."
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
@@ -11413,6 +11425,16 @@
         "resources": {
           "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
           "description": "Resources are compute resource required by the OpenCost backend"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ProjectNamespaceTemplate": {
+      "description": "ProjectNamespaceTemplate defines metadata to apply to the auto-created project namespace.",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "The namespace metadata"
         }
       },
       "type": "object"
