@@ -4480,6 +4480,11 @@
           "description": "Operations that were applied to the node claim.",
           "type": "object"
         },
+        "outputs": {
+          "description": "Outputs of the node environment.",
+          "format": "byte",
+          "type": "string"
+        },
         "state": {
           "description": "Terraform state of the node claim.",
           "format": "byte",
@@ -4527,6 +4532,13 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeClaimSpec": {
       "description": "NodeClaimSpec defines spec of node claim.",
       "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
         "controlPlane": {
           "description": "ControlPlane indicates if the node claim is for a control plane node. This is intentionally not omitempty as we want to ensure that the control plane is always set for easier checking in for example terraform templates.",
           "type": "boolean"
@@ -4538,12 +4550,20 @@
           "description": "DesiredCapacity specifies the resources requested by the NodeClaim.",
           "type": "object"
         },
+        "environmentRef": {
+          "description": "EnvironmentRef is the name of the NodeEnvironment that this NodeClaim is based on.",
+          "type": "string"
+        },
         "kubeletArgs": {
           "additionalProperties": {
             "type": "string"
           },
           "description": "KubeletArgs are additional arguments to pass to the kubelet.",
           "type": "object"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
         },
         "properties": {
           "additionalProperties": {
@@ -4582,13 +4602,12 @@
           "type": "string"
         },
         "vClusterRef": {
-          "description": "VClusterRef references source vCluster. This is required.",
+          "description": "VClusterRef references source vCluster.",
           "type": "string"
         }
       },
       "required": [
-        "providerRef",
-        "vClusterRef"
+        "providerRef"
       ],
       "type": "object"
     },
@@ -4703,9 +4722,20 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentSpec": {
       "description": "NodeEnvironmentSpec defines spec of node environment.",
       "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
         "controlPlane": {
           "description": "ControlPlane indicates if the node environment is a control plane environment. This is intentionally not omitempty as we want to ensure that the control plane is always set for easier checking in for example terraform templates.",
           "type": "boolean"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
         },
         "properties": {
           "additionalProperties": {
@@ -4719,14 +4749,10 @@
           "type": "string"
         },
         "vClusterRef": {
-          "description": "VClusterRef references source vCluster. This is required.",
+          "description": "VClusterRef references source vCluster.",
           "type": "string"
         }
       },
-      "required": [
-        "providerRef",
-        "vClusterRef"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentStatus": {
@@ -4987,6 +5013,10 @@
         "kubeVirt": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
+        },
+        "metal3": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3",
+          "description": "Metal3 configures a node provider using metal3.io BareMetalHost resources."
         },
         "properties": {
           "additionalProperties": {
@@ -5293,6 +5323,102 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OIDCClientStatus": {
       "description": "OIDCClientStatus holds the status",
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage": {
+      "description": "OSImage holds the OS image.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "OSImageList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageSpec": {
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "Description describes an OS image",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties is the configuration for the OS image",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageStatus": {
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectName": {
@@ -5944,6 +6070,13 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeType"
           },
           "type": "array"
+        },
+        "osImages": {
+          "description": "OSImages holds all the allowed OS images for the project",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImage"
+          },
+          "type": "array"
         }
       },
       "type": "object",
@@ -6476,6 +6609,99 @@
           "description": "The last time this access key was used to access the api"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey": {
+      "description": "SSHKey holds the OS image.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKeySpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKeyStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKeyList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "SSHKeyList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKeySpec": {
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "Description describes an SSH key",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "publicKey": {
+          "description": "PublicKey is the public SSH key",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKeyStatus": {
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.Self": {
@@ -10135,6 +10361,22 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DHCPDeployment": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled controls whether the DHCP server is deployed into the cluster.",
+          "type": "boolean"
+        },
+        "helmValues": {
+          "description": "HelmValues is raw YAML that will be passed as values to the DHCP Helm chart.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.EntityInfo": {
       "properties": {
         "displayName": {
@@ -10571,6 +10813,99 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3BareMetalHosts": {
+      "properties": {
+        "selector": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
+          "description": "Selector is a label selector to select the BareMetalHosts to use for this NodeType."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3Deployment": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled controls whether Metal3 and Ironic are deployed into the cluster.",
+          "type": "boolean"
+        },
+        "helmValues": {
+          "description": "HelmValues is raw YAML that will be passed as values to the Metal3 Helm chart.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3NodeTypeSpec": {
+      "properties": {
+        "bareMetalHosts": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3BareMetalHosts",
+          "description": "BareMetalHosts is a list of BareMetalHosts to use for this NodeType."
+        },
+        "cost": {
+          "description": "Cost is the instance cost. The higher the cost, the less likely it is to be selected. If empty, cost is automatically calculated from the resources specified.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
+          "description": "Metadata holds metadata to add to this managed NodeType."
+        },
+        "name": {
+          "description": "Name is the name of this node type.",
+          "type": "string"
+        },
+        "overhead": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeTypeOverhead",
+          "description": "Overhead defines the resource overhead for this node type."
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties returns a flexible set of properties that may be selected for scheduling.",
+          "type": "object"
+        },
+        "providerRef": {
+          "description": "ProviderRef is the node provider to use for this node type.",
+          "type": "string"
+        },
+        "resources": {
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Resources lists the full resources for a single node.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3ProviderDeployment": {
+      "properties": {
+        "dhcp": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.DHCPDeployment",
+          "description": "DHCP configures the DHCP server deployment."
+        },
+        "metal3": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3Deployment",
+          "description": "Metal3 configures the Metal3/Ironic deployment."
+        },
+        "multus": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.MultusDeployment",
+          "description": "Multus configures the Multus CNI deployment."
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metrics": {
       "properties": {
         "replicas": {
@@ -10591,6 +10926,22 @@
           "description": "Storage contains settings related to the metrics backend's persistent volume configuration"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.MultusDeployment": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled controls whether Multus CNI is deployed into the cluster.",
+          "type": "boolean"
+        },
+        "helmValues": {
+          "description": "HelmValues is raw YAML that will be passed as values to the Multus Helm chart.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern": {
@@ -10735,6 +11086,25 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3": {
+      "properties": {
+        "clusterRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
+          "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+        },
+        "deploy": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3ProviderDeployment"
+        },
+        "nodeTypes": {
+          "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3NodeTypeSpec"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderSpec": {
       "description": "NodeProviderSpec defines the desired state of NodeProvider. Only one of the provider types (Pods, BCM, Kubevirt) should be specified at a time.",
       "properties": {
@@ -10753,6 +11123,10 @@
         "kubeVirt": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
+        },
+        "metal3": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3",
+          "description": "Metal3 configures a node provider using metal3.io BareMetalHost resources."
         },
         "properties": {
           "additionalProperties": {
@@ -10947,6 +11321,63 @@
           "type": "array"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImage": {
+      "description": "OSImage holds the information of machine networks",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageStatus"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageSpec": {
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "Description describes an OS image",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties is the configuration for the OS image",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageStatus": {
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ObjectsStatus": {
@@ -23980,6 +24411,461 @@
         }
       }
     },
+    "/apis/management.loft.sh/v1/osimages": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of OSImage",
+        "operationId": "deleteManagementLoftShV1CollectionOSImage",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind OSImage",
+        "operationId": "listManagementLoftShV1OSImage",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create an OSImage",
+        "operationId": "createManagementLoftShV1OSImage",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/osimages/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete an OSImage",
+        "operationId": "deleteManagementLoftShV1OSImage",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified OSImage",
+        "operationId": "readManagementLoftShV1OSImage",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the OSImage",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified OSImage",
+        "operationId": "patchManagementLoftShV1OSImage",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified OSImage",
+        "operationId": "replaceManagementLoftShV1OSImage",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImage"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      }
+    },
     "/apis/management.loft.sh/v1/ownedaccesskeys": {
       "parameters": [
         {
@@ -26580,6 +27466,461 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "SpaceTemplate",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/sshkeys": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of SSHKey",
+        "operationId": "deleteManagementLoftShV1CollectionSSHKey",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind SSHKey",
+        "operationId": "listManagementLoftShV1SSHKey",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKeyList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a SSHKey",
+        "operationId": "createManagementLoftShV1SSHKey",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/sshkeys/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a SSHKey",
+        "operationId": "deleteManagementLoftShV1SSHKey",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified SSHKey",
+        "operationId": "readManagementLoftShV1SSHKey",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the SSHKey",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified SSHKey",
+        "operationId": "patchManagementLoftShV1SSHKey",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified SSHKey",
+        "operationId": "replaceManagementLoftShV1SSHKey",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SSHKey"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
           "version": "v1"
         }
       }
@@ -31098,6 +32439,152 @@
         }
       ]
     },
+    "/apis/management.loft.sh/v1/watch/osimages": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of OSImage. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1OSImageList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/osimages/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind OSImage. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1OSImage",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImage",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the OSImage",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
     "/apis/management.loft.sh/v1/watch/projects": {
       "get": {
         "consumes": [
@@ -31502,6 +32989,152 @@
         },
         {
           "description": "name of the SpaceTemplate",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/sshkeys": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of SSHKey. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1SSHKeyList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/sshkeys/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind SSHKey. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1SSHKey",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "SSHKey",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the SSHKey",
           "in": "path",
           "name": "name",
           "required": true,
