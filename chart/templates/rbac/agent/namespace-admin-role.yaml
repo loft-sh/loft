@@ -1,4 +1,6 @@
-{{- if (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled .Values.agent.leastPrivilegeMode.namespaceAdminRole.enabled) }}
+{{- if (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .)) }}
+{{- $lpmValues := include "loft.leastPrivilegeModeValues" . | fromJson }}
+{{- if eq true $lpmValues.namespaceAdminRole.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -13,90 +15,91 @@ metadata:
     {{- toYaml .Values.commonAnnotations | nindent 4 }}
   {{- end }}
 rules:
-{{- if .Values.agent.leastPrivilegeMode.namespaceAdminRole.overwriteRules }}
-{{ toYaml .Values.agent.leastPrivilegeMode.namespaceAdminRole.overwriteRules | indent 2 }}
+{{- if $lpmValues.namespaceAdminRole.overwriteRules }}
+{{ toYaml $lpmValues.namespaceAdminRole.overwriteRules | indent 2 }}
 {{- else }}
-- apiGroups: [ "" ]
-  resources: [ "configmaps" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "configmaps" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "endpoints" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "endpoints" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "events" ]
-  verbs: [ "create", "list", "patch" ]
+  - apiGroups: [ "" ]
+    resources: [ "events" ]
+    verbs: [ "create", "list", "patch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "persistentvolumeclaims" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "persistentvolumeclaims" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "limitranges" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "limitranges" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "pods", "pods/log" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "pods", "pods/log" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "resourcequotas" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "resourcequotas" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "secrets" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "serviceaccounts" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "serviceaccounts" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "" ]
-  resources: [ "services" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "services" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "apps" ]
-  resources: [ "deployments" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "deployments" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "apps" ]
-  resources: [ "replicasets" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "replicasets" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "apps" ]
-  resources: [ "statefulsets" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "statefulsets" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "discovery.k8s.io" ]
-  resources: [ "endpointslices" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "discovery.k8s.io" ]
+    resources: [ "endpointslices" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "networking.k8s.io" ]
-  resources: [ "ingresses" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "networking.k8s.io" ]
+    resources: [ "ingresses" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "networking.k8s.io" ]
-  resources: [ "networkpolicies" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "networking.k8s.io" ]
+    resources: [ "networkpolicies" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "policy" ]
-  resources: [ "poddisruptionbudgets" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "policy" ]
+    resources: [ "poddisruptionbudgets" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "rbac.authorization.k8s.io" ]
-  resources: [ "rolebindings" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "rolebindings" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "rbac.authorization.k8s.io" ]
-  resources: [ "roles" ]
-  verbs: [ "bind", "create", "delete", "escalate", "get", "list", "patch", "update", "watch" ]
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "roles" ]
+    verbs: [ "bind", "create", "delete", "escalate", "get", "list", "patch", "update", "watch" ]
 
-- apiGroups: [ "monitoring.coreos.com" ]
-  resources: [ "servicemonitors" ]
-  verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
-{{- if .Values.agent.leastPrivilegeMode.namespaceAdminRole.extraRules }}
-{{ toYaml .Values.agent.leastPrivilegeMode.namespaceAdminRole.extraRules | indent 2 }}
+  - apiGroups: [ "monitoring.coreos.com" ]
+    resources: [ "servicemonitors" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+{{- if $lpmValues.namespaceAdminRole.extraRules }}
+{{ toYaml $lpmValues.namespaceAdminRole.extraRules | indent 2 }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

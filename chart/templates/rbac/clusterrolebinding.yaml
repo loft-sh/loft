@@ -1,5 +1,5 @@
 {{- $skipForEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.multiRegionEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
-{{- if and (not (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled)) (not $skipForEmbedded) }}
+{{- if and (not (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .))) (not $skipForEmbedded) }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:

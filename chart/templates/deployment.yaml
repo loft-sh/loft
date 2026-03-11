@@ -259,31 +259,32 @@ spec:
           value: {{ .Values.multiRegion.region | quote }}
         {{- end }}
         {{- end }}
-        {{- if (eq true (dig "agent" "leastPrivilegeMode" "enabled" false .Values.agentValues)) }}
-        - name: LOFT_AGENT_VALUES_AGENT_LPM_ENABLED
+        {{- if (eq true (dig "leastPrivilegeMode" "enabled" false .Values.agentValues)) }}
+        - name: LOFT_AGENT_VALUES_LPM_ENABLED
           value: "true"
         {{- end }}
-        {{- if (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled) }}
-        - name: LOFT_AGENT_LPM_ENABLED
+        {{- if (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .)) }}
+        {{- $lpmValues := include "loft.leastPrivilegeModeValues" . | fromJson }}
+        - name: LOFT_LPM_ENABLED
           value: "true"
-        {{- if not .Values.agent.leastPrivilegeMode.clusterAccess.enabled }}
-        - name: LOFT_AGENT_LPM_CLUSTER_ACCESS_ENABLED
+        {{- if eq false $lpmValues.clusterAccess.enabled }}
+        - name: LOFT_LPM_CLUSTER_ACCESS_ENABLED
           value: "false"
         {{- end }}
-        {{- if not .Values.agent.leastPrivilegeMode.projectQuotas.enabled }}
-        - name: LOFT_AGENT_LPM_PROJECT_QUOTAS_ENABLED
+        {{- if eq false $lpmValues.projectQuotas.enabled }}
+        - name: LOFT_LPM_PROJECT_QUOTAS_ENABLED
           value: "false"
         {{- end }}
-        {{- if not .Values.agent.leastPrivilegeMode.secrets.enabled }}
-        - name: LOFT_AGENT_LPM_SECRETS_ENABLED
+        {{- if eq false $lpmValues.secrets.enabled }}
+        - name: LOFT_LPM_SECRETS_ENABLED
           value: "false"
         {{- end }}
-        {{- if not .Values.agent.leastPrivilegeMode.sleepMode.enabled }}
-        - name: LOFT_AGENT_LPM_SLEEP_MODE_ENABLED
+        {{- if eq false $lpmValues.sleepMode.enabled }}
+        - name: LOFT_LPM_SLEEP_MODE_ENABLED
           value: "false"
         {{- end }}
-        {{- if .Values.agent.leastPrivilegeMode.namespaceAdminRole.enabled }}
-        - name: LOFT_AGENT_LPM_NAMESPACE_ADMIN_ROLE_ENABLED
+        {{- if eq true $lpmValues.namespaceAdminRole.enabled }}
+        - name: LOFT_LPM_NAMESPACE_ADMIN_ROLE_ENABLED
           value: "true"
         {{- end }}
         {{- end }}

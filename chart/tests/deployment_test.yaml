@@ -1051,3 +1051,106 @@ tests:
     asserts:
       - failedTemplate:
           errorMessage: "multiRegion requires a non-empty external data source (sqlite is not allowed)"
+
+  - it: does not set leastPrivilegeMode env with default values
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_AGENT_VALUES_LPM_ENABLED"
+            value: "true"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_ENABLED"
+            value: "true"
+
+  - it: does not set leastPrivilegeMode env with agentOnly enabled
+    set:
+      agentOnly: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_AGENT_VALUES_LPM_ENABLED"
+            value: "true"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_ENABLED"
+            value: "true"
+  - it: sets leastPrivilegeMode env with agentOnly enabled and agentValues.leastPrivilegeMode.enabled
+    set:
+      agentOnly: true
+      agentValues:
+        leastPrivilegeMode:
+          enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_AGENT_VALUES_LPM_ENABLED"
+            value: "true"
+
+
+  - it: sets leastPrivilegeMode env with agentOnly enabled and leastPrivilegeMode.enabled
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_ENABLED"
+            value: "true"
+
+  - it: sets all leastPrivilegeMode envs with agentOnly enabled and leastPrivilegeMode.enabled
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        clusterAccess:
+          enabled: false
+        projectQuotas:
+          enabled: false
+        secrets:
+          enabled: false
+        sleepMode:
+          enabled: false
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_ENABLED"
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_CLUSTER_ACCESS_ENABLED"
+            value: "false"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_PROJECT_QUOTAS_ENABLED"
+            value: "false"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_SECRETS_ENABLED"
+            value: "false"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_LPM_SLEEP_MODE_ENABLED"
+            value: "false"

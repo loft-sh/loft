@@ -25,12 +25,11 @@ tests:
       - equal:
           path: roleRef.name
           value: cluster-admin
-  - it: does not generate a clusterrolebinding when agentOnly and agent.leastPrivilegeMode.enabled are set
+  - it: does not generate a clusterrolebinding when agentOnly and leastPrivilegeMode.enabled are set
     set:
       agentOnly: true
-      agent:
-        leastPrivilegeMode:
-          enabled: true
+      leastPrivilegeMode:
+        enabled: true
     asserts:
       - hasDocuments:
           count: 0

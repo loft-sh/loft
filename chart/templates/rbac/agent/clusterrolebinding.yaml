@@ -1,4 +1,6 @@
-{{- if (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled .Values.agent.leastPrivilegeMode.clusterRole.enabled) }}
+{{- if (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .)) }}
+{{- $lpmValues := include "loft.leastPrivilegeModeValues" . | fromJson }}
+{{- if eq true $lpmValues.clusterRole.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -20,4 +22,5 @@ roleRef:
   kind: ClusterRole
   name: vcluster-platform-agent
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
 {{- end }}

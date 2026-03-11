@@ -129,3 +129,29 @@ rollingUpdate:
   {{- end }}
 {{- end -}}
 {{- end -}}
+
+{{- define "loft.leastPrivilegeModeValues" -}}
+{{- $defaultValues := dict
+		"enabled" false
+		"clusterAccess" (dict "enabled" true)
+		"projectQuotas" (dict "enabled" true)
+		"secrets" (dict "enabled" true)
+		"sleepMode" (dict "enabled" true)
+		"role" (dict "enabled" true "extraRules" (list) "overwriteRules" (list))
+		"clusterRole" (dict "enabled" true "extraRules" (list) "overwriteRules" (list))
+		"namespaceAdminRole" (dict "enabled" true "extraRules" (list) "overwriteRules" (list)) -}}
+{{- if .Values.leastPrivilegeMode -}}
+{{ mergeOverwrite $defaultValues .Values.leastPrivilegeMode | toJson }}
+{{- else -}}
+{{ $defaultValues | toJson }}
+{{- end -}}
+{{- end -}}
+
+{{- define "loft.isLeastPrivilegeModeEnabled" -}}
+{{- if .Values.leastPrivilegeMode -}}
+{{- if eq true .Values.leastPrivilegeMode.enabled -}}
+{{ true }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+

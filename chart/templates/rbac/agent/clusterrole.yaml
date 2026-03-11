@@ -1,4 +1,6 @@
-{{- if (and .Values.agentOnly .Values.agent.leastPrivilegeMode.enabled .Values.agent.leastPrivilegeMode.clusterRole.enabled) }}
+{{- if (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .)) }}
+{{- $lpmValues := include "loft.leastPrivilegeModeValues" . | fromJson }}
+{{- if eq true $lpmValues.clusterRole.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -13,8 +15,8 @@ metadata:
     {{- toYaml .Values.commonAnnotations | nindent 4 }}
   {{- end }}
 rules:
-{{- if .Values.agent.leastPrivilegeMode.clusterRole.overwriteRules }}
-{{ toYaml .Values.agent.leastPrivilegeMode.clusterRole.overwriteRules | indent 2 }}
+{{- if $lpmValues.clusterRole.overwriteRules }}
+{{ toYaml $lpmValues.clusterRole.overwriteRules | indent 2 }}
 {{- else }}
   # agent bootstrap requirements
   - apiGroups: [ "authorization.k8s.io" ]
@@ -86,14 +88,14 @@ rules:
     resources: [ "rolebindings" ]
     verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
-{{- if .Values.agent.leastPrivilegeMode.secrets.enabled }}
+{{- if $lpmValues.secrets.enabled }}
   # global secrets / projects secrets management requirements
   - apiGroups: [ "" ]
     resources: [ "secrets" ]
     verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 {{- end }}
 
-{{- if .Values.agent.leastPrivilegeMode.clusterAccess.enabled }}
+{{- if $lpmValues.clusterAccess.enabled }}
   # cluster access requirements
   - apiGroups: [ "" ]
     resources: [ "groups", "users", "serviceaccounts" ]
@@ -125,7 +127,7 @@ rules:
     verbs: [ "get", "list" ]
 {{- end }}
 
-{{- if .Values.agent.leastPrivilegeMode.projectQuotas.enabled }}
+{{- if $lpmValues.projectQuotas.enabled }}
   # project quotas requirements
   - apiGroups: [ "storage.loft.sh" ]
     resources: [ "clusterquotas" ]
@@ -147,8 +149,9 @@ rules:
     resources: [ "storageclasses" ]
     verbs: [ "list", "watch" ]
 {{- end }}
-{{- if .Values.agent.leastPrivilegeMode.clusterRole.extraRules }}
-{{ toYaml .Values.agent.leastPrivilegeMode.clusterRole.extraRules | indent 2 }}
+{{- if $lpmValues.clusterRole.extraRules }}
+{{ toYaml $lpmValues.clusterRole.extraRules | indent 2 }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
