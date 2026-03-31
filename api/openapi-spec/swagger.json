@@ -10020,7 +10020,11 @@
           "type": "string"
         },
         "application": {
-          "description": "Application is the ArgoCD project/repository to apply the rule to.",
+          "description": "Application is the ArgoCD project/repository to apply the rule to. DEPRECATED: Wasn't used. Kind provides a more flexible way to specify the resource type.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is the kind to apply the rule to",
           "type": "string"
         },
         "permission": {
@@ -10062,14 +10066,21 @@
         "clusterResourceBlacklist": {
           "description": "ClusterResourceBlacklist contains a list of blacklisted cluster level resources",
           "items": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.GroupKind"
+            "$ref": "#/definitions/github.com~1loft-sh~1external-types~1argoproj~1argo-cd~1v2~1pkg~1apis~1application~1v1alpha1.ClusterResourceRestrictionItem"
           },
           "type": "array"
         },
         "clusterResourceWhitelist": {
           "description": "ClusterResourceWhitelist contains a list of whitelisted cluster level resources If not specified or empty, deny all cluster-scope resources.",
           "items": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.GroupKind"
+            "$ref": "#/definitions/github.com~1loft-sh~1external-types~1argoproj~1argo-cd~1v2~1pkg~1apis~1application~1v1alpha1.ClusterResourceRestrictionItem"
+          },
+          "type": "array"
+        },
+        "destinations": {
+          "description": "Destinations contains list of destinations available for deployment",
+          "items": {
+            "$ref": "#/definitions/github.com~1loft-sh~1external-types~1argoproj~1argo-cd~1v2~1pkg~1apis~1application~1v1alpha1.ApplicationDestination"
           },
           "type": "array"
         },
@@ -12819,6 +12830,44 @@
           "type": "integer"
         }
       },
+      "type": "object"
+    },
+    "github.com/loft-sh/external-types/argoproj/argo-cd/v2/pkg/apis/application/v1alpha1.ApplicationDestination": {
+      "description": "ApplicationDestination holds information about the application's destination",
+      "properties": {
+        "name": {
+          "description": "Name is an alternate way of specifying the target cluster by its symbolic name",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace specifies the target namespace for the application's resources. The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace",
+          "type": "string"
+        },
+        "server": {
+          "description": "Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "github.com/loft-sh/external-types/argoproj/argo-cd/v2/pkg/apis/application/v1alpha1.ClusterResourceRestrictionItem": {
+      "description": "ClusterResourceRestrictionItem is a cluster resource that is restricted by the project's whitelist or blacklist",
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of the restricted resource. Glob patterns using Go's filepath.Match syntax are supported. Unlike the group and kind fields, if no name is specified, all resources of the specified group/kind are matched.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "group",
+        "kind"
+      ],
       "type": "object"
     },
     "io.k8s.api.authentication.v1.UserInfo": {
