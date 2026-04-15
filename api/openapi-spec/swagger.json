@@ -10244,21 +10244,21 @@
         "clusterResourceBlacklist": {
           "description": "ClusterResourceBlacklist contains a list of blacklisted cluster level resources",
           "items": {
-            "$ref": "#/definitions/github.com~1loft-sh~1external-types~1argoproj~1argo-cd~1v2~1pkg~1apis~1application~1v1alpha1.ClusterResourceRestrictionItem"
+            "$ref": "#/definitions/com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ClusterResourceRestrictionItem"
           },
           "type": "array"
         },
         "clusterResourceWhitelist": {
           "description": "ClusterResourceWhitelist contains a list of whitelisted cluster level resources If not specified or empty, deny all cluster-scope resources.",
           "items": {
-            "$ref": "#/definitions/github.com~1loft-sh~1external-types~1argoproj~1argo-cd~1v2~1pkg~1apis~1application~1v1alpha1.ClusterResourceRestrictionItem"
+            "$ref": "#/definitions/com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ClusterResourceRestrictionItem"
           },
           "type": "array"
         },
         "destinations": {
           "description": "Destinations contains list of destinations available for deployment",
           "items": {
-            "$ref": "#/definitions/github.com~1loft-sh~1external-types~1argoproj~1argo-cd~1v2~1pkg~1apis~1application~1v1alpha1.ApplicationDestination"
+            "$ref": "#/definitions/com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ApplicationDestination"
           },
           "type": "array"
         },
@@ -13010,7 +13010,7 @@
       },
       "type": "object"
     },
-    "github.com/loft-sh/external-types/argoproj/argo-cd/v2/pkg/apis/application/v1alpha1.ApplicationDestination": {
+    "com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ApplicationDestination": {
       "description": "ApplicationDestination holds information about the application's destination",
       "properties": {
         "name": {
@@ -13028,7 +13028,7 @@
       },
       "type": "object"
     },
-    "github.com/loft-sh/external-types/argoproj/argo-cd/v2/pkg/apis/application/v1alpha1.ClusterResourceRestrictionItem": {
+    "com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ClusterResourceRestrictionItem": {
       "description": "ClusterResourceRestrictionItem is a cluster resource that is restricted by the project's whitelist or blacklist",
       "properties": {
         "group": {
