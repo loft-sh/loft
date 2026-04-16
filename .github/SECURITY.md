@@ -2,7 +2,7 @@
 
 We will disclose fixes for vulnerabilities in our [Release Notes](https://loft.featurebase.app/changelog).
 
-To receive update warnings please watch the vCluster repo and the [Loft repo](https://github.com/loft-sh/loft), and review our release notes on a regular basis.
+To receive update warnings please watch the [vCluster repo](https://github.com/loft-sh/vcluster) and the [Loft repo](https://github.com/loft-sh/loft), and review our release notes on a regular basis.
 
 ## Reporting a Vulnerability
 
