@@ -2191,10 +2191,6 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationPassword",
           "description": "Password holds password authentication relevant information"
         },
-        "rancher": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationRancher",
-          "description": "Rancher holds the rancher authentication options"
-        },
         "saml": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationSAML",
           "description": "SAML holds saml authentication configuration"
@@ -2478,23 +2474,6 @@
       "properties": {
         "disabled": {
           "description": "If true login via password is disabled",
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationRancher": {
-      "properties": {
-        "bearerToken": {
-          "description": "BearerToken holds the rancher API key in token username and password form. E.g. my-token:my-secret",
-          "type": "string"
-        },
-        "host": {
-          "description": "Host holds the rancher host, e.g. my-domain.com",
-          "type": "string"
-        },
-        "insecure": {
-          "description": "Insecure tells Loft if the Rancher endpoint is insecure.",
           "type": "boolean"
         }
       },
@@ -6472,10 +6451,6 @@
         "quotas": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Quotas",
           "description": "Quotas define the quotas inside the project"
-        },
-        "rancher": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RancherIntegrationSpec",
-          "description": "RancherIntegration holds information about Rancher Integration"
         },
         "requirePreset": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RequirePreset",
@@ -10829,18 +10804,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ImportVirtualClustersSpec": {
-      "properties": {
-        "roleMapping": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "RoleMapping indicates an optional role mapping from a rancher project role to a rancher cluster role. Map to an empty role to exclude users and groups with that role from being synced.",
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.InstanceAccess": {
       "properties": {
         "defaultClusterRole": {
@@ -11821,40 +11784,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RancherIntegrationSpec": {
-      "properties": {
-        "enabled": {
-          "description": "Enabled indicates if the Rancher Project Integration is enabled for this project.",
-          "type": "boolean"
-        },
-        "importVirtualClusters": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ImportVirtualClustersSpec",
-          "description": "ImportVirtualClusters defines settings to import virtual clusters to Rancher on creation"
-        },
-        "projectRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.RancherProjectRef",
-          "description": "ProjectRef defines references to rancher project, required for syncMembers and syncVirtualClusters.syncMembers"
-        },
-        "syncMembers": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SyncMembersSpec",
-          "description": "SyncMembers defines settings to sync Rancher project members to the loft project"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RancherProjectRef": {
-      "properties": {
-        "cluster": {
-          "description": "Cluster defines the Rancher cluster ID Needs to be the same id within Loft",
-          "type": "string"
-        },
-        "project": {
-          "description": "Project defines the Rancher project ID",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.RequirePreset": {
       "properties": {
         "disabled": {
@@ -12023,22 +11952,6 @@
         "selector": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
           "description": "Label selector for pods. The newest matching pod will be used to stream logs from"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.SyncMembersSpec": {
-      "properties": {
-        "enabled": {
-          "description": "Enabled indicates whether to sync rancher project members to the loft project.",
-          "type": "boolean"
-        },
-        "roleMapping": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "RoleMapping indicates an optional role mapping from a rancher role to a loft role. Map to an empty role to exclude users and groups with that role from being synced.",
-          "type": "object"
         }
       },
       "type": "object"
