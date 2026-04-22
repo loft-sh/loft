@@ -1,0 +1,29 @@
+suite: Ingress Devpod
+templates:
+  - ingress-devpod.yaml
+
+tests:
+  - it: deploy ingress not by default
+    release:
+      name: my-release
+      namespace: my-namespace
+    set:
+      ingress:
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: deploy ingress
+    release:
+      name: my-release
+      namespace: my-namespace
+    set:
+      devpodIngress:
+        enabled: true
+        host: "*.devpod.mydomain.com"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.rules[0].host
+          value: "*.devpod.mydomain.com"

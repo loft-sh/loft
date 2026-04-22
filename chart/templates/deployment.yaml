@@ -55,7 +55,7 @@ spec:
         - name: loft-data
           emptyDir: {}
       {{- end }}
-      {{- if .Values.additionalCA }}
+      {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
         - name: loft-additional-ca
           secret:
             secretName: loft-additional-ca
@@ -98,13 +98,26 @@ spec:
         {{- end }}
         {{- end }}
         env:
+        {{- if not .Values.admin.create }}
+        - name: ADMIN_SKIP_CREATE
+          value: "true"
+        {{- end }}
         - name: ADMIN_EMAIL
           value: {{ .Values.admin.email | quote }}
         - name: CHART_VERSION
           value: {{ .Chart.Version }}
         {{- if .Values.admin.password }}
+        {{- if hasPrefix "$" .Values.admin.password }}
+        - name: ADMIN_PASSWORD_ENV
+          value: {{ .Values.admin.password }}
+        {{- else }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.admin.username }}
+        - name: ADMIN_USERNAME
+          value: {{ .Values.admin.username | quote }}
         {{- end }}
         {{- if (gt (int .Values.replicaCount) 1) }}
         {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
@@ -141,6 +154,8 @@ spec:
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
         {{- end }}
+        - name: LOFT_MANAGER_IMAGE
+          value: {{ (default (include "loft.image" .) .Values.image) | quote }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
@@ -151,7 +166,7 @@ spec:
         {{- end }}
           - mountPath: /var/lib/loft
             name: loft-data
-        {{- if .Values.additionalCA }}
+        {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
           - name: loft-additional-ca
             mountPath: /etc/ssl/certs/loft-additional-ca.crt
             readOnly: true
@@ -170,6 +185,8 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/loft
           name: loft-data
+        securityContext:
+          {{- toYaml .Values.audit.securityContext | nindent 12 }}
       {{- end }}
       {{- end }}
       {{- if .Values.nodeSelector }}
@@ -183,6 +200,10 @@ spec:
       {{- if .Values.tolerations }}
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
+      {{- if .Values.hostAliases }}
+      hostAliases:
+{{ toYaml .Values.hostAliases | indent 8 }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
