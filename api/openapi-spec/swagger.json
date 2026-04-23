@@ -4222,6 +4222,9 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.UISettings",
           "description": "ui.loft.sh"
         },
+        "accessKey": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKey"
+        },
         "chartInfo": {
           "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.cluster.v1.ChartInfo"
         },
@@ -9710,6 +9713,29 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKey": {
+      "description": "AccessKey holds the session information",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeySpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyStatus"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyOIDC": {
       "properties": {
         "accessToken": {
@@ -9929,6 +9955,93 @@
         "virtualCluster": {
           "description": "VirtualCluster is the name of the virtual cluster to access. You can specify * to select all virtual clusters.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeySpec": {
+      "properties": {
+        "description": {
+          "description": "Description describes an app",
+          "type": "string"
+        },
+        "disabled": {
+          "description": "If this field is true, the access key is still allowed to exist, however will not work to access the api",
+          "type": "boolean"
+        },
+        "displayName": {
+          "description": "The display name shown in the UI",
+          "type": "string"
+        },
+        "groups": {
+          "description": "Groups specifies extra groups to apply when using this access key",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "identity": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.SSOIdentity",
+          "description": "If available, contains information about the sso login data for this access key"
+        },
+        "identityRefresh": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "The last time the identity was refreshed"
+        },
+        "key": {
+          "description": "The actual access key that will be used as a bearer token",
+          "type": "string"
+        },
+        "oidcLogin": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyOIDC",
+          "description": "DEPRECATED: Use identity instead If available, contains information about the oidc login data for this access key"
+        },
+        "oidcProvider": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyOIDCProvider",
+          "description": "If the token is a refresh token, contains information about it"
+        },
+        "parent": {
+          "description": "DEPRECATED: do not use anymore Parent is used to share OIDC and external token information with multiple access keys. Since copying an OIDC refresh token would result in the other access keys becoming invalid after a refresh parent allows access keys to share that information.\n\nThe use case for this is primarily user generated access keys, which will have the users current access key as parent if it contains an OIDC token.",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyScope",
+          "description": "Scope defines the scope of the access key."
+        },
+        "subject": {
+          "description": "Subject is a generic subject that can be used instead of user or team",
+          "type": "string"
+        },
+        "team": {
+          "description": "The team this access key refers to",
+          "type": "string"
+        },
+        "ttl": {
+          "description": "The time to life for this access key",
+          "format": "int64",
+          "type": "integer"
+        },
+        "ttlAfterLastActivity": {
+          "description": "If this is specified, the time to life for this access key will start after the lastActivity instead of creation timestamp",
+          "type": "boolean"
+        },
+        "type": {
+          "description": "The type of an access key, which basically describes if the access key is user managed or managed by loft itself.",
+          "type": "string"
+        },
+        "user": {
+          "description": "The user this access key refers to",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyStatus": {
+      "description": "AccessKeyStatus holds the status of an access key",
+      "properties": {
+        "lastActivity": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "The last time this access key was used to access the api"
         }
       },
       "type": "object"
