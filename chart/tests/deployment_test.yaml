@@ -42,30 +42,187 @@ tests:
             value: "true"
           count: 1
 
-  - it: Preferred node anti-affinity is applied by default
+  - it: Preferred node anti-affinity is not applied by default
     asserts:
       - hasDocuments:
           count: 1
-      - equal:
+      - notExists:
           path: spec.template.spec.affinity
-          value:
-            nodeAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                preference:
-                  matchExpressions:
-                  - key: eks.amazonaws.com/capacityType
-                    operator: NotIn
-                    values:
+
+  - it: Preferred node anti-affinity is applied when activated
+    set:
+      affinity:
+        nodeAffinity:
+          preferNotToRunOnSpotInstances:
+            enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: eks.amazonaws.com/capacityType
+                  operator: NotIn
+                  values:
                     - SPOT
-                  - key: kubernetes.azure.com/scalesetpriority
-                    operator: NotIn
-                    values:
+                - key: kubernetes.azure.com/scalesetpriority
+                  operator: NotIn
+                  values:
                     - spot
-                  - key: cloud.google.com/gke-provisioning
-                    operator: NotIn
-                    values:
+                - key: cloud.google.com/gke-provisioning
+                  operator: NotIn
+                  values:
                     - spot
+            weight: 50
+
+  - it: Preferred node anti-affinity is applied together with additional term
+    set:
+      affinity:
+        nodeAffinity:
+          preferNotToRunOnSpotInstances:
+            enabled: true
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: foo/bar
+                    operator: In
+                    values:
+                      - bla
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: eks.amazonaws.com/capacityType
+                  operator: NotIn
+                  values:
+                    - SPOT
+                - key: kubernetes.azure.com/scalesetpriority
+                  operator: NotIn
+                  values:
+                    - spot
+                - key: cloud.google.com/gke-provisioning
+                  operator: NotIn
+                  values:
+                    - spot
+            weight: 50
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: foo/bar
+                  operator: In
+                  values:
+                    - bla
+            weight: 100
+
+  - it: Preferred node anti-affinity is applied with only additional term
+    set:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: foo/bar
+                    operator: In
+                    values:
+                      - bla
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          count: 1
+      - contains:
+          path: spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            preference:
+              matchExpressions:
+                - key: foo/bar
+                  operator: In
+                  values:
+                    - bla
+            weight: 100
+
+  - it: Required node affinity is applied when set
+    set:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                matchExpressions:
+                  - key: foo/bar
+                    operator: In
+                    values:
+                      - bla
+    asserts:
+      - equal:
+          path: spec.template.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution
+          value:
+            nodeSelectorTerms:
+              matchExpressions:
+                - key: foo/bar
+                  operator: In
+                  values:
+                    - bla
+
+  - it: Preferred pod affinity is applied when set
+    set:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 11
+              podAffinityTerm:
+                topologyKey: affinity/preferred
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            podAffinityTerm:
+              topologyKey: affinity/preferred
+            weight: 11
+
+  - it: Required pod affinity is applied when set
+    set:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: affinity/required
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution
+          content:
+            topologyKey: affinity/required
+
+  - it: Preferred pod anti-affinity is applied when set
+    set:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 42
+              podAffinityTerm:
+                topologyKey: anti-affinity/preferred
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution
+          content:
+            podAffinityTerm:
+              topologyKey: anti-affinity/preferred
+            weight: 42
+
+  - it: Required pod anti-affinity is applied when set
+    set:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: anti-affinity/required
+    asserts:
+      - contains:
+          path: spec.template.spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution
+          content:
+            topologyKey: anti-affinity/required
 
   - it: Deployment strategy is applied correctly for Recreate
     asserts:
@@ -177,6 +334,7 @@ tests:
           count: 1
       - notExists:
           path: spec.template.spec.containers[0].securityContext.enabled
+
   - it: SecurityContext kyverno strict policies (backward compatibility with .enabled=false)
     set:
       podSecurityContext:
@@ -199,3 +357,408 @@ tests:
           count: 1
       - notExists:
           path: spec.template.spec.containers[0].securityContext.enabled
+
+  - it: Audit Container SecurityContext defaults
+    set:
+      audit:
+        enableSideCar: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.privileged
+          value: false
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation
+          value: false
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.capabilities.drop[0]
+          value: "ALL"
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsNonRoot
+          value: true
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsUser
+          value: 1000
+
+  - it: Audit Container SecurityContext kyverno strict policies
+    set:
+      audit:
+        enableSideCar: true
+        securityContext:
+          capabilities:
+            drop:
+              - ALL
+          runAsUser: 1000
+          runAsGroup: 65533
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.capabilities.drop[0]
+          value: "ALL"
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsUser
+          value: 1000
+      - equal:
+          path: spec.template.spec.containers[1].securityContext.runAsGroup
+          value: 65533
+
+  - it: Skip default admin creation
+    set:
+      admin:
+        create: false
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].env[0]
+          value:
+            name: "ADMIN_SKIP_CREATE"
+            value: "true"
+
+  - it: Default admin password hash
+    set:
+      admin:
+        password: "my-password"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].env[2]
+          value:
+            name: "ADMIN_PASSWORD_HASH"
+            value: "6fa2288c361becce3e30ba4c41be7d8ba01e3580566f7acc76a7f99994474c46"
+
+  - it: Default admin password hash with envVar reference
+    set:
+      envValueFrom:
+        SAMPLE_ENV_VAR:
+          secretKeyRef:
+            name: vcluster-secret
+            key: admin_password
+      admin:
+        create: true
+        username: admin
+        password: $SAMPLE_ENV_VAR
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].env[2]
+          value:
+            name: "ADMIN_PASSWORD_ENV"
+            value: "$SAMPLE_ENV_VAR"
+
+  - it: Default is used when when neither image nor imageRef are set
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/loft:0.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:0.0.0"
+          count: 1
+
+  - it: Default is used when when neither audit.image nor auditImageRef are set
+    set:
+      audit:
+        enableSideCar: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "library/alpine:3.13.1"
+
+  - it: Setting image overwrites default
+    set:
+      image: "ghcr.io/loft-sh/loft:1.2.3"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/loft:1.2.3"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:1.2.3"
+          count: 1
+
+  - it: Setting audit.image overwrites default
+    set:
+      audit:
+        enableSideCar: true
+        image: "example.com/foo/bar:latest"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "example.com/foo/bar:latest"
+
+  - it: Setting imageRef overwrites default
+    set:
+      imageRef:
+        registry: example.com
+        repository: foo/bar
+        tag: latest
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "example.com/foo/bar:latest"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "example.com/foo/bar:latest"
+
+  - it: Setting audit.imageRef overwrites default
+    set:
+      audit:
+        enableSideCar: true
+        imageRef:
+          registry: example.com
+          repository: foo/bar
+          tag: latest
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "example.com/foo/bar:latest"
+
+  - it: Setting imageRef takes precedence over setting image
+    set:
+      image: "ghcr.io/loft-sh/loft:1.2.3"
+      imageRef:
+        registry: example.com
+        repository: foo/bar
+        tag: latest
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "example.com/foo/bar:latest"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "example.com/foo/bar:latest"
+
+  - it: Setting audit.imageRef takes precedence over setting audit.image
+    set:
+      audit:
+        enableSideCar: true
+        image: "docker.io/library/alpine:latest"
+        imageRef:
+          registry: example.com
+          repository: foo/bar
+          tag: latest
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "example.com/foo/bar:latest"
+
+  - it: Default to "loft-sh/loft" repository when omitted in imageRef and product is not set to "vcluster-pro"
+    set:
+      imageRef:
+        registry: ghcr.io
+        tag: 1.2.3
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/loft:1.2.3"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:1.2.3"
+
+  - it: Use "ghcr.io/loft-sh/vcluster-platform:0.0.0" when product is set to "vcluster-pro"
+    set:
+      product: vcluster-pro
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:0.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/vcluster-platform:0.0.0"
+
+  - it: Setting product to "vcluster-pro" takes presedence over image
+    set:
+      image: "example.com/foo/bar:latest"
+      product: vcluster-pro
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:0.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/vcluster-platform:0.0.0"
+
+  - it: Default to "loft-sh/vcluster-platform" repository when omitted in imageRef and product is not set to "vcluster-pro"
+    set:
+      product: vcluster-pro
+      imageRef:
+        registry: ghcr.io
+        tag: 1.2.3
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:1.2.3"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/vcluster-platform:1.2.3"
+
+  - it: Setting only imageRef.registry uses defaults for repository and tag
+    set:
+      imageRef:
+        registry: example.com
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "example.com/loft-sh/loft:0.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "example.com/loft-sh/loft:0.0.0"
+
+  - it: Setting only imageRef.tag uses defaults for registry and repository
+    set:
+      imageRef:
+        tag: "1.2.3"
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/loft:1.2.3"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:1.2.3"
+
+  - it: Setting only imageRef.repository uses defaults for registry and tag
+    set:
+      imageRef:
+        repository: custom/image
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/custom/image:0.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/custom/image:0.0.0"
+
+  - it: Setting only audit.imageRef.registry uses defaults for repository and tag
+    set:
+      audit:
+        enableSideCar: true
+        imageRef:
+          registry: example.com
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "example.com/library/alpine:3.13.1"
+
+  - it: Setting only audit.imageRef.tag uses defaults for registry and repository
+    set:
+      audit:
+        enableSideCar: true
+        imageRef:
+          tag: "3.20.0"
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "docker.io/library/alpine:3.20.0"
+
+  - it: Setting only audit.imageRef.repository uses defaults for registry and tag
+    set:
+      audit:
+        enableSideCar: true
+        imageRef:
+          repository: custom/busybox
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: "docker.io/custom/busybox:3.13.1"
+
+  - it: Setting product to vcluster-pro with imageRef takes precedence over image
+    set:
+      product: vcluster-pro
+      image: "should-be-ignored:latest"
+      imageRef:
+        registry: example.com
+        repository: foo/bar
+        tag: "2.0.0"
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "example.com/foo/bar:2.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "example.com/foo/bar:2.0.0"
+
+  - it: Empty imageRef object uses all defaults for loft product
+    set:
+      imageRef: {}
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/loft:0.0.0"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:0.0.0"
+
+  - it: Setting env.LOFT_MANAGER_IMAGE does not result in duplicate environment variables
+    set:
+      env:
+        LOFT_MANAGER_IMAGE: ghcr.io/loft-sh/enterprise:release-test
+      audit:
+        enableSideCar: true
+        imageRef:
+          repository: custom/busybox
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/enterprise:release-test"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/loft:0.0.0"
