@@ -7005,11 +7005,11 @@
       "properties": {
         "nonResourceAttributes": {
           "$ref": "#/definitions/io.k8s.api.authorization.v1.NonResourceAttributes",
-          "description": "NonResourceAttributes describes information for a non-resource access request"
+          "description": "nonResourceAttributes describes information for a non-resource access request"
         },
         "resourceAttributes": {
           "$ref": "#/definitions/io.k8s.api.authorization.v1.ResourceAttributes",
-          "description": "ResourceAuthorizationAttributes describes information for a resource access request"
+          "description": "resourceAttributes describes information for a resource access request"
         }
       },
       "type": "object"
@@ -7017,19 +7017,19 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.SelfSubjectAccessReviewStatus": {
       "properties": {
         "allowed": {
-          "description": "Allowed is required. True if the action would be allowed, false otherwise.",
+          "description": "allowed is required. True if the action would be allowed, false otherwise.",
           "type": "boolean"
         },
         "denied": {
-          "description": "Denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.",
+          "description": "denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.",
           "type": "boolean"
         },
         "evaluationError": {
-          "description": "EvaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.",
+          "description": "evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.",
           "type": "string"
         },
         "reason": {
-          "description": "Reason is optional.  It indicates why a request was allowed or denied.",
+          "description": "reason is optional.  It indicates why a request was allowed or denied.",
           "type": "string"
         }
       },
@@ -7613,11 +7613,11 @@
             },
             "type": "array"
           },
-          "description": "Extra corresponds to the user.Info.GetExtra() method from the authenticator.  Since that is input to the authorizer it needs a reflection here.",
+          "description": "extra corresponds to the user.Info.GetExtra() method from the authenticator.  Since that is input to the authorizer it needs a reflection here.",
           "type": "object"
         },
         "groups": {
-          "description": "Groups is the groups you're testing for.",
+          "description": "groups is the groups you're testing for.",
           "items": {
             "type": "string"
           },
@@ -7626,18 +7626,18 @@
         },
         "nonResourceAttributes": {
           "$ref": "#/definitions/io.k8s.api.authorization.v1.NonResourceAttributes",
-          "description": "NonResourceAttributes describes information for a non-resource access request"
+          "description": "nonResourceAttributes describes information for a non-resource access request"
         },
         "resourceAttributes": {
           "$ref": "#/definitions/io.k8s.api.authorization.v1.ResourceAttributes",
-          "description": "ResourceAuthorizationAttributes describes information for a resource access request"
+          "description": "resourceAttributes describes information for a resource access request"
         },
         "uid": {
-          "description": "UID information about the requesting user.",
+          "description": "uid information about the requesting user.",
           "type": "string"
         },
         "user": {
-          "description": "User is the user you're testing for. If you specify \"User\" but not \"Groups\", then is it interpreted as \"What if User were not a member of any groups",
+          "description": "user is the user you're testing for. If you specify \"User\" but not \"Groups\", then is it interpreted as \"What if User were not a member of any groups",
           "type": "string"
         }
       },
@@ -7646,19 +7646,19 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.SubjectAccessReviewStatus": {
       "properties": {
         "allowed": {
-          "description": "Allowed is required. True if the action would be allowed, false otherwise.",
+          "description": "allowed is required. True if the action would be allowed, false otherwise.",
           "type": "boolean"
         },
         "denied": {
-          "description": "Denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.",
+          "description": "denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.",
           "type": "boolean"
         },
         "evaluationError": {
-          "description": "EvaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.",
+          "description": "evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.",
           "type": "string"
         },
         "reason": {
-          "description": "Reason is optional.  It indicates why a request was allowed or denied.",
+          "description": "reason is optional.  It indicates why a request was allowed or denied.",
           "type": "string"
         }
       },
@@ -13084,11 +13084,11 @@
             },
             "type": "array"
           },
-          "description": "Any additional information provided by the authenticator.",
+          "description": "extra is any additional information provided by the authenticator.",
           "type": "object"
         },
         "groups": {
-          "description": "The names of groups this user is a part of.",
+          "description": "groups is the names of groups this user is a part of.",
           "items": {
             "type": "string"
           },
@@ -13096,11 +13096,11 @@
           "x-kubernetes-list-type": "atomic"
         },
         "uid": {
-          "description": "A unique value that identifies this user across time. If this user is deleted and another user by the same name is added, they will have different UIDs.",
+          "description": "uid is a unique value that identifies this user across time. If this user is deleted and another user by the same name is added, they will have different UIDs.",
           "type": "string"
         },
         "username": {
-          "description": "The name that uniquely identifies this user among all active users.",
+          "description": "username is the name that uniquely identifies this user among all active users.",
           "type": "string"
         }
       },
@@ -13146,11 +13146,11 @@
       "description": "NonResourceAttributes includes the authorization attributes available for non-resource requests to the Authorizer interface",
       "properties": {
         "path": {
-          "description": "Path is the URL path of the request",
+          "description": "path is the URL path of the request",
           "type": "string"
         },
         "verb": {
-          "description": "Verb is the standard HTTP verb",
+          "description": "verb is the standard HTTP verb",
           "type": "string"
         }
       },
@@ -13164,7 +13164,7 @@
           "description": "fieldSelector describes the limitation on access based on field.  It can only limit access, not broaden it."
         },
         "group": {
-          "description": "Group is the API Group of the Resource.  \"*\" means all.",
+          "description": "group is the API Group of the Resource.  \"*\" means all.",
           "type": "string"
         },
         "labelSelector": {
@@ -13172,27 +13172,27 @@
           "description": "labelSelector describes the limitation on access based on labels.  It can only limit access, not broaden it."
         },
         "name": {
-          "description": "Name is the name of the resource being requested for a \"get\" or deleted for a \"delete\". \"\" (empty) means all.",
+          "description": "name is the name of the resource being requested for a \"get\" or deleted for a \"delete\". \"\" (empty) means all.",
           "type": "string"
         },
         "namespace": {
-          "description": "Namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces \"\" (empty) is defaulted for LocalSubjectAccessReviews \"\" (empty) is empty for cluster-scoped resources \"\" (empty) means \"all\" for namespace scoped resources from a SubjectAccessReview or SelfSubjectAccessReview",
+          "description": "namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces \"\" (empty) is defaulted for LocalSubjectAccessReviews \"\" (empty) is empty for cluster-scoped resources \"\" (empty) means \"all\" for namespace scoped resources from a SubjectAccessReview or SelfSubjectAccessReview",
           "type": "string"
         },
         "resource": {
-          "description": "Resource is one of the existing resource types.  \"*\" means all.",
+          "description": "resource is one of the existing resource types.  \"*\" means all.",
           "type": "string"
         },
         "subresource": {
-          "description": "Subresource is one of the existing resource types.  \"\" means none.",
+          "description": "subresource is one of the existing resource types.  \"\" means none.",
           "type": "string"
         },
         "verb": {
-          "description": "Verb is a kubernetes resource API verb, like: get, list, watch, create, update, delete, proxy.  \"*\" means all.",
+          "description": "verb is a kubernetes resource API verb, like: get, list, watch, create, update, delete, proxy.  \"*\" means all.",
           "type": "string"
         },
         "version": {
-          "description": "Version is the API Version of the Resource.  \"*\" means all.",
+          "description": "version is the API Version of the Resource.  \"*\" means all.",
           "type": "string"
         }
       },
@@ -13503,6 +13503,19 @@
       },
       "type": "object"
     },
+    "io.k8s.api.core.v1.ImageVolumeStatus": {
+      "description": "ImageVolumeStatus represents the image-based volume status.",
+      "properties": {
+        "imageRef": {
+          "description": "ImageRef is the digest of the image used for this volume. It should have a value that's similar to the pod's status.containerStatuses[i].imageID. The ImageRef length should not exceed 256 characters.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "imageRef"
+      ],
+      "type": "object"
+    },
     "io.k8s.api.core.v1.LinuxContainerUser": {
       "description": "LinuxContainerUser represents user identity information in Linux containers",
       "properties": {
@@ -13666,6 +13679,10 @@
       "properties": {
         "health": {
           "description": "Health of the resource. can be one of:\n - Healthy: operates as normal\n - Unhealthy: reported unhealthy. We consider this a temporary health issue\n              since we do not have a mechanism today to distinguish\n              temporary and permanent issues.\n - Unknown: The status cannot be determined.\n            For example, Device Plugin got unregistered and hasn't been re-registered since.\n\nIn future we may want to introduce the PermanentlyUnhealthy Status.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Message provides human-readable context for Health (e.g. \"ECC error count exceeded threshold\"). This field is populated by the kubelet when ResourceHealthStatusMessage is enabled if the DRA plugin returns a message, and is null otherwise.",
           "type": "string"
         },
         "resourceID": {
@@ -13937,7 +13954,7 @@
           "type": "boolean"
         },
         "procMount": {
-          "description": "procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows.\n\nPossible enum values:\n - `\"Default\"` uses the container runtime defaults for readonly and masked paths for /proc. Most container runtimes mask certain paths in /proc to avoid accidental security exposure of special devices or information.\n - `\"Unmasked\"` bypasses the default masking behavior of the container runtime and ensures the newly created /proc the container stays in tact with no modifications.",
+          "description": "procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. Note that this field cannot be set when spec.os.name is windows.\n\nPossible enum values:\n - `\"Default\"` uses the container runtime defaults for readonly and masked paths for /proc. Most container runtimes mask certain paths in /proc to avoid accidental security exposure of special devices or information.\n - `\"Unmasked\"` bypasses the default masking behavior of the container runtime and ensures the newly created /proc the container stays in tact with no modifications.",
           "enum": [
             "Default",
             "Unmasked"
@@ -14044,12 +14061,26 @@
         "recursiveReadOnly": {
           "description": "RecursiveReadOnly must be set to Disabled, Enabled, or unspecified (for non-readonly mounts). An IfPossible value in the original VolumeMount must be translated to Disabled or Enabled, depending on the mount result.",
           "type": "string"
+        },
+        "volumeStatus": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.VolumeStatus",
+          "description": "volumeStatus represents volume-type-specific status about the mounted volume."
         }
       },
       "required": [
         "name",
         "mountPath"
       ],
+      "type": "object"
+    },
+    "io.k8s.api.core.v1.VolumeStatus": {
+      "description": "VolumeStatus represents the status of a mounted volume. At most one of its members must be specified.",
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/io.k8s.api.core.v1.ImageVolumeStatus",
+          "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine."
+        }
+      },
       "type": "object"
     },
     "io.k8s.api.core.v1.WindowsSecurityContextOptions": {
@@ -14509,6 +14540,10 @@
         "selfLink": {
           "description": "Deprecated: selfLink is a legacy read-only field that is no longer populated by the system.",
           "type": "string"
+        },
+        "shardInfo": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ShardInfo",
+          "description": "shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection.\n\nThis is an alpha field and requires enabling the ShardedListAndWatch feature gate."
         }
       },
       "type": "object"
@@ -14714,6 +14749,19 @@
       "required": [
         "clientCIDR",
         "serverAddress"
+      ],
+      "type": "object"
+    },
+    "io.k8s.apimachinery.pkg.apis.meta.v1.ShardInfo": {
+      "description": "ShardInfo describes the shard selector that was applied to produce a list response. Its presence on a list response indicates the list is a filtered subset.",
+      "properties": {
+        "selector": {
+          "description": "selector is the shard selector string from the request, echoed back so clients can verify which shard they received and merge responses from multiple shards.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
       ],
       "type": "object"
     },
@@ -15123,6 +15171,13 @@
       "type": "boolean",
       "uniqueItems": true
     },
+    "shardSelector-Kgyki_3_": {
+      "description": "shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges:\n\n  shardRange(object.metadata.uid, '0x0', '0x8000000000000000')\n  shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')\n\nField paths use CEL-style object-rooted syntax (e.g. \"object.metadata.uid\"), NOT the fieldSelector format (\"metadata.uid\"). Currently supported paths:\n  - object.metadata.uid\n  - object.metadata.namespace\n\nhexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64.\n\nExamples:\n  2-shard split:\n    shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000')\n    shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')\n  4-shard split:\n    shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000')\n    shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000')\n    shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')\n    shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')\n\nThis is an alpha field and requires enabling the ShardedListAndWatch feature gate.",
+      "in": "query",
+      "name": "shardSelector",
+      "type": "string",
+      "uniqueItems": true
+    },
     "sinceSeconds-ElPLiXDH": {
       "in": "query",
       "name": "sinceSeconds",
@@ -15408,6 +15463,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -15465,6 +15523,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -15525,6 +15586,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -16131,6 +16195,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -16189,6 +16256,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -16586,6 +16656,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -16644,6 +16717,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -17041,6 +17117,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -17099,6 +17178,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -18381,6 +18463,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -18527,6 +18612,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -18594,6 +18682,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -19111,6 +19202,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -19169,6 +19263,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -19749,6 +19846,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -19807,6 +19907,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -20387,6 +20490,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -20445,6 +20551,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -20827,6 +20936,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -21230,6 +21342,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -21288,6 +21403,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -21691,6 +21809,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -21749,6 +21870,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -23087,6 +23211,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -23145,6 +23272,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -23601,6 +23731,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -23670,6 +23803,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -23727,6 +23863,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -23787,6 +23926,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -24443,6 +24585,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -24501,6 +24646,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -25053,6 +25201,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           },
           {
@@ -25448,6 +25599,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -25506,6 +25660,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -26215,6 +26372,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -26273,6 +26433,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -27424,6 +27587,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -27924,6 +28090,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -27993,6 +28162,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -28050,6 +28222,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -28110,6 +28285,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -28507,6 +28685,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -28565,6 +28746,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -29039,6 +29223,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -29097,6 +29284,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -29561,6 +29751,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -29619,6 +29812,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -30287,6 +30483,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -30344,6 +30543,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -30404,6 +30606,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -31111,6 +31316,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -31247,6 +31455,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -31305,6 +31516,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -31712,6 +31926,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -31789,6 +32006,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -31856,6 +32076,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -31935,6 +32158,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32002,6 +32228,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32081,6 +32310,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32148,6 +32380,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32227,6 +32462,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32297,6 +32535,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32379,6 +32620,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32449,6 +32693,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32531,6 +32778,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32601,6 +32851,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32683,6 +32936,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32753,6 +33009,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32835,6 +33094,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -32905,6 +33167,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -32987,6 +33252,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33054,6 +33322,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33133,6 +33404,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33200,6 +33474,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33271,6 +33548,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33338,6 +33618,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33417,6 +33700,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33484,6 +33770,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33563,6 +33852,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33630,6 +33922,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33709,6 +34004,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33776,6 +34074,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33855,6 +34156,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -33922,6 +34226,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -33993,6 +34300,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34060,6 +34370,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34139,6 +34452,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34206,6 +34522,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34285,6 +34604,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34352,6 +34674,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34431,6 +34756,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34498,6 +34826,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34577,6 +34908,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34644,6 +34978,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34723,6 +35060,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34792,6 +35132,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34859,6 +35202,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34936,6 +35282,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -35065,6 +35414,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -35135,6 +35487,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
