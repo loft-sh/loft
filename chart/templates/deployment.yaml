@@ -136,7 +136,15 @@ spec:
           value: {{ .Values.admin.email | quote }}
         - name: CHART_VERSION
           value: {{ .Chart.Version }}
-        {{- if .Values.admin.password }}
+        {{- if and .Values.admin.passwordSecretRef .Values.admin.passwordSecretRef.name }}
+        - name: LOFT_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.admin.passwordSecretRef.name | quote }}
+              key: {{ default "password" .Values.admin.passwordSecretRef.key | quote }}
+        - name: ADMIN_PASSWORD_ENV
+          value: "$LOFT_ADMIN_PASSWORD"
+        {{- else if .Values.admin.password }}
         {{- if hasPrefix "$" .Values.admin.password }}
         - name: ADMIN_PASSWORD_ENV
           value: {{ .Values.admin.password }}
@@ -290,6 +298,14 @@ spec:
         {{- end }}
         - name: LOFT_AGENT_SERVICE_ACCOUNT_NAME
           value: {{ template "loft.serviceAccountName" . }}
+        {{- if and .Values.agentOnly .Values.tokenSecretRef .Values.tokenSecretRef.name }}
+        - name: LOFT_AGENT_CONNECTION_SECRET_NAME
+          value: {{ .Values.tokenSecretRef.name | quote }}
+        - name: LOFT_AGENT_CONNECTION_TOKEN_KEY
+          value: {{ default "token" .Values.tokenSecretRef.tokenKey | quote }}
+        - name: LOFT_AGENT_CONNECTION_URL_KEY
+          value: {{ default "url" .Values.tokenSecretRef.urlKey | quote }}
+        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
