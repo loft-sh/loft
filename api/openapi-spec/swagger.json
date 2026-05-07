@@ -6414,6 +6414,13 @@
           },
           "type": "array"
         },
+        "allowedNodeTypes": {
+          "description": "AllowedNodeTypes restricts which NodeTypes can be referenced by NodeClaims in this project. An entry can be an exact name (\"aws.large\") or a provider wildcard (\"aws.*\"). If unset (nil), all NodeTypes are allowed; an empty list disallows all NodeTypes.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNodeType"
+          },
+          "type": "array"
+        },
         "allowedRunners": {
           "description": "AllowedRunners are target runners that are allowed to target with",
           "items": {
@@ -10071,6 +10078,15 @@
       "properties": {
         "name": {
           "description": "Name is the name of the cluster that is allowed to create an environment in.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNodeType": {
+      "properties": {
+        "name": {
+          "description": "Name of the NodeType, or \"<provider>.*\" to allow all NodeTypes of the given provider.",
           "type": "string"
         }
       },
