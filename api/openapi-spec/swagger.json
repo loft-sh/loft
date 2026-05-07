@@ -4733,6 +4733,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
         },
+        "power": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimPower",
+          "description": "Power describes the desired power state of the machine."
+        },
         "properties": {
           "additionalProperties": {
             "type": "string"
@@ -4795,6 +4799,10 @@
         "phase": {
           "description": "Phase is the current lifecycle phase of the NodeClaim.",
           "type": "string"
+        },
+        "power": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimPower",
+          "description": "Power describes the observed power state of the machine."
         },
         "reason": {
           "description": "Reason describes the reason in machine-readable form",
@@ -11324,6 +11332,15 @@
         "name",
         "namespace"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimPower": {
+      "properties": {
+        "state": {
+          "description": "State is the power state.\n\nIn spec, only \"On\" and \"Off\" are meaningful; an empty value is treated as \"On\".\n\nIn status, \"On\" and \"Off\" indicate the observed state is stable. Providers may also surface their native intermediate state (e.g. \"Starting\", \"Stopping\", \"Migrating\", ...) as a passthrough. An empty value means the state could not be determined.",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProvider": {
