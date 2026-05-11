@@ -10751,12 +10751,24 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.DHCPDeployment": {
       "properties": {
+        "chart": {
+          "description": "Chart overrides the Helm chart name used to install the DHCP server.",
+          "type": "string"
+        },
+        "chartRepo": {
+          "description": "ChartRepo overrides the Helm chart repository used to install the DHCP server.",
+          "type": "string"
+        },
         "enabled": {
           "description": "Enabled controls whether the DHCP server is deployed into the cluster.",
           "type": "boolean"
         },
         "helmValues": {
           "description": "HelmValues is raw YAML that will be passed as values to the DHCP Helm chart.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version overrides the Helm chart version used to install the DHCP server.",
           "type": "string"
         }
       },
