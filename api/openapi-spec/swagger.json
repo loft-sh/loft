@@ -4041,7 +4041,7 @@
           "description": "Scope is the optional scope of the direct cluster endpoint"
         },
         "ttl": {
-          "description": "The time to life for this access token in seconds",
+          "description": "The time to live for this access token in seconds",
           "format": "int64",
           "type": "integer"
         }
@@ -5989,12 +5989,12 @@
           "type": "string"
         },
         "ttl": {
-          "description": "The time to life for this access key",
+          "description": "The time to live for this access key",
           "format": "int64",
           "type": "integer"
         },
         "ttlAfterLastActivity": {
-          "description": "If this is specified, the time to life for this access key will start after the lastActivity instead of creation timestamp",
+          "description": "If this is specified, the time to live for this access key will start after the lastActivity instead of creation timestamp",
           "type": "boolean"
         },
         "type": {
@@ -7000,12 +7000,12 @@
           "type": "string"
         },
         "ttl": {
-          "description": "The time to life for this access key",
+          "description": "The time to live for this access key",
           "format": "int64",
           "type": "integer"
         },
         "ttlAfterLastActivity": {
-          "description": "If this is specified, the time to life for this access key will start after the lastActivity instead of creation timestamp",
+          "description": "If this is specified, the time to live for this access key will start after the lastActivity instead of creation timestamp",
           "type": "boolean"
         },
         "type": {
@@ -8847,7 +8847,7 @@
           "type": "string"
         },
         "disabled": {
-          "description": "If disabled is true, an user will not be able to login anymore. All other user resources are unaffected and other users can still interact with this user",
+          "description": "If disabled is true, a user will not be able to login anymore. All other user resources are unaffected and other users can still interact with this user",
           "type": "boolean"
         },
         "displayName": {
@@ -10262,12 +10262,12 @@
           "type": "string"
         },
         "ttl": {
-          "description": "The time to life for this access key",
+          "description": "The time to live for this access key",
           "format": "int64",
           "type": "integer"
         },
         "ttlAfterLastActivity": {
-          "description": "If this is specified, the time to life for this access key will start after the lastActivity instead of creation timestamp",
+          "description": "If this is specified, the time to live for this access key will start after the lastActivity instead of creation timestamp",
           "type": "boolean"
         },
         "type": {
@@ -11710,7 +11710,7 @@
       "description": "NodeProviderBCMSpec defines the configuration for a BCM node provider.",
       "properties": {
         "endpoint": {
-          "description": "Endpoint is a address for head node.",
+          "description": "Endpoint is an address for head node.",
           "type": "string"
         },
         "nodeTypes": {
@@ -12374,7 +12374,7 @@
           "description": "The space metadata"
         },
         "objects": {
-          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
+          "description": "Objects are Kubernetes style YAMLs that should get deployed into the virtual cluster",
           "type": "string"
         }
       },
@@ -12945,7 +12945,7 @@
           "description": "The virtual cluster metadata"
         },
         "objects": {
-          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster",
+          "description": "Objects are Kubernetes style YAMLs that should get deployed into the virtual cluster",
           "type": "string"
         },
         "pro": {
