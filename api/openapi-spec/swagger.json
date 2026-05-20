@@ -11524,12 +11524,24 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3Deployment": {
       "properties": {
+        "chart": {
+          "description": "Chart overrides the Helm chart name used to install Metal3.",
+          "type": "string"
+        },
+        "chartRepo": {
+          "description": "ChartRepo overrides the Helm chart repository used to install Metal3.",
+          "type": "string"
+        },
         "enabled": {
           "description": "Enabled controls whether Metal3 and Ironic are deployed into the cluster.",
           "type": "boolean"
         },
         "helmValues": {
           "description": "HelmValues is raw YAML that will be passed as values to the Metal3 Helm chart.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version overrides the Helm chart version used to install Metal3.",
           "type": "string"
         }
       },
