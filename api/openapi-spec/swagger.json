@@ -17851,6 +17851,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -17908,6 +17911,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -17968,6 +17974,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -21535,6 +21544,9 @@
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
           },
           {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
           }
         ],
@@ -21593,6 +21605,9 @@
           },
           {
             "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
           },
           {
             "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -34872,6 +34887,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -34939,6 +34957,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -35016,6 +35037,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
@@ -35546,6 +35570,9 @@
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
         },
         {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
         },
         {
@@ -35624,6 +35651,9 @@
         },
         {
           "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
         },
         {
           "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
