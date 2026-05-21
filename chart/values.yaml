@@ -8,6 +8,10 @@ admin:
   create: true            # When set to false through a CLI override, the CLI must also include --no-login argument
   username: admin
   password: "my-password"
+  # Source the admin password from an existing Secret. Takes precedence over admin.password.
+  passwordSecretRef:
+    name: ""
+    key: password
 
 # Loft service options
 service:
@@ -262,6 +266,13 @@ product: loft
 token: ""
 # URL is used to connect as the endpoint of the network peer coordinator server
 url: ""
+
+# Source agent connection credentials from an existing Secret instead of rendering
+# loft-agent-connection from .Values.token / .Values.url. Only honored when agentOnly is true.
+tokenSecretRef:
+  name: ""
+  tokenKey: token
+  urlKey: url
 
 # AdditionalCA is used to add an additional CA certificate to the application's
 # x509 root ca verification flow. Needs to be base64 encoded.

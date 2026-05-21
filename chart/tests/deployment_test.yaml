@@ -1154,3 +1154,100 @@ tests:
           content:
             name: "LOFT_LPM_SLEEP_MODE_ENABLED"
             value: "false"
+
+  - it: tokenSecretRef injects LOFT_AGENT_CONNECTION_SECRET_NAME with default keys
+    set:
+      agentOnly: true
+      tokenSecretRef:
+        name: my-agent-secret
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_AGENT_CONNECTION_SECRET_NAME
+            value: my-agent-secret
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_AGENT_CONNECTION_TOKEN_KEY
+            value: token
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_AGENT_CONNECTION_URL_KEY
+            value: url
+
+  - it: tokenSecretRef respects custom keys
+    set:
+      agentOnly: true
+      tokenSecretRef:
+        name: my-agent-secret
+        tokenKey: my-token
+        urlKey: my-url
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_AGENT_CONNECTION_TOKEN_KEY
+            value: my-token
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_AGENT_CONNECTION_URL_KEY
+            value: my-url
+
+  - it: tokenSecretRef env vars not injected when name is empty
+    set:
+      agentOnly: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_AGENT_CONNECTION_SECRET_NAME
+
+  - it: admin.passwordSecretRef injects ADMIN_PASSWORD_ENV pointing at LOFT_ADMIN_PASSWORD
+    set:
+      admin:
+        passwordSecretRef:
+          name: my-admin-secret
+          key: password
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-admin-secret
+                key: password
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ADMIN_PASSWORD_ENV
+            value: "$LOFT_ADMIN_PASSWORD"
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ADMIN_PASSWORD_HASH
+
+  - it: admin.passwordSecretRef takes precedence over admin.password (no hash emitted)
+    set:
+      admin:
+        password: "should-be-ignored"
+        passwordSecretRef:
+          name: my-admin-secret
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ADMIN_PASSWORD_HASH
