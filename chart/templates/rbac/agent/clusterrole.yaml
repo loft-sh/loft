@@ -1,0 +1,157 @@
+{{- if (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .)) }}
+{{- $lpmValues := include "loft.leastPrivilegeModeValues" . | fromJson }}
+{{- if eq true $lpmValues.clusterRole.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vcluster-platform-agent
+  labels:
+    app: {{ template "loft.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  {{- if .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml .Values.commonAnnotations | nindent 4 }}
+  {{- end }}
+rules:
+{{- if $lpmValues.clusterRole.overwriteRules }}
+{{ toYaml $lpmValues.clusterRole.overwriteRules | indent 2 }}
+{{- else }}
+  # agent bootstrap requirements
+  - apiGroups: [ "authorization.k8s.io" ]
+    resources: [ "selfsubjectaccessreviews" ]
+    verbs: [ "create" ]
+
+  - apiGroups: [ "apiextensions.k8s.io" ]
+    resources: [ "customresourcedefinitions" ]
+    verbs: [ "create", "get", "list", "update", "watch" ]
+
+  - apiGroups: [ "apiregistration.k8s.io" ]
+    resources: [ "apiservices" ]
+    verbs: [ "create", "delete", "update" ]
+
+  # read-only rules required for the agent startup process
+  - apiGroups: [ "" ]
+    resources: [ "namespaces" ]
+    verbs: [ "get", "list", "watch" ]
+
+  - apiGroups: [ "" ]
+    resources:
+      - configmaps
+      - pods
+      - services
+    verbs: [ "list", "watch" ]
+
+  - apiGroups: [ "admissionregistration.k8s.io" ]
+    resources:
+      - mutatingwebhookconfigurations
+      - validatingwebhookconfigurations
+    verbs: [ "list", "watch" ]
+
+  - apiGroups: [ "apiregistration.k8s.io" ]
+    resources: [ "apiservices" ]
+    verbs: [ "list", "watch" ]
+
+  - apiGroups: [ "apps" ]
+    resources:
+      - deployments
+      - statefulsets
+    verbs: [ "list", "watch" ]
+
+  - apiGroups: [ "discovery.k8s.io" ]
+    resources: [ "endpointslices" ]
+    verbs: [ "list", "watch" ]
+
+  - apiGroups: [ "networking.k8s.io" ]
+    resources: [ "ingresses" ]
+    verbs: [ "list", "watch" ]
+
+  # virtual cluster instances install requirements
+  - apiGroups: [ "" ]
+    resources: [ "namespaces" ]
+    verbs: [ "create", "delete" ]
+
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "clusterroles" ]
+    verbs: [ "bind", "create", "delete", "escalate", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "clusterrolebindings" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "roles" ]
+    verbs: [ "bind", "create", "delete", "escalate", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "rolebindings" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+{{- if $lpmValues.secrets.enabled }}
+  # global secrets / projects secrets management requirements
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+{{- end }}
+
+{{- if $lpmValues.clusterAccess.enabled }}
+  # cluster access requirements
+  - apiGroups: [ "" ]
+    resources: [ "groups", "users", "serviceaccounts" ]
+    verbs: [ "impersonate" ]
+
+  - apiGroups: [ "authentication.k8s.io" ]
+    resources:
+      - uids
+      - userextras/loft:cluster
+      - userextras/loft:user-agent
+      - userextras/loft:access-key
+      - userextras/loft:forwarded-token
+      - userextras/loft:original-user-name
+      - userextras/loft:original-user-uid
+      - userextras/loft:original-user-groups
+    verbs: [ "impersonate" ]
+
+  # cluster.loft.sh API Group
+  - apiGroups: [ "cluster.loft.sh" ]
+    resources: [ "chartinfos" ]
+    verbs: [ "create" ]
+
+  - apiGroups: [ "cluster.loft.sh" ]
+    resources: [ "features" ]
+    verbs: [ "get", "list" ]
+
+  - apiGroups: [ "cluster.loft.sh" ]
+    resources: [ "helmreleases" ]
+    verbs: [ "get", "list" ]
+{{- end }}
+
+{{- if $lpmValues.projectQuotas.enabled }}
+  # project quotas requirements
+  - apiGroups: [ "storage.loft.sh" ]
+    resources: [ "clusterquotas" ]
+    verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
+
+  - apiGroups: [ "storage.loft.sh" ]
+    resources: [ "clusterquotas/finalizers" ]
+    verbs: [ "update" ]
+
+  - apiGroups: [ "storage.loft.sh" ]
+    resources: [ "clusterquotas/status" ]
+    verbs: [ "get", "patch", "update" ]
+
+  - apiGroups: [ "admissionregistration.k8s.io" ]
+    resources: [ "validatingwebhookconfigurations" ]
+    verbs: [ "create", "update" ]
+
+  - apiGroups: [ "storage.k8s.io" ]
+    resources: [ "storageclasses" ]
+    verbs: [ "list", "watch" ]
+{{- end }}
+{{- if $lpmValues.clusterRole.extraRules }}
+{{ toYaml $lpmValues.clusterRole.extraRules | indent 2 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
