@@ -27,17 +27,56 @@ Default image name for a given product
 {{- printf "ghcr.io/loft-sh/loft:%s" .Chart.Version -}}
 {{- end -}}
 
+{{/*
+Populate image ref for a given product
+*/}}
+{{- define "loft.imageRef" -}}
+{{- $registry := default "ghcr.io" .Values.imageRef.registry -}}
+{{- $repository := coalesce .Values.imageRef.repository .repo "loft-sh/vcluster-platform" -}}
+{{- $tag := default .Chart.Version .Values.imageRef.tag -}}
+{{- printf "%s/%s:%s" $registry $repository $tag -}}
+{{- end -}}
+
 {{- define "loft.image" -}}
   {{- if .Values.product -}}
     {{- if eq .Values.product "vcluster-pro" -}}
-      {{- printf "ghcr.io/loft-sh/vcluster-platform:%s" .Chart.Version -}}
-    {{- else if eq .Values.product "devpod-pro" -}}
-      {{- printf "ghcr.io/loft-sh/devpod-pro:%s" .Chart.Version -}}
+	  {{- if .Values.imageRef -}}
+	    {{ include "loft.imageRef" $ }}
+	  {{- else -}}
+		{{- printf "ghcr.io/loft-sh/vcluster-platform:%s" .Chart.Version -}}
+	  {{- end -}}
     {{- else -}}
-      {{ include "loft.defaultImage" . }}
+	  {{- if .Values.imageRef -}}
+	    {{ include "loft.imageRef" (merge (dict "repo" "loft-sh/loft") $) }}
+	  {{- else -}}
+        {{ coalesce .Values.image (include "loft.defaultImage" .) }}
+	  {{- end -}}
     {{- end -}}
   {{- else -}}
-    {{ include "loft.defaultImage" . }}
+	{{- if .Values.imageRef -}}
+	  {{ include "loft.imageRef" (merge (dict "repo" "loft-sh/loft") $) }}
+	{{- else -}}
+      {{ coalesce .Values.image (include "loft.defaultImage" .) }}
+	{{- end -}}
+  {{- end -}}
+{{- end -}}
+
+
+{{/*
+Populate audit image ref
+*/}}
+{{- define "loft.auditImageRef" -}}
+{{- $registry := default "docker.io" .Values.audit.imageRef.registry -}}
+{{- $repository := default "library/alpine" .Values.audit.imageRef.repository -}}
+{{- $tag := default "3.13.1" .Values.audit.imageRef.tag -}}
+{{- printf "%s/%s:%s" $registry $repository $tag -}}
+{{- end -}}
+
+{{- define "loft.auditImage" -}}
+  {{- if .Values.audit.imageRef -}}
+    {{ include "loft.auditImageRef" . }}
+  {{- else -}}
+    {{ default "library/alpine:3.13.1" .Values.audit.image }}
   {{- end -}}
 {{- end -}}
 
