@@ -8955,30 +8955,152 @@
         }
       ]
     },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodStatus": {
-      "description": "VirtualClusterDebugShellPodStatus contains selectable vcluster pod metadata.",
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerState": {
+      "description": "VirtualClusterControlPlaneContainerState only carries waiting and terminated substates used by the UI.",
+      "properties": {
+        "terminated": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStateTerminated"
+        },
+        "waiting": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStateWaiting"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStateTerminated": {
+      "properties": {
+        "exitCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "exitCode"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStateWaiting": {
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStatus": {
+      "description": "VirtualClusterControlPlaneContainerStatus is a reduced ContainerStatus (no image, hash, probe details, etc.).",
       "properties": {
         "name": {
           "type": "string"
         },
-        "namespace": {
+        "ready": {
+          "type": "boolean"
+        },
+        "started": {
+          "type": "boolean"
+        },
+        "state": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerState"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePod": {
+      "description": "VirtualClusterControlPlanePod is a minimal subset of core Pod fields for control plane status display.",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePodObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePodStatus"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePodObjectMeta": {
+      "description": "VirtualClusterControlPlanePodObjectMeta holds only metadata needed for list keys and terminating state.",
+      "properties": {
+        "deletionTimestamp": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
+        },
+        "name": {
           "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePodStatus": {
+      "description": "VirtualClusterControlPlanePodStatus mirrors the Pod status fields used for readiness and issue reporting.",
+      "properties": {
+        "containerStatuses": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStatus"
+          },
+          "type": "array"
+        },
+        "initContainerStatuses": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlaneContainerStatus"
+          },
+          "type": "array"
         },
         "phase": {
           "type": "string"
         },
         "ready": {
           "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
         }
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodsStatus": {
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePods": {
+      "description": "VirtualClusterControlPlanePods holds control plane pod information for a virtual cluster instance.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePodsStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterControlPlanePods",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePodsStatus": {
       "properties": {
         "pods": {
-          "description": "Pods are available virtual cluster pods that can be selected for debug shell.",
+          "description": "Pods contains a reduced view of control plane pods (status and identifying metadata only).",
           "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodStatus"
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePod"
           },
           "type": "array"
         }
@@ -9125,32 +9247,6 @@
         {
           "group": "management.loft.sh",
           "kind": "VirtualClusterInstanceDebugShell",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceDebugShellPods": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterDebugShellPodsStatus"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "VirtualClusterInstanceDebugShellPods",
           "version": "v1"
         }
       ]
@@ -11327,6 +11423,22 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtDeployment": {
+      "properties": {
+        "enabled": {
+          "description": "Enabled controls whether the KubeVirt operator is deployed into the cluster.",
+          "type": "boolean"
+        },
+        "helmValues": {
+          "description": "HelmValues is raw YAML that will be passed as values to the KubeVirt Helm chart.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtNodeTypeSpec": {
       "description": "KubeVirtNodeTypeSpec defines single NodeType spec for KubeVirt provider type.",
       "properties": {
@@ -11386,6 +11498,15 @@
       "required": [
         "name"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtProviderDeployment": {
+      "properties": {
+        "kubevirt": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtDeployment",
+          "description": "KubeVirt configures the KubeVirt operator deployment."
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.LocalClusterAccessSpec": {
@@ -11789,6 +11910,10 @@
         "clusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
           "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+        },
+        "deploy": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtProviderDeployment",
+          "description": "Deploy configures components deployed into the connected host cluster."
         },
         "nodeTypes": {
           "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
@@ -25082,6 +25207,55 @@
         }
       ]
     },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/controlplanepods": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read controlplanepods of the specified VirtualClusterInstance",
+        "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceControlplanepods",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePods"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "VirtualClusterControlPlanePods",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the VirtualClusterControlPlanePods",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
+    },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/debug-shell": {
       "get": {
         "consumes": [
@@ -25219,55 +25393,6 @@
           "version": "v1"
         }
       }
-    },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/debug-shell-pods": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read debug-shell-pods of the specified VirtualClusterInstance",
-        "operationId": "readManagementLoftShV1NamespacedVirtualClusterInstanceDebugShellPods",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceDebugShellPods"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "VirtualClusterInstanceDebugShellPods",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the VirtualClusterInstanceDebugShellPods",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances/{name}/externaldatabase": {
       "parameters": [
