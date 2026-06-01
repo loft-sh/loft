@@ -665,7 +665,7 @@
       "type": "object"
     },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.UsageDataDetails": {
-      "description": "UsageDataDetails holds detailed information about the nodes and virtual cluster for an instance deployment of vCluster Platform",
+      "description": "UsageDataDetails holds detailed information about the nodes and tenant cluster for an instance deployment of vCluster Platform",
       "properties": {
         "nodes": {
           "description": "Nodes contains the details of the nodes",
@@ -675,7 +675,7 @@
           "type": "array"
         },
         "vClusters": {
-          "description": "VClusters contains the details of the virtual clusters",
+          "description": "VClusters contains the details of the tenant clusters",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.admin-apis.pkg.licenseapi.VirtualClusterInfo"
           },
@@ -689,7 +689,7 @@
       "type": "object"
     },
     "com.github.loft-sh.admin-apis.pkg.licenseapi.VirtualClusterInfo": {
-      "description": "VirtualClusterInfo holds information about a single virtual cluster",
+      "description": "VirtualClusterInfo holds information about a single tenant cluster",
       "properties": {
         "creation_timestamp": {
           "type": "string"
@@ -1030,7 +1030,7 @@
           "type": "string"
         },
         "virtualCluster": {
-          "description": "VirtualCluster is the virtual cluster this activity happened in",
+          "description": "VirtualCluster is the tenant cluster this activity happened in",
           "type": "string"
         }
       },
@@ -2060,7 +2060,7 @@
           "description": "Application holds the status of the Argo CD application"
         },
         "conditions": {
-          "description": "Conditions holds several conditions the virtual cluster might be in",
+          "description": "Conditions holds several conditions the tenant cluster might be in",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
           },
@@ -3126,7 +3126,7 @@
           "description": "CostControl holds the settings related to the Cost Control ROI dashboard and its metrics gathering infrastructure"
         },
         "defaultImageRegistry": {
-          "description": "DefaultImageRegistry defines if we should prefix the virtual cluster image",
+          "description": "DefaultImageRegistry is the image registry for control plane internal images.",
           "type": "string"
         },
         "kind": {
@@ -3545,7 +3545,7 @@
           "description": "Owner holds the owner of this object"
         },
         "unusable": {
-          "description": "If unusable is true, no spaces or virtual clusters can be scheduled on this cluster.",
+          "description": "If unusable is true, no spaces or tenant clusters can be scheduled on this cluster.",
           "type": "boolean"
         }
       },
@@ -3726,7 +3726,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConvertVirtualClusterConfig": {
-      "description": "ConvertVirtualClusterConfig holds config request and response data for virtual clusters",
+      "description": "ConvertVirtualClusterConfig holds config request and response data for tenant clusters",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -3762,7 +3762,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Annotations are annotations on the virtual cluster",
+          "description": "Annotations are annotations on the tenant cluster",
           "type": "object"
         },
         "distro": {
@@ -3770,7 +3770,7 @@
           "type": "string"
         },
         "values": {
-          "description": "Values are the config values for the virtual cluster",
+          "description": "Values are the config values for the tenant cluster",
           "type": "string"
         }
       },
@@ -3784,7 +3784,7 @@
           "type": "boolean"
         },
         "values": {
-          "description": "Values are the converted config values for the virtual cluster",
+          "description": "Values are the converted config values for the tenant cluster",
           "type": "string"
         }
       },
@@ -6426,7 +6426,7 @@
         },
         "sourceVirtualClusterInstance": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstanceSource",
-          "description": "SourceVirtualClusterInstance is the virtual cluster instance to migrate into this project"
+          "description": "SourceVirtualClusterInstance is the tenant cluster instance to migrate into this project"
         }
       },
       "required": [
@@ -6444,11 +6444,11 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstanceSource": {
       "properties": {
         "name": {
-          "description": "Name of the virtual cluster instance to migrate",
+          "description": "Name of the tenant cluster instance to migrate",
           "type": "string"
         },
         "namespace": {
-          "description": "Namespace of the virtual cluster instance to migrate",
+          "description": "Namespace of the tenant cluster instance to migrate",
           "type": "string"
         }
       },
@@ -6686,7 +6686,7 @@
         },
         "namespacePattern": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern",
-          "description": "NamespacePattern specifies template patterns to use for creating each space or virtual cluster's namespace"
+          "description": "NamespacePattern specifies template patterns to use for creating each space or tenant cluster's namespace"
         },
         "namespaceTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ProjectNamespaceTemplate",
@@ -6761,7 +6761,7 @@
           "type": "array"
         },
         "virtualClusterTemplates": {
-          "description": "VirtualClusterTemplates holds all the allowed virtual cluster templates",
+          "description": "VirtualClusterTemplates holds all the allowed tenant cluster templates",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterTemplate"
           },
@@ -6827,7 +6827,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.RegisterVirtualCluster": {
-      "description": "RegisterVirtualCluster holds config request and response data for virtual clusters",
+      "description": "RegisterVirtualCluster holds config request and response data for tenant clusters",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -6868,19 +6868,19 @@
           "type": "boolean"
         },
         "kubernetesVersion": {
-          "description": "KubernetesVersion is the Kubernetes version of the virtual cluster.",
+          "description": "KubernetesVersion is the Kubernetes version of the tenant cluster.",
           "type": "string"
         },
         "name": {
-          "description": "Name is the virtual cluster instance name. If the name is already taken, the platform will construct a name for the vcluster based on the service uid and this name.",
+          "description": "Name is the tenant cluster instance name. If the name is already taken, the platform will construct a name for the vcluster based on the service uid and this name.",
           "type": "string"
         },
         "project": {
-          "description": "Project is the project name the virtual cluster should be in.",
+          "description": "Project is the project name the tenant cluster should be in.",
           "type": "string"
         },
         "serviceUID": {
-          "description": "ServiceUID uniquely identifies the virtual cluster based on the service uid.",
+          "description": "ServiceUID uniquely identifies the tenant cluster based on the service uid.",
           "type": "string"
         },
         "standalone": {
@@ -6902,11 +6902,11 @@
       "description": "RegisterVirtualClusterStatus holds the status",
       "properties": {
         "name": {
-          "description": "Name is the actual name of the virtual cluster instance.",
+          "description": "Name is the actual name of the tenant cluster instance.",
           "type": "string"
         },
         "namespace": {
-          "description": "Namespace is the namespace of the virtual cluster instance.",
+          "description": "Namespace is the namespace of the tenant cluster instance.",
           "type": "string"
         }
       },
@@ -7565,7 +7565,7 @@
           "type": "string"
         },
         "extraAccessRules": {
-          "description": "ExtraAccessRules defines extra rules which users and teams should have which access to the virtual cluster.",
+          "description": "ExtraAccessRules defines extra rules which users and teams should have which access to the tenant cluster.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.InstanceAccessRule"
           },
@@ -7602,14 +7602,14 @@
           "type": "boolean"
         },
         "conditions": {
-          "description": "Conditions holds several conditions the virtual cluster might be in",
+          "description": "Conditions holds several conditions the tenant cluster might be in",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
           },
           "type": "array"
         },
         "ignoreReconciliation": {
-          "description": "IgnoreReconciliation tells the controller to ignore reconciliation for this instance -- this is primarily used when migrating virtual cluster instances from project to project; this prevents a situation where there are two virtual cluster instances representing the same virtual cluster which could cause issues with concurrent reconciliations of the same object. Once the virtual cluster instance has been cloned and placed into the new project, this (the \"old\") virtual cluster instance can safely be deleted.",
+          "description": "IgnoreReconciliation tells the controller to ignore reconciliation for this instance -- this is primarily used when migrating tenant cluster instances from project to project; this prevents a situation where there are two tenant cluster instances representing the same tenant cluster which could cause issues with concurrent reconciliations of the same object. Once the tenant cluster instance has been cloned and placed into the new project, this (the \"old\") tenant cluster instance can safely be deleted.",
           "type": "boolean"
         },
         "message": {
@@ -7634,7 +7634,7 @@
         },
         "spaceObjects": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ObjectsStatus",
-          "description": "SpaceObjects are the objects that were applied within the virtual cluster space"
+          "description": "SpaceObjects are the objects that were applied within the tenant cluster space"
         }
       },
       "type": "object"
@@ -8037,7 +8037,7 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.EntityInfo"
         },
         "conditions": {
-          "description": "Conditions holds several conditions the virtual cluster might be in",
+          "description": "Conditions holds several conditions the tenant cluster might be in",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
           },
@@ -8264,7 +8264,7 @@
           "type": "array"
         },
         "virtualClusterRoles": {
-          "description": "VirtualClusterRoles give information about the team's cluster role within the virtual cluster",
+          "description": "VirtualClusterRoles give information about the team's cluster role within the tenant cluster",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterRole"
           },
@@ -8711,7 +8711,7 @@
           "type": "array"
         },
         "virtualClusterRoles": {
-          "description": "VirtualClusterRoles give information about the user's cluster role within the virtual cluster",
+          "description": "VirtualClusterRoles give information about the user's cluster role within the tenant cluster",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterRole"
           },
@@ -8928,7 +8928,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterAccessKey": {
-      "description": "VirtualClusterAccessKey holds the access key for the virtual cluster",
+      "description": "VirtualClusterAccessKey holds the access key for the tenant cluster",
       "properties": {
         "accessKey": {
           "description": "AccessKey is the access key used by the agent",
@@ -9069,7 +9069,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterControlPlanePods": {
-      "description": "VirtualClusterControlPlanePods holds control plane pod information for a virtual cluster instance.",
+      "description": "VirtualClusterControlPlanePods holds control plane pod information for a tenant cluster instance.",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9111,7 +9111,7 @@
       "description": "VirtualClusterDebugShellSpec defines the target pod for the debug shell.",
       "properties": {
         "podName": {
-          "description": "PodName specifies which virtual cluster replica should get ephemeral container. This is needed to virtual cluster deployed with HA (3+ replicas)",
+          "description": "PodName specifies which tenant cluster replica should get ephemeral container. This is needed to tenant cluster deployed with HA (3+ replicas)",
           "type": "string"
         }
       },
@@ -9125,11 +9125,11 @@
           "type": "string"
         },
         "podName": {
-          "description": "PodName is the name of the virtual cluster pod",
+          "description": "PodName is the name of the tenant cluster pod",
           "type": "string"
         },
         "podNamespace": {
-          "description": "PodNamespace is the namespace of the virtual cluster pod",
+          "description": "PodNamespace is the namespace of the tenant cluster pod",
           "type": "string"
         },
         "target": {
@@ -9140,7 +9140,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterExternalDatabase": {
-      "description": "VirtualClusterExternalDatabase holds kube config request and response data for virtual clusters",
+      "description": "VirtualClusterExternalDatabase holds kube config request and response data for tenant clusters",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9222,7 +9222,7 @@
       ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceDebugShell": {
-      "description": "VirtualClusterDebugShell creates (or returns) an ephemeral debug-shell container in a virtual cluster pod for the requesting user.",
+      "description": "VirtualClusterDebugShell creates (or returns) an ephemeral debug-shell container in a tenant cluster pod for the requesting user.",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9252,7 +9252,7 @@
       ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceJoinScript": {
-      "description": "VirtualClusterInstanceJoinScript holds join script request and response data for virtual cluster instances",
+      "description": "VirtualClusterInstanceJoinScript holds join script request and response data for tenant cluster instances",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9288,7 +9288,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceKubeConfig": {
-      "description": "VirtualClusterInstanceKubeConfig holds kube config request and response data for virtual clusters",
+      "description": "VirtualClusterInstanceKubeConfig holds kube config request and response data for tenant clusters",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9470,7 +9470,7 @@
       "description": "VirtualClusterInstanceSpec holds the specification",
       "properties": {
         "access": {
-          "description": "Access to the virtual cluster object itself",
+          "description": "Access to the tenant cluster object itself",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
           },
@@ -9478,10 +9478,10 @@
         },
         "clusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterClusterRef",
-          "description": "ClusterRef is the reference to the connected cluster holding this virtual cluster"
+          "description": "ClusterRef is the reference to the connected cluster holding this tenant cluster"
         },
         "description": {
-          "description": "Description describes a virtual cluster instance",
+          "description": "Description describes a tenant cluster instance",
           "type": "string"
         },
         "displayName": {
@@ -9489,11 +9489,11 @@
           "type": "string"
         },
         "external": {
-          "description": "External specifies if the virtual cluster is managed by the platform agent or externally.",
+          "description": "External specifies if the tenant cluster is managed by the platform agent or externally.",
           "type": "boolean"
         },
         "extraAccessRules": {
-          "description": "ExtraAccessRules defines extra rules which users and teams should have which access to the virtual cluster.",
+          "description": "ExtraAccessRules defines extra rules which users and teams should have which access to the tenant cluster.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.InstanceAccessRule"
           },
@@ -9512,16 +9512,16 @@
           "type": "string"
         },
         "standalone": {
-          "description": "Standalone specifies if the virtual cluster is standalone and not hosted in another Kubernetes cluster.",
+          "description": "Standalone specifies if the tenant cluster is standalone and not hosted in another Kubernetes cluster.",
           "type": "boolean"
         },
         "template": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
-          "description": "Template is the inline template to use for virtual cluster creation. This is mutually exclusive with templateRef."
+          "description": "Template is the inline template to use for tenant cluster creation. This is mutually exclusive with templateRef."
         },
         "templateRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateRef",
-          "description": "TemplateRef holds the virtual cluster template reference"
+          "description": "TemplateRef holds the tenant cluster template reference"
         }
       },
       "type": "object"
@@ -9538,7 +9538,7 @@
           "type": "boolean"
         },
         "conditions": {
-          "description": "Conditions holds several conditions the virtual cluster might be in",
+          "description": "Conditions holds several conditions the tenant cluster might be in",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
           },
@@ -9549,11 +9549,11 @@
           "type": "string"
         },
         "ignoreReconciliation": {
-          "description": "IgnoreReconciliation tells the controller to ignore reconciliation for this instance -- this is primarily used when migrating virtual cluster instances from project to project; this prevents a situation where there are two virtual cluster instances representing the same virtual cluster which could cause issues with concurrent reconciliations of the same object. Once the virtual cluster instance has been cloned and placed into the new project, this (the \"old\") virtual cluster instance can safely be deleted.",
+          "description": "IgnoreReconciliation tells the controller to ignore reconciliation for this instance -- this is primarily used when migrating tenant cluster instances from project to project; this prevents a situation where there are two tenant cluster instances representing the same tenant cluster which could cause issues with concurrent reconciliations of the same object. Once the tenant cluster instance has been cloned and placed into the new project, this (the \"old\") tenant cluster instance can safely be deleted.",
           "type": "boolean"
         },
         "kubernetesVersion": {
-          "description": "KubernetesVersion is the Kubernetes version of the virtual cluster.",
+          "description": "KubernetesVersion is the Kubernetes version of the tenant cluster.",
           "type": "string"
         },
         "message": {
@@ -9565,7 +9565,7 @@
           "type": "boolean"
         },
         "phase": {
-          "description": "Phase describes the current phase the virtual cluster instance is in",
+          "description": "Phase describes the current phase the tenant cluster instance is in",
           "type": "string"
         },
         "reason": {
@@ -9573,7 +9573,7 @@
           "type": "string"
         },
         "serviceUID": {
-          "description": "ServiceUID is the service uid of the virtual cluster to uniquely identify it.",
+          "description": "ServiceUID is the service uid of the tenant cluster to uniquely identify it.",
           "type": "string"
         },
         "sleepModeConfig": {
@@ -9582,7 +9582,7 @@
         },
         "spaceObjects": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ObjectsStatus",
-          "description": "SpaceObjects are the objects that were applied within the virtual cluster space"
+          "description": "SpaceObjects are the objects that were applied within the tenant cluster space"
         },
         "virtualCluster": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
@@ -9590,13 +9590,13 @@
         },
         "virtualClusterObjects": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ObjectsStatus",
-          "description": "VirtualClusterObjects are the objects that were applied within the virtual cluster itself"
+          "description": "VirtualClusterObjects are the objects that were applied within the tenant cluster itself"
         }
       },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterNodeAccessKey": {
-      "description": "VirtualClusterNodeAccessKey holds the access key for the virtual cluster",
+      "description": "VirtualClusterNodeAccessKey holds the access key for the tenant cluster",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9638,7 +9638,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsage": {
-      "description": "VirtualClusterResourceUsage holds information about a virtual cluster's usage of node resources.",
+      "description": "VirtualClusterResourceUsage holds information about a tenant cluster's usage of node resources.",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9675,7 +9675,7 @@
           "type": "object"
         },
         "nodes": {
-          "description": "Nodes is the total count of nodes attached to the virtual cluster.",
+          "description": "Nodes is the total count of nodes attached to the tenant cluster.",
           "format": "int32",
           "type": "integer"
         }
@@ -9689,7 +9689,7 @@
       "properties": {
         "resourceUsage": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterResourceUsageMap",
-          "description": "ResourceUsage contains the aggregated result of the queries to the virtual cluster's nodes."
+          "description": "ResourceUsage contains the aggregated result of the queries to the tenant cluster's nodes."
         }
       },
       "type": "object"
@@ -9713,14 +9713,14 @@
           "type": "string"
         },
         "role": {
-          "description": "Role is the cluster role inside the virtual cluster. One of cluster-admin, admin, edit, or view",
+          "description": "Role is the cluster role inside the tenant cluster. One of cluster-admin, admin, edit, or view",
           "type": "string"
         }
       },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterSchema": {
-      "description": "VirtualClusterSchema holds config request and response data for virtual clusters",
+      "description": "VirtualClusterSchema holds config request and response data for tenant clusters",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9753,7 +9753,7 @@
       "description": "VirtualClusterSchemaSpec holds the specification",
       "properties": {
         "version": {
-          "description": "Version is the version of the virtual cluster",
+          "description": "Version is the version of the tenant cluster",
           "type": "string"
         }
       },
@@ -9763,11 +9763,11 @@
       "description": "VirtualClusterSchemaStatus holds the status",
       "properties": {
         "defaultValues": {
-          "description": "DefaultValues are the default values of the virtual cluster",
+          "description": "DefaultValues are the default values of the tenant cluster",
           "type": "string"
         },
         "schema": {
-          "description": "Schema is the schema of the virtual cluster",
+          "description": "Schema is the schema of the tenant cluster",
           "type": "string"
         }
       },
@@ -9790,7 +9790,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterStandalone": {
-      "description": "VirtualClusterStandalone holds kube config request and response data for virtual clusters",
+      "description": "VirtualClusterStandalone holds kube config request and response data for tenant clusters",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -9929,7 +9929,7 @@
           "type": "array"
         },
         "description": {
-          "description": "Description describes the virtual cluster template",
+          "description": "Description describes the tenant cluster template",
           "type": "string"
         },
         "displayName": {
@@ -9949,11 +9949,11 @@
         },
         "spaceTemplateRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateSpaceTemplateRef",
-          "description": "DEPRECATED: SpaceTemplate to use to create the virtual cluster space if it does not exist"
+          "description": "DEPRECATED: SpaceTemplate to use to create the tenant cluster space if it does not exist"
         },
         "template": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterTemplateDefinition",
-          "description": "Template holds the virtual cluster template"
+          "description": "Template holds the tenant cluster template"
         },
         "versions": {
           "description": "Versions are different versions of the template that can be referenced as well",
@@ -10164,7 +10164,7 @@
           "type": "array"
         },
         "virtualClusters": {
-          "description": "VirtualClusters specifies the virtual clusters the access key is allowed to access.",
+          "description": "VirtualClusters specifies the tenant clusters the access key is allowed to access.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyScopeVirtualCluster"
           },
@@ -10213,7 +10213,7 @@
           "type": "string"
         },
         "virtualClusters": {
-          "description": "VirtualClusters specifies the virtual clusters the access key is allowed to access.",
+          "description": "VirtualClusters specifies the tenant clusters the access key is allowed to access.",
           "items": {
             "type": "string"
           },
@@ -10265,7 +10265,7 @@
           "type": "array"
         },
         "virtualClusters": {
-          "description": "VirtualClusters that this rule matches. Only applies to virtual cluster requests. An empty list means no restrictions will apply.",
+          "description": "VirtualClusters that this rule matches. Only applies to tenant cluster requests. An empty list means no restrictions will apply.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyVirtualCluster"
           },
@@ -10294,7 +10294,7 @@
           "type": "string"
         },
         "virtualCluster": {
-          "description": "VirtualCluster is the name of the virtual cluster to access. You can specify * to select all virtual clusters.",
+          "description": "VirtualCluster is the name of the tenant cluster to access. You can specify * to select all tenant clusters.",
           "type": "string"
         }
       },
@@ -10390,11 +10390,11 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AccessKeyVirtualCluster": {
       "properties": {
         "name": {
-          "description": "Name of the virtual cluster. Empty means all virtual clusters.",
+          "description": "Name of the tenant cluster. Empty means all tenant clusters.",
           "type": "string"
         },
         "namespace": {
-          "description": "Namespace of the virtual cluster. Empty means all namespaces.",
+          "description": "Namespace of the tenant cluster. Empty means all namespaces.",
           "type": "string"
         }
       },
@@ -10664,7 +10664,7 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ArgoCDDestinationVirtualCluster": {
       "properties": {
         "name": {
-          "description": "Name of the virtual cluster",
+          "description": "Name of the tenant cluster",
           "type": "string"
         },
         "namespace": {
@@ -10672,7 +10672,7 @@
           "type": "string"
         },
         "target": {
-          "description": "Target of the virtual cluster",
+          "description": "Target of the tenant cluster",
           "type": "string"
         }
       },
@@ -10701,7 +10701,7 @@
           "description": "SSO defines single-sign-on related values for the ArgoCD Integration. Enabling SSO will allow users to authenticate to ArgoCD via Loft."
         },
         "virtualClusterInstance": {
-          "description": "VirtualClusterInstance defines the name of *virtual cluster* (instance) that ArgoCD is deployed into. If provided, Cluster will be ignored and Loft will assume that ArgoCD is running in the specified virtual cluster.",
+          "description": "VirtualClusterInstance defines the name of *tenant cluster* (instance) that ArgoCD is deployed into. If provided, Cluster will be ignored and Loft will assume that ArgoCD is running in the specified tenant cluster.",
           "type": "string"
         }
       },
@@ -11129,7 +11129,7 @@
           "description": "Owner holds the owner of this object"
         },
         "unusable": {
-          "description": "If unusable is true, no spaces or virtual clusters can be scheduled on this cluster.",
+          "description": "If unusable is true, no spaces or tenant clusters can be scheduled on this cluster.",
           "type": "boolean"
         }
       },
@@ -11368,7 +11368,7 @@
           "type": "string"
         },
         "rules": {
-          "description": "Rules defines which users and teams should have which access to the virtual cluster. If no rule matches an authenticated incoming user, the user will get cluster admin access.",
+          "description": "Rules defines which users and teams should have which access to the tenant cluster. If no rule matches an authenticated incoming user, the user will get cluster admin access.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.InstanceAccessRule"
           },
@@ -11784,7 +11784,7 @@
           "type": "string"
         },
         "virtualCluster": {
-          "description": "VirtualCluster holds the namespace pattern to use for virtual cluster instances",
+          "description": "VirtualCluster holds the namespace pattern to use for tenant cluster instances",
           "type": "string"
         }
       },
@@ -11872,7 +11872,7 @@
         },
         "clusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
-          "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+          "description": "ClusterRef is a reference to connected control plane cluster in which KubeVirt operator is running"
         },
         "infrastructureMachineTemplate": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
@@ -11909,7 +11909,7 @@
       "properties": {
         "clusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
-          "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+          "description": "ClusterRef is a reference to connected control plane cluster in which KubeVirt operator is running"
         },
         "deploy": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtProviderDeployment",
@@ -11936,7 +11936,7 @@
       "properties": {
         "clusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderClusterRef",
-          "description": "ClusterRef is a reference to connected host cluster in which KubeVirt operator is running"
+          "description": "ClusterRef is a reference to connected control plane cluster in which KubeVirt operator is running"
         },
         "deploy": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3ProviderDeployment"
@@ -12511,7 +12511,7 @@
           "description": "The space metadata"
         },
         "objects": {
-          "description": "Objects are Kubernetes style YAMLs that should get deployed into the virtual cluster",
+          "description": "Objects are Kubernetes style YAMLs that should get deployed into the tenant cluster",
           "type": "string"
         }
       },
@@ -12575,7 +12575,7 @@
         },
         "virtualClusterInstance": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TargetInstance",
-          "description": "VirtualClusterInstance defines a virtual cluster instance as target"
+          "description": "VirtualClusterInstance defines a tenant cluster instance as target"
         }
       },
       "type": "object"
@@ -12922,7 +12922,7 @@
       "properties": {
         "ingress": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterAccessPointIngressSpec",
-          "description": "Ingress defines virtual cluster access via ingress"
+          "description": "Ingress defines tenant cluster access via ingress"
         }
       },
       "type": "object"
@@ -12930,7 +12930,7 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterAccessPointIngressSpec": {
       "properties": {
         "enabled": {
-          "description": "Enabled defines if the virtual cluster access point (via ingress) is enabled or not; requires the connected cluster to have the `loft.sh/ingress-suffix` annotation set to define the domain name suffix used for the ingress.",
+          "description": "Enabled defines if the tenant cluster access point (via ingress) is enabled or not; requires the connected cluster to have the `loft.sh/ingress-suffix` annotation set to define the domain name suffix used for the ingress.",
           "type": "boolean"
         }
       },
@@ -12947,7 +12947,7 @@
           "type": "string"
         },
         "virtualCluster": {
-          "description": "VirtualCluster is the name of the virtual cluster inside the namespace",
+          "description": "VirtualCluster is the name of the tenant cluster inside the namespace",
           "type": "string"
         }
       },
@@ -12996,11 +12996,11 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterInstanceTemplateDefinition": {
-      "description": "VirtualClusterInstanceTemplateDefinition holds the virtual cluster instance template",
+      "description": "VirtualClusterInstanceTemplateDefinition holds the tenant cluster instance template",
       "properties": {
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "The virtual cluster instance metadata"
+          "description": "The tenant cluster instance metadata"
         }
       },
       "type": "object"
@@ -13008,7 +13008,7 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterProSpec": {
       "properties": {
         "enabled": {
-          "description": "Enabled defines if the virtual cluster is a pro cluster or not",
+          "description": "Enabled defines if the tenant cluster is a pro cluster or not",
           "type": "boolean"
         }
       },
@@ -13035,7 +13035,7 @@
           "description": "The space metadata"
         },
         "objects": {
-          "description": "Objects are Kubernetes style yamls that should get deployed into the virtual cluster namespace",
+          "description": "Objects are Kubernetes style yamls that should get deployed into the tenant cluster namespace",
           "type": "string"
         }
       },
@@ -13045,11 +13045,11 @@
       "properties": {
         "access": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.InstanceAccess",
-          "description": "Access defines the access of users and teams to the virtual cluster."
+          "description": "Access defines the access of users and teams to the tenant cluster."
         },
         "accessPoint": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterAccessPoint",
-          "description": "AccessPoint defines settings to expose the virtual cluster directly via an ingress rather than through the (default) Loft proxy"
+          "description": "AccessPoint defines settings to expose the tenant cluster directly via an ingress rather than through the (default) Loft proxy"
         },
         "apps": {
           "description": "Apps specifies the apps that should get deployed by this template",
@@ -13071,23 +13071,23 @@
         },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterHelmRelease",
-          "description": "HelmRelease is the helm release configuration for the virtual cluster."
+          "description": "HelmRelease is the helm release configuration for the tenant cluster."
         },
         "instanceTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterInstanceTemplateDefinition",
-          "description": "InstanceTemplate holds the virtual cluster instance template"
+          "description": "InstanceTemplate holds the tenant cluster instance template"
         },
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
-          "description": "The virtual cluster metadata"
+          "description": "The tenant cluster metadata"
         },
         "objects": {
-          "description": "Objects are Kubernetes style YAMLs that should get deployed into the virtual cluster",
+          "description": "Objects are Kubernetes style YAMLs that should get deployed into the tenant cluster",
           "type": "string"
         },
         "pro": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterProSpec",
-          "description": "Pro defines the pro settings for the virtual cluster"
+          "description": "Pro defines the pro settings for the tenant cluster"
         },
         "spaceTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterSpaceTemplateDefinition",
@@ -13299,7 +13299,7 @@
           "type": "string"
         },
         "availableVClusterVersions": {
-          "description": "AvailableVClusterVersions lists all virtual cluster versions available to the platform instance",
+          "description": "AvailableVClusterVersions lists all tenant cluster versions available to the platform instance",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.VClusterVersion"
           },
