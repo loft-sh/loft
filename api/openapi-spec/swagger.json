@@ -11519,12 +11519,24 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtDeployment": {
       "properties": {
+        "chart": {
+          "description": "Chart overrides the Helm chart name used to install the KubeVirt operator.",
+          "type": "string"
+        },
+        "chartRepo": {
+          "description": "ChartRepo overrides the Helm chart repository used to install the KubeVirt operator.",
+          "type": "string"
+        },
         "enabled": {
           "description": "Enabled controls whether the KubeVirt operator is deployed into the cluster.",
           "type": "boolean"
         },
         "helmValues": {
           "description": "HelmValues is raw YAML that will be passed as values to the KubeVirt Helm chart.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version overrides the Helm chart version used to install the KubeVirt operator.",
           "type": "string"
         }
       },
