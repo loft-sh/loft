@@ -12027,7 +12027,7 @@
         },
         "deploy": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtProviderDeployment",
-          "description": "Deploy configures components deployed into the connected host cluster."
+          "description": "Deploy configures components deployed into the connected control plane cluster."
         },
         "nodeTypes": {
           "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
