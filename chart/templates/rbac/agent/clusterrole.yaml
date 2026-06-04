@@ -67,6 +67,14 @@ rules:
     resources: [ "ingresses" ]
     verbs: [ "list", "watch" ]
 
+  - apiGroups: [ "gateway.networking.k8s.io" ]
+    resources:
+      - gatewayclasses
+      - gateways
+      - httproutes
+      - referencegrants
+    verbs: [ "list", "watch" ]
+
   # virtual cluster instances install requirements
   - apiGroups: [ "" ]
     resources: [ "namespaces" ]

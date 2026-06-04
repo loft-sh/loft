@@ -105,6 +105,8 @@ spec:
             containerPort: 9443
           - name: http-wakeup
             containerPort: 9090
+          - name: http-mirror
+            containerPort: 9091
         {{- if .Values.livenessProbe }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:

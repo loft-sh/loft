@@ -16,6 +16,10 @@ spec:
       port: 9090
       targetPort: 9090
       protocol: TCP
+    - name: http-mirror
+      port: 9091
+      targetPort: 9091
+      protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}
     release: {{ .Release.Name }}
