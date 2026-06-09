@@ -210,6 +210,34 @@ config:
   #   certFile: ""
   #   # extraArgs: additional arguments passed to kine (e.g. --datastore-max-open-connections=5).
   #   extraArgs: []
+  #
+  #   # Kerberos / GSSAPI authentication (PostgreSQL): instead of a password, kine authenticates
+  #   # with a mounted keytab. No dedicated fields are needed; use a passwordless dataSource that
+  #   # carries the principal in the user-part plus the krb5_keytab and krbsrvname query params, and
+  #   # mount the keytab + krb5.conf via the top-level `volumes`/`volumeMounts` and set `env.KRB5_CONFIG`.
+  #   # Requires a Kerberos-capable kine build (the krb5_keytab parameter is not understood otherwise).
+  #   #
+  #   # config:
+  #   #   database:
+  #   #     enabled: true
+  #   #     dataSource: "postgres://kine%40REALM@db-host:5432/kine?krb5_keytab=/etc/kine-keytab/krb5.keytab&krbsrvname=postgres&sslmode=disable"
+  #   # env:
+  #   #   KRB5_CONFIG: /etc/krb5.conf
+  #   # volumes:
+  #   #   - name: kine-keytab
+  #   #     secret:
+  #   #       secretName: kine-keytab
+  #   #   - name: krb5-conf
+  #   #     configMap:
+  #   #       name: krb5-conf
+  #   # volumeMounts:
+  #   #   - name: kine-keytab
+  #   #     mountPath: /etc/kine-keytab
+  #   #     readOnly: true
+  #   #   - name: krb5-conf
+  #   #     mountPath: /etc/krb5.conf
+  #   #     subPath: krb5.conf
+  #   #     readOnly: true
 
 
 # multiRegion is unset by default. When set, it configures the platform for multi-region fail-over.
