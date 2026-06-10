@@ -10757,10 +10757,6 @@
         "name": {
           "description": "Name of the cluster",
           "type": "string"
-        },
-        "namespace": {
-          "description": "Namespace within the destination to deploy the application",
-          "type": "string"
         }
       },
       "type": "object"
@@ -10769,10 +10765,6 @@
       "properties": {
         "name": {
           "description": "Name of the tenant cluster",
-          "type": "string"
-        },
-        "namespace": {
-          "description": "Namespace within the destination to deploy the application",
           "type": "string"
         },
         "target": {
