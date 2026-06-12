@@ -1,0 +1,31 @@
+suite: rbac agent clusterrolebinding test
+templates:
+  - templates/rbac/agent/clusterrolebinding.yaml
+
+tests:
+  - it: does not generate a clusterrolebinding with default values
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: does not generate a clusterrolebinding with agentOnly set to true
+    set:
+      agentOnly: true
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: generates a clusterrolebinding with agentOnly, leastPrivilegeMode.enabled and leastPrivilegeMode.clusterRole.enabled set to true
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        clusterRole:
+          enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: ClusterRoleBinding
+      - equal:
+          path: metadata.name
+          value: vcluster-platform-agent
