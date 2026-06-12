@@ -55,7 +55,7 @@ spec:
         - name: loft-data
           emptyDir: {}
       {{- end }}
-      {{- if .Values.additionalCA }}
+      {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
         - name: loft-additional-ca
           secret:
             secretName: loft-additional-ca
@@ -65,7 +65,10 @@ spec:
         {{- if .Values.agentOnly }}
         command: ["loft", "agent"]
         {{- end }}
-        image: {{ default (include "loft.image" .) .Values.image }}
+        image: {{ include "loft.image" . }}
+        {{- if .Values.imagePullPolicy }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- end }}
         ports:
           - name: http
             containerPort: 8080
@@ -98,13 +101,26 @@ spec:
         {{- end }}
         {{- end }}
         env:
+        {{- if not .Values.admin.create }}
+        - name: ADMIN_SKIP_CREATE
+          value: "true"
+        {{- end }}
         - name: ADMIN_EMAIL
           value: {{ .Values.admin.email | quote }}
         - name: CHART_VERSION
           value: {{ .Chart.Version }}
         {{- if .Values.admin.password }}
+        {{- if hasPrefix "$" .Values.admin.password }}
+        - name: ADMIN_PASSWORD_ENV
+          value: {{ .Values.admin.password }}
+        {{- else }}
         - name: ADMIN_PASSWORD_HASH
           value: {{ .Values.admin.password | sha256sum | quote }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.admin.username }}
+        - name: ADMIN_USERNAME
+          value: {{ .Values.admin.username | quote }}
         {{- end }}
         {{- if (gt (int .Values.replicaCount) 1) }}
         {{- if not (and .Values.env .Values.env.LEADER_ELECTION_ENABLED) }}
@@ -141,6 +157,10 @@ spec:
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
         {{- end }}
+        {{- if not (hasKey .Values.env "LOFT_MANAGER_IMAGE") }}
+        - name: LOFT_MANAGER_IMAGE
+          value: {{ include "loft.image" . | quote }}
+        {{- end }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
@@ -151,7 +171,7 @@ spec:
         {{- end }}
           - mountPath: /var/lib/loft
             name: loft-data
-        {{- if .Values.additionalCA }}
+        {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
           - name: loft-additional-ca
             mountPath: /etc/ssl/certs/loft-additional-ca.crt
             readOnly: true
@@ -164,25 +184,60 @@ spec:
       {{- if .Values.audit }}
       {{- if .Values.audit.enableSideCar }}
       - name: audit
-        image: "{{ .Values.audit.image }}"
+        image: {{ include "loft.auditImage" . }}
         command: ["sh"]
         args: ["-c", "touch /var/lib/loft/audit.log && tail -F /var/lib/loft/audit.log"]
         volumeMounts:
         - mountPath: /var/lib/loft
           name: loft-data
+        securityContext:
+          {{- toYaml .Values.audit.securityContext | nindent 12 }}
       {{- end }}
       {{- end }}
       {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       {{- end }}
-      {{- if .Values.affinity }}
-      affinity:
-{{ toYaml .Values.affinity | indent 8 }}
+
+      {{- $preferredSchedulingTerms := list -}}
+      {{- if and .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.enabled }}
+        {{- range $index, $term := .Values.affinity.nodeAffinity.preferNotToRunOnSpotInstances.terms -}}
+          {{- $preferredSchedulingTerms = append $preferredSchedulingTerms $term -}}
+        {{- end }}
       {{- end }}
+      {{- range $index, $term := .Values.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution -}}
+        {{- $preferredSchedulingTerms = append $preferredSchedulingTerms $term -}}
+      {{- end }}
+      {{- if  or .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution $preferredSchedulingTerms .Values.affinity.podAffinity .Values.affinity.podAntiAffinity }}
+      affinity:
+        {{- if  or .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution $preferredSchedulingTerms }}
+        nodeAffinity:
+          {{- if $preferredSchedulingTerms  }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+{{ toYaml $preferredSchedulingTerms | indent 12 }}
+          {{- end }}
+          {{- if .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution }}
+          requiredDuringSchedulingIgnoredDuringExecution:
+{{ toYaml .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution | indent 12 }}
+          {{- end }}
+        {{- end }}
+        {{- if or .Values.affinity.podAffinity }}
+        podAffinity:
+{{ toYaml .Values.affinity.podAffinity | indent 10 }}
+        {{- end }}
+        {{- if or .Values.affinity.podAntiAffinity }}
+        podAntiAffinity:
+{{ toYaml .Values.affinity.podAntiAffinity | indent 10 }}
+        {{- end }}
+      {{- end }}
+
       {{- if .Values.tolerations }}
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
+      {{- if .Values.hostAliases }}
+      hostAliases:
+{{ toYaml .Values.hostAliases | indent 8 }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
