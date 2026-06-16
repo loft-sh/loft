@@ -10303,10 +10303,12 @@
           "type": "array"
         },
         "role": {
-          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"network-peer\"`\n - `\"runner\"`\n - `\"vcluster\"`\n - `\"workspace\"`",
+          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"metrics-reader\"`\n - `\"metrics-writer\"`\n - `\"network-peer\"`\n - `\"runner\"`\n - `\"vcluster\"`\n - `\"workspace\"`",
           "enum": [
             "agent",
             "loft-cli",
+            "metrics-reader",
+            "metrics-writer",
             "network-peer",
             "runner",
             "vcluster",
