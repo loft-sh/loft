@@ -2351,425 +2351,6 @@
       ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.Authentication": {
-      "description": "Authentication holds authentication relevant information",
-      "properties": {
-        "accessKeyMaxTTLSeconds": {
-          "description": "AccessKeyMaxTTLSeconds is the global maximum lifespan of an accesskey in seconds. Leaving it 0 or unspecified will disable it. Specifying 2592000 will mean all keys have a Time-To-Live of 30 days.",
-          "format": "int64",
-          "type": "integer"
-        },
-        "connectors": {
-          "description": "Connectors are optional additional connectors for Loft.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorWithName"
-          },
-          "type": "array"
-        },
-        "customHttpHeaders": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "CustomHttpHeaders are additional headers that should be set for the authentication endpoints",
-          "type": "object"
-        },
-        "disableTeamCreation": {
-          "description": "Prevents from team creation for the new groups associated with the user at the time of logging in through sso, Default behaviour is false, this means that teams will be created for new groups.",
-          "type": "boolean"
-        },
-        "disableUserCreation": {
-          "description": "DisableUserCreation prevents the SSO connectors from creating a new user on a users initial signin through sso. Default behaviour is false, this means that a new user object will be created once a user without a Kubernetes user object logs in.",
-          "type": "boolean"
-        },
-        "github": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGithub",
-          "description": "Github holds github authentication configuration"
-        },
-        "gitlab": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGitlab",
-          "description": "Gitlab holds gitlab authentication configuration"
-        },
-        "google": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGoogle",
-          "description": "Google holds google authentication configuration"
-        },
-        "groupsFilters": {
-          "description": "GroupsFilters is a regex expression to only save matching sso groups into the user resource",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "loginAccessKeyTTLSeconds": {
-          "description": "LoginAccessKeyTTLSeconds is the time in seconds an access key is kept until it is deleted. Leaving it unspecified will default to 20 days. Setting it to zero will disable the ttl. Specifying 2592000 will mean all keys have a  default Time-To-Live of 30 days.",
-          "format": "int64",
-          "type": "integer"
-        },
-        "microsoft": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationMicrosoft",
-          "description": "Microsoft holds microsoft authentication configuration"
-        },
-        "oidc": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationOIDC",
-          "description": "OIDC holds oidc authentication configuration"
-        },
-        "password": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationPassword",
-          "description": "Password holds password authentication relevant information"
-        },
-        "saml": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationSAML",
-          "description": "SAML holds saml authentication configuration"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGithub": {
-      "properties": {
-        "clientId": {
-          "description": "ClientID holds the github client id",
-          "type": "string"
-        },
-        "clientSecret": {
-          "description": "ClientID holds the github client secret",
-          "type": "string"
-        },
-        "hostName": {
-          "description": "Required ONLY for GitHub Enterprise. This is the Hostname of the GitHub Enterprise account listed on the management console. Ensure this domain is routable on your network.",
-          "type": "string"
-        },
-        "orgs": {
-          "description": "Loft queries the following organizations for group information. Group claims are formatted as \"(org):(team)\". For example if a user is part of the \"engineering\" team of the \"coreos\" org, the group claim would include \"coreos:engineering\".\n\nIf orgs are specified in the config then user MUST be a member of at least one of the specified orgs to authenticate with loft.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGithubOrg"
-          },
-          "type": "array"
-        },
-        "redirectURI": {
-          "description": "RedirectURI holds the redirect URI. Should be https://loft.domain.tld/auth/github/callback",
-          "type": "string"
-        },
-        "rootCA": {
-          "description": "ONLY for GitHub Enterprise. Optional field. Used to support self-signed or untrusted CA root certificates.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "clientSecret",
-        "redirectURI"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGithubOrg": {
-      "description": "AuthenticationGithubOrg holds org-team filters, in which teams are optional.",
-      "properties": {
-        "name": {
-          "description": "Organization name in github (not slug, full name). Only users in this github organization can authenticate.",
-          "type": "string"
-        },
-        "teams": {
-          "description": "Names of teams in a github organization. A user will be able to authenticate if they are members of at least one of these teams. Users in the organization can authenticate if this field is omitted from the config file.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGitlab": {
-      "properties": {
-        "baseURL": {
-          "description": "BaseURL is optional, default = https://gitlab.com",
-          "type": "string"
-        },
-        "clientId": {
-          "description": "Gitlab client id",
-          "type": "string"
-        },
-        "clientSecret": {
-          "description": "Gitlab client secret",
-          "type": "string"
-        },
-        "groups": {
-          "description": "Optional groups whitelist, communicated through the \"groups\" scope. If `groups` is omitted, all of the user's GitLab groups are returned. If `groups` is provided, this acts as a whitelist - only the user's GitLab groups that are in the configured `groups` below will go into the groups claim. Conversely, if the user is not in any of the configured `groups`, the user will not be authenticated.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "redirectURI": {
-          "description": "Redirect URI",
-          "type": "string"
-        }
-      },
-      "required": [
-        "clientId",
-        "clientSecret",
-        "redirectURI"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGoogle": {
-      "properties": {
-        "adminEmail": {
-          "description": "Required if ServiceAccountFilePath The email of a GSuite super user which the service account will impersonate when listing groups",
-          "type": "string"
-        },
-        "clientId": {
-          "description": "Google client id",
-          "type": "string"
-        },
-        "clientSecret": {
-          "description": "Google client secret",
-          "type": "string"
-        },
-        "groups": {
-          "description": "Optional list of whitelisted groups If this field is nonempty, only users from a listed group will be allowed to log in",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "hostedDomains": {
-          "description": "Optional list of whitelisted domains If this field is nonempty, only users from a listed domain will be allowed to log in",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "redirectURI": {
-          "description": "loft redirect uri. E.g. https://loft.my.domain/auth/google/callback",
-          "type": "string"
-        },
-        "scopes": {
-          "description": "defaults to \"profile\" and \"email\"",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "serviceAccountFilePath": {
-          "description": "Optional path to service account json If nonempty, and groups claim is made, will use authentication from file to check groups with the admin directory api",
-          "type": "string"
-        }
-      },
-      "required": [
-        "clientId",
-        "clientSecret",
-        "redirectURI"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationMicrosoft": {
-      "properties": {
-        "clientId": {
-          "description": "Microsoft client id",
-          "type": "string"
-        },
-        "clientSecret": {
-          "description": "Microsoft client secret",
-          "type": "string"
-        },
-        "groups": {
-          "description": "It is possible to require a user to be a member of a particular group in order to be successfully authenticated in loft.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "onlySecurityGroups": {
-          "description": "configuration option restricts the list to include only security groups. By default all groups (security, Office 365, mailing lists) are included.",
-          "type": "boolean"
-        },
-        "redirectURI": {
-          "description": "loft redirect uri. Usually https://loft.my.domain/auth/microsoft/callback",
-          "type": "string"
-        },
-        "tenant": {
-          "description": "tenant configuration parameter controls what kinds of accounts may be authenticated in loft. By default, all types of Microsoft accounts (consumers and organizations) can authenticate in loft via Microsoft. To change this, set the tenant parameter to one of the following:\n\ncommon - both personal and business/school accounts can authenticate in loft via Microsoft (default) consumers - only personal accounts can authenticate in loft organizations - only business/school accounts can authenticate in loft tenant uuid or tenant name - only accounts belonging to specific tenant identified by either tenant uuid or tenant name can authenticate in loft",
-          "type": "string"
-        },
-        "useGroupsAsWhitelist": {
-          "description": "Restrict the groups claims to include only the user’s groups that are in the configured groups",
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "clientId",
-        "clientSecret",
-        "redirectURI"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationOIDC": {
-      "properties": {
-        "allowedExtraClaims": {
-          "description": "AllowedExtraClaims are claims of interest that are not part of User by default but may be provided by the OIDC provider.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "caFile": {
-          "description": "Path to a PEM encoded root certificate of the provider. Optional",
-          "type": "string"
-        },
-        "clientId": {
-          "description": "ClientID the JWT must be issued for, the \"sub\" field. This plugin only trusts a single client to ensure the plugin can be used with public providers.\n\nThe plugin supports the \"authorized party\" OpenID Connect claim, which allows specialized providers to issue tokens to a client for a different client. See: https://openid.net/specs/openid-connect-core-1_0.html#IDToken",
-          "type": "string"
-        },
-        "clientSecret": {
-          "description": "ClientSecret to issue tokens from the OIDC provider",
-          "type": "string"
-        },
-        "emailClaim": {
-          "description": "EmailClaim is the JWT field to use as the user's email.",
-          "type": "string"
-        },
-        "getUserInfo": {
-          "description": "GetUserInfo, if specified, tells the OIDCAuthenticator to try to populate the user's information from the UserInfo.",
-          "type": "boolean"
-        },
-        "groups": {
-          "description": "If required groups is non empty, access is denied if the user is not part of at least one of the specified groups.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "groupsClaim": {
-          "description": "GroupsClaim, if specified, causes the OIDCAuthenticator to try to populate the user's groups with an ID Token field. If the GroupsClaim field is present in an ID Token the value must be a string or list of strings.",
-          "type": "string"
-        },
-        "groupsPrefix": {
-          "description": "GroupsPrefix, if specified, causes claims mapping to group names to be prefixed with the value. A value \"oidc:\" would result in groups like \"oidc:engineering\" and \"oidc:marketing\".",
-          "type": "string"
-        },
-        "insecureCa": {
-          "description": "Specify whether to communicate without validating SSL certificates",
-          "type": "boolean"
-        },
-        "issuerUrl": {
-          "description": "IssuerURL is the URL the provider signs ID Tokens as. This will be the \"iss\" field of all tokens produced by the provider and is used for configuration discovery.\n\nThe URL is usually the provider's URL without a path, for example \"https://accounts.google.com\" or \"https://login.salesforce.com\".\n\nThe provider must implement configuration discovery. See: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig",
-          "type": "string"
-        },
-        "loftUsernameClaim": {
-          "description": "LoftUsernameClaim is the JWT field to use as the user's username.",
-          "type": "string"
-        },
-        "postLogoutRedirectURI": {
-          "description": "Loft URI to be redirected to after successful logout by OIDC Provider",
-          "type": "string"
-        },
-        "preferredUsername": {
-          "description": "Configurable key which contains the preferred username claims",
-          "type": "string"
-        },
-        "redirectURI": {
-          "description": "loft redirect uri. E.g. https://loft.my.domain/auth/oidc/callback",
-          "type": "string"
-        },
-        "resource": {
-          "description": "Resource, if specified, is the value that is set for the \"resource\" URL parameter when making a request to the /token endpoint of the OIDC provider.",
-          "type": "string"
-        },
-        "scopes": {
-          "description": "Scopes that should be sent to the server. If empty, defaults to \"email\" and \"profile\".",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "type": {
-          "description": "Type of the OIDC to show in the UI. Only for displaying purposes",
-          "type": "string"
-        },
-        "usernameClaim": {
-          "description": "UsernameClaim is the JWT field to use as the user's id.",
-          "type": "string"
-        },
-        "usernamePrefix": {
-          "description": "UsernamePrefix, if specified, causes claims mapping to username to be prefix with the provided value. A value \"oidc:\" would result in usernames like \"oidc:john\".",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationPassword": {
-      "properties": {
-        "disabled": {
-          "description": "If true login via password is disabled",
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationSAML": {
-      "properties": {
-        "allowedGroups": {
-          "description": "List of groups to filter access based on membership",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "ca": {
-          "description": "CA to use when validating the signature of the SAML response.",
-          "type": "string"
-        },
-        "caData": {
-          "description": "CAData is a base64 encoded string that holds the ca certificate for validating the signature of the SAML response. Either CAData, CA or InsecureSkipSignatureValidation needs to be defined.",
-          "format": "byte",
-          "type": "string"
-        },
-        "emailAttr": {
-          "description": "Name of attribute in the returned assertions to map to email",
-          "type": "string"
-        },
-        "entityIssuer": {
-          "description": "When provided Loft will include this as the Issuer value during AuthnRequest. It will also override the redirectURI as the required audience when evaluating AudienceRestriction elements in the response.",
-          "type": "string"
-        },
-        "filterGroups": {
-          "description": "If used with allowed groups, only forwards the allowed groups and not all groups specified.",
-          "type": "boolean"
-        },
-        "groupsAttr": {
-          "description": "Name of attribute in the returned assertions to map to groups",
-          "type": "string"
-        },
-        "groupsDelim": {
-          "description": "If GroupsDelim is supplied the connector assumes groups are returned as a single string instead of multiple attribute values. This delimiter will be used split the groups string.",
-          "type": "string"
-        },
-        "insecureSkipSignatureValidation": {
-          "description": "Ignore the ca cert",
-          "type": "boolean"
-        },
-        "nameIDPolicyFormat": {
-          "description": "Requested format of the NameID. The NameID value is is mapped to the ID Token 'sub' claim.\n\nThis can be an abbreviated form of the full URI with just the last component. For example, if this value is set to \"emailAddress\" the format will resolve to:\n\n\t\turn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\n\nIf no value is specified, this value defaults to:\n\n\t\turn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
-          "type": "string"
-        },
-        "redirectURI": {
-          "description": "If the response assertion status value contains a Destination element, it must match this value exactly. Usually looks like https://your-loft-domain/auth/saml/callback",
-          "type": "string"
-        },
-        "ssoIssuer": {
-          "description": "Issuer value expected in the SAML response. Optional.",
-          "type": "string"
-        },
-        "ssoURL": {
-          "description": "SSO URL used for POST value.",
-          "type": "string"
-        },
-        "usernameAttr": {
-          "description": "Name of attribute in the returned assertions to map to username",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.Backup": {
       "description": "Backup holds the Backup information",
       "properties": {
@@ -3630,7 +3211,7 @@
           "description": "Audit holds audit configuration"
         },
         "auth": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Authentication",
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Authentication",
           "description": "Authentication holds the information for authentication"
         },
         "authenticateVersionEndpoint": {
@@ -3684,43 +3265,6 @@
         "vault": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VaultIntegrationSpec",
           "description": "VaultIntegration holds the vault integration configuration"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorWithName": {
-      "properties": {
-        "displayName": {
-          "description": "DisplayName is the name that should show up in the ui",
-          "type": "string"
-        },
-        "github": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGithub",
-          "description": "Github holds github authentication configuration"
-        },
-        "gitlab": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGitlab",
-          "description": "Gitlab holds gitlab authentication configuration"
-        },
-        "google": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationGoogle",
-          "description": "Google holds google authentication configuration"
-        },
-        "id": {
-          "description": "ID is the id that should show up in the url",
-          "type": "string"
-        },
-        "microsoft": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationMicrosoft",
-          "description": "Microsoft holds microsoft authentication configuration"
-        },
-        "oidc": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationOIDC",
-          "description": "OIDC holds oidc authentication configuration"
-        },
-        "saml": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AuthenticationSAML",
-          "description": "SAML holds saml authentication configuration"
         }
       },
       "type": "object"
@@ -10963,6 +10507,425 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Authentication": {
+      "description": "Authentication holds authentication relevant information",
+      "properties": {
+        "accessKeyMaxTTLSeconds": {
+          "description": "AccessKeyMaxTTLSeconds is the global maximum lifespan of an accesskey in seconds. Leaving it 0 or unspecified will disable it. Specifying 2592000 will mean all keys have a Time-To-Live of 30 days.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "connectors": {
+          "description": "Connectors are optional additional connectors for Loft.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ConnectorWithName"
+          },
+          "type": "array"
+        },
+        "customHttpHeaders": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "CustomHttpHeaders are additional headers that should be set for the authentication endpoints",
+          "type": "object"
+        },
+        "disableTeamCreation": {
+          "description": "Prevents from team creation for the new groups associated with the user at the time of logging in through sso, Default behaviour is false, this means that teams will be created for new groups.",
+          "type": "boolean"
+        },
+        "disableUserCreation": {
+          "description": "DisableUserCreation prevents the SSO connectors from creating a new user on a users initial signin through sso. Default behaviour is false, this means that a new user object will be created once a user without a Kubernetes user object logs in.",
+          "type": "boolean"
+        },
+        "github": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGithub",
+          "description": "Github holds github authentication configuration"
+        },
+        "gitlab": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGitlab",
+          "description": "Gitlab holds gitlab authentication configuration"
+        },
+        "google": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGoogle",
+          "description": "Google holds google authentication configuration"
+        },
+        "groupsFilters": {
+          "description": "GroupsFilters is a regex expression to only save matching sso groups into the user resource",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "loginAccessKeyTTLSeconds": {
+          "description": "LoginAccessKeyTTLSeconds is the time in seconds an access key is kept until it is deleted. Leaving it unspecified will default to 20 days. Setting it to zero will disable the ttl. Specifying 2592000 will mean all keys have a  default Time-To-Live of 30 days.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "microsoft": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationMicrosoft",
+          "description": "Microsoft holds microsoft authentication configuration"
+        },
+        "oidc": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationOIDC",
+          "description": "OIDC holds oidc authentication configuration"
+        },
+        "password": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationPassword",
+          "description": "Password holds password authentication relevant information"
+        },
+        "saml": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationSAML",
+          "description": "SAML holds saml authentication configuration"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGithub": {
+      "properties": {
+        "clientId": {
+          "description": "ClientID holds the github client id",
+          "type": "string"
+        },
+        "clientSecret": {
+          "description": "ClientID holds the github client secret",
+          "type": "string"
+        },
+        "hostName": {
+          "description": "Required ONLY for GitHub Enterprise. This is the Hostname of the GitHub Enterprise account listed on the management console. Ensure this domain is routable on your network.",
+          "type": "string"
+        },
+        "orgs": {
+          "description": "Loft queries the following organizations for group information. Group claims are formatted as \"(org):(team)\". For example if a user is part of the \"engineering\" team of the \"coreos\" org, the group claim would include \"coreos:engineering\".\n\nIf orgs are specified in the config then user MUST be a member of at least one of the specified orgs to authenticate with loft.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGithubOrg"
+          },
+          "type": "array"
+        },
+        "redirectURI": {
+          "description": "RedirectURI holds the redirect URI. Should be https://loft.domain.tld/auth/github/callback",
+          "type": "string"
+        },
+        "rootCA": {
+          "description": "ONLY for GitHub Enterprise. Optional field. Used to support self-signed or untrusted CA root certificates.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "clientSecret",
+        "redirectURI"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGithubOrg": {
+      "description": "AuthenticationGithubOrg holds org-team filters, in which teams are optional.",
+      "properties": {
+        "name": {
+          "description": "Organization name in github (not slug, full name). Only users in this github organization can authenticate.",
+          "type": "string"
+        },
+        "teams": {
+          "description": "Names of teams in a github organization. A user will be able to authenticate if they are members of at least one of these teams. Users in the organization can authenticate if this field is omitted from the config file.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGitlab": {
+      "properties": {
+        "baseURL": {
+          "description": "BaseURL is optional, default = https://gitlab.com",
+          "type": "string"
+        },
+        "clientId": {
+          "description": "Gitlab client id",
+          "type": "string"
+        },
+        "clientSecret": {
+          "description": "Gitlab client secret",
+          "type": "string"
+        },
+        "groups": {
+          "description": "Optional groups whitelist, communicated through the \"groups\" scope. If `groups` is omitted, all of the user's GitLab groups are returned. If `groups` is provided, this acts as a whitelist - only the user's GitLab groups that are in the configured `groups` below will go into the groups claim. Conversely, if the user is not in any of the configured `groups`, the user will not be authenticated.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "redirectURI": {
+          "description": "Redirect URI",
+          "type": "string"
+        }
+      },
+      "required": [
+        "clientId",
+        "clientSecret",
+        "redirectURI"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGoogle": {
+      "properties": {
+        "adminEmail": {
+          "description": "Required if ServiceAccountFilePath The email of a GSuite super user which the service account will impersonate when listing groups",
+          "type": "string"
+        },
+        "clientId": {
+          "description": "Google client id",
+          "type": "string"
+        },
+        "clientSecret": {
+          "description": "Google client secret",
+          "type": "string"
+        },
+        "groups": {
+          "description": "Optional list of whitelisted groups If this field is nonempty, only users from a listed group will be allowed to log in",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "hostedDomains": {
+          "description": "Optional list of whitelisted domains If this field is nonempty, only users from a listed domain will be allowed to log in",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "redirectURI": {
+          "description": "loft redirect uri. E.g. https://loft.my.domain/auth/google/callback",
+          "type": "string"
+        },
+        "scopes": {
+          "description": "defaults to \"profile\" and \"email\"",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "serviceAccountFilePath": {
+          "description": "Optional path to service account json If nonempty, and groups claim is made, will use authentication from file to check groups with the admin directory api",
+          "type": "string"
+        }
+      },
+      "required": [
+        "clientId",
+        "clientSecret",
+        "redirectURI"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationMicrosoft": {
+      "properties": {
+        "clientId": {
+          "description": "Microsoft client id",
+          "type": "string"
+        },
+        "clientSecret": {
+          "description": "Microsoft client secret",
+          "type": "string"
+        },
+        "groups": {
+          "description": "It is possible to require a user to be a member of a particular group in order to be successfully authenticated in loft.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "onlySecurityGroups": {
+          "description": "configuration option restricts the list to include only security groups. By default all groups (security, Office 365, mailing lists) are included.",
+          "type": "boolean"
+        },
+        "redirectURI": {
+          "description": "loft redirect uri. Usually https://loft.my.domain/auth/microsoft/callback",
+          "type": "string"
+        },
+        "tenant": {
+          "description": "tenant configuration parameter controls what kinds of accounts may be authenticated in loft. By default, all types of Microsoft accounts (consumers and organizations) can authenticate in loft via Microsoft. To change this, set the tenant parameter to one of the following:\n\ncommon - both personal and business/school accounts can authenticate in loft via Microsoft (default) consumers - only personal accounts can authenticate in loft organizations - only business/school accounts can authenticate in loft tenant uuid or tenant name - only accounts belonging to specific tenant identified by either tenant uuid or tenant name can authenticate in loft",
+          "type": "string"
+        },
+        "useGroupsAsWhitelist": {
+          "description": "Restrict the groups claims to include only the user’s groups that are in the configured groups",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "clientId",
+        "clientSecret",
+        "redirectURI"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationOIDC": {
+      "properties": {
+        "allowedExtraClaims": {
+          "description": "AllowedExtraClaims are claims of interest that are not part of User by default but may be provided by the OIDC provider.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "caFile": {
+          "description": "Path to a PEM encoded root certificate of the provider. Optional",
+          "type": "string"
+        },
+        "clientId": {
+          "description": "ClientID the JWT must be issued for, the \"sub\" field. This plugin only trusts a single client to ensure the plugin can be used with public providers.\n\nThe plugin supports the \"authorized party\" OpenID Connect claim, which allows specialized providers to issue tokens to a client for a different client. See: https://openid.net/specs/openid-connect-core-1_0.html#IDToken",
+          "type": "string"
+        },
+        "clientSecret": {
+          "description": "ClientSecret to issue tokens from the OIDC provider",
+          "type": "string"
+        },
+        "emailClaim": {
+          "description": "EmailClaim is the JWT field to use as the user's email.",
+          "type": "string"
+        },
+        "getUserInfo": {
+          "description": "GetUserInfo, if specified, tells the OIDCAuthenticator to try to populate the user's information from the UserInfo.",
+          "type": "boolean"
+        },
+        "groups": {
+          "description": "If required groups is non empty, access is denied if the user is not part of at least one of the specified groups.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "groupsClaim": {
+          "description": "GroupsClaim, if specified, causes the OIDCAuthenticator to try to populate the user's groups with an ID Token field. If the GroupsClaim field is present in an ID Token the value must be a string or list of strings.",
+          "type": "string"
+        },
+        "groupsPrefix": {
+          "description": "GroupsPrefix, if specified, causes claims mapping to group names to be prefixed with the value. A value \"oidc:\" would result in groups like \"oidc:engineering\" and \"oidc:marketing\".",
+          "type": "string"
+        },
+        "insecureCa": {
+          "description": "Specify whether to communicate without validating SSL certificates",
+          "type": "boolean"
+        },
+        "issuerUrl": {
+          "description": "IssuerURL is the URL the provider signs ID Tokens as. This will be the \"iss\" field of all tokens produced by the provider and is used for configuration discovery.\n\nThe URL is usually the provider's URL without a path, for example \"https://accounts.google.com\" or \"https://login.salesforce.com\".\n\nThe provider must implement configuration discovery. See: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig",
+          "type": "string"
+        },
+        "loftUsernameClaim": {
+          "description": "LoftUsernameClaim is the JWT field to use as the user's username.",
+          "type": "string"
+        },
+        "postLogoutRedirectURI": {
+          "description": "Loft URI to be redirected to after successful logout by OIDC Provider",
+          "type": "string"
+        },
+        "preferredUsername": {
+          "description": "Configurable key which contains the preferred username claims",
+          "type": "string"
+        },
+        "redirectURI": {
+          "description": "loft redirect uri. E.g. https://loft.my.domain/auth/oidc/callback",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Resource, if specified, is the value that is set for the \"resource\" URL parameter when making a request to the /token endpoint of the OIDC provider.",
+          "type": "string"
+        },
+        "scopes": {
+          "description": "Scopes that should be sent to the server. If empty, defaults to \"email\" and \"profile\".",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": {
+          "description": "Type of the OIDC to show in the UI. Only for displaying purposes",
+          "type": "string"
+        },
+        "usernameClaim": {
+          "description": "UsernameClaim is the JWT field to use as the user's id.",
+          "type": "string"
+        },
+        "usernamePrefix": {
+          "description": "UsernamePrefix, if specified, causes claims mapping to username to be prefix with the provided value. A value \"oidc:\" would result in usernames like \"oidc:john\".",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationPassword": {
+      "properties": {
+        "disabled": {
+          "description": "If true login via password is disabled",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationSAML": {
+      "properties": {
+        "allowedGroups": {
+          "description": "List of groups to filter access based on membership",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ca": {
+          "description": "CA to use when validating the signature of the SAML response.",
+          "type": "string"
+        },
+        "caData": {
+          "description": "CAData is a base64 encoded string that holds the ca certificate for validating the signature of the SAML response. Either CAData, CA or InsecureSkipSignatureValidation needs to be defined.",
+          "format": "byte",
+          "type": "string"
+        },
+        "emailAttr": {
+          "description": "Name of attribute in the returned assertions to map to email",
+          "type": "string"
+        },
+        "entityIssuer": {
+          "description": "When provided Loft will include this as the Issuer value during AuthnRequest. It will also override the redirectURI as the required audience when evaluating AudienceRestriction elements in the response.",
+          "type": "string"
+        },
+        "filterGroups": {
+          "description": "If used with allowed groups, only forwards the allowed groups and not all groups specified.",
+          "type": "boolean"
+        },
+        "groupsAttr": {
+          "description": "Name of attribute in the returned assertions to map to groups",
+          "type": "string"
+        },
+        "groupsDelim": {
+          "description": "If GroupsDelim is supplied the connector assumes groups are returned as a single string instead of multiple attribute values. This delimiter will be used split the groups string.",
+          "type": "string"
+        },
+        "insecureSkipSignatureValidation": {
+          "description": "Ignore the ca cert",
+          "type": "boolean"
+        },
+        "nameIDPolicyFormat": {
+          "description": "Requested format of the NameID. The NameID value is is mapped to the ID Token 'sub' claim.\n\nThis can be an abbreviated form of the full URI with just the last component. For example, if this value is set to \"emailAddress\" the format will resolve to:\n\n\t\turn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\n\nIf no value is specified, this value defaults to:\n\n\t\turn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+          "type": "string"
+        },
+        "redirectURI": {
+          "description": "If the response assertion status value contains a Destination element, it must match this value exactly. Usually looks like https://your-loft-domain/auth/saml/callback",
+          "type": "string"
+        },
+        "ssoIssuer": {
+          "description": "Issuer value expected in the SAML response. Optional.",
+          "type": "string"
+        },
+        "ssoURL": {
+          "description": "SSO URL used for POST value.",
+          "type": "string"
+        },
+        "usernameAttr": {
+          "description": "Name of attribute in the returned assertions to map to username",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.BCMNodeTypeSpec": {
       "properties": {
         "cost": {
@@ -11249,6 +11212,43 @@
         },
         "reason": {
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ConnectorWithName": {
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is the name that should show up in the ui",
+          "type": "string"
+        },
+        "github": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGithub",
+          "description": "Github holds github authentication configuration"
+        },
+        "gitlab": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGitlab",
+          "description": "Gitlab holds gitlab authentication configuration"
+        },
+        "google": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationGoogle",
+          "description": "Google holds google authentication configuration"
+        },
+        "id": {
+          "description": "ID is the id that should show up in the url",
+          "type": "string"
+        },
+        "microsoft": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationMicrosoft",
+          "description": "Microsoft holds microsoft authentication configuration"
+        },
+        "oidc": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationOIDC",
+          "description": "OIDC holds oidc authentication configuration"
+        },
+        "saml": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AuthenticationSAML",
+          "description": "SAML holds saml authentication configuration"
         }
       },
       "type": "object"
