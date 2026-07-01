@@ -7118,7 +7118,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.SnapshotRequest": {
-      "description": "SnapshotRequest is the request to take a snapshot of a volume.",
+      "description": "SnapshotRequest is the request to take a snapshot.",
       "properties": {
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SnapshotRequestMetadata"
@@ -7165,14 +7165,8 @@
         },
         "phase": {
           "type": "string"
-        },
-        "volumeSnapshots": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VolumeSnapshotsRequestStatus"
         }
       },
-      "required": [
-        "volumeSnapshots"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.SnapshotTaken": {
@@ -7193,17 +7187,10 @@
         "timestamp": {
           "type": "string"
         },
-        "totalPV": {
-          "format": "int32",
-          "type": "integer"
-        },
         "url": {
           "type": "string"
         }
       },
-      "required": [
-        "totalPV"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.SpaceInstance": {
@@ -9709,42 +9696,6 @@
           "type": "array"
         }
       },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VolumeSnapshotRequestStatus": {
-      "description": "SnapshotStatus shows the current status of a single PVC snapshot.",
-      "properties": {
-        "error": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SnapshotRequestError"
-        },
-        "phase": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "error"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VolumeSnapshotsRequestStatus": {
-      "description": "VolumeSnapshotsRequestStatus shows the current status of the snapshot request.",
-      "properties": {
-        "error": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.SnapshotRequestError"
-        },
-        "phase": {
-          "type": "string"
-        },
-        "snapshots": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VolumeSnapshotRequestStatus"
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "error"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access": {
