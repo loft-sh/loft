@@ -9886,14 +9886,13 @@
           "type": "array"
         },
         "role": {
-          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"metrics-reader\"`\n - `\"metrics-writer\"`\n - `\"network-peer\"`\n - `\"runner\"`\n - `\"vcluster\"`\n - `\"workspace\"`",
+          "description": "Role is the name of the role to apply to the access key scope.\n\nPossible enum values:\n - `\"agent\"`\n - `\"loft-cli\"`\n - `\"metrics-reader\"`\n - `\"metrics-writer\"`\n - `\"network-peer\"`\n - `\"vcluster\"`\n - `\"workspace\"`",
           "enum": [
             "agent",
             "loft-cli",
             "metrics-reader",
             "metrics-writer",
             "network-peer",
-            "runner",
             "vcluster",
             "workspace"
           ],
@@ -13213,8 +13212,12 @@
           "type": "array"
         },
         "forwardToken": {
-          "description": "ForwardToken signals the proxy to pass through the used token to the virtual Kubernetes api server and do a TokenReview there.",
+          "description": "ForwardToken signals the proxy to pass through the used token to the virtual Kubernetes api server and do a TokenReview there. Deprecated: use ForwardTokenMode instead. When ForwardTokenMode is empty, ForwardToken==true is treated as ForwardTokenMode \"TokenReview\" and ForwardToken==false as \"Off\".",
           "type": "boolean"
+        },
+        "forwardTokenMode": {
+          "description": "ForwardTokenMode controls how the proxy forwards the caller's token to the virtual Kubernetes api server.\n  - \"Off\": do not forward the token (default).\n  - \"TokenReview\": run a TokenReview against the virtual cluster and proxy the request using\n    impersonation headers for the resulting user (historical ForwardToken behavior).\n  - \"Passthrough\": forward the raw bearer token directly to the virtual cluster api server\n    without a TokenReview and without impersonation headers. The virtual cluster api server is\n    responsible for authenticating and authorizing the request (e.g. via its own OIDC config).\nWhen empty, the deprecated ForwardToken bool is used to derive the mode. Both \"TokenReview\" and \"Passthrough\" skip the platform's own instance-access check and delegate authorization to the virtual cluster api server, so only enable them on virtual clusters that enforce their own authentication and authorization. Downgrade note: older platform versions understand only the ForwardToken bool. \"Off\" and \"TokenReview\" are kept in sync with it automatically, so they downgrade cleanly. \"Passthrough\" has no bool equivalent and is unavailable on older versions; it downgrades to forwarding disabled.",
+          "type": "string"
         },
         "helmRelease": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VirtualClusterHelmRelease",
