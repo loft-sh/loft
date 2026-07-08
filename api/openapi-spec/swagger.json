@@ -6049,7 +6049,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectMigrateVirtualClusterInstance": {
-      "description": "ProjectMigrateVirtualClusterInstance holds project vclusterinstance migrate information",
+      "description": "ProjectMigrateVirtualClusterInstance holds project vclusterinstance migrate information\n\nDeprecated: migrating virtual cluster instances between projects is deprecated and will be removed in a future release.",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
