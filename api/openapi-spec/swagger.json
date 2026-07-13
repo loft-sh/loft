@@ -4682,6 +4682,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimPower",
           "description": "Power describes the desired power state of the machine."
         },
+        "profileRef": {
+          "description": "ProfileRef is the name of a NodeProfile in the catalog to apply to the resulting node. The referenced profile must exist and must be permitted by the owning project's allowedNodeProfiles. Optional.",
+          "type": "string"
+        },
         "properties": {
           "additionalProperties": {
             "type": "string"
@@ -4902,6 +4906,112 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile": {
+      "description": "NodeProfile exposes reusable node runtime configuration to platform users.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfileSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfileStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfileList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "NodeProfileList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfileSpec": {
+      "properties": {
+        "description": {
+          "description": "Description describes what the profile is intended for.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI.",
+          "type": "string"
+        },
+        "nodeAnnotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "NodeAnnotations are annotations that should be applied to the joined node.",
+          "type": "object"
+        },
+        "nodeLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "NodeLabels are labels that should be applied to the joined node.",
+          "type": "object"
+        },
+        "startupTaints": {
+          "description": "StartupTaints are temporary taints applied while the node initializes.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Taint"
+          },
+          "type": "array"
+        },
+        "taints": {
+          "description": "Taints are taints that should be applied to the joined node.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Taint"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfileStatus": {
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProvider": {
@@ -6182,6 +6292,13 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
+        "nodeProfiles": {
+          "description": "NodeProfiles holds all the allowed node profiles for the project",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProfile"
+          },
+          "type": "array"
+        },
         "nodeProviders": {
           "description": "NodeProviders holds all the allowed node providers for the project",
           "items": {
@@ -6359,6 +6476,13 @@
           },
           "type": "array"
         },
+        "allowedNodeProfiles": {
+          "description": "AllowedNodeProfiles restricts which NodeProfiles can be referenced by NodeClaims and joinscript requests in this project. An entry can be an exact name (\"platform.gpu-training\") or an owner wildcard (\"platform.*\"). If unset (nil), all NodeProfiles are allowed; an empty list disallows all NodeProfiles.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNodeProfile"
+          },
+          "type": "array"
+        },
         "allowedNodeTypes": {
           "description": "AllowedNodeTypes restricts which NodeTypes can be referenced by NodeClaims in this project. An entry can be an exact name (\"aws.large\") or a provider wildcard (\"aws.*\"). If unset (nil), all NodeTypes are allowed; an empty list disallows all NodeTypes.",
           "items": {
@@ -6383,6 +6507,10 @@
         "argoCD": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ArgoIntegrationSpec",
           "description": "ArgoIntegration holds information about ArgoCD Integration"
+        },
+        "defaultNodeProfile": {
+          "description": "DefaultNodeProfile is the default NodeProfile applied to nodes in this project when none is selected explicitly. It is overridden by the vCluster-level privateNodes.defaultProfile and by per-node/per-pool selection, and is validated against allowedNodeProfiles.",
+          "type": "string"
         },
         "description": {
           "description": "Description describes an app",
@@ -9063,6 +9191,9 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceJoinScriptSpec"
+        },
         "status": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceJoinScriptStatus"
         }
@@ -9075,6 +9206,16 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceJoinScriptSpec": {
+      "description": "VirtualClusterInstanceJoinScriptSpec is the request body for the joinscript subresource. Profile configuration may be supplied via ProfileRef (catalog reference). If it is not set, the join script carries no profile-derived configuration.",
+      "properties": {
+        "profileRef": {
+          "description": "ProfileRef references a NodeProfile in the cluster-scoped catalog. The referenced profile must exist and be permitted by the owning project's allowedNodeProfiles.",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.VirtualClusterInstanceJoinScriptStatus": {
       "properties": {
@@ -10167,6 +10308,16 @@
       "properties": {
         "name": {
           "description": "Name is the name of the cluster that is allowed to create an environment in.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNodeProfile": {
+      "description": "AllowedNodeProfile restricts which NodeProfile a project's consumers may reference. The Name field is either an exact profile name or an \"<owner>.*\" wildcard, matching the same semantics as AllowedNodeType.",
+      "properties": {
+        "name": {
+          "description": "Name of the NodeProfile, or \"<owner>.*\" to allow all NodeProfiles with the given owner prefix.",
           "type": "string"
         }
       },
@@ -12037,6 +12188,74 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProfile": {
+      "description": "NodeProfile holds reusable node runtime configuration that can be referenced by manual joins, auto nodes, and platform NodeClaims.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProfileSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProfileStatus"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProfileSpec": {
+      "description": "NodeProfileSpec defines reusable node settings.",
+      "properties": {
+        "description": {
+          "description": "Description describes what the profile is intended for.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI.",
+          "type": "string"
+        },
+        "nodeAnnotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "NodeAnnotations are annotations that should be applied to the joined node.",
+          "type": "object"
+        },
+        "nodeLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "NodeLabels are labels that should be applied to the joined node.",
+          "type": "object"
+        },
+        "startupTaints": {
+          "description": "StartupTaints are temporary taints applied while the node initializes.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Taint"
+          },
+          "type": "array"
+        },
+        "taints": {
+          "description": "Taints are taints that should be applied to the joined node.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.Taint"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProfileStatus": {
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProvider": {
@@ -27435,6 +27654,467 @@
         }
       ]
     },
+    "/apis/management.loft.sh/v1/nodeprofiles": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of NodeProfile",
+        "operationId": "deleteManagementLoftShV1CollectionNodeProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind NodeProfile",
+        "operationId": "listManagementLoftShV1NodeProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfileList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a NodeProfile",
+        "operationId": "createManagementLoftShV1NodeProfile",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/nodeprofiles/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a NodeProfile",
+        "operationId": "deleteManagementLoftShV1NodeProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified NodeProfile",
+        "operationId": "readManagementLoftShV1NodeProfile",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the NodeProfile",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified NodeProfile",
+        "operationId": "patchManagementLoftShV1NodeProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified NodeProfile",
+        "operationId": "replaceManagementLoftShV1NodeProfile",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      }
+    },
     "/apis/management.loft.sh/v1/nodeproviders": {
       "delete": {
         "consumes": [
@@ -37767,6 +38447,158 @@
         },
         {
           "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/nodeprofiles": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of NodeProfile. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1NodeProfileList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/nodeprofiles/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind NodeProfile. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1NodeProfile",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NodeProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the NodeProfile",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
         },
         {
           "$ref": "#/parameters/pretty-tJGM1-ng"
