@@ -236,6 +236,78 @@
       }
     ]
   },
+  "/apis/management.loft.sh/v1/appinstances": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "list or watch objects of kind AppInstance",
+      "operationId": "listManagementLoftShV1AppInstanceForAllNamespaces",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstanceList"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "list",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/apps": {
     "delete": {
       "consumes": [
@@ -2914,122 +2986,6 @@
       }
     ]
   },
-  "/apis/management.loft.sh/v1/clusters/{name}/charts": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read charts of the specified Cluster",
-      "operationId": "readManagementLoftShV1ClusterCharts",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "ClusterCharts",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "description": "name of the ClusterCharts",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "post": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "create charts of a Cluster",
-      "operationId": "createManagementLoftShV1ClusterCharts",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
-          }
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ClusterCharts"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "post",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "ClusterCharts",
-        "version": "v1"
-      }
-    }
-  },
   "/apis/management.loft.sh/v1/clusters/{name}/domain": {
     "get": {
       "consumes": [
@@ -4906,6 +4862,543 @@
         "version": "v1"
       }
     }
+  },
+  "/apis/management.loft.sh/v1/namespaces/{namespace}/appinstances": {
+    "delete": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "delete collection of AppInstance",
+      "operationId": "deleteManagementLoftShV1CollectionNamespacedAppInstance",
+      "parameters": [
+        {
+          "$ref": "#/parameters/body-2Y1dVQaQ"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/orphanDependents-uRB25kX5"
+        },
+        {
+          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "deletecollection",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "list or watch objects of kind AppInstance",
+      "operationId": "listManagementLoftShV1NamespacedAppInstance",
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstanceList"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "list",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ],
+    "post": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "create an AppInstance",
+      "operationId": "createManagementLoftShV1NamespacedAppInstance",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        },
+        "201": {
+          "description": "Created",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        },
+        "202": {
+          "description": "Accepted",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "post",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    }
+  },
+  "/apis/management.loft.sh/v1/namespaces/{namespace}/appinstances/{name}": {
+    "delete": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "delete an AppInstance",
+      "operationId": "deleteManagementLoftShV1NamespacedAppInstance",
+      "parameters": [
+        {
+          "$ref": "#/parameters/body-2Y1dVQaQ"
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
+          "$ref": "#/parameters/orphanDependents-uRB25kX5"
+        },
+        {
+          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+          }
+        },
+        "202": {
+          "description": "Accepted",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "delete",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read the specified AppInstance",
+      "operationId": "readManagementLoftShV1NamespacedAppInstance",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "description": "name of the AppInstance",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      }
+    ],
+    "patch": {
+      "consumes": [
+        "application/json-patch+json",
+        "application/merge-patch+json",
+        "application/apply-patch+yaml"
+      ],
+      "description": "partially update the specified AppInstance",
+      "operationId": "patchManagementLoftShV1NamespacedAppInstance",
+      "parameters": [
+        {
+          "$ref": "#/parameters/body-78PwaGsr"
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-7c6nTn1T"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/force-tOGGb0Yi"
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        },
+        "201": {
+          "description": "Created",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "patch",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "put": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "replace the specified AppInstance",
+      "operationId": "replaceManagementLoftShV1NamespacedAppInstance",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        },
+        "201": {
+          "description": "Created",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstance"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "put",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    }
+  },
+  "/apis/management.loft.sh/v1/namespaces/{namespace}/appinstances/{name}/log": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "read log of the specified AppInstance",
+      "operationId": "readManagementLoftShV1NamespacedAppInstanceLog",
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.AppInstanceLog"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "get",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstanceLog",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/follow-VM_libi3"
+      },
+      {
+        "$ref": "#/parameters/insecureSkipTLSVerifyBackend-uV3ublYN"
+      },
+      {
+        "$ref": "#/parameters/limitBytes-2y5MXXAf"
+      },
+      {
+        "description": "name of the AppInstanceLog",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/previous-AEFjzUgM"
+      },
+      {
+        "$ref": "#/parameters/sinceSeconds-ElPLiXDH"
+      },
+      {
+        "$ref": "#/parameters/tailLines-IUlNmndG"
+      },
+      {
+        "$ref": "#/parameters/timestamps-PiWwxWJa"
+      }
+    ]
   },
   "/apis/management.loft.sh/v1/namespaces/{namespace}/argocdapplications": {
     "delete": {
@@ -13551,52 +14044,6 @@
       }
     }
   },
-  "/apis/management.loft.sh/v1/projects/{name}/charts": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read charts of the specified Project",
-      "operationId": "readManagementLoftShV1ProjectCharts",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ProjectCharts"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "ProjectCharts",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "description": "name of the ProjectCharts",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ]
-  },
   "/apis/management.loft.sh/v1/projects/{name}/clusters": {
     "get": {
       "consumes": [
@@ -15933,534 +16380,6 @@
       }
     }
   },
-  "/apis/management.loft.sh/v1/tasks": {
-    "delete": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "delete collection of Task",
-      "operationId": "deleteManagementLoftShV1CollectionTask",
-      "parameters": [
-        {
-          "$ref": "#/parameters/body-2Y1dVQaQ"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-        },
-        {
-          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/orphanDependents-uRB25kX5"
-        },
-        {
-          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/shardSelector-Kgyki_3_"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "deletecollection",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "list or watch objects of kind Task",
-      "operationId": "listManagementLoftShV1Task",
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/shardSelector-Kgyki_3_"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TaskList"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "list",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "post": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "create a Task",
-      "operationId": "createManagementLoftShV1Task",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "post",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    }
-  },
-  "/apis/management.loft.sh/v1/tasks/{name}": {
-    "delete": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "delete a Task",
-      "operationId": "deleteManagementLoftShV1Task",
-      "parameters": [
-        {
-          "$ref": "#/parameters/body-2Y1dVQaQ"
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-        },
-        {
-          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-        },
-        {
-          "$ref": "#/parameters/orphanDependents-uRB25kX5"
-        },
-        {
-          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-          }
-        },
-        "202": {
-          "description": "Accepted",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "delete",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read the specified Task",
-      "operationId": "readManagementLoftShV1Task",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "description": "name of the Task",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      }
-    ],
-    "patch": {
-      "consumes": [
-        "application/json-patch+json",
-        "application/merge-patch+json",
-        "application/apply-patch+yaml"
-      ],
-      "description": "partially update the specified Task",
-      "operationId": "patchManagementLoftShV1Task",
-      "parameters": [
-        {
-          "$ref": "#/parameters/body-78PwaGsr"
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-7c6nTn1T"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/force-tOGGb0Yi"
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "patch",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "put": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "replace the specified Task",
-      "operationId": "replaceManagementLoftShV1Task",
-      "parameters": [
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        },
-        {
-          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-          "in": "query",
-          "name": "dryRun",
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-        },
-        {
-          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-          "in": "query",
-          "name": "fieldValidation",
-          "type": "string",
-          "uniqueItems": true
-        }
-      ],
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        },
-        "201": {
-          "description": "Created",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Task"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "put",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    }
-  },
-  "/apis/management.loft.sh/v1/tasks/{name}/log": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read log of the specified Task",
-      "operationId": "readManagementLoftShV1TaskLog",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TaskLog"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "TaskLog",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/follow-VM_libi3"
-      },
-      {
-        "$ref": "#/parameters/insecureSkipTLSVerifyBackend-uV3ublYN"
-      },
-      {
-        "$ref": "#/parameters/limitBytes-2y5MXXAf"
-      },
-      {
-        "description": "name of the TaskLog",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/previous-AEFjzUgM"
-      },
-      {
-        "$ref": "#/parameters/sinceSeconds-ElPLiXDH"
-      },
-      {
-        "$ref": "#/parameters/tailLines-IUlNmndG"
-      },
-      {
-        "$ref": "#/parameters/timestamps-PiWwxWJa"
-      }
-    ]
-  },
   "/apis/management.loft.sh/v1/teams": {
     "delete": {
       "consumes": [
@@ -18626,6 +18545,78 @@
       }
     }
   },
+  "/apis/management.loft.sh/v1/watch/appinstances": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "watch individual changes to a list of AppInstance. deprecated: use the 'watch' parameter with a list operation instead.",
+      "operationId": "watchManagementLoftShV1AppInstanceListForAllNamespaces",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "watchlist",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/watch/apps": {
     "get": {
       "consumes": [
@@ -19586,6 +19577,164 @@
         "required": true,
         "type": "string",
         "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
+  "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/appinstances": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "watch individual changes to a list of AppInstance. deprecated: use the 'watch' parameter with a list operation instead.",
+      "operationId": "watchManagementLoftShV1NamespacedAppInstanceList",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "watchlist",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
+  "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/appinstances/{name}": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "watch changes to an object of kind AppInstance. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+      "operationId": "watchManagementLoftShV1NamespacedAppInstance",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "watch",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "AppInstance",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "description": "name of the AppInstance",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
       },
       {
         "$ref": "#/parameters/pretty-tJGM1-ng"
@@ -22062,158 +22211,6 @@
       }
     ]
   },
-  "/apis/management.loft.sh/v1/watch/tasks": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "watch individual changes to a list of Task. deprecated: use the 'watch' parameter with a list operation instead.",
-      "operationId": "watchManagementLoftShV1TaskList",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "watchlist",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-      },
-      {
-        "$ref": "#/parameters/continue-QfD61s0i"
-      },
-      {
-        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-      },
-      {
-        "$ref": "#/parameters/labelSelector-5Zw57w4C"
-      },
-      {
-        "$ref": "#/parameters/limit-1NfNmdNH"
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-      },
-      {
-        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-      },
-      {
-        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-      },
-      {
-        "$ref": "#/parameters/shardSelector-Kgyki_3_"
-      },
-      {
-        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-      },
-      {
-        "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
-  "/apis/management.loft.sh/v1/watch/tasks/{name}": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "watch changes to an object of kind Task. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
-      "operationId": "watchManagementLoftShV1Task",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "managementLoftSh_v1"
-      ],
-      "x-kubernetes-action": "watch",
-      "x-kubernetes-group-version-kind": {
-        "group": "management.loft.sh",
-        "kind": "Task",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-      },
-      {
-        "$ref": "#/parameters/continue-QfD61s0i"
-      },
-      {
-        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-      },
-      {
-        "$ref": "#/parameters/labelSelector-5Zw57w4C"
-      },
-      {
-        "$ref": "#/parameters/limit-1NfNmdNH"
-      },
-      {
-        "description": "name of the Task",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-      },
-      {
-        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-      },
-      {
-        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-      },
-      {
-        "$ref": "#/parameters/shardSelector-Kgyki_3_"
-      },
-      {
-        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-      },
-      {
-        "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
   "/apis/management.loft.sh/v1/watch/teams": {
     "get": {
       "consumes": [
@@ -22739,260 +22736,6 @@
       },
       {
         "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
-  "/apis/virtualcluster.loft.sh/": {
-    "get": {
-      "consumes": [
-        "application/json",
-        "application/yaml",
-        "application/vnd.kubernetes.protobuf"
-      ],
-      "description": "get information of a group",
-      "operationId": "getVirtualclusterLoftShAPIGroup",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/vnd.kubernetes.protobuf"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.APIGroup"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "virtualclusterLoftSh"
-      ]
-    }
-  },
-  "/apis/virtualcluster.loft.sh/v1/": {
-    "get": {
-      "consumes": [
-        "application/json",
-        "application/yaml"
-      ],
-      "description": "get available resources",
-      "operationId": "getVirtualclusterLoftShV1APIResources",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "virtualclusterLoftSh_v1"
-      ]
-    }
-  },
-  "/apis/virtualcluster.loft.sh/v1/helmreleases": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "list objects of kind HelmRelease",
-      "operationId": "listVirtualclusterLoftShV1HelmReleaseForAllNamespaces",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmReleaseList"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "virtualclusterLoftSh_v1"
-      ],
-      "x-kubernetes-action": "list",
-      "x-kubernetes-group-version-kind": {
-        "group": "virtualcluster.loft.sh",
-        "kind": "HelmRelease",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-      },
-      {
-        "$ref": "#/parameters/continue-QfD61s0i"
-      },
-      {
-        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-      },
-      {
-        "$ref": "#/parameters/labelSelector-5Zw57w4C"
-      },
-      {
-        "$ref": "#/parameters/limit-1NfNmdNH"
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-      },
-      {
-        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-      },
-      {
-        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-      },
-      {
-        "$ref": "#/parameters/shardSelector-Kgyki_3_"
-      },
-      {
-        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-      },
-      {
-        "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
-  "/apis/virtualcluster.loft.sh/v1/namespaces/{namespace}/helmreleases": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "list objects of kind HelmRelease",
-      "operationId": "listVirtualclusterLoftShV1NamespacedHelmRelease",
-      "produces": [
-        "application/json",
-        "application/yaml",
-        "application/json;stream=watch"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmReleaseList"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "virtualclusterLoftSh_v1"
-      ],
-      "x-kubernetes-action": "list",
-      "x-kubernetes-group-version-kind": {
-        "group": "virtualcluster.loft.sh",
-        "kind": "HelmRelease",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-      },
-      {
-        "$ref": "#/parameters/continue-QfD61s0i"
-      },
-      {
-        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-      },
-      {
-        "$ref": "#/parameters/labelSelector-5Zw57w4C"
-      },
-      {
-        "$ref": "#/parameters/limit-1NfNmdNH"
-      },
-      {
-        "$ref": "#/parameters/namespace-vgWSWtn3"
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
-      },
-      {
-        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-      },
-      {
-        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-      },
-      {
-        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-      },
-      {
-        "$ref": "#/parameters/shardSelector-Kgyki_3_"
-      },
-      {
-        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-      },
-      {
-        "$ref": "#/parameters/watch-XNNPZGbK"
-      }
-    ]
-  },
-  "/apis/virtualcluster.loft.sh/v1/namespaces/{namespace}/helmreleases/{name}": {
-    "get": {
-      "consumes": [
-        "*/*"
-      ],
-      "description": "read the specified HelmRelease",
-      "operationId": "readVirtualclusterLoftShV1NamespacedHelmRelease",
-      "produces": [
-        "application/json",
-        "application/yaml"
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "schema": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.virtualcluster.v1.HelmRelease"
-          }
-        }
-      },
-      "schemes": [
-        "https"
-      ],
-      "tags": [
-        "virtualclusterLoftSh_v1"
-      ],
-      "x-kubernetes-action": "get",
-      "x-kubernetes-group-version-kind": {
-        "group": "virtualcluster.loft.sh",
-        "kind": "HelmRelease",
-        "version": "v1"
-      }
-    },
-    "parameters": [
-      {
-        "description": "name of the HelmRelease",
-        "in": "path",
-        "name": "name",
-        "required": true,
-        "type": "string",
-        "uniqueItems": true
-      },
-      {
-        "$ref": "#/parameters/namespace-vgWSWtn3"
-      },
-      {
-        "$ref": "#/parameters/pretty-tJGM1-ng"
       }
     ]
   },
