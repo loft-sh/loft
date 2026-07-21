@@ -12097,6 +12097,14 @@
         "deploy": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3ProviderDeployment"
         },
+        "netris": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3Netris",
+          "description": "Netris attaches BareMetalHosts to a Netris server cluster on provisioning."
+        },
+        "neutronEnabled": {
+          "description": "NeutronEnabled turns on the neutron network shim for this provider: BareMetalHost network attachments are allocated by the platform and reconciled through ConfigMaps instead of being written directly as DHCP annotations.",
+          "type": "boolean"
+        },
         "nodeTypes": {
           "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
           "items": {
@@ -12105,6 +12113,18 @@
           "type": "array"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3Netris": {
+      "properties": {
+        "secretRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacedRef",
+          "description": "SecretRef references a Secret with keys url, username and password for the Netris API."
+        }
+      },
+      "required": [
+        "secretRef"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderSpec": {
