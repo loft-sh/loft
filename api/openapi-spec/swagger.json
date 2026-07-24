@@ -11489,7 +11489,7 @@
         },
         "vClusterDeviceOperator": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.VClusterDeviceOperatorDeployment",
-          "description": "VClusterDeviceOperator configures the VCluster device operator deployment."
+          "description": "VClusterDeviceOperator configures the vCluster device operator deployment."
         }
       },
       "type": "object"
@@ -13028,7 +13028,7 @@
           "type": "string"
         },
         "enabled": {
-          "description": "Enabled controls whether the VCluster device operator is deployed into the cluster.",
+          "description": "Enabled controls whether the vCluster device operator is deployed into the cluster.",
           "type": "boolean"
         },
         "helmValues": {
