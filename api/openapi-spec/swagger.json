@@ -1643,6 +1643,15 @@
           },
           "type": "array"
         },
+        "deployAttempts": {
+          "description": "DeployAttempts counts the consecutive failed deploy attempts for the current spec generation and resolved app configuration. It backs the automatic retry of failed deploys and is reset whenever the deploy input changes or a deploy succeeds.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "lastDeployTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "LastDeployTime is when the last deploy attempt finished, successful or not. Together with DeployAttempts it schedules the automatic retries of failed deploys."
+        },
         "message": {
           "description": "Message describes the reason in human-readable form why the instance is in the current phase",
           "type": "string"
