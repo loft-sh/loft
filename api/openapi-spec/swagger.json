@@ -12084,6 +12084,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.KubeVirtProviderDeployment",
           "description": "Deploy configures components deployed into the connected control plane cluster."
         },
+        "namespaceStrategy": {
+          "description": "NamespaceStrategy determines in which namespace of the connected cluster the VirtualMachines are created. \"Provider\" (default) creates all VirtualMachines in clusterRef.namespace. \"VirtualCluster\" creates the VirtualMachines in the namespace of the tenant cluster the NodeClaim belongs to. If the NodeClaim cannot be traced back to a tenant cluster namespace within clusterRef.cluster, clusterRef.namespace is used instead.",
+          "type": "string"
+        },
         "nodeTypes": {
           "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
           "items": {
