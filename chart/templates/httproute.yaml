@@ -21,7 +21,7 @@ metadata:
     {{- end }}
 spec:
   parentRefs:
-    - name: {{ .Values.httpRoute.gatewayName | default .Values.gateway.name }}
+    - name: {{ .Values.httpRoute.gatewayName }}
       {{- if .Values.httpRoute.gatewayNamespace }}
       namespace: {{ .Values.httpRoute.gatewayNamespace }}
       {{- end }}
