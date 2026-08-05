@@ -26,6 +26,18 @@ ingress:
     enabled: true
     secret: loft-tls
 
+httpRoute:
+  enabled: false
+  name: loft-httproute
+  gatewayName: loft-gateway
+  gatewayNamespace: ""
+  hostnames:
+    - "example.com"
+  path: "/"
+  labels: {}
+  annotations: {}
+  timeout: "43200s" # 12 hours
+
 # TLS configuration with a custom cert and key
 # Make sure the secret exists prior to deploying loft,
 # otherwise the loft pod will not be able to start
