@@ -15,6 +15,18 @@
   {{ fail "multiRegion requires a non-empty external data source (sqlite is not allowed)" }}
   {{- end }}
 {{- end }}
+{{- if include "loft.fileLoggingEnabled" . -}}
+  {{- range .Values.volumes -}}
+    {{- if eq (default "" .name) "platform-logs" -}}
+      {{- fail "volumes must not define platform-logs when logging.file.enabled is true; the chart reserves this volume" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range .Values.sidecarContainers -}}
+  {{- if or (eq (default "" .name) "manager") (eq (default "" .name) "audit") -}}
+    {{- fail (printf "sidecarContainers must not use the reserved name %q" .name) -}}
+  {{- end -}}
+{{- end -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -73,6 +85,11 @@ spec:
       volumes:
       {{- if .Values.volumes }}
 {{ toYaml .Values.volumes | indent 8 }}
+      {{- end }}
+      {{- if include "loft.fileLoggingEnabled" . }}
+        - name: platform-logs
+          emptyDir:
+            sizeLimit: 1Gi
       {{- end }}
       {{- if or (and .Values.persistence .Values.persistence.enabled) (and .Values.audit .Values.audit.persistence.enabled) }}
         - name: loft-data
@@ -192,6 +209,10 @@ spec:
           value: {{ default "console" .Values.logging.encoding }}
         - name: LOFT_LOG_LEVEL
           value: {{ default "info" .Values.logging.level }}
+        {{- if include "loft.fileLoggingEnabled" . }}
+        - name: LOFT_LOG_FILE
+          value: /var/log/vcluster-platform/platform.log
+        {{- end }}
         {{- end }}
         {{- if .Values.insecureSkipVerify }}
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
@@ -318,6 +339,10 @@ spec:
         {{- end }}
           - mountPath: /var/lib/loft
             name: loft-data
+        {{- if include "loft.fileLoggingEnabled" . }}
+          - name: platform-logs
+            mountPath: /var/log/vcluster-platform
+        {{- end }}
         {{- if and .Values.additionalCA (not .Values.insecureSkipVerify) }}
           - name: loft-additional-ca
             mountPath: /etc/ssl/certs/loft-additional-ca.crt
@@ -340,6 +365,9 @@ spec:
         securityContext:
           {{- toYaml .Values.audit.securityContext | nindent 12 }}
       {{- end }}
+      {{- end }}
+      {{- if .Values.sidecarContainers }}
+{{ toYaml .Values.sidecarContainers | indent 6 }}
       {{- end }}
       {{- if .Values.nodeSelector }}
       nodeSelector:

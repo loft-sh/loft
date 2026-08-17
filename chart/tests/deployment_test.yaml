@@ -1251,3 +1251,147 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: ADMIN_PASSWORD_HASH
+
+  - it: does not enable file logging by default
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_LOG_FILE
+      - notContains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: platform-logs
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: platform-logs
+
+  - it: enables additive file logging with an ordinary sidecar
+    set:
+      logging:
+        file:
+          enabled: true
+      sidecarContainers:
+        - name: log-collector
+          image: log-collector
+          volumeMounts:
+            - name: platform-logs
+              mountPath: /var/log/vcluster-platform
+              readOnly: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_LOG_FILE
+            value: /var/log/vcluster-platform/platform.log
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: platform-logs
+            mountPath: /var/log/vcluster-platform
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: platform-logs
+            emptyDir:
+              sizeLimit: 1Gi
+      - equal:
+          path: spec.template.spec.containers[1].name
+          value: log-collector
+      - contains:
+          path: spec.template.spec.containers[1].volumeMounts
+          content:
+            name: platform-logs
+            mountPath: /var/log/vcluster-platform
+            readOnly: true
+
+  - it: rejects a user-defined platform-logs volume when file logging is enabled
+    set:
+      logging:
+        file:
+          enabled: true
+      volumes:
+        - name: platform-logs
+          emptyDir: {}
+    asserts:
+      - failedTemplate:
+          errorMessage: "volumes must not define platform-logs when logging.file.enabled is true; the chart reserves this volume"
+
+  - it: rejects a sidecar container using the reserved manager name
+    set:
+      sidecarContainers:
+        - name: manager
+          image: log-collector
+    asserts:
+      - failedTemplate:
+          errorMessage: 'sidecarContainers must not use the reserved name "manager"'
+
+  - it: rejects a sidecar container using the reserved audit name
+    set:
+      sidecarContainers:
+        - name: audit
+          image: log-collector
+    asserts:
+      - failedTemplate:
+          errorMessage: 'sidecarContainers must not use the reserved name "audit"'
+
+  - it: enables file logging and ordinary sidecars in agent-only mode
+    set:
+      agentOnly: true
+      logging:
+        file:
+          enabled: true
+      sidecarContainers:
+        - name: log-collector
+          image: log-collector
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].command
+          value: ["loft", "agent"]
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_LOG_FILE
+            value: /var/log/vcluster-platform/platform.log
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: platform-logs
+            emptyDir:
+              sizeLimit: 1Gi
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: platform-logs
+            mountPath: /var/log/vcluster-platform
+      - equal:
+          path: spec.template.spec.containers[1].name
+          value: log-collector
+
+  - it: allows sidecars to mount a user-defined platform-logs volume when file logging is disabled
+    set:
+      volumes:
+        - name: platform-logs
+          emptyDir: {}
+      sidecarContainers:
+        - name: log-collector
+          image: log-collector
+          volumeMounts:
+            - name: platform-logs
+              mountPath: /logs
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOFT_LOG_FILE
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: platform-logs
+            emptyDir: {}
+      - contains:
+          path: spec.template.spec.containers[1].volumeMounts
+          content:
+            name: platform-logs
+            mountPath: /logs

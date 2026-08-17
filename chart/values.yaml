@@ -125,6 +125,9 @@ volumes: []
 #   dataStoreCAFile: /etc/vcluster/audit-datastore-ca/ca.pem
 volumeMounts: []
 
+# Additional sidecar containers to be attached to the loft deployment.
+sidecarContainers: []
+
 # If the readinessProbe should be enabled
 readinessProbe:
   enabled: true
@@ -332,6 +335,12 @@ hostAliases: []
 logging:
   encoding: console # Can be either json or console
   level: info # Can be either: debug, info, error
+  file:
+    # enabled controls whether Platform logs are also written to a file.
+    # The path is fixed at /var/log/vcluster-platform/platform.log, 
+    # and its directory is backed by the platform-logs volume, 
+    # which sidecarContainers can mount to read the logs.
+    enabled: false
 
 # The product to use
 product: loft
@@ -420,4 +429,3 @@ affinity:
 # config for using the chart in GCP Marketplace
 gcpMarketplace:
   enabled: false
-

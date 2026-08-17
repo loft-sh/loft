@@ -97,6 +97,14 @@ Output is truthy when enabled, empty otherwise; use in {{ if include "loft.confi
 {{- end -}}
 
 {{/*
+True when logging.file is set and enabled (safe when .Values.logging or .Values.logging.file is nil).
+Output is truthy when enabled, empty otherwise; use in {{ if include "loft.fileLoggingEnabled" . }}.
+*/}}
+{{- define "loft.fileLoggingEnabled" -}}
+{{- if and .Values.logging .Values.logging.file .Values.logging.file.enabled }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
 True when env.LOFT_EMBEDDED_K8S is set to "true" (safe when .Values.env is nil).
 Output is truthy when enabled, empty otherwise; use in {{ if include "loft.envEmbeddedK8sEnabled" . }}.
 */}}
@@ -154,4 +162,3 @@ rollingUpdate:
 {{- end -}}
 {{- end -}}
 {{- end -}}
-
