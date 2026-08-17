@@ -104,9 +104,25 @@ resources:
     memory: 4Gi
 
 # Additional volumes that should be mounted to the loft deployment
+#
+# Include this (with a matching entry in volumeMounts below) if audit logging with full
+# certificate verification is desired: config.audit.dataStoreCAFile is read directly by the loft
+# pod, so the CA bundle has to be mounted here rather than passed as a value.
+#   volumes:
+#     - name: audit-datastore-ca
+#       secret:
+#         secretName: audit-datastore-ca
 volumes: []
 
 # Additional volume mounts that should be mounted into the loft container
+#
+#   Include this if audit-datastore-ca volume is created above:
+#   volumeMounts:
+#     - name: audit-datastore-ca
+#       mountPath: /etc/vcluster/audit-datastore-ca
+#       readOnly: true
+# then, in config.audit below:
+#   dataStoreCAFile: /etc/vcluster/audit-datastore-ca/ca.pem
 volumeMounts: []
 
 # If the readinessProbe should be enabled
@@ -192,6 +208,36 @@ serviceMonitor:
 config:
   audit:
     enabled: true
+    # dataStoreEndpoint is unset by default. When set, audit events are stored in the given
+    # datastore in addition to log files, as a single connection string. Examples:
+    #   mysql: mysql://username:password@tcp(hostname:3306)/audit
+    #   postgres: postgres://username:password@hostname:5432/audit
+    #
+    # Postgres connections default to sslmode=require regardless of dataStoreIdentityProvider:
+    # traffic is encrypted, but the server certificate is NOT verified.
+    #
+    # Mysql only gets a default when dataStoreIdentityProvider is set. When
+    # dataStoreIdentityProvider is set, then tls defaults to skip-verify. Without
+    # dataStoreIdentityProvider, mysql has no tls default at all and is plaintext unless the
+    # endpoint sets its own tls.
+    #
+    # An explicit ?sslmode= / ?tls= on the endpoint always overrides these defaults, including
+    # dataStoreCAFile below: e.g. an explicit sslmode=require (postgres) or tls=skip-verify
+    # (mysql) on the endpoint stays unverified even when dataStoreCAFile is also set.
+    # dataStoreEndpoint: ""
+    #
+    # dataStoreIdentityProvider for authenticating to dataStoreEndpoint without a static password
+    # (e.g. "aws" for RDS IAM). Optional; when set, any password in dataStoreEndpoint is ignored.
+    # dataStoreIdentityProvider: ""
+    #
+    # dataStoreCAFile is the path to a PEM-encoded certificate authority bundle (e.g. AWS's RDS CA
+    # bundle) used to fully verify the server certificate instead of the defaults above. When
+    # dataStoreCAFile is set, postgres uses sslmode=verify-full, mysql uses a registered TLS config
+    # trusting this CA. Applies regardless of dataStoreIdentityProvider. Has no effect on the
+    # sqlite backend. It's a path to a mounted CA bundle in the platform pod (see the top-level
+    # volumes/volumeMounts example above), read once at startup, so updating the mounted
+    # Secret/ConfigMap in place does not take effect until the loft pod restarts.
+    # dataStoreCAFile: ""
 
   # database is unset by default. When set, it configures the embedded Kubernetes (kine) database
   # connection. Uncomment to use an external database with the embedded platform.
