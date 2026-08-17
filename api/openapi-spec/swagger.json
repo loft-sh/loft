@@ -3689,6 +3689,35 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.GPUTypeUsage": {
+      "description": "GPUTypeUsage is an aggregate accelerator count for a single type (vendor and model) across all nodes attached to the tenant cluster.",
+      "properties": {
+        "allocatable": {
+          "description": "Allocatable is the total number of schedulable units of this type across all nodes.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "model": {
+          "description": "Model is the hardware model when known, empty otherwise.",
+          "type": "string"
+        },
+        "physical": {
+          "description": "Physical is the total number of physical accelerators of this type across all nodes.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "vendor": {
+          "description": "Vendor is a normalized accelerator vendor id, e.g. \"nvidia\", \"amd\", \"intel\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "vendor",
+        "allocatable",
+        "physical"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.GroupResources": {
       "description": "GroupResources represents resource kinds in an API group.",
       "properties": {
@@ -9500,8 +9529,15 @@
             "format": "int32",
             "type": "integer"
           },
-          "description": "Capacity is a map of resources to their total amounts across all attached nodes.",
+          "description": "Capacity is a map of raw node resource names to their total amounts across all attached nodes (e.g. \"cpu\", \"nvidia.com/gpu\"). It is per-resource-name, not per-vendor: for GPUs it only includes \"nvidia.com/gpu\" and not other accelerator vendors, so use GPUs (not Capacity) for a cross-vendor GPU total.",
           "type": "object"
+        },
+        "gpus": {
+          "description": "GPUs is the accelerator usage across all attached nodes, broken down by GPU type (vendor and model).",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.GPUTypeUsage"
+          },
+          "type": "array"
         },
         "nodes": {
           "description": "Nodes is the total count of nodes attached to the tenant cluster.",
