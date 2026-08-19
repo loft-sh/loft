@@ -13412,7 +13412,7 @@
           "type": "array"
         },
         "taskName": {
-          "description": "TaskName is the task the child used to be (its loft.sh/stack-task annotation).",
+          "description": "TaskName is the name of the task this child was created for. That task is no longer in the resolved task set.",
           "type": "string"
         },
         "type": {
@@ -13598,7 +13598,7 @@
           "description": "LastTransitionTime is when this task last changed phase."
         },
         "message": {
-          "description": "Message is a human-readable detail for this task.",
+          "description": "Message describes the reason in human-readable form why the task is in the current phase.",
           "type": "string"
         },
         "name": {
@@ -13607,6 +13607,10 @@
         },
         "phase": {
           "description": "Phase is the per-task phase. It is type-agnostic: Healthy/Failed report the task's resolved readiness, not an ArgoCD-specific state.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason describes the reason in machine-readable form why the task is in the current phase. Empty while the task is healthy.",
           "type": "string"
         },
         "synced": {
