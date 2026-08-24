@@ -7557,6 +7557,77 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.StackInstanceOutput": {
+      "description": "StackInstanceOutput is one published output of a StackInstance.",
+      "properties": {
+        "message": {
+          "description": "Message explains the reason in words. It names the task, the output or the failure behind it.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the public name the stack publishes the value under.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason is the cause of the state in one word. It is empty when the state is Available.",
+          "type": "string"
+        },
+        "sensitive": {
+          "description": "Sensitive reflects the output's declared source type, not its content: a value read via fromSecret is sensitive, one read via fromResource is not. To have a value treated as sensitive, read it from a Secret via fromSecret. Always serialized.",
+          "type": "boolean"
+        },
+        "state": {
+          "description": "State reports whether the value can be read yet.",
+          "type": "string"
+        },
+        "task": {
+          "description": "Task is the task that produced the value.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value is the captured value. It is set when State is Available, including when the captured value is an empty string.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "task",
+        "sensitive",
+        "state"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.StackInstanceOutputs": {
+      "description": "StackInstanceOutputs holds the published outputs of a StackInstance. The values live in the instance's managed outputs Secret, never on its status, and reading them needs the get verb on the stackinstances/outputs subresource.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "outputs": {
+          "description": "Outputs are the stack's published outputs, in the order publishedOutputs declares them. Task outputs the stack does not publish are not listed here.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.StackInstanceOutput"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StackInstanceOutputs",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.StackInstanceSpec": {
       "description": "StackInstanceSpec holds the specification",
       "properties": {
@@ -7633,7 +7704,7 @@
           "type": "string"
         },
         "tasks": {
-          "description": "Tasks is the denormalized per-task status, including not-yet-materialized tasks.",
+          "description": "Tasks is the denormalized per-task status, including not-yet-materialized tasks. It is empty when the instance stopped before it could work out its task set, such as a missing destination or a template that does not resolve.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.StackTaskStatus"
           },
@@ -13829,11 +13900,11 @@
           "type": "array"
         },
         "name": {
-          "description": "Name is the stable identifier of the task. DNS-label-safe, unique within the stack. A task that declares outputs may use letters and digits only: its outputs are referenced as {{ .tasks.<name>.outputs.<output> }}, and the template syntax cannot address a name containing \"-\".",
+          "description": "Name is the stable identifier of the task. DNS-label-safe, unique within the stack. A task that declares outputs may use letters and digits only: its outputs are referenced as {{ .Outputs.task.name }}, and the template syntax cannot address a name containing \"-\".",
           "type": "string"
         },
         "outputs": {
-          "description": "Outputs declares named values this task publishes once it is Healthy. Later tasks consume them in their specs as {{ .tasks.<task>.outputs.<name> }} and must list this task in dependsOn (validated at admission).",
+          "description": "Outputs declares named values this task publishes once it is Healthy. Later tasks consume them in their specs as {{ .Outputs.task.name }} and must list this task in dependsOn (validated at admission).",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.StackTaskOutput"
           },
@@ -13861,7 +13932,7 @@
           "description": "FromSecret reads the value from a Secret key on the destination cluster. Exactly one of fromSecret or fromResource must be set per output."
         },
         "name": {
-          "description": "Name identifies the output. Letters and digits only, unique within the task: the output is referenced as {{ .tasks.<task>.outputs.<name> }}, and the template syntax cannot address a name containing \"-\".",
+          "description": "Name identifies the output. Letters and digits only, unique within the task: the output is referenced as {{ .Outputs.task.name }}, and the template syntax cannot address a name containing \"-\".",
           "type": "string"
         }
       },
@@ -27585,6 +27656,55 @@
           "version": "v1"
         }
       }
+    },
+    "/apis/management.loft.sh/v1/namespaces/{namespace}/stackinstances/{name}/outputs": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read outputs of the specified StackInstance",
+        "operationId": "readManagementLoftShV1NamespacedStackInstanceOutputs",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.StackInstanceOutputs"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StackInstanceOutputs",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the StackInstanceOutputs",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
     },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/virtualclusterinstances": {
       "delete": {
