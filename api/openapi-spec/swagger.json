@@ -2072,8 +2072,16 @@
           "description": "Compress determines if the rotated log files should be compressed using gzip. The default is not to perform compression.",
           "type": "boolean"
         },
+        "dataStoreCAFile": {
+          "description": "DataStoreCAFile is the path to a PEM-encoded certificate authority bundle used to verify the audit datastore's server certificate, read directly by the platform pod at startup. Mount it in the platform pod via the chart's top-level volumes/volumeMounts (e.g. from a Secret or ConfigMap), the same way as config.database's caFile. When set, the connection is fully verified (postgres: sslmode=verify-full; mysql: a registered TLS config with the given CA as RootCAs) instead of the default encrypted-but-unverified connection. Optional; has no effect on the sqlite backend.\n\nAn explicit ?sslmode=/?tls= already present on DataStoreEndpoint always overrides this and is not upgraded, even when DataStoreCAFile is set - e.g. an endpoint carried over from before CA support existed with ?tls=skip-verify stays unverified. The platform logs this case at startup so it isn't silent.",
+          "type": "string"
+        },
         "dataStoreEndpoint": {
           "description": "DataStoreEndpoint is an endpoint to store events in.",
+          "type": "string"
+        },
+        "dataStoreIdentityProvider": {
+          "description": "DataStoreIdentityProvider is the identity provider to use when generating temporary authentication tokens for the audit datastore, instead of a static password embedded in DataStoreEndpoint. Examples: * aws: RDS IAM Authentication",
           "type": "string"
         },
         "dataStoreTTL": {
@@ -4050,6 +4058,36 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.LoftUpgradeStatus": {
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine": {
+      "description": "Machine is a read-only mirror of one physical machine in a bare metal provider's inventory. Managed exclusively by the platform's inventory sync.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      ]
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineConfigTemplate": {
       "description": "MachineConfigTemplate holds the machine config template for vCluster.",
       "properties": {
@@ -4142,6 +4180,93 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineConfigTemplateStatus": {
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "MachineList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineSpec": {
+      "description": "MachineSpec holds the mirror's identity.",
+      "properties": {
+        "displayName": {
+          "description": "DisplayName is shown in the UI; providers fill it from their native naming (metal3: the BareMetalHost name, NICo: the machine hostname).",
+          "type": "string"
+        },
+        "providerRef": {
+          "description": "ProviderRef is the NodeProvider whose inventory this machine mirrors.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineStatus": {
+      "description": "MachineStatus is the observed provider-side state of the machine.",
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds the sync conditions of the machine.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "hardware": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineHardware",
+          "description": "Hardware is the machine's discovered hardware inventory."
+        },
+        "lastSyncTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "LastSyncTime is when this state was last confirmed against the provider."
+        },
+        "message": {
+          "description": "Message is a human-readable explanation of the phase.",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the aggregated machine state.",
+          "type": "string"
+        },
+        "powerState": {
+          "description": "PowerState is the machine's normalized power state: On, Off, or Unknown when the provider reports a state that maps to neither (e.g. an error). Empty when the provider does not report power at all.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason is a machine-readable explanation of the phase.",
+          "type": "string"
+        },
+        "system": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineSystem",
+          "description": "System is the machine's observed runtime state (assigned addressing and similar), as opposed to the physical inventory in Hardware."
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.MaintenanceWindow": {
@@ -11380,6 +11505,31 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.CPUResource": {
+      "description": "CPUResource describes CPU topology. On a CPU capability entry it covers all packages of that entry's model together (sockets is the package count, cores/threads are totals across them); MachineHardware.CPU is the sum over all CPU entries. Providers fill what they report (metal3: architecture and logical CPU count as threads; NICo: packages with per-package cores, and threads when scout provides them); zero means \"not reported\".",
+      "properties": {
+        "architecture": {
+          "description": "Architecture is the CPU architecture (e.g. x86_64, aarch64).",
+          "type": "string"
+        },
+        "cores": {
+          "description": "Cores is the number of physical cores.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "sockets": {
+          "description": "Sockets is the number of CPU packages.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "threads": {
+          "description": "Threads is the number of logical CPUs.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Chart": {
       "description": "Chart describes a chart",
       "properties": {
@@ -12085,6 +12235,121 @@
         "displayName": {
           "description": "DisplayName is the name that should be shown in the UI",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineCapability": {
+      "description": "MachineCapability describes one device model present in a machine.",
+      "properties": {
+        "count": {
+          "description": "Count is how many devices of this model the machine has.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Name is the device model name.",
+          "type": "string"
+        },
+        "resources": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Resources",
+          "description": "Resources holds the device resources this capability provides, per device kind (CPU topology for CPU entries, capacity for the rest)."
+        },
+        "type": {
+          "description": "Type is the device kind.",
+          "type": "string"
+        },
+        "vendor": {
+          "description": "Vendor is the device vendor.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineHardware": {
+      "description": "MachineHardware is the normalized hardware inventory of a machine.",
+      "properties": {
+        "capabilities": {
+          "description": "Capabilities lists the machine's discovered devices, one entry per device model.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineCapability"
+          },
+          "type": "array"
+        },
+        "cpu": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.CPUResource",
+          "description": "CPU aggregates all CPU capabilities of the machine (sockets, cores and threads summed across every CPU entry in Capabilities)."
+        },
+        "memory": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity",
+          "description": "Memory aggregates all Memory capabilities of the machine (capacity summed across every Memory entry in Capabilities)."
+        },
+        "product": {
+          "description": "Product is the machine's product name when the provider reports it.",
+          "type": "string"
+        },
+        "serial": {
+          "description": "Serial is the machine's serial number when the provider reports it.",
+          "type": "string"
+        },
+        "storage": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity",
+          "description": "Storage aggregates all Storage capabilities of the machine (capacity summed across every Storage entry in Capabilities)."
+        },
+        "vendor": {
+          "description": "Vendor is the machine's hardware vendor when the provider reports it.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineNetwork": {
+      "description": "MachineNetwork is the machine's network runtime state.",
+      "properties": {
+        "interfaces": {
+          "description": "Interfaces lists the machine's network interfaces and their current addressing.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineNetworkInterface"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineNetworkInterface": {
+      "description": "MachineNetworkInterface is one network interface of a machine.",
+      "properties": {
+        "ips": {
+          "description": "IPs are the addresses currently assigned to the interface; empty for a machine waiting unprovisioned in the pool.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "mac": {
+          "description": "MAC is the interface's hardware address.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the interface name when the provider reports it (e.g. enp1s0).",
+          "type": "string"
+        },
+        "primary": {
+          "description": "Primary marks the interface the machine's traffic goes through (NICo: the primary interface; metal3: the PXE/provisioning interface).",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineSystem": {
+      "description": "MachineSystem is the machine's observed runtime state.",
+      "properties": {
+        "network": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.MachineNetwork",
+          "description": "Network is the machine's network runtime state."
         }
       },
       "type": "object"
@@ -13119,6 +13384,35 @@
         "disabled": {
           "description": "If true, all users within the project will be allowed to create a new instance without a template. By default, only admins are allowed to create a new instance without a template.",
           "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.Resources": {
+      "description": "Resources describes what one capability entry provides. Which fields are set depends on the capability type.",
+      "properties": {
+        "architecture": {
+          "description": "Architecture is the CPU architecture (e.g. x86_64, aarch64).",
+          "type": "string"
+        },
+        "capacity": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity",
+          "description": "Capacity is the per-device capacity when the provider reports one (Memory size, GPU memory, disk size)."
+        },
+        "cores": {
+          "description": "Cores is the number of physical cores.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "sockets": {
+          "description": "Sockets is the number of CPU packages.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "threads": {
+          "description": "Threads is the number of logical CPUs.",
+          "format": "int64",
+          "type": "integer"
         }
       },
       "type": "object"
@@ -22749,6 +23043,467 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "MachineConfigTemplate",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/machines": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of Machine",
+        "operationId": "deleteManagementLoftShV1CollectionMachine",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind Machine",
+        "operationId": "listManagementLoftShV1Machine",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.MachineList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a Machine",
+        "operationId": "createManagementLoftShV1Machine",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/machines/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a Machine",
+        "operationId": "deleteManagementLoftShV1Machine",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified Machine",
+        "operationId": "readManagementLoftShV1Machine",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the Machine",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified Machine",
+        "operationId": "patchManagementLoftShV1Machine",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified Machine",
+        "operationId": "replaceManagementLoftShV1Machine",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Machine"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
           "version": "v1"
         }
       }
@@ -39127,6 +39882,158 @@
         },
         {
           "description": "name of the MachineConfigTemplate",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/machines": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of Machine. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1MachineList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/machines/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind Machine. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1Machine",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "Machine",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the Machine",
           "in": "path",
           "name": "name",
           "required": true,
