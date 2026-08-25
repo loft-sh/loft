@@ -7569,7 +7569,7 @@
           "type": "string"
         },
         "reason": {
-          "description": "Reason is the cause of the state in one word. It is empty when the state is Available.",
+          "description": "Reason is the cause of the state in one word. An Available output carries one only when its task failed after the value was captured, meaning the value served is the last good one.",
           "type": "string"
         },
         "sensitive": {
