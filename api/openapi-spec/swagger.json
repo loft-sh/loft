@@ -13910,9 +13910,9 @@
           },
           "type": "array"
         },
-        "taskTimeout": {
+        "timeout": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
-          "description": "TaskTimeout overrides Defaults.TaskTimeout for this task."
+          "description": "Timeout overrides Defaults.TaskTimeout for this task."
         }
       },
       "required": [
