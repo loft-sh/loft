@@ -7654,13 +7654,13 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
-        "inputs": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
-          "description": "Inputs are the values the template's tasks reference as .Values.<name>, rendered with the shared template engine. Declarations provide defaults and validation but are not a whitelist: values without a matching declaration are passed through and may be referenced too."
-        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
+        },
+        "parameters": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Parameters are the values the template's tasks reference as .Values.<name>, the same way an app reads its parameters. Declarations provide defaults and validation but are not a whitelist: values without a matching declaration are passed through and may be referenced too."
         },
         "prunePolicy": {
           "description": "PrunePolicy controls what happens to an owned application whose task is removed from the resolved task set. The empty value is treated as Retain.",
@@ -7668,7 +7668,7 @@
         },
         "template": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.StackTemplateDefinition",
-          "description": "Template defines the stack inline. It has the same shape as a StackTemplate's inputs and tasks, so a template's payload can be copy-pasted here and back. Exactly one of Template or TemplateRef must be set (validated at admission)."
+          "description": "Template defines the stack inline. It has the same shape as a StackTemplate's parameters and tasks, so a template's payload can be copy-pasted here and back. Exactly one of Template or TemplateRef must be set (validated at admission)."
         },
         "templateRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.StackTemplateRef",
@@ -7797,16 +7797,16 @@
           "description": "Icon is a logo/png reference for the catalog.",
           "type": "string"
         },
-        "inputs": {
-          "description": "Inputs declares the typed inputs (with defaults) a stack accepts, reused from AppParameter.",
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "parameters": {
+          "description": "Parameters declares the typed parameters (with defaults) a stack accepts, reused from AppParameter.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AppParameter"
           },
           "type": "array"
-        },
-        "owner": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
-          "description": "Owner holds the owner of this object"
         },
         "publishedOutputs": {
           "description": "PublishedOutputs selects which captured task outputs the stack exposes to its users, optionally under a different name. The values come from the captured task outputs; nothing extra is read from the cluster. They are read through the instance's outputs subresource, never from its status.",
@@ -13998,10 +13998,10 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.StackTemplateDefinition": {
-      "description": "StackTemplateDefinition is the reusable payload of a StackTemplate: the declared inputs and the task DAG. It is embedded inline in StackTemplateSpec and used verbatim as a StackInstance's inline spec.template.",
+      "description": "StackTemplateDefinition is the reusable payload of a StackTemplate: the declared parameters and the task DAG. It is embedded inline in StackTemplateSpec and used verbatim as a StackInstance's inline spec.template.",
       "properties": {
-        "inputs": {
-          "description": "Inputs declares the typed inputs (with defaults) a stack accepts, reused from AppParameter.",
+        "parameters": {
+          "description": "Parameters declares the typed parameters (with defaults) a stack accepts, reused from AppParameter.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AppParameter"
           },
@@ -14025,7 +14025,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.StackTemplateRef": {
-      "description": "StackTemplateRef references a cluster-scoped StackTemplate. The values for the template's declared inputs live on the instance at spec.inputs.",
+      "description": "StackTemplateRef references a cluster-scoped StackTemplate. The values for the template's declared parameters live on the instance at spec.parameters.",
       "properties": {
         "name": {
           "description": "Name holds the name of the StackTemplate to reference.",
