@@ -8384,10 +8384,6 @@
           "description": "DisplayName is the name that should be displayed in the UI.",
           "type": "string"
         },
-        "machines": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachines",
-          "description": "Machines governs the individual machines this tenant may provision onto."
-        },
         "nodeTypes": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypes",
           "description": "NodeTypes governs the node types this tenant may provision from."
@@ -14225,40 +14221,6 @@
       "required": [
         "hostname"
       ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachineAllow": {
-      "description": "TenantMachineAllow selects the machines a tenant may provision onto. A tenant cannot register a machine of its own, so there is no custom allowance. ByName and ByLabels are additive: a machine matched by either is allowed, and setting neither allows every machine (see TenantSpec).",
-      "properties": {
-        "byLabels": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "ByLabels selects machines carrying all of these labels, and is the primary way to assign reserved hardware: an operator labels the machines it is setting aside for a tenant.",
-          "type": "object"
-        },
-        "byName": {
-          "description": "ByName selects machines by their exact names, for pinning a tenant to specific hardware. There is no wildcard, for the same reason as TenantNodeTypeAllow.ByName and more so: a machine is one piece of hardware named for itself, so a name prefix groups only machines that happen to share a naming habit. Selecting a set of machines is what labels are for, which is also how reserved hardware is assigned.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachines": {
-      "description": "TenantMachines governs the individual machines a tenant may provision onto: the reserved hardware assigned to it, as opposed to the NodeTypes it may draw capacity from. It is the narrowest capability in the spec, carrying only an entitlement.\n\nIt has no Quota. A machine is a discrete piece of hardware, so how many of them a tenant may hold is already decided by which ones it is allowed; a count on top would be a second, weaker way to say the same thing, and the two could disagree. Consumption caps belong on what is drawn from a machine, which is NodeTypes.",
-      "properties": {
-        "allow": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachineAllow",
-          "description": "Allow narrows the machines the tenant may provision onto."
-        },
-        "enabled": {
-          "description": "Enabled gates the capability. False denies the tenant every machine; only true enables it. Default: disabled.",
-          "type": "boolean"
-        }
-      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeAllow": {
