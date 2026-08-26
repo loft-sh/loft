@@ -8282,7 +8282,7 @@
       ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantConfig": {
-      "description": "TenantConfig is the per-tenant configuration subresource of a Tenant. The configuration is secret-backed: it is persisted in a managed corev1.Secret owner-referenced to the storage Tenant (garbage-collected with it) and encrypted at rest when SECRETS_ENCRYPTION_KEY is set. It is never stored on the Tenant CR in etcd, and is projected back only to callers authorized on the tenant's tenants/config subresource (get to read, create to write; the write is a subresource POST, so it is authorized as create). A write replaces the entire configuration; submitting a config with all fields unset stores an empty configuration. The backing Secret persists and is removed only when the Tenant is deleted.",
+      "description": "TenantConfig is the per-tenant configuration subresource of a Tenant.\n\nThe whole configuration is persisted in one managed corev1.Secret, named after the tenant and owner-referenced to the storage Tenant, so it is garbage-collected with it and encrypted at rest when SECRETS_ENCRYPTION_KEY is set. The Secret is never served directly: this subresource is the only way in or out, and it projects the config back only to callers authorized on the tenant's tenants/config subresource (get to read, create to write; the write is a subresource POST, so it is authorized as create).\n\nOne store, so one write. A write replaces the entire configuration (submitting a config with all fields unset stores an empty one) and it either lands or it does not, with no half-applied state for a caller to reason about. The Secret persists and is removed only when the Tenant is deleted.\n\nThe one field a Secret cannot serve on its own is Hostnames, because per-request tenant resolution and cross-tenant exclusivity both have to find a hostname's claimant without being an authorized reader of that tenant's config, and a Secret is neither readable by them nor field-indexable. That is solved by projection rather than by a second store: the Tenant controller copies the hostnames onto Tenant.Status.Hostnames, which is watched, cached, and indexed. This object stays the source of truth.",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -8310,15 +8310,22 @@
       ]
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantConfigSpec": {
-      "description": "TenantConfigSpec is the per-tenant configuration payload. It is stored in the backing Secret, encrypted at rest when SECRETS_ENCRYPTION_KEY is set, and projected back only to authorized callers. Additional per-tenant configuration domains are added here over time.\n\nPayload fields are persisted as submitted; this subresource does not validate them. Each per-tenant consumer that reads this config (in a later Multi-Tenancy PR) limits itself to the tenant-scoped subset it supports and ignores the platform-only knobs carried by the reused shared types.",
+      "description": "TenantConfigSpec is the per-tenant configuration payload. It is stored in the backing Secret, encrypted at rest when SECRETS_ENCRYPTION_KEY is set, and projected back only to authorized callers. Additional per-tenant configuration domains are added here over time.\n\nPayload fields are persisted as submitted; this subresource does not validate them. Each per-tenant consumer that reads this config (in a later Multi-Tenancy PR) limits itself to the tenant-scoped subset it supports and ignores the platform-only knobs carried by the reused shared types.\n\nHostnames is the exception to \"persisted as submitted\". It is not free-form per-tenant data: a hostname has to be well formed, must not collide with the platform's own host, and must be claimed by at most one tenant platform-wide, so it carries validation the other payload fields do not.",
       "properties": {
         "authentication": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Authentication",
           "description": "Authentication holds per-tenant SSO/authentication configuration. It reuses the shared storage authentication type (the same shape as the global platform Config), so a tenant's connectors have an identical schema. Connector client secrets are stored inline, protected by permission-gated projection and by encryption at rest when SECRETS_ENCRYPTION_KEY is set."
         },
+        "hostnames": {
+          "description": "Hostnames are the DNS names that resolve to this tenant. Used for SSO bootstrap, UI branding, and per-request tenant resolution.\n\nThis field is operator-only: it is set through this subresource and is not delegable to a tenant, for the reasons on storagev1.TenantPlatformConfig. It is stored here and read back from here, but the request path never reads the Secret: the Tenant controller projects these onto Tenant.Status.Hostnames, and resolution and the exclusivity check both go through the field index over that projection.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantHostnameBinding"
+          },
+          "type": "array"
+        },
         "uiSettings": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.ui.v1.UISettingsConfig",
-          "description": "UISettings holds per-tenant user-interface configuration (branding and UI customization), reusing the shared UISettingsConfig type. It is not secret data, but shares the same backing Secret as the rest of the tenant configuration. It is served per tenant via Host resolution by a later Multi-Tenancy PR; it is stored here ahead of that read path."
+          "description": "UISettings holds per-tenant user-interface configuration (branding and UI customization), reusing the shared UISettingsConfig type."
         }
       },
       "type": "object"
@@ -8365,6 +8372,10 @@
           },
           "type": "array"
         },
+        "controlPlaneClusters": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantControlPlaneClusters",
+          "description": "ControlPlaneClusters governs the Control Plane Clusters this tenant may target."
+        },
         "description": {
           "description": "Description describes this Tenant.",
           "type": "string"
@@ -8373,41 +8384,51 @@
           "description": "DisplayName is the name that should be displayed in the UI.",
           "type": "string"
         },
-        "hostnames": {
-          "description": "Hostnames are the DNS names that resolve to this tenant. Used for SSO bootstrap, UI branding, and per-request tenant resolution.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantHostnameBinding"
-          },
-          "type": "array"
+        "machines": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachines",
+          "description": "Machines governs the individual machines this tenant may provision onto."
+        },
+        "nodeTypes": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypes",
+          "description": "NodeTypes governs the node types this tenant may provision from."
+        },
+        "osImages": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantOSImages",
+          "description": "OSImages governs the OS images this tenant may boot machines from."
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this Tenant. Access is intended to govern operator-side delegation, that is, which Platform Operator users may read or edit this Tenant, by transforming Owner/Access into effective RBAC for the Tenant resource itself. That wiring is not yet active: it lands with the Tenant authorizer in a later Multi-Tenancy PR. Until then Owner and Access are stored and validated for well-formedness only, and Tenant access is authorized by ClusterRole RBAC. Neither field expresses tenant membership: how a User or Team is bound to a Tenant is resolved separately and is deliberately not fixed by this API."
         },
-        "resourceAllowances": {
-          "description": "ResourceAllowances controls, per management.loft.sh kind, how a tenant may see and use instances of that kind. Each entry splits into a Tenant section (the tenant's own instances: enabled or disabled) and an Admin section (admin-owned instances: a kind-wide scope of hidden/shared/rbac plus per-name exceptions of hidden/shared/exclusive). At most one entry per resource; a resource with no entry falls to the shipped per-kind default, then to the admin catch-all (rbac). Stored and validated now; the visibility/usability treatment these entries describe is enforced by the tenant scope library in a later Multi-Tenancy PR.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantResourceAllowance"
-          },
-          "type": "array"
+        "platformConfig": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantPlatformConfig",
+          "description": "PlatformConfig controls which parts of its own platform configuration the tenant may set for itself. It holds no configuration values: the values live in the management tenants/config subresource."
         },
-        "resourceQuotas": {
-          "description": "ResourceQuotas caps how many of a resource this tenant may hold or consume, aggregated across all the tenant's projects. Parity with Project quotas, not a replacement (Projects keep their per-project quotas; the tenant quota is an outer bound).",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantResourceQuota"
-          },
-          "type": "array"
+        "sshKeys": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantSSHKeys",
+          "description": "SSHKeys governs the SSH keys this tenant may use for machine access."
+        },
+        "templates": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantTemplates",
+          "description": "Templates governs the templates this tenant may instantiate. It is the one capability that spans several kinds at once (VirtualClusterTemplates, Apps, StackTemplates), matched by a single label selector evaluated against every kind rather than one selector per kind."
         }
       },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantStatus": {
-      "description": "TenantStatus holds the status.",
+      "description": "TenantStatus holds the status.\n\nstatus.hostnames comes from the inlined storage status, where the Tenant controller writes it. It reads the same as it always did, a caller listing Tenants seeing each tenant's hostnames without a request per tenant, but it is now a stored field rather than a read-time join, so it costs nothing to serve and needs no ?extended=true. Writing it here still does nothing: hostnames are set through the tenants/config subresource, and the controller overwrites this projection from there.",
       "properties": {
         "conditions": {
           "description": "Conditions describes the current observed conditions of the Tenant.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "hostnames": {
+          "description": "Hostnames are the DNS names that resolve to this tenant, projected here from the tenant's configuration by the Tenant controller.\n\nThe configuration itself is written through the management tenants/config subresource and persisted in the tenant's backing Secret, which nothing on the request path can reach: a Secret is projected only to callers authorized on that subresource, and it cannot carry a field index. Hostnames need both. Per-request tenant resolution looks one up on every unauthenticated gateway request, and admission asks which tenant already claims one across every tenant at once, and neither caller is an authorized reader of the tenant's own configuration. So the controller copies them here, onto an object that can be watched, cached, and field-indexed (constants.IndexByHost).\n\nThat makes this a projection and never a source of truth. A hostname written directly onto this status does not become a claim: the next reconcile overwrites it from the Secret, which is also why the exclusivity check reading this index is not fooled by one. Hostnames are set by an operator through the tenants/config subresource, for the reasons on TenantPlatformConfig.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantHostnameBinding"
           },
           "type": "array"
         }
@@ -14156,49 +14177,38 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantAdminAllowance": {
-      "description": "TenantAdminAllowance governs admin-owned instances of a kind for a tenant: a kind-wide baseline scope plus per-name exceptions that override it.",
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantControlPlaneClusterAllow": {
+      "description": "TenantControlPlaneClusterAllow selects the admin-owned Control Plane Clusters a tenant may target. A tenant cannot register a Control Plane Cluster of its own, so there is no custom allowance.",
       "properties": {
-        "exceptions": {
-          "description": "Exceptions override the baseline for specific admin-owned instances by name. A name matched by an exception wins over Scope.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantAdminException"
-          },
-          "type": "array"
-        },
-        "scope": {
-          "description": "Scope is the kind-wide baseline treatment for admin-owned instances: hidden, shared, or rbac. exclusive is per-instance and is only valid in an exception, never as the baseline. Empty inherits the shipped per-kind default.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantAdminException": {
-      "description": "TenantAdminException overrides the admin baseline scope for specific admin-owned instances of a kind, named explicitly.",
-      "properties": {
-        "resourceNames": {
-          "description": "ResourceNames are the admin-owned instances this exception applies to. Each must be a concrete instance name; the \"*\" wildcard is not allowed.",
-          "items": {
+        "byLabels": {
+          "additionalProperties": {
             "type": "string"
           },
-          "type": "array"
-        },
-        "scope": {
-          "description": "Scope is the treatment for the named admin-owned instances: hidden, shared, or exclusive.",
-          "type": "string"
+          "description": "ByLabels selects Control Plane Clusters carrying all of these labels.",
+          "type": "object"
         }
       },
-      "required": [
-        "resourceNames",
-        "scope"
-      ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantAllowance": {
-      "description": "TenantAllowance governs a tenant's access to its own-labeled instances of a kind.",
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantControlPlaneClusters": {
+      "description": "TenantControlPlaneClusters governs the Control Plane Clusters a tenant may target.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantControlPlaneClusterAllow",
+          "description": "Allow narrows the admin-owned Control Plane Clusters the tenant may target."
+        },
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every Control Plane Cluster; only true enables it. Default: disabled.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantCustomAllow": {
+      "description": "TenantCustomAllow controls whether a tenant may author its own value, as opposed to only choosing from what an operator has already provided. Under a capability that means authoring its own instances of the capability's resource rather than only using the admin-owned instances the selectors match; under a TenantPlatformConfig control it means setting a value of its own rather than only the operator-approved ones.",
       "properties": {
         "enabled": {
-          "description": "Enabled controls whether the tenant may use its own instances of this kind. Nil or true means enabled (read-write); false denies the tenant's own instances of the kind. Default: enabled.",
+          "description": "Enabled controls whether the tenant may author its own instances. False denies it; only true allows it. Default: disabled, which is also what omitting the whole Custom block means, so the two agree rather than a present-but-empty Custom quietly granting what an absent one withholds.",
           "type": "boolean"
         }
       },
@@ -14217,52 +14227,205 @@
       ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantResourceAllowance": {
-      "description": "TenantResourceAllowance controls, per management.loft.sh kind, how a tenant may see and use instances of that kind, split by the two instance populations it governs: the tenant's own instances (Tenant) and admin-owned instances (Admin). Set in Spec as operator intent.",
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachineAllow": {
+      "description": "TenantMachineAllow selects the machines a tenant may provision onto. A tenant cannot register a machine of its own, so there is no custom allowance. ByName and ByLabels are additive: a machine matched by either is allowed, and setting neither allows every machine (see TenantSpec).",
       "properties": {
-        "admin": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantAdminAllowance",
-          "description": "Admin governs admin-owned (unlabeled) instances of this kind. Omitted means the shipped per-kind default, then the catch-all (rbac)."
+        "byLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ByLabels selects machines carrying all of these labels, and is the primary way to assign reserved hardware: an operator labels the machines it is setting aside for a tenant.",
+          "type": "object"
         },
-        "resource": {
-          "description": "Resource is the lowercase plural name of a management.loft.sh resource (e.g. \"projects\", \"clusters\", \"virtualclustertemplates\"). The group is always management.loft.sh, so there is no apiGroup field. At most one entry per resource.",
-          "type": "string"
-        },
-        "tenant": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantAllowance",
-          "description": "Tenant governs the tenant's own-labeled instances of this kind. Omitted means enabled (the default)."
+        "byName": {
+          "description": "ByName selects machines by their exact names, for pinning a tenant to specific hardware. There is no wildcard, for the same reason as TenantNodeTypeAllow.ByName and more so: a machine is one piece of hardware named for itself, so a name prefix groups only machines that happen to share a naming habit. Selecting a set of machines is what labels are for, which is also how reserved hardware is assigned.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
-      "required": [
-        "resource"
-      ],
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantResourceQuota": {
-      "description": "TenantResourceQuota caps consumption of one management.loft.sh resource for a tenant. Keys in the Tenant/User maps are conditions relative to the resource (\"total\", \"active\", \"!active\", \"template=<name>\", \"type=<name>\", \"provider=<name>\"), and values are integer counts.\n\nThe key grammar intentionally diverges from pkg/quota's flat dot-composed expression form (e.g. \"spaceinstances.active.template=foo\"): the vocabularies overlap, but pkg/quota has no matcher for \"type=\" and expresses \"total\" as the bare resource key, so the two cannot be unified without extending pkg/quota. This per-resource shape is reconciled with pkg/quota's grammar when tenant quotas are actually enforced (a later Multi-Tenancy PR), where it can be validated against the live matcher; until then these fields are stored and validated for well-formedness only.",
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachines": {
+      "description": "TenantMachines governs the individual machines a tenant may provision onto: the reserved hardware assigned to it, as opposed to the NodeTypes it may draw capacity from. It is the narrowest capability in the spec, carrying only an entitlement.\n\nIt has no Quota. A machine is a discrete piece of hardware, so how many of them a tenant may hold is already decided by which ones it is allowed; a count on top would be a second, weaker way to say the same thing, and the two could disagree. Consumption caps belong on what is drawn from a machine, which is NodeTypes.",
       "properties": {
-        "resource": {
-          "description": "Resource is the lowercase plural name of the counted management.loft.sh resource (e.g. \"virtualclusterinstances\", \"nodeclaims\").",
-          "type": "string"
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantMachineAllow",
+          "description": "Allow narrows the machines the tenant may provision onto."
         },
-        "tenant": {
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every machine; only true enables it. Default: disabled.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeAllow": {
+      "description": "TenantNodeTypeAllow selects the NodeTypes a tenant may provision from. A tenant cannot author a NodeType of its own, so there is no custom allowance. ByName and ByLabels are additive: a NodeType matched by either is allowed, and setting neither allows every NodeType (see TenantSpec).",
+      "properties": {
+        "byLabels": {
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Tenant caps usage aggregated across all the tenant's projects.",
+          "description": "ByLabels selects NodeTypes carrying all of these labels, and is the way to allow a whole provider: label the NodeTypes it owns and match that label here.",
           "type": "object"
         },
-        "user": {
+        "byName": {
+          "description": "ByName selects NodeTypes by their exact names. There is no wildcard: to allow a whole provider, label its NodeTypes and select them with ByLabels.\n\nA \"<provider>.*\" prefix wildcard was considered, since a Project's allowedNodeTypes accepts one. It was rejected here because it encodes the provider in the name and so only works while the \"<provider>.<type>\" naming convention holds, while ByLabels expresses the same set with no such coupling. The Project list keeps its wildcard and keeps relying on that convention; this spec does not need a second way to say what a label already says.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeQuota": {
+      "description": "TenantNodeTypeQuota caps what a tenant may provision from the node types it is allowed, aggregated across all the tenant's projects.\n\nEach field is one matcher category, and its keys are the free-form specifics of that category. Further categories (a capacity-property matcher, for instance) are added as consumers for them appear; ByType is the only one with a consumer today.",
+      "properties": {
+        "byType": {
           "additionalProperties": {
             "type": "string"
           },
-          "description": "User caps usage per individual user or team.",
+          "description": "ByType caps how many nodes the tenant may run of each NodeType, keyed by NodeType name (e.g. \"eu-west.medium\": \"5\"). Values are non-negative integer counts, the same encoding a Project's Quotas use and the same one pkg/quota's admission path parses for management resources such as nodeclaims.",
           "type": "object"
         }
       },
-      "required": [
-        "resource"
-      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypes": {
+      "description": "TenantNodeTypes governs the node types a tenant may provision from.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeAllow",
+          "description": "Allow narrows the node types the tenant may provision from."
+        },
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every node type; only true enables it. Default: disabled.",
+          "type": "boolean"
+        },
+        "quota": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeQuota",
+          "description": "Quota caps what the tenant may provision from those node types."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantOSImageAllow": {
+      "description": "TenantOSImageAllow selects the OS images a tenant may boot from: the admin-owned images matching ByLabels, plus the tenant's own images when Custom allows them.",
+      "properties": {
+        "byLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ByLabels selects admin-owned OS images carrying all of these labels.",
+          "type": "object"
+        },
+        "custom": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantCustomAllow",
+          "description": "Custom controls whether the tenant may upload its own OS images. Omitted denies it, the same as a Custom that is present but not enabled."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantOSImages": {
+      "description": "TenantOSImages governs the OS images a tenant may boot machines from.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantOSImageAllow",
+          "description": "Allow narrows the OS images the tenant may boot from."
+        },
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every OS image; only true enables it. Default: disabled.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantPlatformConfig": {
+      "description": "TenantPlatformConfig gates tenant self-configuration. Each entry names one configuration domain and says whether the tenant may configure it and within what bounds. The entries deliberately carry no configuration values of their own: an operator writes the gate here, the tenant writes the value through the management tenants/config subresource, and managementv1.TenantConfigSpec is where that value's schema lives.\n\nThe shape mirrors a capability (Enabled plus Allow, see TenantSpec), because the question is the same one: is this available, and how far does it reach. The distinction is what it governs. A capability governs platform resources the tenant consumes; a control here governs whether the tenant may write a piece of its own configuration. The types are named Control rather than reusing the capability names so the two cannot be confused at a call site.\n\nOnly the domains an operator can currently delegate appear here. managementv1.TenantConfigSpec carries other domains that remain operator-only until a control for them is added, which is an additive change.\n\nHostnames are deliberately not among them, and are not delegable. A hostname is not tenant-local state like branding is: it is a routing claim on a platform-global namespace, deciding which tenant an unauthenticated request resolves to before any identity exists. A tenant also cannot complete the operation, since the name is only reachable once DNS points at the platform and a certificate covers it, both of which are operator actions. Delegating the write would hand a tenant half a workflow while exposing it to a cross-tenant collision it cannot see or resolve: exclusivity is best-effort, and a conflict is reported without naming the holder, because which tenant owns a host is not a tenant's to know. Hostnames are set by an operator through the tenants/config subresource.",
+      "properties": {
+        "uiSettings": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantUISettingsControl",
+          "description": "UISettings controls whether the tenant may set its own UI branding and customization."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantSSHKeyAllow": {
+      "description": "TenantSSHKeyAllow controls a tenant's SSH keys. Admin-owned keys are never shared with a tenant, so the only allowance is whether the tenant may register its own.",
+      "properties": {
+        "custom": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantCustomAllow",
+          "description": "Custom controls whether the tenant may register its own SSH keys. Omitted denies it, the same as a Custom that is present but not enabled."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantSSHKeys": {
+      "description": "TenantSSHKeys governs the SSH keys a tenant may use for machine access.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantSSHKeyAllow",
+          "description": "Allow controls the tenant's SSH keys."
+        },
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every SSH key; only true enables it. Default: disabled.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantTemplateAllow": {
+      "description": "TenantTemplateAllow selects the templates a tenant may instantiate.\n\nByLabels is the only selector, deliberately. A template name is unique only within its kind, so a cross-kind name list of the sort TenantNodeTypeAllow.ByName provides would be ambiguous: \"starter\" could name a VirtualClusterTemplate and an App at once, with no way to say which. A label is the one identifier that means the same thing in every kind, so granting a set of templates together is done by labelling them alike, whatever kinds they are.\n\nA tenant cannot author templates of its own yet, so there is also no custom allowance.",
+      "properties": {
+        "byLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ByLabels selects templates carrying all of these labels. They are matched against every template kind the capability spans, and the tenant may use the union of the matches; it is not per-kind and cannot be narrowed to one kind.",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantTemplates": {
+      "description": "TenantTemplates governs the templates a tenant may instantiate. Unlike every other capability, it spans several kinds at once: VirtualClusterTemplates, Apps, and StackTemplates today, and the set is deliberately open, so a further template kind joins it without an API change.\n\nOne capability covers all of them because a single label selector is evaluated against every kind and the tenant may use the union of what it matches. That is what makes templates a single capability rather than one per kind, and it is why the selector is the only way to address them: see TenantTemplateAllow.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantTemplateAllow",
+          "description": "Allow narrows the templates the tenant may instantiate."
+        },
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every template; only true enables it. Default: disabled.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantUISettingsAllow": {
+      "description": "TenantUISettingsAllow bounds the UI settings a tenant may set for itself.",
+      "properties": {
+        "custom": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantCustomAllow",
+          "description": "Custom controls whether the tenant may author its own UI settings. Omitted denies it, the same as a Custom that is present but not enabled."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantUISettingsControl": {
+      "description": "TenantUISettingsControl gates the tenant's control over its own UI settings. The settings themselves are managementv1.TenantConfigSpec.UISettings.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantUISettingsAllow",
+          "description": "Allow bounds what the tenant may set. UI settings are free-form branding rather than a set of named platform objects, so there is nothing for an operator to pre-approve by name; the only question is whether the tenant may author its own."
+        },
+        "enabled": {
+          "description": "Enabled gates the domain. False makes the tenant's UI settings operator-only; only true lets the tenant configure them. Default: disabled.",
+          "type": "boolean"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNodeEnvironmentTemplate": {
