@@ -21,10 +21,26 @@
       {{- fail "volumes must not define platform-logs when logging.file.enabled is true; the chart reserves this volume" -}}
     {{- end -}}
   {{- end -}}
+  {{- range .Values.volumeMounts -}}
+    {{- if eq (default "" .name) "platform-logs" -}}
+      {{- fail "volumeMounts must not define platform-logs when logging.file.enabled is true; the chart reserves this volume" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if hasKey .Values.env "LOFT_LOG_FILE" -}}
+  {{- fail "env must not set LOFT_LOG_FILE; the log file path is fixed and controlled by logging.file.enabled" -}}
+{{- end -}}
+{{- if hasKey .Values.envValueFrom "LOFT_LOG_FILE" -}}
+  {{- fail "envValueFrom must not set LOFT_LOG_FILE; the log file path is fixed and controlled by logging.file.enabled" -}}
 {{- end -}}
 {{- range .Values.sidecarContainers -}}
   {{- if or (eq (default "" .name) "manager") (eq (default "" .name) "audit") -}}
     {{- fail (printf "sidecarContainers must not use the reserved name %q" .name) -}}
+  {{- end -}}
+{{- end -}}
+{{- range .Values.initContainers -}}
+  {{- if or (eq (default "" .name) "manager") (eq (default "" .name) "audit") -}}
+    {{- fail (printf "initContainers must not use the reserved name %q" .name) -}}
   {{- end -}}
 {{- end -}}
 apiVersion: apps/v1
@@ -103,6 +119,10 @@ spec:
         - name: loft-additional-ca
           secret:
             secretName: loft-additional-ca
+      {{- end }}
+      {{- if .Values.initContainers }}
+      initContainers:
+{{ toYaml .Values.initContainers | indent 6 }}
       {{- end }}
       containers:
       - name: manager
