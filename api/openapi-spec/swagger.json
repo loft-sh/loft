@@ -5152,6 +5152,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3",
           "description": "Metal3 configures a node provider using metal3.io BareMetalHost resources."
         },
+        "nico": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderNICo",
+          "description": "NICo configures a node provider backed by the NVIDIA Infra Controller (NICo) REST API."
+        },
         "properties": {
           "additionalProperties": {
             "type": "string"
@@ -8366,6 +8370,50 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoToken": {
+      "description": "TenantNICoToken holds the request and response for a short-lived, user-scoped NICo token for the tenant's onboarded org.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoTokenStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "TenantNICoToken",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoTokenStatus": {
+      "properties": {
+        "endpoint": {
+          "description": "Endpoint is the NICo REST API endpoint the token is minted for.",
+          "type": "string"
+        },
+        "org": {
+          "description": "Org is the NICo organization the token is scoped to.",
+          "type": "string"
+        },
+        "token": {
+          "description": "Token is the platform-signed NICo bearer token.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantSpec": {
       "description": "TenantSpec holds the specification.",
       "properties": {
@@ -8431,6 +8479,10 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantHostnameBinding"
           },
           "type": "array"
+        },
+        "nico": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNICoStatus",
+          "description": "NICo reports the NICo tenant org materialized for this Tenant, set once the Tenant opts into NICo via the nico.vcluster.com/org annotation."
         }
       },
       "type": "object"
@@ -12743,6 +12795,32 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NICoIdentity": {
+      "description": "NICoIdentity selects the source of the tokens the platform uses to authenticate to the NICo REST API. Exactly one source is configured; today only platform-issued tokens are supported.",
+      "properties": {
+        "platformIssued": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NICoPlatformIssued",
+          "description": "PlatformIssued authenticates with short-TTL RS256 JWTs that the platform signs with its own OIDC key and issuer and NICo verifies against the platform's OIDC JWKS."
+        }
+      },
+      "required": [
+        "platformIssued"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NICoPlatformIssued": {
+      "description": "NICoPlatformIssued configures platform-issued JWT authentication to NICo.",
+      "properties": {
+        "enabled": {
+          "description": "Enabled turns on platform-issued JWT authentication. It must be true, since platform-issued tokens are currently the only supported identity source.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacePattern": {
       "properties": {
         "space": {
@@ -13009,6 +13087,50 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderNICo": {
+      "description": "NodeProviderNICo configures a node provider backed by the NVIDIA Infra Controller (NICo) REST API. The NICo tenant org is taken from the platform Tenant's nico.vcluster.com/org annotation, not from this provider config.",
+      "properties": {
+        "endpoint": {
+          "description": "Endpoint is the base URL (scheme + host + optional port) of the NICo REST API. The /v2/org/{org}/nico path is appended by the client.",
+          "type": "string"
+        },
+        "identity": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NICoIdentity",
+          "description": "Identity selects how the platform authenticates to the NICo REST API. Platform-issued JWTs are currently the only supported source, so identity.platformIssued.enabled must be true. The block is structured so additional identity sources can be added later."
+        },
+        "insecureSkipTLSVerify": {
+          "description": "InsecureSkipTLSVerify disables TLS certificate verification against the NICo endpoint. Intended for development and test only.",
+          "type": "boolean"
+        },
+        "instanceTypeIds": {
+          "description": "InstanceTypeIDs is an allow-list of NICo InstanceType IDs to surface as NodeTypes. Empty surfaces all.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "org": {
+          "description": "Org is the NICo organization used for provider-scoped API calls (the /v2/org/{org}/nico path) and stamped as the provider token's organization claim. Optional; defaults to \"vcluster-autonodes\".",
+          "type": "string"
+        },
+        "siteIPBlockCIDR": {
+          "description": "SiteIPBlockCIDR creates the NICo site-level parent IPBlock with this CIDR. Mutually exclusive with SiteIPBlockID.",
+          "type": "string"
+        },
+        "siteIPBlockID": {
+          "description": "SiteIPBlockID adopts an existing NICo site-level parent IPBlock. Mutually exclusive with SiteIPBlockCIDR.",
+          "type": "string"
+        },
+        "siteId": {
+          "description": "SiteID is the NICo site UUID this provider operates against.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "endpoint"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderSpec": {
       "description": "NodeProviderSpec defines the desired state of NodeProvider. Only one of the provider types (Pods, BCM, Kubevirt) should be specified at a time.",
       "properties": {
@@ -13031,6 +13153,10 @@
         "metal3": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3",
           "description": "Metal3 configures a node provider using metal3.io BareMetalHost resources."
+        },
+        "nico": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderNICo",
+          "description": "NICo configures a node provider backed by the NVIDIA Infra Controller (NICo) REST API."
         },
         "properties": {
           "additionalProperties": {
@@ -14225,6 +14351,48 @@
       "required": [
         "hostname"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNICoStatus": {
+      "description": "TenantNICoStatus reports the NICo tenant org materialized for a Tenant and the NICo provider it is bound to, and is set by the platform. A Tenant is bound to a single NICo provider, and so to a single NICo site.",
+      "properties": {
+        "endpoint": {
+          "description": "Endpoint is the NICo REST API endpoint taken from that NodeProvider.",
+          "type": "string"
+        },
+        "insecureSkipTLSVerify": {
+          "description": "InsecureSkipTLSVerify reports whether TLS verification is skipped when reaching the NICo endpoint.",
+          "type": "boolean"
+        },
+        "ipBlockId": {
+          "description": "IPBlockID is the id of the tenant-scoped NICo IPBlock from which VPC prefixes are carved. Set by the tenant onboarding flow (ENGNODE-604).",
+          "type": "string"
+        },
+        "nodeProvider": {
+          "description": "NodeProvider is the platform NodeProvider this Tenant uses.",
+          "type": "string"
+        },
+        "org": {
+          "description": "Org is the NICo tenant org this Tenant maps to.",
+          "type": "string"
+        },
+        "providerOrg": {
+          "description": "ProviderOrg is the NICo provider organization.",
+          "type": "string"
+        },
+        "tenantAccountId": {
+          "description": "TenantAccountID is the id of this Tenant's NICo TenantAccount.",
+          "type": "string"
+        },
+        "tenantAccountManaged": {
+          "description": "TenantAccountManaged reports whether the platform owns the NICo TenantAccount and removes it during cleanup.",
+          "type": "boolean"
+        },
+        "tenantId": {
+          "description": "TenantID is the id of the materialized NICo tenant.",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeAllow": {
@@ -37584,6 +37752,91 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "TenantConfig",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/tenants/{name}/nicotoken": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "name of the TenantNICoToken",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create nicotoken of a Tenant",
+        "operationId": "createManagementLoftShV1TenantNicotoken",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoToken"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoToken"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoToken"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantNICoToken"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "TenantNICoToken",
           "version": "v1"
         }
       }
