@@ -1395,3 +1395,116 @@ tests:
           content:
             name: platform-logs
             mountPath: /logs
+
+  - it: rejects a user-defined platform-logs volumeMount when file logging is enabled
+    set:
+      logging:
+        file:
+          enabled: true
+      volumeMounts:
+        - name: platform-logs
+          mountPath: /somewhere-else
+    asserts:
+      - failedTemplate:
+          errorMessage: "volumeMounts must not define platform-logs when logging.file.enabled is true; the chart reserves this volume"
+
+  - it: allows a user-defined platform-logs volumeMount when file logging is disabled
+    set:
+      volumeMounts:
+        - name: platform-logs
+          mountPath: /somewhere-else
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: platform-logs
+            mountPath: /somewhere-else
+
+  - it: rejects env.LOFT_LOG_FILE when file logging is enabled
+    set:
+      logging:
+        file:
+          enabled: true
+      env:
+        LOFT_LOG_FILE: /tmp/x.log
+    asserts:
+      - failedTemplate:
+          errorMessage: "env must not set LOFT_LOG_FILE; the log file path is fixed and controlled by logging.file.enabled"
+
+  - it: rejects env.LOFT_LOG_FILE when file logging is disabled
+    set:
+      env:
+        LOFT_LOG_FILE: /tmp/x.log
+    asserts:
+      - failedTemplate:
+          errorMessage: "env must not set LOFT_LOG_FILE; the log file path is fixed and controlled by logging.file.enabled"
+
+  - it: rejects envValueFrom.LOFT_LOG_FILE when file logging is enabled
+    set:
+      logging:
+        file:
+          enabled: true
+      envValueFrom:
+        LOFT_LOG_FILE:
+          secretKeyRef:
+            name: mysecret
+            key: path
+    asserts:
+      - failedTemplate:
+          errorMessage: "envValueFrom must not set LOFT_LOG_FILE; the log file path is fixed and controlled by logging.file.enabled"
+
+  - it: rejects envValueFrom.LOFT_LOG_FILE when file logging is disabled
+    set:
+      envValueFrom:
+        LOFT_LOG_FILE:
+          secretKeyRef:
+            name: mysecret
+            key: path
+    asserts:
+      - failedTemplate:
+          errorMessage: "envValueFrom must not set LOFT_LOG_FILE; the log file path is fixed and controlled by logging.file.enabled"
+
+  - it: rejects an init container using the reserved manager name
+    set:
+      initContainers:
+        - name: manager
+          image: log-collector
+    asserts:
+      - failedTemplate:
+          errorMessage: 'initContainers must not use the reserved name "manager"'
+
+  - it: rejects an init container using the reserved audit name
+    set:
+      initContainers:
+        - name: audit
+          image: log-collector
+    asserts:
+      - failedTemplate:
+          errorMessage: 'initContainers must not use the reserved name "audit"'
+
+  - it: renders a native sidecar via initContainers with restartPolicy Always
+    set:
+      logging:
+        file:
+          enabled: true
+      initContainers:
+        - name: log-collector
+          image: log-collector
+          restartPolicy: Always
+          volumeMounts:
+            - name: platform-logs
+              mountPath: /var/log/vcluster-platform
+              readOnly: true
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[0].name
+          value: log-collector
+      - equal:
+          path: spec.template.spec.initContainers[0].restartPolicy
+          value: Always
+      - contains:
+          path: spec.template.spec.initContainers[0].volumeMounts
+          content:
+            name: platform-logs
+            mountPath: /var/log/vcluster-platform
+            readOnly: true

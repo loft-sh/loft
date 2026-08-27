@@ -128,6 +128,9 @@ volumeMounts: []
 # Additional sidecar containers to be attached to the loft deployment.
 sidecarContainers: []
 
+# Additional init containers to be attached to the loft deployment.
+initContainers: []
+
 # If the readinessProbe should be enabled
 readinessProbe:
   enabled: true
