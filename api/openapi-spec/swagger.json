@@ -4569,6 +4569,10 @@
           "description": "KubeletArgs are additional arguments to pass to the kubelet.",
           "type": "object"
         },
+        "machineRef": {
+          "description": "MachineRef is the name of a Machine from the provider's inventory to provision this claim on. Mutually exclusive with TypeRef: the machine is picked by identity, so there is no node type to schedule against and no node type capacity is consumed. Only providers that mirror an inventory support it.",
+          "type": "string"
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
