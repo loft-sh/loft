@@ -3863,11 +3863,11 @@
         "license": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.License"
         },
+        "networkEnvironmentData": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentData"
+        },
         "nodeClaimData": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeClaimData"
-        },
-        "nodeEnvironmentData": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentData"
         },
         "nodeProviderBCMGetResourcesResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeProviderBCMGetResourcesResult"
@@ -4303,6 +4303,146 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment": {
+      "description": "NetworkEnvironment holds the network environment for vCluster.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentData": {
+      "properties": {
+        "operations": {
+          "additionalProperties": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Operation"
+          },
+          "description": "Operations that were applied to the network environment.",
+          "type": "object"
+        },
+        "outputs": {
+          "description": "Outputs of the network environment.",
+          "format": "byte",
+          "type": "string"
+        },
+        "state": {
+          "description": "Terraform state of the network environment.",
+          "format": "byte",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironmentList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentSpec": {
+      "description": "NetworkEnvironmentSpec defines spec of network environment.",
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the NodeClaim that is displayed in the UI.",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties are the properties for the NetworkEnvironment.",
+          "type": "object"
+        },
+        "providerRef": {
+          "description": "ProviderRef is the name of the NodeProvider that this NetworkEnvironment is based on. It may be left empty, in which case the NetworkEnvironment is a pure property container: it provisions no infrastructure, becomes available immediately, carries no cleanup finalizer, and can never be a provider's default environment - NodeClaims must reference it explicitly. A NodeProvider that requires a network environment cannot be served by one. Once set, it cannot be changed.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentStatus": {
+      "properties": {
+        "conditions": {
+          "description": "Conditions describe the current state of the platform NodeClaim.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "message": {
+          "description": "Message describes the reason in human-readable form",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the current lifecycle phase of the NetworkEnvironment.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason describes the reason in machine-readable form",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkPeer": {
       "description": "NetworkPeer holds the network peer for vCluster.",
       "properties": {
@@ -4485,7 +4625,7 @@
           "type": "object"
         },
         "outputs": {
-          "description": "Outputs of the node environment.",
+          "description": "Outputs of the network environment.",
           "format": "byte",
           "type": "string"
         },
@@ -4559,7 +4699,7 @@
           "type": "string"
         },
         "environmentRef": {
-          "description": "EnvironmentRef is the name of the NodeEnvironment that this NodeClaim is based on.",
+          "description": "EnvironmentRef is the name of the NetworkEnvironment that this NodeClaim is based on.",
           "type": "string"
         },
         "kubeletArgs": {
@@ -4651,154 +4791,6 @@
         "power": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimPower",
           "description": "Power describes the observed power state of the machine."
-        },
-        "reason": {
-          "description": "Reason describes the reason in machine-readable form",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment": {
-      "description": "NodeEnvironment holds the node environment for vCluster.",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentStatus"
-        }
-      },
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentData": {
-      "properties": {
-        "operations": {
-          "additionalProperties": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.Operation"
-          },
-          "description": "Operations that were applied to the node environment.",
-          "type": "object"
-        },
-        "outputs": {
-          "description": "Outputs of the node environment.",
-          "format": "byte",
-          "type": "string"
-        },
-        "state": {
-          "description": "Terraform state of the node environment.",
-          "format": "byte",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentList": {
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "items": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-          },
-          "type": "array"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
-        }
-      },
-      "required": [
-        "items"
-      ],
-      "type": "object",
-      "x-kubernetes-group-version-kind": [
-        {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironmentList",
-          "version": "v1"
-        }
-      ]
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentSpec": {
-      "description": "NodeEnvironmentSpec defines spec of node environment.",
-      "properties": {
-        "access": {
-          "description": "Access holds the access rights for users and teams",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
-          },
-          "type": "array"
-        },
-        "controlPlane": {
-          "description": "ControlPlane indicates if the node environment is a control plane environment. This is intentionally not omitempty as we want to ensure that the control plane is always set for easier checking in for example terraform templates.",
-          "type": "boolean"
-        },
-        "displayName": {
-          "description": "DisplayName is the name of the NodeClaim that is displayed in the UI.",
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
-          "description": "Owner holds the owner of this object"
-        },
-        "properties": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Properties are the properties for the NodeEnvironment.",
-          "type": "object"
-        },
-        "providerRef": {
-          "description": "ProviderRef is the name of the NodeProvider that this NodeEnvironment is based on.",
-          "type": "string"
-        },
-        "vClusterRef": {
-          "description": "VClusterRef references source vCluster.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentStatus": {
-      "properties": {
-        "conditions": {
-          "description": "Conditions describe the current state of the platform NodeClaim.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
-          },
-          "type": "array"
-        },
-        "message": {
-          "description": "Message describes the reason in human-readable form",
-          "type": "string"
-        },
-        "phase": {
-          "description": "Phase is the current lifecycle phase of the NodeEnvironment.",
-          "type": "string"
         },
         "reason": {
           "description": "Reason describes the reason in machine-readable form",
@@ -6121,6 +6113,13 @@
         "metadata": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
+        "networkEnvironments": {
+          "description": "NetworkEnvironments holds all the allowed network environments for the project",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NetworkEnvironment"
+          },
+          "type": "array"
+        },
         "nodeProfiles": {
           "description": "NodeProfiles holds all the allowed node profiles for the project",
           "items": {
@@ -6302,6 +6301,13 @@
           "description": "AllowedClusters are target clusters that are allowed to target with environments.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedCluster"
+          },
+          "type": "array"
+        },
+        "allowedNetworkEnvironments": {
+          "description": "AllowedNetworkEnvironments restricts which NetworkEnvironments can be referenced by NodeClaims in this project. NetworkEnvironments are cluster scoped and shared across projects, so this is how a project is scoped to a subset of them. Each entry is an exact NetworkEnvironment name (\"shared-vpc\"). If unset (nil), all NetworkEnvironments are allowed; an empty list disallows all NetworkEnvironments.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNetworkEnvironment"
           },
           "type": "array"
         },
@@ -10596,6 +10602,16 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNetworkEnvironment": {
+      "description": "AllowedNetworkEnvironment restricts which NetworkEnvironment a project's consumers may reference.\n\nUnlike AllowedNodeType and AllowedNodeProfile, there is no \"<provider>.*\" wildcard here: those resources are named \"<provider>.<name>\", whereas NetworkEnvironment names are rejected at creation if they contain a dot, so no such prefix could ever match.",
+      "properties": {
+        "name": {
+          "description": "Name is the exact name of the NetworkEnvironment.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.AllowedNodeProfile": {
       "description": "AllowedNodeProfile restricts which NodeProfile a project's consumers may reference. The Name field is either an exact profile name or an \"<owner>.*\" wildcard, matching the same semantics as AllowedNodeType.",
       "properties": {
@@ -12851,6 +12867,85 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NetworkEnvironment": {
+      "description": "NetworkEnvironment holds the network environment for vCluster.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NetworkEnvironmentSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NetworkEnvironmentStatus"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NetworkEnvironmentSpec": {
+      "description": "NetworkEnvironmentSpec defines spec of network environment.",
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the name of the NodeClaim that is displayed in the UI.",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties are the properties for the NetworkEnvironment.",
+          "type": "object"
+        },
+        "providerRef": {
+          "description": "ProviderRef is the name of the NodeProvider that this NetworkEnvironment is based on. It may be left empty, in which case the NetworkEnvironment is a pure property container: it provisions no infrastructure, becomes available immediately, carries no cleanup finalizer, and can never be a provider's default environment - NodeClaims must reference it explicitly. A NodeProvider that requires a network environment cannot be served by one. Once set, it cannot be changed.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NetworkEnvironmentStatus": {
+      "properties": {
+        "conditions": {
+          "description": "Conditions describe the current state of the platform NodeClaim.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "message": {
+          "description": "Message describes the reason in human-readable form",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the current lifecycle phase of the NetworkEnvironment.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason describes the reason in machine-readable form",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimPower": {
       "properties": {
         "state": {
@@ -13199,9 +13294,9 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderTerraform": {
       "properties": {
-        "nodeEnvironmentTemplate": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNodeEnvironmentTemplate",
-          "description": "NodeEnvironmentTemplate is the template to use for this node environment."
+        "networkEnvironmentTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNetworkEnvironmentTemplate",
+          "description": "NetworkEnvironmentTemplate is the template to use for this network environment."
         },
         "nodeTemplate": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
@@ -14562,7 +14657,7 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNodeEnvironmentTemplate": {
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformNetworkEnvironmentTemplate": {
       "properties": {
         "git": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplateSourceGit",
@@ -14570,15 +14665,11 @@
         },
         "infrastructure": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
-          "description": "Infrastructure is the infrastructure template to use for this node environment."
+          "description": "Infrastructure is the infrastructure template to use for this network environment."
         },
         "inline": {
           "description": "Inline is the inline template to use for this node type.",
           "type": "string"
-        },
-        "kubernetes": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TerraformTemplate",
-          "description": "Kubernetes is the kubernetes template to use for this node environment."
         },
         "timeout": {
           "description": "Timeout is the timeout to use for the terraform operations. Defaults to 60m.",
@@ -25528,650 +25619,6 @@
         }
       }
     },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/nodeenvironments": {
-      "delete": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "delete collection of NodeEnvironment",
-        "operationId": "deleteManagementLoftShV1CollectionNamespacedNodeEnvironment",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-2Y1dVQaQ"
-          },
-          {
-            "$ref": "#/parameters/continue-QfD61s0i"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-          },
-          {
-            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
-            "$ref": "#/parameters/labelSelector-5Zw57w4C"
-          },
-          {
-            "$ref": "#/parameters/limit-1NfNmdNH"
-          },
-          {
-            "$ref": "#/parameters/orphanDependents-uRB25kX5"
-          },
-          {
-            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-          },
-          {
-            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-          },
-          {
-            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-          },
-          {
-            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-          },
-          {
-            "$ref": "#/parameters/shardSelector-Kgyki_3_"
-          },
-          {
-            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "deletecollection",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "list or watch objects of kind NodeEnvironment",
-        "operationId": "listManagementLoftShV1NamespacedNodeEnvironment",
-        "parameters": [
-          {
-            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-          },
-          {
-            "$ref": "#/parameters/continue-QfD61s0i"
-          },
-          {
-            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-          },
-          {
-            "$ref": "#/parameters/labelSelector-5Zw57w4C"
-          },
-          {
-            "$ref": "#/parameters/limit-1NfNmdNH"
-          },
-          {
-            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-          },
-          {
-            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-          },
-          {
-            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-          },
-          {
-            "$ref": "#/parameters/shardSelector-Kgyki_3_"
-          },
-          {
-            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-          },
-          {
-            "$ref": "#/parameters/watch-XNNPZGbK"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentList"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "list",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ],
-      "post": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "create a NodeEnvironment",
-        "operationId": "createManagementLoftShV1NamespacedNodeEnvironment",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "post",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/nodeenvironments/{name}": {
-      "delete": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "delete a NodeEnvironment",
-        "operationId": "deleteManagementLoftShV1NamespacedNodeEnvironment",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-2Y1dVQaQ"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
-            "$ref": "#/parameters/orphanDependents-uRB25kX5"
-          },
-          {
-            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-            }
-          },
-          "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "delete",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read the specified NodeEnvironment",
-        "operationId": "readManagementLoftShV1NamespacedNodeEnvironment",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the NodeEnvironment",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ],
-      "patch": {
-        "consumes": [
-          "application/json-patch+json",
-          "application/merge-patch+json",
-          "application/apply-patch+yaml"
-        ],
-        "description": "partially update the specified NodeEnvironment",
-        "operationId": "patchManagementLoftShV1NamespacedNodeEnvironment",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-78PwaGsr"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-7c6nTn1T"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/force-tOGGb0Yi"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "patch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "put": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "replace the specified NodeEnvironment",
-        "operationId": "replaceManagementLoftShV1NamespacedNodeEnvironment",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "put",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      }
-    },
-    "/apis/management.loft.sh/v1/namespaces/{namespace}/nodeenvironments/{name}/status": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "read status of the specified NodeEnvironment",
-        "operationId": "readManagementLoftShV1NamespacedNodeEnvironmentStatus",
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "get",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "description": "name of the NodeEnvironment",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        }
-      ],
-      "patch": {
-        "consumes": [
-          "application/json-patch+json",
-          "application/merge-patch+json",
-          "application/apply-patch+yaml"
-        ],
-        "description": "partially update status of the specified NodeEnvironment",
-        "operationId": "patchManagementLoftShV1NamespacedNodeEnvironmentStatus",
-        "parameters": [
-          {
-            "$ref": "#/parameters/body-78PwaGsr"
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-7c6nTn1T"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/force-tOGGb0Yi"
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "patch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "put": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "replace status of the specified NodeEnvironment",
-        "operationId": "replaceManagementLoftShV1NamespacedNodeEnvironmentStatus",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          {
-            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
-            "in": "query",
-            "name": "dryRun",
-            "type": "string",
-            "uniqueItems": true
-          },
-          {
-            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
-          },
-          {
-            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
-            "in": "query",
-            "name": "fieldValidation",
-            "type": "string",
-            "uniqueItems": true
-          }
-        ],
-        "produces": [
-          "application/json",
-          "application/yaml"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironment"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "put",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      }
-    },
     "/apis/management.loft.sh/v1/namespaces/{namespace}/projectsecrets": {
       "delete": {
         "consumes": [
@@ -29497,6 +28944,641 @@
         }
       }
     },
+    "/apis/management.loft.sh/v1/networkenvironments": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of NetworkEnvironment",
+        "operationId": "deleteManagementLoftShV1CollectionNetworkEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind NetworkEnvironment",
+        "operationId": "listManagementLoftShV1NetworkEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironmentList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a NetworkEnvironment",
+        "operationId": "createManagementLoftShV1NetworkEnvironment",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/networkenvironments/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a NetworkEnvironment",
+        "operationId": "deleteManagementLoftShV1NetworkEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified NetworkEnvironment",
+        "operationId": "readManagementLoftShV1NetworkEnvironment",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the NetworkEnvironment",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified NetworkEnvironment",
+        "operationId": "patchManagementLoftShV1NetworkEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified NetworkEnvironment",
+        "operationId": "replaceManagementLoftShV1NetworkEnvironment",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/networkenvironments/{name}/status": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read status of the specified NetworkEnvironment",
+        "operationId": "readManagementLoftShV1NetworkEnvironmentStatus",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the NetworkEnvironment",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update status of the specified NetworkEnvironment",
+        "operationId": "patchManagementLoftShV1NetworkEnvironmentStatus",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace status of the specified NetworkEnvironment",
+        "operationId": "replaceManagementLoftShV1NetworkEnvironmentStatus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NetworkEnvironment"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      }
+    },
     "/apis/management.loft.sh/v1/networkpeers": {
       "delete": {
         "consumes": [
@@ -30037,78 +30119,6 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "NodeClaim",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/shardSelector-Kgyki_3_"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/nodeenvironments": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "list or watch objects of kind NodeEnvironment",
-        "operationId": "listManagementLoftShV1NodeEnvironmentForAllNamespaces",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.NodeEnvironmentList"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "list",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
           "version": "v1"
         }
       },
@@ -41043,164 +41053,6 @@
         }
       ]
     },
-    "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/nodeenvironments": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "watch individual changes to a list of NodeEnvironment. deprecated: use the 'watch' parameter with a list operation instead.",
-        "operationId": "watchManagementLoftShV1NamespacedNodeEnvironmentList",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "watchlist",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/shardSelector-Kgyki_3_"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/nodeenvironments/{name}": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "watch changes to an object of kind NodeEnvironment. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
-        "operationId": "watchManagementLoftShV1NamespacedNodeEnvironment",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "watch",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "description": "name of the NodeEnvironment",
-          "in": "path",
-          "name": "name",
-          "required": true,
-          "type": "string",
-          "uniqueItems": true
-        },
-        {
-          "$ref": "#/parameters/namespace-vgWSWtn3"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/shardSelector-Kgyki_3_"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ]
-    },
     "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/projectsecrets": {
       "get": {
         "consumes": [
@@ -41833,6 +41685,158 @@
         }
       ]
     },
+    "/apis/management.loft.sh/v1/watch/networkenvironments": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of NetworkEnvironment. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1NetworkEnvironmentList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/networkenvironments/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind NetworkEnvironment. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1NetworkEnvironment",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "NetworkEnvironment",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the NetworkEnvironment",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
     "/apis/management.loft.sh/v1/watch/networkpeers": {
       "get": {
         "consumes": [
@@ -42015,78 +42019,6 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "NodeClaim",
-          "version": "v1"
-        }
-      },
-      "parameters": [
-        {
-          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
-        },
-        {
-          "$ref": "#/parameters/continue-QfD61s0i"
-        },
-        {
-          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
-        },
-        {
-          "$ref": "#/parameters/labelSelector-5Zw57w4C"
-        },
-        {
-          "$ref": "#/parameters/limit-1NfNmdNH"
-        },
-        {
-          "$ref": "#/parameters/pretty-tJGM1-ng"
-        },
-        {
-          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
-        },
-        {
-          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
-        },
-        {
-          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
-        },
-        {
-          "$ref": "#/parameters/shardSelector-Kgyki_3_"
-        },
-        {
-          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
-        },
-        {
-          "$ref": "#/parameters/watch-XNNPZGbK"
-        }
-      ]
-    },
-    "/apis/management.loft.sh/v1/watch/nodeenvironments": {
-      "get": {
-        "consumes": [
-          "*/*"
-        ],
-        "description": "watch individual changes to a list of NodeEnvironment. deprecated: use the 'watch' parameter with a list operation instead.",
-        "operationId": "watchManagementLoftShV1NodeEnvironmentListForAllNamespaces",
-        "produces": [
-          "application/json",
-          "application/yaml",
-          "application/json;stream=watch"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "managementLoftSh_v1"
-        ],
-        "x-kubernetes-action": "watchlist",
-        "x-kubernetes-group-version-kind": {
-          "group": "management.loft.sh",
-          "kind": "NodeEnvironment",
           "version": "v1"
         }
       },
