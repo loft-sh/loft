@@ -7671,7 +7671,7 @@
           "description": "Parameters are the values the template's tasks reference as .Values.<name>, the same way an app reads its parameters. Declarations provide defaults and validation but are not a whitelist: values without a matching declaration are passed through and may be referenced too."
         },
         "prunePolicy": {
-          "description": "PrunePolicy controls what happens to an owned application whose task is removed from the resolved task set. The empty value is treated as Retain.",
+          "description": "PrunePolicy controls what happens to an owned application whose task is removed from the resolved task set. Leaving it out is treated as Retain.",
           "type": "string"
         },
         "template": {
