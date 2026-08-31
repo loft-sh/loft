@@ -13204,6 +13204,14 @@
           },
           "type": "array"
         },
+        "networkMode": {
+          "description": "NetworkMode selects how tenant networking is provisioned at this site. Defaults to fnn.\n\nPossible enum values:\n - `\"flat\"` configures FLAT VPCs with automatic interface assignment.\n - `\"fnn\"` configures FNN VPCs with explicit interfaces and VPC prefixes.",
+          "enum": [
+            "flat",
+            "fnn"
+          ],
+          "type": "string"
+        },
         "org": {
           "description": "Org is the NICo organization used for provider-scoped API calls (the /v2/org/{org}/nico path) and stamped as the provider token's organization claim. Optional; defaults to \"vcluster-autonodes\".",
           "type": "string"
