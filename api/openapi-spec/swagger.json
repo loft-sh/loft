@@ -8424,7 +8424,7 @@
       "description": "TenantSpec holds the specification.",
       "properties": {
         "access": {
-          "description": "Access holds the access rights for users and teams on the Tenant CR itself. Stored and validated now; enforcement (operator-side delegation) activates with the Tenant authorizer in a later Multi-Tenancy PR — see the Owner field.",
+          "description": "Access holds the access rights for users and teams on the Tenant object. Stored and validated on write, but it grants nothing at request time yet. It does not express tenant membership: a User's own tenant label is what binds it to a Tenant.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Access"
           },
@@ -8452,7 +8452,7 @@
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
-          "description": "Owner holds the owner of this Tenant. Access is intended to govern operator-side delegation, that is, which Platform Operator users may read or edit this Tenant, by transforming Owner/Access into effective RBAC for the Tenant resource itself. That wiring is not yet active: it lands with the Tenant authorizer in a later Multi-Tenancy PR. Until then Owner and Access are stored and validated for well-formedness only, and Tenant access is authorized by ClusterRole RBAC. Neither field expresses tenant membership: how a User or Team is bound to a Tenant is resolved separately and is deliberately not fixed by this API."
+          "description": "Owner holds the owner of this Tenant. Owner and Access together are intended to govern operator-side delegation, that is, which Platform Operator users may read or edit this Tenant, by transforming them into effective RBAC for the Tenant resource itself. That wiring is not active yet: it lands with the Tenant authorizer, and until then both fields are stored and validated for well-formedness only while Tenant access is authorized by ClusterRole RBAC."
         },
         "platformConfig": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantPlatformConfig",
@@ -14413,7 +14413,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "ByLabels selects Control Plane Clusters carrying all of these labels.",
+          "description": "ByLabels selects Control Plane Clusters carrying all of these labels.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
           "type": "object"
         }
       },
@@ -14499,13 +14499,13 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNodeTypeAllow": {
-      "description": "TenantNodeTypeAllow selects the NodeTypes a tenant may provision from. A tenant cannot author a NodeType of its own, so there is no custom allowance. ByName and ByLabels are additive: a NodeType matched by either is allowed, and setting neither allows every NodeType (see TenantSpec).",
+      "description": "TenantNodeTypeAllow selects the NodeTypes a tenant may provision from. A tenant cannot author a NodeType of its own, so there is no custom allowance. Setting neither selector allows every NodeType (see TenantSpec).\n\nA name grant and a label grant may not both be set. Each produces its own leg in the read plan, and the plan's legs are concatenated on the assumption that they are disjoint -- so a NodeType that is both named here and matched by these labels would be served twice in one page, counted twice, and delivered twice to a watch.\n\nOnly this capability can produce the collision, because it is the only one offering a name selector at all. An empty byLabels is still allowed alongside byName: it resolves to a shared baseline, which drops the name selector rather than adding a second leg.\n\nTo grant a set plus an extra instance, label the extra one and widen byLabels. That is what byLabels is for, and it keeps the grant expressed in one place.",
       "properties": {
         "byLabels": {
           "additionalProperties": {
             "type": "string"
           },
-          "description": "ByLabels selects NodeTypes carrying all of these labels, and is the way to allow a whole provider: label the NodeTypes it owns and match that label here.",
+          "description": "ByLabels selects NodeTypes carrying all of these labels, and is the way to allow a whole provider: label the NodeTypes it owns and match that label here.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
           "type": "object"
         },
         "byName": {
@@ -14556,7 +14556,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "ByLabels selects admin-owned OS images carrying all of these labels.",
+          "description": "ByLabels selects admin-owned OS images carrying all of these labels.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
           "type": "object"
         },
         "custom": {
@@ -14621,7 +14621,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "ByLabels selects templates carrying all of these labels. They are matched against every template kind the capability spans, and the tenant may use the union of the matches; it is not per-kind and cannot be narrowed to one kind.",
+          "description": "ByLabels selects templates carrying all of these labels. They are matched against every template kind the capability spans, and the tenant may use the union of the matches; it is not per-kind and cannot be narrowed to one kind.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
           "type": "object"
         }
       },
