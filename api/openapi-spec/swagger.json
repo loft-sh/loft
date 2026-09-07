@@ -4247,11 +4247,11 @@
           "description": "LastSyncTime is when this state was last confirmed against the provider."
         },
         "message": {
-          "description": "Message is a human-readable explanation of the phase.",
+          "description": "Message is what the provider says about it, when it says anything: a metal3 errorMessage, a NICo alert or maintenance message.",
           "type": "string"
         },
         "phase": {
-          "description": "Phase is the aggregated machine state.",
+          "description": "Phase is the machine's state at the provider, normalized across providers. It says nothing about platform NodeClaims: the node-claim annotation answers which claim, if any, holds the machine.",
           "type": "string"
         },
         "powerState": {
@@ -4259,7 +4259,7 @@
           "type": "string"
         },
         "reason": {
-          "description": "Reason is a machine-readable explanation of the phase.",
+          "description": "Reason is the provider's own name for the state behind the phase, kept verbatim: a metal3 provisioning state or errorType, a NICo machine status or health alert id.",
           "type": "string"
         },
         "system": {
