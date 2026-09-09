@@ -8472,6 +8472,13 @@
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.TenantStatus": {
       "description": "TenantStatus holds the status.\n\nstatus.hostnames comes from the inlined storage status, where the Tenant controller writes it. It reads the same as it always did, a caller listing Tenants seeing each tenant's hostnames without a request per tenant, but it is now a stored field rather than a read-time join, so it costs nothing to serve and needs no ?extended=true. Writing it here still does nothing: hostnames are set through the tenants/config subresource, and the controller overwrites this projection from there.",
       "properties": {
+        "boundary": {
+          "description": "Boundary is the resolved tenant boundary, one entry per resource kind, projected here by the Tenant controller. Mostly a report: see TenantResourceBoundary for the single field the read path consumes.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantResourceBoundary"
+          },
+          "type": "array"
+        },
         "conditions": {
           "description": "Conditions describes the current observed conditions of the Tenant.",
           "items": {
@@ -14588,6 +14595,48 @@
           "description": "UISettings controls whether the tenant may set its own UI branding and customization."
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantResourceBoundary": {
+      "description": "TenantResourceBoundary is the resolved boundary for one resource kind.\n\nMostly a report. The read path recomputes the spec-derived levers per request, which is what lets an operator's change take effect on the next request rather than the next reconcile. They are projected here because the reverse question -- which tenants can see this instance -- has no efficient answer otherwise. Status.Hostnames is projected for the same reason.\n\nDerived is the exception and the only field read back; see its comment.\n\nThe exclusive-assignment lever is absent by design: the read selects that label off the instance, so projecting it would delay an operator's claim by a reconcile. A complete \"who can see this\" answer is this boundary plus the instances carrying TenantExclusiveHolderLabel.",
+      "properties": {
+        "baseline": {
+          "description": "Baseline is the treatment for an admin-owned instance no selector matches, either \"hidden\" or \"shared\". Reported only.",
+          "type": "string"
+        },
+        "byLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ByLabels reports the capability's label selector. The read matches it where the operator's labels already are, so nothing is projected for it. Reported only.",
+          "type": "object"
+        },
+        "byName": {
+          "description": "ByName reports the instances the capability grants by exact name. Reported only.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "derived": {
+          "description": "Derived are instances the tenant reaches by following a reference from one already inside its boundary. Today that is the NodeProvider a granted NodeType names in spec.providerRef.\n\nThe one field here the read path consumes: it merges into the resource's by-name grants, which is what admits the instance and makes the projector stamp a scope label. Materialized because a reference is a join, and a selector evaluates one object at a time.\n\nA name written here grants nothing past the next reconcile, which recomputes it.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "own": {
+          "description": "Own reports whether the tenant may author instances of this kind; reading what it already owns is not gated by it. Reported only.",
+          "type": "boolean"
+        },
+        "resource": {
+          "description": "Resource is the lowercase plural management.loft.sh resource name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "resource"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantSSHKeyAllow": {
