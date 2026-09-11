@@ -66,10 +66,6 @@ tls:
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Default value is: ghcr.io/loft:{{ .Chart.Version }}
-# Note: images prior to 3.1 use the docker.io/loftsh registry
-# image: ghcr.io/loft-sh/loft
-#
 # Default image ref. Default values are:
 # imageRef:
 #   registry: ghcr.io
