@@ -13159,6 +13159,10 @@
         "deploy": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3ProviderDeployment"
         },
+        "netBox": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3NetBox",
+          "description": "NetBox imports machines from a NetBox inventory: every device carrying the configured tag becomes a Machine of this provider and a BareMetalHost in the provider's cluster. Several providers may import from the same NetBox with different tags, or from different NetBox instances."
+        },
         "netris": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3Netris",
           "description": "Netris attaches BareMetalHosts to a Netris server cluster on provisioning."
@@ -13173,6 +13177,63 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.Metal3NodeTypeSpec"
           },
           "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3NetBox": {
+      "description": "NodeProviderMetal3NetBox configures the NetBox -> Machine -> BareMetalHost import of a metal3 provider. The connector holds how to reach NetBox; this holds what to take from it. Each machine's BMC address and login are read from the device itself (its management IP and the bmc_username and bmc_password custom fields); the protocol Ironic speaks to it is the provider's to set, since NetBox has no field for it.",
+      "properties": {
+        "addressTemplate": {
+          "description": "AddressTemplate is a Go template rendering the BareMetalHost bmc.address from the device: the protocol and path Ironic dials, which NetBox records no field for. {{ .Address }} is the management IP as a URL host (IPv6 bracketed), {{ .IP }} the bare IP, {{ .Device }} the NetBox device name, {{ .Manufacturer }} and {{ .DeviceType }} their slugs, {{ .Serial }} the serial. Defaults to \"redfish://{{ .Address }}/redfish/v1/Systems/1\", which is what Lenovo, HPE and Supermicro BMCs answer; Dell iDRACs need \"idrac-redfish://{{ .Address }}/redfish/v1/Systems/System.Embedded.1\".",
+          "type": "string"
+        },
+        "bareMetalHostTemplate": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3NetBoxBareMetalHostTemplate",
+          "description": "BareMetalHostTemplate is merged into every BareMetalHost the import creates. Its labels and annotations are kept current on existing hosts; its spec is applied when a host is created and wins over what the import generates, so it can set rootDeviceHints, disable BMC certificate verification, or point bmc.credentialsName at a Secret you manage. A template that sets bmc.credentialsName makes the BMC login custom fields optional, and one that sets bootMACAddress makes the NetBox boot MAC optional."
+        },
+        "customFields": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3NetBoxCustomFields",
+          "description": "CustomFields names the device custom fields the BMC login is read from, for deployments that already keep it under other names. Unset names keep their defaults."
+        },
+        "secretRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacedRef",
+          "description": "SecretRef references the NetBox connector Secret (labelled loft.sh/connector-type=netbox) to read devices from."
+        },
+        "tag": {
+          "description": "Tag is the slug of the NetBox tag that marks a device for import. A device carrying it is imported automatically and kept in sync; removing the tag stops the sync but never deprovisions a machine that is in use. Defaults to \"vcluster-sync\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "secretRef"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3NetBoxBareMetalHostTemplate": {
+      "description": "NodeProviderMetal3NetBoxBareMetalHostTemplate is the part of an imported BareMetalHost the provider dictates rather than NetBox.",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TemplateMetadata",
+          "description": "Metadata holds labels and annotations set on every imported host, on top of the ones the import derives from NetBox."
+        },
+        "spec": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Spec is merged into the generated BareMetalHost spec, with the template's values taking precedence field by field."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3NetBoxCustomFields": {
+      "description": "NodeProviderMetal3NetBoxCustomFields names the NetBox device custom fields holding the BMC login. NetBox has no schema for it, so deployments keep it in custom fields; these are the names to read.",
+      "properties": {
+        "bmcPassword": {
+          "description": "BMCPassword holds the BMC password. The platform never serves this field's value. Defaults to \"bmc_password\".",
+          "type": "string"
+        },
+        "bmcUsername": {
+          "description": "BMCUsername holds the BMC login name. Defaults to \"bmc_username\".",
+          "type": "string"
         }
       },
       "type": "object"
