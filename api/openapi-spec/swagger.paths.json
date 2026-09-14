@@ -7440,11 +7440,93 @@
     }
   },
   "/apis/management.loft.sh/v1/namespaces/{namespace}/sharedsecrets": {
+    "delete": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "delete collection of SharedSecret",
+      "operationId": "deleteManagementLoftShV1CollectionNamespacedSharedSecret",
+      "parameters": [
+        {
+          "$ref": "#/parameters/body-2Y1dVQaQ"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+        },
+        {
+          "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/orphanDependents-uRB25kX5"
+        },
+        {
+          "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        }
+      ],
+      "produces": [
+        "application/json",
+        "application/yaml"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "deletecollection",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "SharedSecret",
+        "version": "v1"
+      }
+    },
     "get": {
       "consumes": [
         "*/*"
       ],
-      "description": "list objects of kind SharedSecret",
+      "description": "list or watch objects of kind SharedSecret",
       "operationId": "listManagementLoftShV1NamespacedSharedSecret",
       "parameters": [
         {
@@ -16226,7 +16308,7 @@
       "consumes": [
         "*/*"
       ],
-      "description": "list objects of kind SharedSecret",
+      "description": "list or watch objects of kind SharedSecret",
       "operationId": "listManagementLoftShV1SharedSecretForAllNamespaces",
       "produces": [
         "application/json",
@@ -22564,6 +22646,164 @@
       }
     ]
   },
+  "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/sharedsecrets": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "watch individual changes to a list of SharedSecret. deprecated: use the 'watch' parameter with a list operation instead.",
+      "operationId": "watchManagementLoftShV1NamespacedSharedSecretList",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "watchlist",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "SharedSecret",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
+  "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/sharedsecrets/{name}": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "watch changes to an object of kind SharedSecret. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+      "operationId": "watchManagementLoftShV1NamespacedSharedSecret",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "watch",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "SharedSecret",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "description": "name of the SharedSecret",
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "type": "string",
+        "uniqueItems": true
+      },
+      {
+        "$ref": "#/parameters/namespace-vgWSWtn3"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
   "/apis/management.loft.sh/v1/watch/namespaces/{namespace}/spaceinstances": {
     "get": {
       "consumes": [
@@ -24204,6 +24444,78 @@
       "x-kubernetes-group-version-kind": {
         "group": "management.loft.sh",
         "kind": "ProjectSecret",
+        "version": "v1"
+      }
+    },
+    "parameters": [
+      {
+        "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+      },
+      {
+        "$ref": "#/parameters/continue-QfD61s0i"
+      },
+      {
+        "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+      },
+      {
+        "$ref": "#/parameters/labelSelector-5Zw57w4C"
+      },
+      {
+        "$ref": "#/parameters/limit-1NfNmdNH"
+      },
+      {
+        "$ref": "#/parameters/pretty-tJGM1-ng"
+      },
+      {
+        "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+      },
+      {
+        "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+      },
+      {
+        "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+      },
+      {
+        "$ref": "#/parameters/shardSelector-Kgyki_3_"
+      },
+      {
+        "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+      },
+      {
+        "$ref": "#/parameters/watch-XNNPZGbK"
+      }
+    ]
+  },
+  "/apis/management.loft.sh/v1/watch/sharedsecrets": {
+    "get": {
+      "consumes": [
+        "*/*"
+      ],
+      "description": "watch individual changes to a list of SharedSecret. deprecated: use the 'watch' parameter with a list operation instead.",
+      "operationId": "watchManagementLoftShV1SharedSecretListForAllNamespaces",
+      "produces": [
+        "application/json",
+        "application/yaml",
+        "application/json;stream=watch"
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+          }
+        }
+      },
+      "schemes": [
+        "https"
+      ],
+      "tags": [
+        "managementLoftSh_v1"
+      ],
+      "x-kubernetes-action": "watchlist",
+      "x-kubernetes-group-version-kind": {
+        "group": "management.loft.sh",
+        "kind": "SharedSecret",
         "version": "v1"
       }
     },
