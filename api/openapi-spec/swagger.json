@@ -5526,12 +5526,20 @@
           },
           "type": "array"
         },
+        "connectorRef": {
+          "description": "ConnectorRef names the image store connector holding this image's blob. Empty means a properties-only image. Immutable once set.",
+          "type": "string"
+        },
         "description": {
           "description": "Description describes an OS image",
           "type": "string"
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "format": {
+          "description": "Format is the on-disk format of the image blob and part of the object key. Immutable once set.",
           "type": "string"
         },
         "owner": {
@@ -5549,6 +5557,90 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageStatus": {
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUpload": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadStatus"
+        }
+      },
+      "required": [
+        "spec"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "OSImageUpload",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadSpec": {
+      "properties": {
+        "sizeBytes": {
+          "description": "SizeBytes is the total size of the image the caller is about to upload.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sizeBytes"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadStatus": {
+      "properties": {
+        "expiresAt": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "ExpiresAt is when every target in this batch stops being accepted."
+        },
+        "partSizeBytes": {
+          "description": "PartSizeBytes is the length of every part but the last.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "targets": {
+          "description": "Targets is one batch of upload targets.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadTarget"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadTarget": {
+      "properties": {
+        "partNumber": {
+          "description": "PartNumber is 1-based, so the part covers the bytes at offset (PartNumber-1)*PartSizeBytes.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "url": {
+          "description": "URL accepts a plain PUT of that part's bytes. Only Host is signed, so no additional request headers are needed.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "partNumber",
+        "url"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ObjectName": {
@@ -13512,12 +13604,20 @@
           },
           "type": "array"
         },
+        "connectorRef": {
+          "description": "ConnectorRef names the image store connector holding this image's blob. Empty means a properties-only image. Immutable once set.",
+          "type": "string"
+        },
         "description": {
           "description": "Description describes an OS image",
           "type": "string"
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "format": {
+          "description": "Format is the on-disk format of the image blob and part of the object key. Immutable once set.",
           "type": "string"
         },
         "owner": {
@@ -32969,6 +33069,91 @@
         "x-kubernetes-group-version-kind": {
           "group": "management.loft.sh",
           "kind": "OSImage",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/osimages/{name}/upload": {
+      "parameters": [
+        {
+          "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+          "in": "query",
+          "name": "dryRun",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+        },
+        {
+          "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+          "in": "query",
+          "name": "fieldValidation",
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "description": "name of the OSImageUpload",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create upload of an OSImage",
+        "operationId": "createManagementLoftShV1OSImageUpload",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUpload"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUpload"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUpload"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUpload"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "OSImageUpload",
           "version": "v1"
         }
       }
