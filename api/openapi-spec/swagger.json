@@ -5593,8 +5593,13 @@
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadSpec": {
       "properties": {
+        "fromPart": {
+          "description": "FromPart is the 1-based part number this batch starts at; zero starts at the first part. Pointing it back at a part already handed out signs that target again, which is how an upload outliving its targets refreshes them.",
+          "format": "int32",
+          "type": "integer"
+        },
         "sizeBytes": {
-          "description": "SizeBytes is the total size of the image the caller is about to upload.",
+          "description": "SizeBytes is the total size of the image the caller is about to upload. It has to match the size the upload session was opened for.",
           "format": "int64",
           "type": "integer"
         }
@@ -5610,6 +5615,11 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "ExpiresAt is when every target in this batch stops being accepted."
         },
+        "nextPart": {
+          "description": "NextPart is the FromPart of the next batch, unset once this batch reached TotalParts.",
+          "format": "int32",
+          "type": "integer"
+        },
         "partSizeBytes": {
           "description": "PartSizeBytes is the length of every part but the last.",
           "format": "int64",
@@ -5621,6 +5631,11 @@
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUploadTarget"
           },
           "type": "array"
+        },
+        "totalParts": {
+          "description": "TotalParts is how many parts SizeBytes covers, across every batch.",
+          "format": "int32",
+          "type": "integer"
         }
       },
       "type": "object"
