@@ -5610,6 +5610,27 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageStatus": {
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds the upload conditions of the image.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "expiresAt": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "ExpiresAt is the deadline of the current non-terminal phase, which the phase names. Cleared on Ready and Failed, and set again when a retry opens a new session."
+        },
+        "phase": {
+          "description": "Phase is where the image is in its upload lifecycle. Empty for an image that holds no bytes. The controller owns every transition; the upload endpoints only annotate.",
+          "type": "string"
+        },
+        "store": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageStoreStatus",
+          "description": "Store describes the object holding the image bytes. Set once the upload is verified."
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.OSImageUpload": {
@@ -13703,6 +13724,46 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageStatus": {
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds the upload conditions of the image.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v4.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "expiresAt": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "ExpiresAt is the deadline of the current non-terminal phase, which the phase names. Cleared on Ready and Failed, and set again when a retry opens a new session."
+        },
+        "phase": {
+          "description": "Phase is where the image is in its upload lifecycle. Empty for an image that holds no bytes. The controller owns every transition; the upload endpoints only annotate.",
+          "type": "string"
+        },
+        "store": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageStoreStatus",
+          "description": "Store describes the object holding the image bytes. Set once the upload is verified."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.OSImageStoreStatus": {
+      "description": "OSImageStoreStatus is the verified object behind a Ready image.",
+      "properties": {
+        "checksum": {
+          "description": "Checksum is the sha256 the client declared at finalize. It is recorded for consumers such as Ironic rather than verified, since S3 has no whole-file hash for a multipart object.",
+          "type": "string"
+        },
+        "location": {
+          "description": "Location is the object key in the bucket.",
+          "type": "string"
+        },
+        "sizeBytes": {
+          "description": "SizeBytes is the size the object store reports for the object, not the one the client declared.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ObjectsStatus": {
