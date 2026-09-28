@@ -5284,6 +5284,10 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
+        "externalPlatform": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderExternalPlatform",
+          "description": "ExternalPlatform configures a node provider that delegates to a NodeProvider on another vCluster Platform instance: machines are mirrored from there and NodeClaims are created there against the targeted provider."
+        },
         "kubeVirt": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
@@ -13403,6 +13407,43 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderExternalPlatform": {
+      "description": "NodeProviderExternalPlatform configures a node provider that delegates provisioning to a NodeProvider on another vCluster Platform instance. The local platform authenticates to the remote one with the access key in SecretRef, lists the remote provider's machines and node types, and creates a NodeClaim in the remote project for every local NodeClaim. Only remote Metal3 providers are supported.",
+      "properties": {
+        "caData": {
+          "description": "CAData is the PEM encoded CA bundle used to verify the remote platform's serving certificate, for a platform behind a private CA. Empty means the system roots are used. Cannot be combined with InsecureSkipTLSVerify.",
+          "format": "byte",
+          "type": "string"
+        },
+        "host": {
+          "description": "Host is the URL of the remote vCluster Platform, e.g. https://platform.example.com.",
+          "type": "string"
+        },
+        "insecureSkipTLSVerify": {
+          "description": "InsecureSkipTLSVerify disables TLS certificate verification against the remote platform. Intended for development and test only.",
+          "type": "boolean"
+        },
+        "nodeProvider": {
+          "description": "NodeProvider is the name of the NodeProvider on the remote platform that provisions the machines.",
+          "type": "string"
+        },
+        "project": {
+          "description": "Project is the name of the project on the remote platform in which NodeClaims are created.",
+          "type": "string"
+        },
+        "secretRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NamespacedRef",
+          "description": "SecretRef references a Secret with the key \"accessKey\" holding an access key for the remote vCluster Platform. The access key must be allowed to manage NodeClaims in Project and to read the remote NodeProvider, its NodeTypes and its Machines."
+        }
+      },
+      "required": [
+        "host",
+        "secretRef",
+        "nodeProvider",
+        "project"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt": {
       "description": "NodeProviderKubeVirt defines the configuration for a KubeVirt node provider.",
       "properties": {
@@ -13601,6 +13642,10 @@
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
+        },
+        "externalPlatform": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderExternalPlatform",
+          "description": "ExternalPlatform configures a node provider that delegates to a NodeProvider on another vCluster Platform instance: machines are mirrored from there and NodeClaims are created there against the targeted provider."
         },
         "kubeVirt": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
