@@ -3102,7 +3102,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.Connector": {
-      "description": "Connector represents an integration connector of the platform (shared database, Argo CD, observability). It is a cluster-scoped virtual resource: it has no CRD of its own and is served straight from the connector Secret (labeled with loft.sh/connector-type) in the platform namespace, through the same translating client every other Secret-backed management kind uses. Watch is not served in v1: a watch request fails instead of hanging, so list and poll instead.\n\nRejection happens at write time only: create and update through this API validate the request, while a read never rejects, so pre-existing Secrets with missing optional fields still project. A read does re-run that validation, but only to report the outcome in status, so a malformed Secret is described rather than hidden. Writers that bypass this API and write the backing Secrets directly (the UI and platform controllers today) are trusted to keep the Secrets well-formed; this API does not defend against out-of-band malformed Secrets.\n\nStatus is read-only on the wire. Whatever a request carries is ignored: a create stores no status and an update keeps the stored object's. Status is assembled on every read, part of it computed from the stored payload and part of it unpacked from an annotation controllers publish on the backing Secret.\n\nMetadata is the backing Secret's. Labels and annotations are served and written as they are stored, as on every other management kind, with the exceptions each connector type declares. Projected keys become fields and are not served as metadata: the loft.sh/connector-type label is spec.type, the loft.sh/display-name annotation is spec.displayName. Server-owned keys are the platform's, never served, and a write that names one is refused: the status annotation controllers publish, unpacked into status. Withheld keys are never served: kubectl's last-applied-configuration annotation, because on a Secret written by hand it carries the whole manifest, credentials included. A write that sends a projected key disagreeing with the field it mirrors is refused. Labels the tenancy layer owns (tenant.vcluster.com/*) are that layer's, not this type's: an operator sees them and assigns a connector to a tenant by writing one, while a tenant never sees them and a tenant's write naming one is refused. Finalizers and ownerReferences round-trip. managedFields are served with this API's apiVersion. A label selector on loft.sh/connector-type still narrows a list to that type although the served object does not carry the label. Because the last-applied annotation is withheld, a client-side kubectl apply never finds it and reports a permanent diff: use server-side apply, imperative writes or full-replace updates.\n\nCredentials live in the type-specific payload sections of spec and are served only to a caller who could update this connector: one holding the update verb on it. Every other caller reads a redacted projection with the credential fields empty.\n\nTenancy in this release: a platform admin creates connectors and assigns one to a tenant through the tenancy layer's exclusive assignment. A tenant reads the connectors assigned to it, redacted, and cannot create, update or delete a connector; every other connector is not found. Tenant-authored connectors come later, without a change to this type.\n\nAn update through this API replaces the backing Secret from the request; nothing is read from the stored Secret to merge with. Passthrough labels and annotations, finalizers and ownerReferences round-trip because they are served and sent back. A credential the request leaves empty keeps its stored value, and the conditions controllers published are carried over from the stored object. What this API never serves does not survive an update: Data keys the connector type does not model, and the withheld annotations. The keys this API writes are the ones the platform's consumers of a connector read.\n\nThe verbs behave as the generic path serves every Secret-backed kind. A delete is by name, with no precondition on the object's UID, and is reported as completed even when a finalizer on the backing Secret holds the Secret back. NotFound, AlreadyExists and Conflict speak of connectors; an Invalid or Forbidden raised by the store itself is passed through as the store phrased it.",
+      "description": "Connector represents an integration connector of the platform (shared database, Argo CD, observability). It is a cluster-scoped virtual resource: it has no CRD of its own and is served straight from the connector Secret (labeled with loft.sh/connector-type) in the platform namespace, through the same translating client every other Secret-backed management kind uses. Watch is not served in v1: a watch request fails instead of hanging, so list and poll instead.\n\nRejection happens at write time only: create and update through this API validate the request, while a read never rejects, so pre-existing Secrets with missing optional fields still project. A read does re-run that validation, but only to report the outcome in status, so a malformed Secret is described rather than hidden. Writers that bypass this API and write the backing Secrets directly (the UI and platform controllers today) are trusted to keep the Secrets well-formed; this API does not defend against out-of-band malformed Secrets.\n\nStatus is read-only on the wire. Whatever a request carries is ignored: a create stores no status and an update keeps the stored object's. Status is assembled on every read, part of it computed from the stored payload and part of it unpacked from an annotation controllers publish on the backing Secret.\n\nMetadata is the backing Secret's. Labels and annotations are served and written as they are stored, as on every other management kind, with the exceptions each connector type declares. Projected keys become fields and are not served as metadata: the loft.sh/connector-type label is derived from the payload section, the loft.sh/display-name annotation is spec.displayName. Server-owned keys are the platform's, never served, and a write that names one is refused: the status annotation controllers publish, unpacked into status. Withheld keys are never served: kubectl's last-applied-configuration annotation, because on a Secret written by hand it carries the whole manifest, credentials included. A write that sends a projected key disagreeing with the field it mirrors is refused. Labels the tenancy layer owns (tenant.vcluster.com/*) are that layer's, not this type's: an operator sees them and assigns a connector to a tenant by writing one, while a tenant never sees them and a tenant's write naming one is refused. Finalizers and ownerReferences round-trip. managedFields are served with this API's apiVersion. A label selector on loft.sh/connector-type still narrows a list to that type although the served object does not carry the label. Because the last-applied annotation is withheld, a client-side kubectl apply never finds it and reports a permanent diff: use server-side apply, imperative writes or full-replace updates.\n\nCredentials live in the type-specific payload sections of spec and are served only to a caller who could update this connector: one holding the update verb on it. Every other caller reads a redacted projection with the credential fields empty.\n\nTenancy in this release: a platform admin creates connectors and assigns one to a tenant through the tenancy layer's exclusive assignment. A tenant reads the connectors assigned to it, redacted, and cannot create, update or delete a connector; every other connector is not found. Tenant-authored connectors come later, without a change to this type.\n\nAn update through this API replaces the backing Secret from the request; nothing is read from the stored Secret to merge with. Passthrough labels and annotations, finalizers and ownerReferences round-trip because they are served and sent back. A credential the request leaves empty keeps its stored value, and the conditions controllers published are carried over from the stored object. What this API never serves does not survive an update: Data keys the connector type does not model, and the withheld annotations. The keys this API writes are the ones the platform's consumers of a connector read.\n\nThe verbs behave as the generic path serves every Secret-backed kind. A delete is by name, with no precondition on the object's UID, and is reported as completed even when a finalizer on the backing Secret holds the Secret back. NotFound, AlreadyExists and Conflict speak of connectors; an Invalid or Forbidden raised by the store itself is passed through as the store phrased it.",
       "properties": {
         "apiVersion": {
           "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -3130,6 +3130,125 @@
           "version": "v1"
         }
       ]
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorArgoCDAkuitySpec": {
+      "description": "ConnectorArgoCDAkuitySpec configures an Akuity-managed Argo CD instance. The Argo CD API server fields apply as for a self-hosted instance, with the Akuity Platform fields on top.",
+      "properties": {
+        "agentSize": {
+          "description": "AgentSize is the resource allocation of the Akuity agent, an Akuity size name of the form CLUSTER_SIZE_<NAME> such as CLUSTER_SIZE_SMALL, CLUSTER_SIZE_MEDIUM or CLUSTER_SIZE_LARGE; the value is passed to Akuity as given, so any size Akuity accepts is valid here. Data key \"akuityAgentSize\". Empty leaves the sizing to the Akuity side (medium), like the UI.",
+          "type": "string"
+        },
+        "apiKeyId": {
+          "description": "APIKeyID is the Akuity API key ID. Data key \"akuityApiKeyId\". Required.",
+          "type": "string"
+        },
+        "apiKeySecret": {
+          "description": "APIKeySecret is the Akuity API key secret. Data key \"akuityApiKeySecret\". Required whenever no stored value exists: on create, and on an update that switches from selfHosted to akuity, since the live Secret of a self-hosted connector carries no Akuity keys. A credential (see ConnectorArgoCDSpec): an empty value on an update that stays akuity keeps the stored one.",
+          "type": "string"
+        },
+        "caData": {
+          "description": "CAData is the PEM-encoded CA bundle used to verify the Argo CD server's TLS certificate. Data key \"caData\".",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Insecure skips TLS verification when talking to the Argo CD server. Data key \"insecure\". Defaults to false and is always stamped explicitly (\"true\" or \"false\"), exactly like the UI writes it.",
+          "type": "boolean"
+        },
+        "instanceId": {
+          "description": "InstanceID is the Akuity-hosted Argo CD instance ID. Data key \"akuityInstanceId\". Required.",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace Argo CD runs in on the destination cluster. Data key \"namespace\". An empty namespace is defaulted to \"argocd\" on create only (the same default the UI pre-fills and consumers assume for Secrets without the key); on update an empty namespace removes the key, and reads fall back to the same default, so the effective namespace consumers use never changes.",
+          "type": "string"
+        },
+        "orgId": {
+          "description": "OrgID is the Akuity Platform organization ID. Data key \"akuityOrgId\". Required.",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password is the Argo CD password for basic authentication. Data key \"password\". Required whenever username is set and no stored password exists: on create, and on an update that switches from token to basic authentication, since setting the token had removed the stored password. A credential (see ConnectorArgoCDSpec): an empty password on an update that keeps basic authentication keeps the stored one, and setting token removes it (switching the authentication method, like the UI does).",
+          "type": "string"
+        },
+        "repoServerMemory": {
+          "description": "RepoServerMemory is an optional memory limit/request override for the argocd-repo-server of the Akuity agent, written as a number with an optional decimal part and an optional SI or binary suffix (k, M, G, T, P, E, Ki, Mi, Gi, Ti, Pi, Ei), for example \"512Mi\" or \"1Gi\". This is the shape the UI accepts; it is narrower than a full Kubernetes quantity, which also allows exponents such as 1e9 and the milli suffix. Data key \"akuityRepoServerMemory\".",
+          "type": "string"
+        },
+        "repoServerReplicas": {
+          "description": "RepoServerReplicas is an optional replica count override for the argocd-repo-server of the Akuity agent, a positive integer kept as a string exactly as stored in the Data key \"akuityRepoServerReplicas\".",
+          "type": "string"
+        },
+        "server": {
+          "description": "Server is the URL the Argo CD API server is reachable at; for akuity this is the Akuity-hosted Argo CD instance URL. Data key \"server\". Required, must be an http or https URL.",
+          "type": "string"
+        },
+        "token": {
+          "description": "Token is the Argo CD API token, the default authentication method. Data key \"token\". Required on create unless username and password are set. A credential (see ConnectorArgoCDSpec): an empty token on update keeps the stored one, and setting username/password removes it (switching the authentication method, like the UI does). Keeping is only valid while the stored connector holds a usable credential: a token, or a full username and password pair (half a pair does not count). A pre-existing Secret holding neither cannot be updated through this API, even on unrelated fields, until the request supplies a credential; the escape hatch is editing the backing Secret directly.",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username is the Argo CD username for basic authentication, used together with password as the alternative to token. Data key \"username\". Projected only when no token is stored, because the consumer authenticates with the token whenever one is present and a username beside it describes a method the connector does not use.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "server",
+        "orgId",
+        "instanceId",
+        "apiKeyId"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorArgoCDSelfHostedSpec": {
+      "description": "ConnectorArgoCDSelfHostedSpec configures a self-hosted Argo CD instance.",
+      "properties": {
+        "caData": {
+          "description": "CAData is the PEM-encoded CA bundle used to verify the Argo CD server's TLS certificate. Data key \"caData\".",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Insecure skips TLS verification when talking to the Argo CD server. Data key \"insecure\". Defaults to false and is always stamped explicitly (\"true\" or \"false\"), exactly like the UI writes it.",
+          "type": "boolean"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace Argo CD runs in on the destination cluster. Data key \"namespace\". An empty namespace is defaulted to \"argocd\" on create only (the same default the UI pre-fills and consumers assume for Secrets without the key); on update an empty namespace removes the key, and reads fall back to the same default, so the effective namespace consumers use never changes.",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password is the Argo CD password for basic authentication. Data key \"password\". Required whenever username is set and no stored password exists: on create, and on an update that switches from token to basic authentication, since setting the token had removed the stored password. A credential (see ConnectorArgoCDSpec): an empty password on an update that keeps basic authentication keeps the stored one, and setting token removes it (switching the authentication method, like the UI does).",
+          "type": "string"
+        },
+        "server": {
+          "description": "Server is the URL the Argo CD API server is reachable at; for akuity this is the Akuity-hosted Argo CD instance URL. Data key \"server\". Required, must be an http or https URL.",
+          "type": "string"
+        },
+        "token": {
+          "description": "Token is the Argo CD API token, the default authentication method. Data key \"token\". Required on create unless username and password are set. A credential (see ConnectorArgoCDSpec): an empty token on update keeps the stored one, and setting username/password removes it (switching the authentication method, like the UI does). Keeping is only valid while the stored connector holds a usable credential: a token, or a full username and password pair (half a pair does not count). A pre-existing Secret holding neither cannot be updated through this API, even on unrelated fields, until the request supplies a credential; the escape hatch is editing the backing Secret directly.",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username is the Argo CD username for basic authentication, used together with password as the alternative to token. Data key \"username\". Projected only when no token is stored, because the consumer authenticates with the token whenever one is present and a username beside it describes a method the connector does not use.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "server"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorArgoCDSpec": {
+      "description": "ConnectorArgoCDSpec configures a connection to an Argo CD instance used by the Argo CD integration. Exactly one of selfHosted or akuity must be set. The flavor is stored in the \"connectorType\" Data key of the backing Secret: \"akuity\" for akuity, and absent (or any other value, as on legacy Secrets) for selfHosted, exactly like the UI.\n\nEvery field maps to one Data key of the backing Secret (given in each field comment), so direct Secret writers and this API stay byte-compatible in both directions.\n\nThree fields are credentials under the Connector type's view rule: token, password and the Akuity apiKeySecret are served to a caller who could update this connector and empty for every other caller, and on update an empty value keeps the stored one, so a redacted read written back never clears a credential.",
+      "properties": {
+        "akuity": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorArgoCDAkuitySpec",
+          "description": "Akuity is an Argo CD instance managed by the Akuity Platform: cluster registration goes through Akuity's control plane API. Must be unset when selfHosted is set."
+        },
+        "selfHosted": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorArgoCDSelfHostedSpec",
+          "description": "SelfHosted is a self-hosted Argo CD instance reached directly at the server URL. Must be unset when akuity is set."
+        }
+      },
+      "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorList": {
       "properties": {
@@ -3175,7 +3294,7 @@
           "type": "string"
         },
         "dialect": {
-          "description": "Dialect is the database server dialect, mysql or postgres. Data key \"type\" (distinct from spec.type, the connector type). Required on every write: there is no server-side default and unknown values are rejected. Reads of a pre-existing Secret without the key still project mysql, matching how the read consumers treat such Secrets.",
+          "description": "Dialect is the database server dialect, mysql or postgres. Data key \"type\" (distinct from the connector type label). Required on every write: there is no server-side default and unknown values are rejected. Reads of a pre-existing Secret without the key still project mysql, matching how the read consumers treat such Secrets.",
           "type": "string"
         },
         "endpoint": {
@@ -3211,29 +3330,21 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorSpec": {
-      "description": "ConnectorSpec holds the specification",
+      "description": "ConnectorSpec holds the specification. Exactly one payload section must be set. The section determines the connector type, stamped to the loft.sh/connector-type label on create. The connector type is immutable after create.",
       "properties": {
+        "argoCd": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorArgoCDSpec",
+          "description": "ArgoCD is the argocd connector payload. Exactly one payload section must be set. Its fields mirror the Data keys of the backing Secret one to one, so a connector written through this API is byte-compatible with one written by the UI directly."
+        },
         "displayName": {
           "description": "DisplayName is the human-readable name shown in the UI. It is projected from and stamped to the loft.sh/display-name annotation on the backing Secret.",
           "type": "string"
         },
         "sharedDatabase": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorSharedDatabaseSpec",
-          "description": "SharedDatabase is the shared-database connector payload. It is required when type is shared-database and must be unset for every other type. Its fields mirror the Data keys of the backing Secret one to one, so a connector written through this API is byte-compatible with one written by the UI directly."
-        },
-        "type": {
-          "description": "Type is the connector type and selects which payload section below applies. Required: create rejects an empty or unknown type and update rejects a change, so the field is immutable after create. It is projected from and stamped to the loft.sh/connector-type label on the backing Secret. Required fields carry no omitempty, so a read always serializes them (as \"\" for a sparse pre-existing Secret) and the object stays valid against the published schema, which lists them as required.\n\nPossible enum values:\n - `\"argocd\"` connects the platform to an Argo CD (or Akuity) instance.\n - `\"observability\"` connects the platform to an observability stack.\n - `\"shared-database\"` connects the platform to a shared database server used to provision databases as tenant cluster backing stores.",
-          "enum": [
-            "argocd",
-            "observability",
-            "shared-database"
-          ],
-          "type": "string"
+          "description": "SharedDatabase is the shared-database connector payload. Exactly one payload section must be set. Its fields mirror the Data keys of the backing Secret one to one, so a connector written through this API is byte-compatible with one written by the UI directly."
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorStatus": {
