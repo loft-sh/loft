@@ -1,14 +1,22 @@
 # If agentOnly is true, will deploy only the agent
 agentOnly: false
 
-# If an admin user should be created during deployment
-# Any previously created admin user will not be deleted
-# when this is changed to false.
 admin:
+  # Create the admin user during the initial deployment and recreate it during platform startup
+  # if it is later missing. This also applies when env.DISABLE_DEFAULTS="true".
+  # To manually remove the admin user permanently, set create=false before deleting the User.
   create: true            # When set to false through a CLI override, the CLI must also include --no-login argument
   username: admin
+  # The admin login password. Changing this value updates the password after the platform
+  # restarts. Removing a custom override restores the chart default, "my-password", and
+  # updates the admin login password to that value after restart. A password changed through the
+  # UI or CLI remains intact while this value is unchanged.
   password: "my-password"
-  # Source the admin password from an existing Secret. Takes precedence over admin.password.
+  # Source the admin password from an existing Secret. This takes precedence over admin.password.
+  # A Helm upgrade that changes these settings rolls out the platform automatically. Changing only
+  # the password data in the referenced Secret does not trigger a rollout, so restart the platform
+  # deployment manually afterward. A password changed through the UI or CLI remains intact while
+  # the Secret password is unchanged.
   passwordSecretRef:
     name: ""
     key: password
