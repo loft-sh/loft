@@ -3250,6 +3250,61 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorImageStoreS3Spec": {
+      "description": "ConnectorImageStoreS3Spec is the S3 block of an os-image-store connector. Every field maps to one Data key of the backing Secret (given in each field comment), spelled exactly as pkg/osimage/store reads it.",
+      "properties": {
+        "accessKey": {
+          "description": "AccessKey is the access key ID of the static credentials. Data key \"accessKey\". Required. The credentials must be long-lived: a pre-signed URL is only valid as long as the credentials that signed it, and upload URLs live 24 hours.",
+          "type": "string"
+        },
+        "bucket": {
+          "description": "Bucket is the bucket image objects live in. Data key \"bucket\". Required.",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "Endpoint is the object store address, for example https://minio.example.com. Data key \"endpoint\". Optional: empty means AWS S3 itself, resolved from the region. When set it must be an http or https URL.",
+          "type": "string"
+        },
+        "forcePathStyle": {
+          "description": "ForcePathStyle addresses the bucket as a path (https://endpoint/bucket/key) instead of a virtual host (https://bucket.endpoint/key), which most self-hosted stores need. Data key \"forcePathStyle\", always stamped as \"true\" or \"false\"; a missing stored value projects as false, which is how the store loader reads it too.",
+          "type": "boolean"
+        },
+        "region": {
+          "description": "Region is the region SigV4 signs for. Data key \"region\". Required also for stores that ignore it, because the signature covers it and there is nothing to fall back to.",
+          "type": "string"
+        },
+        "secretKey": {
+          "description": "SecretKey is the secret access key of the static credentials. Data key \"secretKey\". Required on create. A credential (see the type comment): an empty value on update keeps the stored key, and a pre-existing Secret without a stored key cannot be updated through this API until the request supplies one.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bucket",
+        "region",
+        "accessKey"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorImageStoreSpec": {
+      "description": "ConnectorImageStoreSpec configures the object store the platform uploads OSImage bytes to and serves them from. An OSImage names the connector through spec.connectorRef and the platform mints pre-signed URLs from these credentials on the image's behalf: the client uploading the bytes and the node provider reading them only ever see a URL, never the keys. The Secret behind this payload is read by pkg/osimage/store, whose loader is the arbiter of the Data keys named in the field comments below.\n\nOne field is a credential under the Connector type's view rule: s3.secretKey is served to a caller who could update this connector and empty for every other caller, and on update an empty value keeps the stored one, so a redacted read written back never clears the key. The access key is not a credential in that sense: SigV4 puts it into every pre-signed URL as X-Amz-Credential, so withholding it would protect nothing.",
+      "properties": {
+        "protocol": {
+          "description": "Protocol selects the object store implementation and which block below applies. Required; only s3 is supported. It is not stored on the backing Secret because every os-image-store Secret currently describes an S3-compatible store.\n\nPossible enum values:\n - `\"s3\"` is an S3-compatible object store reached with SigV4 pre-signed URLs: AWS S3 itself, MinIO, Ceph RGW, SeaweedFS and the like.",
+          "enum": [
+            "s3"
+          ],
+          "type": "string"
+        },
+        "s3": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorImageStoreS3Spec",
+          "description": "S3 carries the settings of an S3-compatible store. Required when protocol is s3."
+        }
+      },
+      "required": [
+        "protocol"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorList": {
       "properties": {
         "apiVersion": {
@@ -3339,6 +3394,10 @@
         "displayName": {
           "description": "DisplayName is the human-readable name shown in the UI. It is projected from and stamped to the loft.sh/display-name annotation on the backing Secret.",
           "type": "string"
+        },
+        "imageStore": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorImageStoreSpec",
+          "description": "ImageStore is the os-image-store connector payload. Exactly one payload section must be set. The fields of its protocol block mirror the Data keys of the backing Secret one to one, so a connector written through this API is exactly what the OSImage store loader reads."
         },
         "sharedDatabase": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorSharedDatabaseSpec",
