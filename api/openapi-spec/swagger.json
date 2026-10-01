@@ -13702,6 +13702,10 @@
           "description": "Synced mirrors the child ArgoCD sync state. Set only for argoCDApplication tasks; empty for other task types.",
           "type": "boolean"
         },
+        "timeoutAt": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "TimeoutAt is when the stack fails the task if it is still progressing. Set only while the task is Progressing, and moved when the task starts a new wait, such as capturing its outputs."
+        },
         "type": {
           "description": "Type is the task's child kind (argoCDApplication or app). Empty on status objects written before this field existed.",
           "type": "string"
