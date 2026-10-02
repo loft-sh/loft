@@ -15090,6 +15090,20 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNICoSiteAccess": {
+      "description": "TenantNICoSiteAccess records the tenant's NICo site-access allocation.",
+      "properties": {
+        "allocationId": {
+          "description": "AllocationID is the NICo allocation ID.",
+          "type": "string"
+        },
+        "cidr": {
+          "description": "CIDR is the /32 CIDR derived from the allocation.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNICoStatus": {
       "description": "TenantNICoStatus reports the NICo tenant org materialized for a Tenant and the NICo provider it is bound to, and is set by the platform. A Tenant is bound to a single NICo provider, and so to a single NICo site.",
       "properties": {
@@ -15116,6 +15130,10 @@
         "providerOrg": {
           "description": "ProviderOrg is the NICo provider organization.",
           "type": "string"
+        },
+        "siteAccess": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNICoSiteAccess",
+          "description": "SiteAccess is the /32 allocation the tenant holds for NICo site access while it has no other allocation at the site."
         },
         "tenantAccountId": {
           "description": "TenantAccountID is the id of this Tenant's NICo TenantAccount.",
