@@ -13794,12 +13794,8 @@
           "description": "Org is the NICo organization used for provider-scoped API calls (the /v2/org/{org}/nico path) and stamped as the provider token's organization claim. Optional; defaults to \"vcluster-autonodes\".",
           "type": "string"
         },
-        "siteIPBlockCIDR": {
-          "description": "SiteIPBlockCIDR creates the NICo site-level parent IPBlock with this CIDR. Mutually exclusive with SiteIPBlockID.",
-          "type": "string"
-        },
         "siteIPBlockID": {
-          "description": "SiteIPBlockID adopts an existing NICo site-level parent IPBlock. Mutually exclusive with SiteIPBlockCIDR.",
+          "description": "SiteIPBlockID adopts an existing NICo site-level parent IPBlock.",
           "type": "string"
         },
         "siteId": {
