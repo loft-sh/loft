@@ -8889,6 +8889,10 @@
           },
           "type": "array"
         },
+        "connectors": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantConnectors",
+          "description": "Connectors governs the admin-owned connectors this tenant may read."
+        },
         "controlPlaneClusters": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantControlPlaneClusters",
           "description": "ControlPlaneClusters governs the Control Plane Clusters this tenant may target."
@@ -15032,6 +15036,33 @@
         "version": {
           "description": "Version holds the template version to use. Version is expected to be in semantic versioning format. Alternatively, you can also exchange major, minor or patch with an 'x' to tell Loft to automatically select the latest major, minor or patch version.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantConnectorAllow": {
+      "description": "TenantConnectorAllow selects the admin-owned connectors a tenant may read. A tenant cannot create a connector of its own, so there is no custom allowance.",
+      "properties": {
+        "byLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ByLabels selects admin-owned connectors carrying all of these labels. Only labels returned on connectors may be selected on: a label the API does not return, such as the connector type, is refused.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantConnectors": {
+      "description": "TenantConnectors governs the admin-owned connectors a tenant may read. A shared connector is read-only for the tenant and its credentials are redacted, because the tenant is not allowed to update it.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantConnectorAllow",
+          "description": "Allow selects the admin-owned connectors the tenant may read."
+        },
+        "enabled": {
+          "description": "Enabled gates the capability. False denies the tenant every connector, including one an operator assigned to it, and an operator cannot assign one to it; only true enables it. Default: disabled.",
+          "type": "boolean"
         }
       },
       "type": "object"
