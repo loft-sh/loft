@@ -1,0 +1,77 @@
+suite: rbac agent clusterrole test
+templates:
+  - templates/rbac/agent/clusterrole.yaml
+
+tests:
+  - it: does not generate a clusterrole with default values
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: does not generate a clusterrole with agentOnly set to true
+    set:
+      agentOnly: true
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: generates a clusterrole with agentOnly, leastPrivilegeMode.enabled and leastPrivilegeMode.clusterRole.enabled set to true
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        clusterRole:
+          enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: ClusterRole
+      - equal:
+          path: metadata.name
+          value: vcluster-platform-agent
+  - it: allows to override the clusterRole rules
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        clusterRole:
+          enabled: true
+          overwriteRules:
+            - apiGroups: [ "testgroup" ]
+              resources: [ "testresources" ]
+              verbs: [ "testverb" ]
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: ClusterRole
+      - equal:
+          path: rules
+          value:
+            - apiGroups: [ "testgroup" ]
+              resources: [ "testresources" ]
+              verbs: [ "testverb" ]
+  - it: allows adding extra rules
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        clusterRole:
+          enabled: true
+          extraRules:
+            - apiGroups: [ "extragroup" ]
+              resources: [ "extraresources" ]
+              verbs: [ "extreaverb" ]
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: ClusterRole
+      - contains:
+          path: rules
+          content:
+            apiGroups: [ "extragroup" ]
+            resources: [ "extraresources" ]
+            verbs: [ "extreaverb" ]
