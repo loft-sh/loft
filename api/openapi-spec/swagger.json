@@ -10433,7 +10433,7 @@
           "type": "boolean"
         },
         "kind": {
-          "description": "Kind of the template that is allowed. Currently only supports DevPodWorkspaceTemplate, VirtualClusterTemplate & SpaceTemplate",
+          "description": "Kind of the template that is allowed. Supports DevPodWorkspaceTemplate, VirtualClusterTemplate, SpaceTemplate and StackTemplate.",
           "type": "string"
         },
         "name": {
