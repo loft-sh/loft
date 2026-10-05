@@ -8962,7 +8962,7 @@
         },
         "nico": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.TenantNICoStatus",
-          "description": "NICo reports the NICo tenant org materialized for this Tenant, set once the Tenant opts into NICo via the nico.vcluster.com/org annotation."
+          "description": "NICo reports the NICo tenant org materialized for this Tenant, set once the Tenant is onboarded into NICo."
         }
       },
       "type": "object"
@@ -13819,7 +13819,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderNICo": {
-      "description": "NodeProviderNICo configures a node provider backed by the NVIDIA Infra Controller (NICo) REST API. Platform workloads use the provider org. Tenant workloads use the org from their Tenant's nico.vcluster.com/org annotation.",
+      "description": "NodeProviderNICo configures a node provider backed by the NVIDIA Infra Controller (NICo) REST API. Platform workloads use the provider org. Tenant workloads use an org named after their Tenant; the platform owns the tenant-org namespace of this NICo instance.",
       "properties": {
         "endpoint": {
           "description": "Endpoint is the base URL (scheme + host + optional port) of the NICo REST API. The /v2/org/{org}/nico path is appended by the client.",
