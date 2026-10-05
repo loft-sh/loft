@@ -5031,6 +5031,10 @@
           "description": "MachineRef is the name of a Machine from the provider's inventory to provision this claim on. Mutually exclusive with TypeRef: the machine is picked by identity, so there is no node type to schedule against and no node type capacity is consumed. Only providers that mirror an inventory support it.",
           "type": "string"
         },
+        "nestedInstances": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedInstances",
+          "description": "NestedInstances configures the instances that can be created on this Machine node claim."
+        },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.UserOrTeam",
           "description": "Owner holds the owner of this object"
@@ -13426,6 +13430,56 @@
         "reason": {
           "description": "Reason describes the reason in machine-readable form",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedInstances": {
+      "description": "NodeClaimNestedInstances configures the instances that can be created on this Machine node claim.",
+      "properties": {
+        "nodeTypes": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedNodeTypes",
+          "description": "NodeTypes configures the node types allowed to be created on this Machine node claim."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedNodeTypes": {
+      "description": "NodeClaimNestedNodeTypes configures the node types allowed to be created on this Machine node claim.",
+      "properties": {
+        "allow": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedNodeTypesAllow",
+          "description": "Allow narrows the node types the tenant may provision from. Omitted, every reserved NodeType of the claim's KubeVirt provider is allowed."
+        },
+        "quota": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedNodeTypesQuota",
+          "description": "Quota caps what the tenant may provision from those node types. Omitted, they are uncapped."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedNodeTypesAllow": {
+      "description": "NodeClaimNestedNodeTypesAllow selects the NodeTypes a tenant may provision from for this Machine node claim.",
+      "properties": {
+        "byName": {
+          "description": "ByName selects NodeTypes by their exact names. An Allow without names allows none.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeClaimNestedNodeTypesQuota": {
+      "description": "NodeClaimNestedNodeTypesQuota caps what a tenant may provision from the node types it is allowed on this Machine node claim.",
+      "properties": {
+        "byType": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "ByType caps how many instances the tenant may run of each NodeType, keyed by NodeType name (e.g. \"eu-west.medium\": \"5\"). Values are non-negative integer counts, the same encoding a Project's Quotas use and the same one pkg/quota's admission path parses for management resources such as nodeclaims. A NodeType without an entry is uncapped.",
+          "type": "object"
         }
       },
       "type": "object"
