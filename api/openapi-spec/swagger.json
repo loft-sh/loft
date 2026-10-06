@@ -3276,6 +3276,10 @@
         "secretKey": {
           "description": "SecretKey is the secret access key of the static credentials. Data key \"secretKey\". Required on create. A credential (see the type comment): an empty value on update keeps the stored key, and a pre-existing Secret without a stored key cannot be updated through this API until the request supplies one.",
           "type": "string"
+        },
+        "sessionToken": {
+          "description": "SessionToken is set only for temporary credentials. Data key \"sessionToken\". Optional; an empty value on update removes it. A credential (see the type comment). Pre-signed URLs expire with the session, so this is meant for short-lived use.",
+          "type": "string"
         }
       },
       "required": [
@@ -3286,7 +3290,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v4.pkg.apis.management.v1.ConnectorImageStoreSpec": {
-      "description": "ConnectorImageStoreSpec configures the object store the platform uploads OSImage bytes to and serves them from. An OSImage names the connector through spec.connectorRef and the platform mints pre-signed URLs from these credentials on the image's behalf: the client uploading the bytes and the node provider reading them only ever see a URL, never the keys. The Secret behind this payload is read by pkg/osimage/store, whose loader is the arbiter of the Data keys named in the field comments below.\n\nOne field is a credential under the Connector type's view rule: s3.secretKey is served to a caller who could update this connector and empty for every other caller, and on update an empty value keeps the stored one, so a redacted read written back never clears the key. The access key is not a credential in that sense: SigV4 puts it into every pre-signed URL as X-Amz-Credential, so withholding it would protect nothing.",
+      "description": "ConnectorImageStoreSpec configures the object store the platform uploads OSImage bytes to and serves them from. An OSImage names the connector through spec.connectorRef and the platform mints pre-signed URLs from these credentials on the image's behalf: the client uploading the bytes and the node provider reading them only ever see a URL, never the keys. The Secret behind this payload is read by pkg/osimage/store, whose loader is the arbiter of the Data keys named in the field comments below.\n\nTwo fields are credentials under the Connector type's view rule: s3.secretKey and s3.sessionToken are served to a caller who could update this connector and empty for every other caller. On update an empty secretKey keeps the stored one, so a redacted read written back never clears the key. The access key is not a credential in that sense: SigV4 puts it into every pre-signed URL as X-Amz-Credential, so withholding it would protect nothing.",
       "properties": {
         "protocol": {
           "description": "Protocol selects the object store implementation and which block below applies. Required; only s3 is supported. It is not stored on the backing Secret because every os-image-store Secret currently describes an S3-compatible store.\n\nPossible enum values:\n - `\"s3\"` is an S3-compatible object store reached with SigV4 pre-signed URLs: AWS S3 itself, MinIO, Ceph RGW, SeaweedFS and the like.",
