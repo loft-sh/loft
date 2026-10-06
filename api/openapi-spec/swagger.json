@@ -5466,6 +5466,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
         },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy is the NodeTypeSpec.MachineAllocationPolicy of this provider's node types that leave theirs empty, and the only one discovered (nico) node types can have.",
+          "type": "string"
+        },
         "metal3": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3",
           "description": "Metal3 configures a node provider using metal3.io BareMetalHost resources."
@@ -5599,6 +5603,10 @@
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
           "type": "string"
         },
         "overhead": {
@@ -12082,6 +12090,10 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
+          "type": "string"
+        },
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
           "description": "Metadata holds metadata to add to this managed NodeType."
@@ -12287,6 +12299,10 @@
         "infrastructureMachineTemplate": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
           "description": "InfrastructureMachineTemplate is a template for the infrastructure machine, e.g. AWSMachine"
+        },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
+          "type": "string"
         },
         "maxCapacity": {
           "description": "MaxCapacity is the maximum number of nodes that can be created for this NodeType.",
@@ -12745,6 +12761,10 @@
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
           "type": "string"
         },
         "maxCapacity": {
@@ -13206,6 +13226,10 @@
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
           "type": "string"
         },
         "metadata": {
@@ -13889,6 +13913,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderKubeVirt",
           "description": "Kubevirt configures a node provider using KubeVirt, enabling virtual machines to be provisioned as nodes within a vCluster."
         },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy is the NodeTypeSpec.MachineAllocationPolicy of this provider's node types that leave theirs empty, and the only one discovered (nico) node types can have.",
+          "type": "string"
+        },
         "metal3": {
           "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.NodeProviderMetal3",
           "description": "Metal3 configures a node provider using metal3.io BareMetalHost resources."
@@ -14024,6 +14052,10 @@
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
           "type": "string"
         },
         "overhead": {
@@ -15474,6 +15506,10 @@
         },
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "machineAllocationPolicy": {
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned (default) only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. Empty falls back to the provider's spec.machineAllocationPolicy.",
           "type": "string"
         },
         "maxCapacity": {
