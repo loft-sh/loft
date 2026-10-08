@@ -5960,6 +5960,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "ExpiresAt is the deadline of the current non-terminal phase, which the phase names. Cleared on Ready and Failed, and set again when a retry opens a new session."
         },
+        "observedSessionID": {
+          "description": "ObservedSessionID is the upload session the phase was decided for. Empty when it was decided before any session was opened.",
+          "type": "string"
+        },
         "phase": {
           "description": "Phase is where the image is in its upload lifecycle. Empty for an image that holds no bytes. The controller owns every transition; the upload endpoints only annotate.",
           "type": "string"
@@ -14252,6 +14256,10 @@
         "expiresAt": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "ExpiresAt is the deadline of the current non-terminal phase, which the phase names. Cleared on Ready and Failed, and set again when a retry opens a new session."
+        },
+        "observedSessionID": {
+          "description": "ObservedSessionID is the upload session the phase was decided for. Empty when it was decided before any session was opened.",
+          "type": "string"
         },
         "phase": {
           "description": "Phase is where the image is in its upload lifecycle. Empty for an image that holds no bytes. The controller owns every transition; the upload endpoints only annotate.",
