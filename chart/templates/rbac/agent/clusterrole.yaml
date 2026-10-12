@@ -96,6 +96,13 @@ rules:
     resources: [ "rolebindings" ]
     verbs: [ "create", "delete", "get", "list", "patch", "update", "watch" ]
 
+  # metal3 BMC access requirements. The agent also reads the BMC credentials Secret,
+  # which is granted by the secrets rules below (leastPrivilegeMode.secrets.enabled,
+  # default true); with those disabled, BMC access fails with an internal error.
+  - apiGroups: [ "metal3.io" ]
+    resources: [ "baremetalhosts" ]
+    verbs: [ "get" ]
+
 {{- if $lpmValues.secrets.enabled }}
   # global secrets / projects secrets management requirements
   - apiGroups: [ "" ]
