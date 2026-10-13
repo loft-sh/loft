@@ -3341,6 +3341,27 @@
         }
       ]
     },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorNetBoxSpec": {
+      "description": "ConnectorNetBoxSpec configures the connection to a NetBox instance the metal3 node provider reads its bare metal inventory from. Every field maps to one Data key of the backing Secret (given in each field comment), so a Secret written through this API is exactly what pkg/netbox reads: a NodeProvider names it through spec.metal3.netBox.secretRef with the connector's name and the platform namespace.\n\nOne field is a credential under the Connector type's view rule: apiToken is served to a caller who could update this connector and empty for every other caller, and on update an empty value keeps the stored one, so a redacted read written back never clears the token.",
+      "properties": {
+        "apiToken": {
+          "description": "APIToken is the NetBox API token requests are authenticated with. Data key \"apiToken\". Required on create. A credential (see the type comment): an empty value on update keeps the stored token, and a pre-existing Secret without a stored token cannot be updated through this API until the request supplies one. The token must be one created in the NetBox UI: NetBox rejects tokens obtained from its provisioning endpoint.",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Insecure skips TLS certificate verification of the NetBox URL. Data key \"insecure\", always stamped as \"true\" or \"false\" exactly like the UI writes it; a missing or unparsable stored value projects as false, which is how the NetBox client reads it too.",
+          "type": "boolean"
+        },
+        "url": {
+          "description": "URL is the base URL of the NetBox instance, for example https://netbox.example.com. Data key \"url\". Required, must be an http or https URL.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorObservabilitySpec": {
       "description": "ConnectorObservabilitySpec configures the connection to an observability stack: the Grafana instance the platform proxies under /grafana/ and the metrics backend the observability gateway writes to and queries from. Every field except fleetDefault maps to one Data key of the backing Secret (given in each field comment), so direct Secret writers and this API stay byte-compatible in both directions.\n\nThe four Grafana and metrics backend fields default on CREATE ONLY to the same in-cluster endpoints the UI pre-fills on create (the Prometheus and Grafana the platform ships), so a minimal create through this API produces the same Secret as an untouched UI create. Updates never default them. Only grafanaUrl is required afterwards: the metrics backend endpoints and the dashboard UID may be emptied, which leaves the gateway idle until they are set again, a state the platform tolerates and the UI form does not offer.\n\nobservabilityGatewayCertSecretName appears both here and in status.observability.gatewayCertSecretName. That is one stored value reported twice, not two: a single Data key backs both, so they can never disagree. It stays settable here because leaving it empty and bringing your own certificate are different requests, and it is reported in status so a consumer finds the stored name next to the other gateway observations instead of having to read spec for one of them.\n\nThis type has no credential fields: every Secret the connector refers to is named, not embedded, so the whole payload is served to every caller who may read it.",
       "properties": {
@@ -3487,6 +3508,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorArgoCDSpec",
           "description": "ArgoCD is the argocd connector payload. Exactly one payload section must be set. Its fields mirror the Data keys of the backing Secret one to one, so a connector written through this API is byte-compatible with one written by the UI directly."
         },
+        "description": {
+          "description": "Description is the free-text description shown in the UI. It is projected from and stamped to the loft.sh/description annotation on the backing Secret.",
+          "type": "string"
+        },
         "displayName": {
           "description": "DisplayName is the human-readable name shown in the UI. It is projected from and stamped to the loft.sh/display-name annotation on the backing Secret.",
           "type": "string"
@@ -3494,6 +3519,10 @@
         "imageStore": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorImageStoreSpec",
           "description": "ImageStore is the os-image-store connector payload. Exactly one payload section must be set. The fields of its protocol block mirror the Data keys of the backing Secret one to one, so a connector written through this API is exactly what the OSImage store loader reads."
+        },
+        "netBox": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorNetBoxSpec",
+          "description": "NetBox is the netbox connector payload. Exactly one payload section must be set. Its fields mirror the Data keys of the backing Secret one to one, so a connector written through this API is byte-compatible with one written by the UI directly."
         },
         "observability": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorObservabilitySpec",
