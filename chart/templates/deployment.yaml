@@ -238,6 +238,12 @@ spec:
         - name: TS_DEBUG_TLS_DIAL_INSECURE_SKIP_VERIFY
           value: "true"
         {{- end }}
+        {{- if not (or (hasKey .Values.env "POD_IP") (hasKey .Values.envValueFrom "POD_IP")) }}
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        {{- end }}
         {{- if not (hasKey .Values.env "LOFT_MANAGER_IMAGE") }}
         - name: LOFT_MANAGER_IMAGE
           value: {{ include "loft.image" . | quote }}

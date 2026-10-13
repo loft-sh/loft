@@ -1508,3 +1508,30 @@ tests:
             name: platform-logs
             mountPath: /var/log/vcluster-platform
             readOnly: true
+
+  - it: sets POD_IP from the downward API by default
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          count: 1
+
+  - it: does not duplicate POD_IP when envValueFrom sets it
+    set:
+      envValueFrom:
+        POD_IP:
+          fieldRef:
+            fieldPath: status.podIP
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          count: 1
