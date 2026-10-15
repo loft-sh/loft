@@ -13371,7 +13371,7 @@
       "properties": {
         "selector": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
-          "description": "Selector is a label selector to select the BareMetalHosts to use for this NodeType."
+          "description": "Deprecated: use machines.selector."
         }
       },
       "type": "object"
@@ -13408,7 +13408,7 @@
       "properties": {
         "bareMetalHosts": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metal3BareMetalHosts",
-          "description": "BareMetalHosts is a list of BareMetalHosts to use for this NodeType."
+          "description": "Deprecated: use machines.selector. Read only while machines.selector is unset."
         },
         "cost": {
           "description": "Cost is the instance cost. The higher the cost, the less likely it is to be selected. If empty, cost is automatically calculated from the resources specified.",
@@ -13422,6 +13422,10 @@
         "machineAllocationPolicy": {
           "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. For kubevirt, Assigned runs the VMs on the tenant's machines provisioned for VMs and OnDemand on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
+        },
+        "machines": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeMachines",
+          "description": "Machines selects the provider's Machines this NodeType draws from."
         },
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
@@ -14219,6 +14223,16 @@
         "total",
         "claimed"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeMachines": {
+      "description": "NodeTypeMachines selects the machines a node type draws from.",
+      "properties": {
+        "selector": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
+          "description": "Selector is matched against the labels of this provider's Machines. A Machine carries its BareMetalHost's labels except platform keys and the labels set on the Machine itself. Unset or empty selects every Machine of the provider."
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeOverhead": {
