@@ -28,12 +28,29 @@ Default image name for a given product
 {{- end -}}
 
 {{/*
+Resolve the default image tag for the vCluster Platform image.
+Head/dev charts are published with a sentinel version of "0.0.0-latest" or
+"0.0.0-<sha>", but the matching platform image exists only under the rolling
+"head" tag, never under the chart version. So the sentinel resolves to "head"
+while real releases (and the bare "0.0.0" source default) pass through
+unchanged. Only loft-sh/vcluster-platform publishes a "head" tag, so callers
+must scope this to that repository.
+*/}}
+{{- define "loft.platformImageTag" -}}
+{{- if hasPrefix "0.0.0-" .Chart.Version -}}head{{- else -}}{{ .Chart.Version }}{{- end -}}
+{{- end -}}
+
+{{/*
 Populate image ref for a given product
 */}}
 {{- define "loft.imageRef" -}}
 {{- $registry := default "ghcr.io" .Values.imageRef.registry -}}
 {{- $repository := coalesce .Values.imageRef.repository .repo "loft-sh/vcluster-platform" -}}
-{{- $tag := default .Chart.Version .Values.imageRef.tag -}}
+{{- $defaultTag := .Chart.Version -}}
+{{- if eq $repository "loft-sh/vcluster-platform" -}}
+{{- $defaultTag = include "loft.platformImageTag" . -}}
+{{- end -}}
+{{- $tag := default $defaultTag .Values.imageRef.tag -}}
 {{- printf "%s/%s:%s" $registry $repository $tag -}}
 {{- end -}}
 
@@ -43,7 +60,7 @@ Populate image ref for a given product
 	  {{- if .Values.imageRef -}}
 	    {{ include "loft.imageRef" $ }}
 	  {{- else -}}
-		{{- printf "ghcr.io/loft-sh/vcluster-platform:%s" .Chart.Version -}}
+		{{- printf "ghcr.io/loft-sh/vcluster-platform:%s" (include "loft.platformImageTag" .) -}}
 	  {{- end -}}
     {{- else -}}
 	  {{- if .Values.imageRef -}}

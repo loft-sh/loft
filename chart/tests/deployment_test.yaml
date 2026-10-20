@@ -1535,3 +1535,76 @@ tests:
               fieldRef:
                 fieldPath: status.podIP
           count: 1
+
+  - it: Head chart sentinel "0.0.0-latest" resolves the vcluster-platform image to the "head" tag
+    chart:
+      version: 0.0.0-latest
+    set:
+      product: vcluster-pro
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:head"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: "LOFT_MANAGER_IMAGE"
+            value: "ghcr.io/loft-sh/vcluster-platform:head"
+          count: 1
+
+  - it: Per-commit head chart sentinel "0.0.0-<sha>" resolves the vcluster-platform image to the "head" tag
+    chart:
+      version: 0.0.0-abc1234
+    set:
+      product: vcluster-pro
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:head"
+
+  - it: Head chart sentinel resolves to "head" when imageRef is set without an explicit tag
+    chart:
+      version: 0.0.0-latest
+    set:
+      product: vcluster-pro
+      imageRef:
+        registry: ghcr.io
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:head"
+
+  - it: Explicit imageRef.tag overrides the head sentinel mapping
+    chart:
+      version: 0.0.0-latest
+    set:
+      product: vcluster-pro
+      imageRef:
+        tag: "1.2.3"
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:1.2.3"
+
+  - it: Head sentinel mapping does not apply to the loft-sh/loft image
+    chart:
+      version: 0.0.0-latest
+    set:
+      imageRef:
+        registry: ghcr.io
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/loft:0.0.0-latest"
+
+  - it: Real release version is not mapped to the head tag
+    chart:
+      version: 4.10.0
+    set:
+      product: vcluster-pro
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: "ghcr.io/loft-sh/vcluster-platform:4.10.0"
