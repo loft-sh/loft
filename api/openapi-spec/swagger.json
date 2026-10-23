@@ -15396,7 +15396,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.TenantConnectorAllow": {
-      "description": "TenantConnectorAllow selects the admin-owned connectors a tenant may read. A tenant cannot create a connector of its own, so there is no custom allowance.",
+      "description": "TenantConnectorAllow selects the admin-owned connectors a tenant may read, by ByName or ByLabels. A tenant cannot create a connector of its own, so there is no custom allowance.\n\nByName and a non-empty ByLabels may not both be set: a connector that is both named and labelled would be served twice. To grant a set plus one more connector, label it and widen ByLabels.\n\nAn empty ByLabels is not an unset one: byLabels: {} matches every admin-owned connector, so beside ByName it admits all of them and ByName is ignored. Leave ByLabels absent to grant by name.",
       "properties": {
         "byLabels": {
           "additionalProperties": {
@@ -15404,6 +15404,13 @@
           },
           "description": "ByLabels selects admin-owned connectors carrying all of these labels. Only labels returned on connectors may be selected on: a label the API does not return, such as the connector type, is refused.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
           "type": "object"
+        },
+        "byName": {
+          "description": "ByName selects admin-owned connectors by their exact names. There is no wildcard.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -15423,7 +15430,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.TenantControlPlaneClusterAllow": {
-      "description": "TenantControlPlaneClusterAllow selects the admin-owned Control Plane Clusters a tenant may target. A tenant cannot register a Control Plane Cluster of its own, so there is no custom allowance.",
+      "description": "TenantControlPlaneClusterAllow selects the admin-owned Control Plane Clusters a tenant may target, by ByName or ByLabels. A tenant cannot register a Control Plane Cluster of its own, so there is no custom allowance.\n\nByName and a non-empty ByLabels may not both be set: a cluster that is both named and labelled would be served twice. To grant a set plus one more cluster, label it and widen ByLabels.\n\nAn empty ByLabels is not an unset one: byLabels: {} matches every admin-owned Control Plane Cluster, so beside ByName it admits all of them and ByName is ignored. Leave ByLabels absent to grant by name.",
       "properties": {
         "byLabels": {
           "additionalProperties": {
@@ -15431,6 +15438,13 @@
           },
           "description": "ByLabels selects Control Plane Clusters carrying all of these labels.\n\nAn empty map and an absent one are deliberately different, which is why this field carries no omitempty. An empty conjunction is vacuously true, so byLabels: {} matches every admin-owned instance; absent or null matches none. With omitempty the two forms both serialize to nothing and the distinction dies on the first round trip, which is why it has to be stated here rather than inferred from emptiness on Allow. ByName gets no equivalent treatment: an empty enumeration reads as \"nothing\" to everyone, and only a conjunction has the vacuous-truth property that makes empty mean everything.",
           "type": "object"
+        },
+        "byName": {
+          "description": "ByName selects admin-owned Control Plane Clusters by their exact names. There is no wildcard.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "type": "object"
