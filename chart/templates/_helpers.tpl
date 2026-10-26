@@ -68,7 +68,7 @@ Populate audit image ref
 {{- define "loft.auditImageRef" -}}
 {{- $registry := default "docker.io" .Values.audit.imageRef.registry -}}
 {{- $repository := default "library/alpine" .Values.audit.imageRef.repository -}}
-{{- $tag := default "3.13.1" .Values.audit.imageRef.tag -}}
+{{- $tag := default "3.24.3" .Values.audit.imageRef.tag -}}
 {{- printf "%s/%s:%s" $registry $repository $tag -}}
 {{- end -}}
 
@@ -76,7 +76,7 @@ Populate audit image ref
   {{- if .Values.audit.imageRef -}}
     {{ include "loft.auditImageRef" . }}
   {{- else -}}
-    {{ default "library/alpine:3.13.1" .Values.audit.image }}
+    {{ default "library/alpine:3.24.3" .Values.audit.image }}
   {{- end -}}
 {{- end -}}
 
