@@ -154,12 +154,12 @@ persistence:
 # Additional options for audit logging
 audit:
   enableSideCar: false
-  image: library/alpine:3.13.1
+  image: library/alpine:3.24.3
   # Default audit image ref. Default values are:
 # imageRef:
 #   registry: docker.io
 #   repository: library/alpine
-#   tag: 3.13.1
+#   tag: 3.24.3
   # Deprecated, use persistence instead
   persistence:
     enabled: false
