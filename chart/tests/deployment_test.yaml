@@ -473,7 +473,7 @@ tests:
           count: 1
       - equal:
           path: spec.template.spec.containers[1].image
-          value: "library/alpine:3.13.1"
+          value: "library/alpine:3.24.3"
 
   - it: Setting image overwrites default
     set:
@@ -688,7 +688,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[1].image
-          value: "example.com/library/alpine:3.13.1"
+          value: "example.com/library/alpine:3.24.3"
 
   - it: Setting only audit.imageRef.tag uses defaults for registry and repository
     set:
@@ -710,7 +710,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[1].image
-          value: "docker.io/custom/busybox:3.13.1"
+          value: "docker.io/custom/busybox:3.24.3"
 
   - it: Setting product to vcluster-pro with imageRef takes precedence over image
     set:
