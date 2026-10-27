@@ -7600,6 +7600,10 @@
           "description": "ChatAuthToken is the token used to authenticate with the in-product chat widget in the UI",
           "type": "string"
         },
+        "externalClustersAllowed": {
+          "description": "ExternalClustersAllowed reports whether the described subject's tenant allows importing externally deployed clusters: its tenant's setting, or true outside any tenant. It does not account for RBAC: registering a cluster still needs create on registervirtualclusters. Unset if it could not be determined.",
+          "type": "boolean"
+        },
         "groups": {
           "description": "The groups of the currently logged in user",
           "items": {
@@ -9057,6 +9061,10 @@
         "displayName": {
           "description": "DisplayName is the name that should be displayed in the UI.",
           "type": "string"
+        },
+        "externalClusters": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.TenantExternalClusters",
+          "description": "ExternalClusters governs whether this tenant's users may import externally deployed clusters, that is, clusters deployed outside the platform that register themselves with it afterwards."
         },
         "nodeTypes": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.TenantNodeTypes",
@@ -15468,6 +15476,16 @@
       "properties": {
         "enabled": {
           "description": "Enabled controls whether the tenant may author its own instances. False denies it; only true allows it. Default: disabled, which is also what omitting the whole Custom block means, so the two agree rather than a present-but-empty Custom quietly granting what an absent one withholds.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.TenantExternalClusters": {
+      "description": "TenantExternalClusters holds a tenant's external cluster import setting.",
+      "properties": {
+        "enabled": {
+          "description": "Enabled lets the tenant's users register new externally deployed clusters into its projects. While it is off, clusters already imported keep re-registering, and operators registering into the tenant's projects are never refused. Default: disabled.",
           "type": "boolean"
         }
       },
