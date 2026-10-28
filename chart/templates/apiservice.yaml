@@ -1,6 +1,9 @@
+{{- $isEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
+
 {{- if .Values.apiservice }}
 {{- if .Values.apiservice.create }}
 {{- if not .Values.agentOnly }}
+{{- if not $isEmbedded }}
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
@@ -33,6 +36,7 @@ spec:
   selector:
     app: {{ template "loft.fullname" . }}
     release: {{ .Release.Name }}
+{{- end }}
 ---
 {{- end }}
 apiVersion: v1
