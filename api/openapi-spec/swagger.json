@@ -4023,6 +4023,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.MicroTime",
           "description": "Time the request reached current audit stage."
         },
+        "tenant": {
+          "description": "Tenant is the tenant recorded for the request when it was stored. Empty for operator requests and events stored before tenant recording.",
+          "type": "string"
+        },
         "user": {
           "$ref": "#/definitions/io.k8s.api.authentication.v1.UserInfo",
           "description": "Authenticated user information."
