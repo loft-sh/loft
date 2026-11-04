@@ -4701,6 +4701,10 @@
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHardware",
           "description": "Hardware is the machine's discovered hardware inventory."
         },
+        "hostValidation": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationStatus",
+          "description": "HostValidation records the checks the platform ran on the machine, which the HostValidated condition was decided from. The inventory sync keeps it, as the provider knows nothing of it, but a machine the sync recreates because its identity changed starts without it."
+        },
         "lastSyncTime": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "LastSyncTime is when this state was last confirmed against the provider."
@@ -5788,6 +5792,10 @@
         "terraform": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderTerraform",
           "description": "Terraform configures a node provider using Terraform, enabling nodes to be provisioned using Terraform."
+        },
+        "validation": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidation",
+          "description": "Validation names where this provider's machines are burned in before they are used. Without it the machines are used as they come."
         }
       },
       "type": "object"
@@ -13344,6 +13352,204 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationGroupResult": {
+      "description": "MachineHostValidationGroupResult is the result of one group of a profile, and names the BMC it was read from.",
+      "properties": {
+        "name": {
+          "description": "Name is the group's name in the profile.",
+          "type": "string"
+        },
+        "serial": {
+          "description": "Serial is the serial number the read was routed by. A group result exists only for a group the controller tried to read, and the serial it routed by is known before it sends anything, so this is always set. A machine with no serial at all cannot be routed to and fails the whole profile as ReadFailed with no group results.",
+          "type": "string"
+        },
+        "settings": {
+          "description": "Settings holds one result per setting of the group.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationSettingResult"
+          },
+          "type": "array"
+        },
+        "target": {
+          "description": "Target is the component whose BMC was read.\n\nPossible enum values:\n - `\"Host\"` is the machine's own BMC, routed by status.hardware.serial.",
+          "enum": [
+            "Host"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "target",
+        "serial"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationProfileResult": {
+      "description": "MachineHostValidationProfileResult is what one host validation profile decided for a machine.",
+      "properties": {
+        "message": {
+          "description": "Message says what the result means, naming the first setting that did not match and both of its values, or what went wrong with the read.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the host validation profile this result is for.",
+          "type": "string"
+        },
+        "outOfBand": {
+          "description": "OutOfBand mirrors the profile's out-of-band groups, one result each.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationGroupResult"
+          },
+          "type": "array"
+        },
+        "result": {
+          "description": "Result is the profile's result.\n\nPossible enum values:\n - `\"Matched\"` means every setting has the value the profile requires.\n - `\"Mismatched\"` means a setting has another value, or the BMC does not report it at all. The host is at fault, so it is not read again on its own: an admin fixes the setting and asks for a re-check.\n - `\"ReadFailed\"` means the proxy or the BMC returned an error, or the BMC reported another serial number. The setup is at fault, not the host. The controller reads again on its own.\n - `\"Reading\"` means the check was requested and has not finished. A result left at Reading by a restart is checked again.\n - `\"RebootRequired\"` means every setting that differs already has the required value staged, so the machine matches the profile once it reboots. The platform never reboots a machine, NICo or an admin does. The controller reads again on its own.\n - `\"Unsupported\"` means nothing can read this machine's settings: its node provider is not NICo, or it has no BMC proxy endpoint. The setup is at fault, not the host, and only a change to the node provider clears it.",
+          "enum": [
+            "Matched",
+            "Mismatched",
+            "ReadFailed",
+            "Reading",
+            "RebootRequired",
+            "Unsupported"
+          ],
+          "type": "string"
+        },
+        "specHash": {
+          "description": "SpecHash is the hash of the profile's spec this result was decided for. A profile that changed since reads differently from one that did not, without the result itself being touched before the next check.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "result"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationSettingResult": {
+      "description": "MachineHostValidationSettingResult is what one setting of a group read as.",
+      "properties": {
+        "current": {
+          "description": "Current is the value the BMC reports, rendered as a string. Empty when the attribute is missing or nothing was read.",
+          "type": "string"
+        },
+        "expected": {
+          "description": "Expected is the value the profile requires.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the setting's name in the profile.",
+          "type": "string"
+        },
+        "result": {
+          "description": "Result is the setting's result.\n\nPossible enum values:\n - `\"Matched\"` means the BMC reports the value the profile requires.\n - `\"Mismatched\"` means the BMC reports another value and has none staged, so the setting stays as it is until an admin changes it.\n - `\"Missing\"` means the BMC does not report the setting's attribute at all, which usually means the profile describes another class of hardware.\n - `\"Staged\"` means the BMC reports another value and the required one staged in the resource's settings object, which takes effect at the next reboot.",
+          "enum": [
+            "Matched",
+            "Mismatched",
+            "Missing",
+            "Staged"
+          ],
+          "type": "string"
+        },
+        "staged": {
+          "description": "Staged is the value the BMC holds for the next reboot, from the Redfish settings object of the resource the attribute lives in. Empty when the BMC stages nothing for it.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "expected",
+        "result"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationStatus": {
+      "description": "MachineHostValidationStatus holds the results of a machine's validation: the in-band attempt, which runs a workload on the machine, and the last check against its host validation profiles, which reads its BMC without running anything on it.",
+      "properties": {
+        "inBand": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineInBandValidationStatus",
+          "description": "InBand is the machine's last in-band attempt, which runs the tests of its NodeProvider's validation tier on it. It gates assigning the machine to a tenant and using it for an instance."
+        },
+        "profiles": {
+          "description": "Profiles holds one result per host validation profile the machine was checked against. A profile added to a node type after this check has no entry, and does not count as matched. They gate picking the machine for a node type.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationProfileResult"
+          },
+          "type": "array"
+        },
+        "readTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "ReadTime is when the settings behind the profile results were read. The retry of a RebootRequired or ReadFailed profile counts from it."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineInBandValidationStatus": {
+      "description": "MachineInBandValidationStatus is a machine's in-band attempt.",
+      "properties": {
+        "attemptID": {
+          "description": "AttemptID identifies the attempt. The Certifications and Jobs of any other attempt are ignored.",
+          "type": "string"
+        },
+        "clusterUID": {
+          "description": "ClusterUID is the UID of the validation tenant cluster the attempt ran in.",
+          "type": "string"
+        },
+        "finishTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "FinishTime is when the attempt ended, unset while it runs."
+        },
+        "leavingSince": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "LeavingSince is when the platform started taking the machine out of the validation cluster for a tenant that assigned or reserved it. Unset once its validation NodeClaim is gone."
+        },
+        "message": {
+          "description": "Message says what the attempt is doing, or why it ended as it did.",
+          "type": "string"
+        },
+        "nodeName": {
+          "description": "NodeName is the node the machine joined the validation cluster as.",
+          "type": "string"
+        },
+        "rejoin": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationRejoin",
+          "description": "Rejoin tracks putting a machine that passed back into the validation cluster after it was released. A rejoin runs no tests."
+        },
+        "result": {
+          "description": "Result is where the attempt stands. Only Passed lets the machine be assigned to a tenant or used for an instance on a provider with a validation tier.\n\nPossible enum values:\n - `\"JoinFailed\"` is when the validation NodeClaim failed or the node did not join before the join deadline.\n - `\"Joining\"` is while the validation NodeClaim exists and its node has not joined the validation cluster.\n - `\"Passed\"` is once every test passed.\n - `\"Running\"` is while a test's Certification or Job runs on the node.\n - `\"SetupFailed\"` is when the tests could not run: the suite is missing or not understood, the Certification kind is not served in the validation cluster, a test's image cannot be pulled, a Certification failed without recording the node, the setup deadline passed, or a test pod was lost without an exit code.\n - `\"Starting\"` is once the node joined and before the first test runs.\n - `\"TestFailed\"` is when a test failed on the node: its Certification failed and recorded the node, or its Job exited non-zero or ran past its timeout. The message is the reason recorded for the node, or the last line the Job printed.",
+          "enum": [
+            "JoinFailed",
+            "Joining",
+            "Passed",
+            "Running",
+            "SetupFailed",
+            "Starting",
+            "TestFailed"
+          ],
+          "type": "string"
+        },
+        "startTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "StartTime is when the attempt started."
+        },
+        "suiteHash": {
+          "description": "SuiteHash is the hash of the test suite the attempt ran. A changed suite does not invalidate a pass, so this says which suite a pass was for.",
+          "type": "string"
+        },
+        "tests": {
+          "description": "Tests holds the result of each test the attempt reached, in suite order.",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationTestResult"
+          },
+          "type": "array"
+        },
+        "tier": {
+          "description": "Tier is the validation tier the attempt ran for.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineNetwork": {
       "description": "MachineNetwork is the machine's network runtime state.",
       "properties": {
@@ -13446,6 +13652,85 @@
           "description": "Network is the machine's network runtime state."
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationArtifact": {
+      "description": "MachineValidationArtifact is a file a validation test produced.",
+      "properties": {
+        "data": {
+          "description": "Data is the artifact compressed with gzip, base64 encoded in JSON.",
+          "format": "byte",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type is the media type of Data once decompressed, one of the MachineValidationArtifactType constants.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationRejoin": {
+      "description": "MachineValidationRejoin is the state of a machine's rejoin to the validation cluster.",
+      "properties": {
+        "lastError": {
+          "description": "LastError is why the last rejoin failed.",
+          "type": "string"
+        },
+        "lastFailureTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "LastFailureTime is when the last rejoin failed. The next one waits for a backoff from it."
+        },
+        "startTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "StartTime is when the running rejoin started, unset while none runs."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationTestResult": {
+      "description": "MachineValidationTestResult is the result of one test of a validation attempt.",
+      "properties": {
+        "finishTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "FinishTime is when the test's result was recorded, unset while it runs."
+        },
+        "kind": {
+          "description": "Kind is what the test ran as in the validation cluster, Certification or Job.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Message is what the test found: the reason a failed Certification recorded for the node, or the last line a Job printed.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the test's name in the suite.",
+          "type": "string"
+        },
+        "objectName": {
+          "description": "ObjectName is the test's Certification or Job, in the namespace of the suite. It is cleared once the object is deleted, a day after the attempt finished.",
+          "type": "string"
+        },
+        "report": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationArtifact",
+          "description": "Report is the test's report, recorded with its result: a Certification's NCRE report, or how a Job's containers ended with the end of their logs. It stays after the Certification or Job is deleted."
+        },
+        "result": {
+          "description": "Result is Running, Passed or Failed.",
+          "type": "string"
+        },
+        "startTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "StartTime is when the test's Certification or Job was created."
+        }
+      },
+      "required": [
+        "name",
+        "result"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.Maintainer": {
@@ -14519,6 +14804,10 @@
         "terraform": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderTerraform",
           "description": "Terraform configures a node provider using Terraform, enabling nodes to be provisioned using Terraform."
+        },
+        "validation": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidation",
+          "description": "Validation names where this provider's machines are burned in before they are used. Without it the machines are used as they come."
         }
       },
       "type": "object"
@@ -14566,6 +14855,64 @@
           "type": "array"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidation": {
+      "description": "NodeProviderValidation configures the validation tiers of a NodeProvider. A tier is a point in a machine's lifecycle where it is validated.",
+      "properties": {
+        "preIngestion": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationTier",
+          "description": "PreIngestion validates a machine before it is first assigned to a tenant or used for an instance."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationTier": {
+      "description": "NodeProviderValidationTier names the validation tenant cluster a tier joins machines to, and what a machine is provisioned with to join it.",
+      "properties": {
+        "networkEnvironmentRef": {
+          "description": "NetworkEnvironmentRef is the NetworkEnvironment of this provider a machine joins the validation cluster in, for a provider that needs one.",
+          "type": "string"
+        },
+        "osImageRef": {
+          "description": "OSImageRef is the OSImage a machine is provisioned with to join the validation cluster. It has to match the GPU driver deployed there.",
+          "type": "string"
+        },
+        "suiteConfigMapName": {
+          "description": "SuiteConfigMapName is the ConfigMap in the validation cluster that holds the suite, the tests a machine runs there. Defaults to \"pre-ingestion-validation\".",
+          "type": "string"
+        },
+        "suiteConfigMapNamespace": {
+          "description": "SuiteConfigMapNamespace is the namespace of the suite's ConfigMap in the validation cluster. The tests run in it too. Defaults to \"vcluster-platform\".",
+          "type": "string"
+        },
+        "virtualClusterRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationVirtualClusterRef",
+          "description": "VirtualClusterRef is the validation tenant cluster. It has to use private nodes and live in a project no tenant owns."
+        }
+      },
+      "required": [
+        "virtualClusterRef",
+        "osImageRef"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationVirtualClusterRef": {
+      "description": "NodeProviderValidationVirtualClusterRef references a tenant cluster by name and project.",
+      "properties": {
+        "name": {
+          "description": "Name is the name of the tenant cluster.",
+          "type": "string"
+        },
+        "project": {
+          "description": "Project is the project the tenant cluster lives in.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "project"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeType": {
