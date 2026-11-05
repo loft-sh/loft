@@ -15,10 +15,10 @@ spec:
   ports:
     - name: https-webhook
       port: 443
-      targetPort: 9443
+      targetPort: https-webhook
       protocol: TCP
   selector:
-    app: {{ template "loft.fullname" . }}
+    app: {{ include "loft.apiServerBackendApp" . }}
     release: {{ .Release.Name }}
 {{- end }}
 {{- end }}

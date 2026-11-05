@@ -1,0 +1,94 @@
+suite: Services the Kubernetes API server connects to
+templates:
+  - apiservice.yaml
+  - webhook.yaml
+
+tests:
+  - it: selects the platform pod by default
+    release:
+      name: loft
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: selects the proxy pod when the host network proxy is enabled
+    release:
+      name: loft
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft-hostnetwork-proxy
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: targets the named container ports
+    template: apiservice.yaml
+    asserts:
+      - equal:
+          path: spec.ports[0].targetPort
+          value: apiservice
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice
+      - equal:
+          path: spec.ports[0].targetPort
+          value: agent-apisvc
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice-agent
+
+  - it: targets the named webhook container port
+    template: webhook.yaml
+    asserts:
+      - equal:
+          path: spec.ports[0].targetPort
+          value: https-webhook
+
+  - it: keeps selecting the platform pod when the host network proxy is enabled in embedded mode
+    release:
+      name: loft
+    set:
+      hostNetworkProxy:
+        enabled: true
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: selects the platform pod when the hostNetworkProxy values are missing, as after a --reuse-values upgrade
+    release:
+      name: loft
+    set:
+      hostNetworkProxy: null
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
