@@ -1,0 +1,34 @@
+suite: gcpMarketplace Application test
+templates:
+  - templates/application.yaml
+
+tests:
+  - it: does not panic if gcpMarketplace is null and does not render the application
+    set:
+      gcpMarketplace: null
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: does not panic if gcpMarketplace is not set
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders application if gcpMarketplace.enabled is true
+    set:
+      gcpMarketplace:
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: Application
+
+  - it: does not render application if gcpMarketplace.enabled is false
+    set:
+      gcpMarketplace:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
