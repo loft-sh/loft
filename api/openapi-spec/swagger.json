@@ -14284,6 +14284,10 @@
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderMetal3": {
       "properties": {
+        "aviz": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderMetal3Aviz",
+          "description": "Aviz attaches BareMetalHosts to an Aviz fabric tenant on provisioning."
+        },
         "clusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderClusterRef",
           "description": "ClusterRef is a reference to connected control plane cluster in which KubeVirt operator is running"
@@ -14311,6 +14315,18 @@
           "type": "array"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderMetal3Aviz": {
+      "properties": {
+        "secretRef": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NamespacedRef",
+          "description": "SecretRef references a Secret with keys url, username and password for the Aviz API."
+        }
+      },
+      "required": [
+        "secretRef"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderMetal3NetBox": {
