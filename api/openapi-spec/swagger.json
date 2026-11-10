@@ -16019,7 +16019,7 @@
           "type": "array"
         },
         "fetchInterval": {
-          "description": "FetchInterval is the interval to use for refetching the git repository. Defaults to 5m. Refetching only checks for remote changes but does not do a complete repull.",
+          "description": "FetchInterval is the interval to use for refetching the git repository. Defaults to 1m. Refetching only checks for remote changes but does not do a complete repull.",
           "type": "string"
         },
         "repository": {
