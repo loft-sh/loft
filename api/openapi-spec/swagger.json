@@ -13306,6 +13306,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "FinishTime is when the attempt ended, unset while it runs."
         },
+        "joinTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "JoinTime is when the attempt's node joined the validation cluster. The setup of the first test counts from it. Unset while the node joins, and for an attempt that started on a node the machine already had there."
+        },
         "leavingSince": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "LeavingSince is when the platform started taking the machine out of the validation cluster for a tenant that assigned or reserved it. Unset once its validation NodeClaim is gone."
@@ -14664,6 +14668,10 @@
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationTier": {
       "description": "NodeProviderValidationTier names the validation tenant cluster a tier joins machines to, and what a machine is provisioned with to join it.",
       "properties": {
+        "joinTimeout": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
+          "description": "JoinTimeout is how long a machine has to join the validation cluster once the platform starts joining it. Defaults to 1h."
+        },
         "networkEnvironmentRef": {
           "description": "NetworkEnvironmentRef is the NetworkEnvironment of this provider a machine joins the validation cluster in, for a provider that needs one.",
           "type": "string"
@@ -14672,6 +14680,10 @@
           "description": "OSImageRef is the OSImage a machine is provisioned with to join the validation cluster. It has to match the GPU driver deployed there.",
           "type": "string"
         },
+        "setupTimeout": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
+          "description": "SetupTimeout is how long the platform keeps trying to set up each test of the suite before it fails the attempt as SetupFailed: from the start of the attempt for the first test, and from the end of the test before it for a later one. How long a test may run is the suite's, set in the test itself. Defaults to 45m."
+        },
         "suiteConfigMapName": {
           "description": "SuiteConfigMapName is the ConfigMap in the validation cluster that holds the suite, the tests a machine runs there. Defaults to \"pre-ingestion-validation\".",
           "type": "string"
@@ -14679,6 +14691,10 @@
         "suiteConfigMapNamespace": {
           "description": "SuiteConfigMapNamespace is the namespace of the suite's ConfigMap in the validation cluster. The tests run in it too. Defaults to \"vcluster-platform\".",
           "type": "string"
+        },
+        "testPollInterval": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
+          "description": "TestPollInterval is how often the platform checks a running test for its result. A suite whose tests run for hours can be checked less often. Defaults to 1m."
         },
         "virtualClusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationVirtualClusterRef",
