@@ -5331,7 +5331,7 @@
         },
         "dynamic": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodePoolDynamic",
-          "description": "Dynamic hands the pool to Karpenter inside the cluster, which creates nodes for the pods that need them, removes the ones it can consolidate and replaces drifted ones within the disruption budgets. The cluster has to run a vCluster version that reads node pools from the platform. Mutually exclusive with Static."
+          "description": "Dynamic hands the pool to Karpenter inside the cluster, which creates nodes for the pods that need them, removes the ones it can consolidate and replaces drifted ones within the disruption budgets. Mutually exclusive with Static."
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.UserOrTeam",
@@ -5346,7 +5346,7 @@
           "description": "Template is what every node of the pool is built from."
         },
         "vClusterRef": {
-          "description": "VClusterRef is the name of the cluster in this namespace the pool's nodes join. It cannot be changed.",
+          "description": "VClusterRef is the name of the cluster in this namespace the pool's nodes join. The cluster has to run a vCluster version that takes node pools from the platform. It cannot be changed.",
           "type": "string"
         }
       },
