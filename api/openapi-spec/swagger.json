@@ -4328,18 +4328,9 @@
         "nodeClaimData": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeClaimData"
         },
-        "nodeProviderBCMGetResourcesResult": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMGetResourcesResult"
-        },
-        "nodeProviderBCMNodeWithResources": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMNodeWithResources",
-          "description": "autoscaling"
-        },
-        "nodeProviderBCMTestConnectionResult": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMTestConnectionResult"
-        },
         "nodeProviderCalculateCostResult": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderCalculateCostResult"
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderCalculateCostResult",
+          "description": "autoscaling"
         },
         "nodeProviderExecResult": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderExecResult"
@@ -5557,77 +5548,6 @@
         }
       ]
     },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMGetResourcesResult": {
-      "properties": {
-        "nodeGroups": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMNodeGroup"
-          },
-          "type": "array"
-        },
-        "nodes": {
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMNodeWithResources"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "nodes",
-        "nodeGroups"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMNodeGroup": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "nodes": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "name",
-        "nodes"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMNodeWithResources": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "resources": {
-          "additionalProperties": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderBCMTestConnectionResult": {
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "success": {
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "success",
-        "message"
-      ],
-      "type": "object"
-    },
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderCalculateCostResult": {
       "properties": {
         "cost": {
@@ -5744,12 +5664,8 @@
       ]
     },
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.NodeProviderSpec": {
-      "description": "NodeProviderSpec defines the desired state of NodeProvider. Only one of the provider types (Pods, BCM, Kubevirt) should be specified at a time.",
+      "description": "NodeProviderSpec defines the desired state of NodeProvider. Exactly one provider type must be set.",
       "properties": {
-        "bcm": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderBCM",
-          "description": "BCM configures a node provider for BCM Bare Metal Cloud environments."
-        },
         "clusterAPI": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderClusterAPI",
           "description": "ClusterAPI configures a node provider using Cluster API, enabling nodes to be provisioned using Cluster API. This requires the vCluster to be deployed with Cluster API as well."
@@ -12397,71 +12313,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.BCMNodeTypeSpec": {
-      "properties": {
-        "cost": {
-          "description": "Cost is the instance cost. The higher the cost, the less likely it is to be selected. If empty, cost is automatically calculated from the resources specified.",
-          "format": "int64",
-          "type": "integer"
-        },
-        "displayName": {
-          "description": "DisplayName is the name that should be displayed in the UI",
-          "type": "string"
-        },
-        "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
-          "description": "Metadata holds metadata to add to this managed NodeType."
-        },
-        "name": {
-          "description": "Name is the name of this node type.",
-          "type": "string"
-        },
-        "nodeGroups": {
-          "description": "NodeGroups is the name of the node groups to use for this provider.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "nodes": {
-          "description": "Nodes specifies nodes.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "overhead": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeOverhead",
-          "description": "Overhead defines the resource overhead for this node type."
-        },
-        "properties": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Properties returns a flexible set of properties that may be selected for scheduling.",
-          "type": "object"
-        },
-        "providerRef": {
-          "description": "ProviderRef is the node provider to use for this node type.",
-          "type": "string"
-        },
-        "resources": {
-          "additionalProperties": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
-          },
-          "description": "Resources lists the full resources for a single node.",
-          "type": "object"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "type": "object"
-    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.Bash": {
       "properties": {
         "clusterRole": {
@@ -14148,31 +13999,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderBCM": {
-      "description": "NodeProviderBCMSpec defines the configuration for a BCM node provider.",
-      "properties": {
-        "endpoint": {
-          "description": "Endpoint is an address for head node.",
-          "type": "string"
-        },
-        "nodeTypes": {
-          "description": "NodeTypes define NodeTypes that should be automatically created for this provider.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.BCMNodeTypeSpec"
-          },
-          "type": "array"
-        },
-        "secretRef": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NamespacedRef",
-          "description": "SecretRef is a reference to secret with keys for BCM auth."
-        }
-      },
-      "required": [
-        "secretRef",
-        "endpoint"
-      ],
-      "type": "object"
-    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderClusterAPI": {
       "properties": {
         "bootstrapConfigTemplate": {
@@ -14447,12 +14273,8 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderSpec": {
-      "description": "NodeProviderSpec defines the desired state of NodeProvider. Only one of the provider types (Pods, BCM, Kubevirt) should be specified at a time.",
+      "description": "NodeProviderSpec defines the desired state of NodeProvider. Exactly one provider type must be set.",
       "properties": {
-        "bcm": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderBCM",
-          "description": "BCM configures a node provider for BCM Bare Metal Cloud environments."
-        },
         "clusterAPI": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderClusterAPI",
           "description": "ClusterAPI configures a node provider using Cluster API, enabling nodes to be provisioned using Cluster API. This requires the vCluster to be deployed with Cluster API as well."
