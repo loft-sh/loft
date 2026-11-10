@@ -3535,6 +3535,10 @@
         "sharedDatabase": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorSharedDatabaseSpec",
           "description": "SharedDatabase is the shared-database connector payload. Exactly one payload section must be set. Its fields mirror the Data keys of the backing Secret one to one, so a connector written through this API is byte-compatible with one written by the UI directly."
+        },
+        "storage": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorStorageSpec",
+          "description": "Storage is the storage connector payload: how the platform reaches a storage system it provisions storage volume on. Exactly one payload section must be set. The fields of its vendor block mirror the Data keys of the backing Secret one to one, so a connector written through this API is exactly what the storage volume controller reads."
         }
       },
       "type": "object"
@@ -3554,6 +3558,60 @@
           "description": "Observability holds the observations that only the observability connector type has and is set only when spec.type is observability. Its fields are what the gateway controller reports, not a copy of the spec: the endpoint, CA and certificate facts exist nowhere in the configuration. The other two types have no type-specific facts in v1 and therefore have no status section of their own."
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorStorageSpec": {
+      "description": "ConnectorStorageSpec configures the storage system StorageProfiles provision storage volume on. A StorageProfile names the connector through spec.connectorRef and the storage volume controller logs in with these credentials to create vendor tenants, identities and volumes.\n\nOne field is a credential under the Connector type's view rule: weka.password is served to a caller who could update this connector and empty for every other caller, and on update an empty value keeps the stored one, so a redacted read written back never clears the password.",
+      "properties": {
+        "provider": {
+          "description": "Provider selects the storage system and which block below applies. Required; only weka is supported. Data key \"provider\".\n\nPossible enum values:\n - `\"weka\"` is a WEKA cluster reached through its REST API v2 (Tenancy 2.0).",
+          "enum": [
+            "weka"
+          ],
+          "type": "string"
+        },
+        "weka": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorStorageWekaSpec",
+          "description": "Weka carries the settings of a WEKA cluster. Required when provider is weka."
+        }
+      },
+      "required": [
+        "provider"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.ConnectorStorageWekaSpec": {
+      "description": "ConnectorStorageWekaSpec is the weka block of a storage connector. Every field maps to one Data key of the backing Secret (given in each field comment).",
+      "properties": {
+        "caData": {
+          "description": "CAData is the PEM bundle that verifies the management endpoints. Data key \"caData\".",
+          "type": "string"
+        },
+        "endpoints": {
+          "description": "Endpoints are the management URLs of the cluster's backends, https://host:14000, comma separated; two or more give the platform a failover. Data key \"endpoints\". Required.",
+          "type": "string"
+        },
+        "insecureSkipTLSVerify": {
+          "description": "InsecureSkipTLSVerify accepts a management certificate the platform cannot verify, as a lab with a self-signed certificate needs. Data key \"insecureSkipTLSVerify\", always stamped as \"true\" or \"false\".",
+          "type": "boolean"
+        },
+        "password": {
+          "description": "Password is its password. Data key \"password\". Required on create. A credential (see the type comment): an empty value on update keeps the stored one.",
+          "type": "string"
+        },
+        "tenantPrefix": {
+          "description": "TenantPrefix is prepended to platform tenant names on the WEKA side, so several platforms can share one cluster. Data key \"tenantPrefix\".",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username is the ClusterAdmin identity the platform logs in with. Data key \"username\". Required.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "endpoints",
+        "username"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.ConvertVirtualClusterConfig": {
@@ -8607,6 +8665,428 @@
       "required": [
         "certificates"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount": {
+      "description": "StorageAccount holds one tenant's presence on one storage system.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccountSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccountStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccountList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StorageAccountList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccountSpec": {
+      "description": "StorageAccountSpec defines spec of a storage account.",
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "connectorRef": {
+          "description": "ConnectorRef names the storage Connector (loft.sh/connector-type: storage) the tenant lives on. Immutable. A platform tenant has at most one StorageAccount per connector.",
+          "type": "string"
+        },
+        "deletionPolicy": {
+          "description": "DeletionPolicy says whether deleting the StorageAccount deletes the vendor tenant (Delete, the default) or leaves it in place (Retain). A tenant the platform imported is never deleted.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "import": {
+          "description": "Import adopts a vendor tenant that exists already instead of creating one. Its administrative identity has to be in the credentials Secret already.",
+          "type": "boolean"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "profile": {
+          "description": "Profile names the StorageProfile whose tenant-level documents seed Weka at creation when Weka is empty. Informational afterwards.",
+          "type": "string"
+        },
+        "weka": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaTenantSection",
+          "description": "Weka is this tenant's copy of the tenant-level WEKA documents, filled from the profile when the StorageAccount is created and editable per customer from then on."
+        }
+      },
+      "required": [
+        "connectorRef"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccountStatus": {
+      "properties": {
+        "applied": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Applied is an informational copy of the tenant document last written, platform-owned keys included except credentials. The controller diffs spec changes against the record in the credentials Secret, never against this field."
+        },
+        "conditions": {
+          "description": "Conditions holds several conditions the tenant might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v5.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "credentialsSecret": {
+          "description": "CredentialsSecret names the Secret in the platform namespace that holds the administrative, CSI and mount identities of the vendor tenant.",
+          "type": "string"
+        },
+        "identities": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountIdentities",
+          "description": "Identities are the usernames the platform minted; the passwords stay in the Secret."
+        },
+        "message": {
+          "description": "Message is a human readable message for the phase.",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the lifecycle phase.",
+          "type": "string"
+        },
+        "provider": {
+          "description": "Provider is the vendor behind the connector.",
+          "type": "string"
+        },
+        "quota": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountQuota",
+          "description": "Quota is the reservation the platform keeps on the vendor tenant."
+        },
+        "reason": {
+          "description": "Reason is a machine readable reason for the phase.",
+          "type": "string"
+        },
+        "tenant": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountVendor",
+          "description": "Tenant identifies the vendor tenant."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile": {
+      "description": "StorageProfile holds a tier of storage volume.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfileSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfileStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfileList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StorageProfileList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfileSpec": {
+      "description": "StorageProfileSpec defines spec of a storage profile.",
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "connectorRef": {
+          "description": "ConnectorRef names the storage Connector (loft.sh/connector-type: storage) the tier is provisioned on. Immutable.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "protocols": {
+          "description": "Protocols is how tenants reach the tier's data: posix (the vendor's native file client), nfs, smb, s3 or block, one or several for the same data. WEKA serves posix today.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "weka": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaStorageSection",
+          "description": "Weka is the WEKA object model for this tier. Set when the connector's provider is weka."
+        }
+      },
+      "required": [
+        "connectorRef"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfileStatus": {
+      "properties": {
+        "conditions": {
+          "description": "Conditions holds several conditions the profile might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v5.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume": {
+      "description": "StorageVolume holds storage of one tier assigned to one tenant.",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolumeSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolumeStatus"
+        }
+      },
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolumeList": {
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object",
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "management.loft.sh",
+          "kind": "StorageVolumeList",
+          "version": "v1"
+        }
+      ]
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolumeSpec": {
+      "description": "StorageVolumeSpec defines spec of a storage volume.",
+      "properties": {
+        "access": {
+          "description": "Access holds the access rights for users and teams",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Access"
+          },
+          "type": "array"
+        },
+        "displayName": {
+          "description": "DisplayName is the name that should be displayed in the UI",
+          "type": "string"
+        },
+        "import": {
+          "description": "Import adopts a volume that exists already instead of creating it, and creates the tenant's StorageAccount in import mode when it does not exist yet. The platform never deletes what it did not create.",
+          "type": "boolean"
+        },
+        "owner": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.UserOrTeam",
+          "description": "Owner holds the owner of this object"
+        },
+        "profile": {
+          "description": "Profile names the StorageProfile the storage is created from. Immutable.",
+          "type": "string"
+        },
+        "size": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity",
+          "description": "Size is the capacity of the volume. Growing it grows the vendor quota first and the volume after; shrinking is passed to the vendor, which refuses it when used data does not fit."
+        },
+        "weka": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaVolumeSection",
+          "description": "Weka is this storage's copy of the profile's volume-level WEKA documents, filled from the profile when the storage is created and editable per customer from then on, so a profile change only affects storages created after it. Empty means the profile's documents apply. Tenant-level documents live on the tenant's StorageAccount."
+        }
+      },
+      "required": [
+        "profile",
+        "size"
+      ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolumeStatus": {
+      "properties": {
+        "applied": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageVolumeApplied",
+          "description": "Applied holds the volume document last written, so a change in the spec can be diffed against what the vendor has."
+        },
+        "capacity": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageVolumeCapacity",
+          "description": "Capacity is the last observed size, used and available capacity of the volume."
+        },
+        "conditions": {
+          "description": "Conditions holds several conditions the storage might be in",
+          "items": {
+            "$ref": "#/definitions/com.github.loft-sh.agentapi.v5.pkg.apis.loft.storage.v1.Condition"
+          },
+          "type": "array"
+        },
+        "connectorRef": {
+          "description": "ConnectorRef is the connector the storage was provisioned on, resolved from the profile.",
+          "type": "string"
+        },
+        "credentialsSecret": {
+          "description": "CredentialsSecret names the Secret in the platform namespace that holds the vendor tenant's administrative, CSI and mount identities. It belongs to the StorageAccount and is shared by the StorageVolumes of one tenant on one storage system.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Message is a human readable message for the phase.",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Phase is the lifecycle phase.",
+          "type": "string"
+        },
+        "provider": {
+          "description": "Provider is the vendor behind the storage, resolved from the profile's connector.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason is a machine readable reason for the phase.",
+          "type": "string"
+        },
+        "storageAccount": {
+          "description": "StorageAccount names the StorageAccount that owns the vendor tenant and identities the storage lives in.",
+          "type": "string"
+        },
+        "volume": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageVolumeVendor",
+          "description": "Volume identifies the vendor-side objects that back the storage."
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.SubjectAccessReview": {
@@ -15775,6 +16255,108 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountIdentities": {
+      "description": "StorageAccountIdentities are the usernames of the identities the platform minted.",
+      "properties": {
+        "admin": {
+          "description": "Admin is the vendor tenant's administrative identity, which the platform operates with.",
+          "type": "string"
+        },
+        "csi": {
+          "description": "CSI is the identity tenant clusters mount with.",
+          "type": "string"
+        },
+        "mount": {
+          "description": "Mount is the identity machines mount with.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountQuota": {
+      "description": "StorageAccountQuota is the reservation the platform keeps on the vendor tenant.",
+      "properties": {
+        "reserved": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity",
+          "description": "Reserved is the sum of the sizes of the tenant's StorageVolumes on this connector, the value written to the vendor's quota keys."
+        },
+        "storages": {
+          "description": "Storages is how many StorageVolumes the sum covers.",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountVendor": {
+      "description": "StorageAccountVendor identifies the vendor tenant behind a StorageAccount.",
+      "properties": {
+        "createdByPlatform": {
+          "description": "CreatedByPlatform is false for an imported tenant, which the platform never deletes.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Name is the vendor-side tenant name.",
+          "type": "string"
+        },
+        "uid": {
+          "description": "UID is the vendor-side tenant identifier.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageVolumeApplied": {
+      "description": "StorageVolumeApplied holds the vendor document last written.",
+      "properties": {
+        "volume": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Volume is the volume document as written, platform-owned keys included."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageVolumeCapacity": {
+      "description": "StorageVolumeCapacity is the observed capacity of a volume.",
+      "properties": {
+        "available": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+        },
+        "size": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+        },
+        "used": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageVolumeVendor": {
+      "description": "StorageVolumeVendor identifies the vendor objects behind a StorageVolume.",
+      "properties": {
+        "createdByPlatform": {
+          "description": "CreatedByPlatform is false for an imported volume, which the platform never deletes.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Name is the vendor-side volume name, a filesystem on WEKA.",
+          "type": "string"
+        },
+        "tenant": {
+          "description": "Tenant is the vendor-side tenant name.",
+          "type": "string"
+        },
+        "tenantUID": {
+          "description": "TenantUID is the vendor-side tenant identifier.",
+          "type": "string"
+        },
+        "uid": {
+          "description": "UID is the vendor-side volume identifier.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StreamContainer": {
       "properties": {
         "container": {
@@ -16703,6 +17285,81 @@
         "version": {
           "description": "Version is the version. Needs to be in X.X.X format.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaStorageMount": {
+      "description": "WekaStorageMount configures the mounts of machines.",
+      "properties": {
+        "options": {
+          "description": "Options are passed to mount -o, for example net=udp for a host without DPDK. They only matter for the first mount on a host without a running client container.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "skipAgentInstall": {
+          "description": "SkipAgentInstall leaves a machine without the WEKA agent alone instead of installing it from a backend, for images that ship the client.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaStorageSection": {
+      "description": "WekaStorageSection is WEKA's object model as YAML, as a profile carries it. Each document is sent as the JSON body of the matching create call after the platform fills the keys it owns (names, sizes and credentials); unknown keys pass through untouched. Capacity keys may use the templates \"{{ .storage.size }}\" (the StorageVolume size) and \"{{ .tenant.size }}\" (the sum of the tenant's StorageVolume sizes) and may be written with units, which WEKA parses itself. At creation the tenant-level documents are copied into the tenant's StorageAccount and the volume-level ones into the StorageVolume.",
+      "properties": {
+        "csiUser": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "CSIUser is the body of POST /users for the identity tenant clusters mount with, minus username and password. The role defaults to CSI."
+        },
+        "filesystem": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Filesystem is the body of POST /fileSystems minus name."
+        },
+        "mount": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaStorageMount",
+          "description": "Mount configures the wekafs mounts machines perform at boot. Platform side, not sent to WEKA."
+        },
+        "mountUser": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "MountUser is the body of POST /users for the identity machines mount with, minus username and password. The role defaults to Regular, which a mount token needs."
+        },
+        "tenant": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Tenant is the body of POST /tenants minus name, username and password."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaTenantSection": {
+      "description": "WekaTenantSection holds the documents that describe the vendor tenant and its identities, one set per platform tenant on a WEKA cluster.",
+      "properties": {
+        "csiUser": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "CSIUser is the body of POST /users for the identity tenant clusters mount with, minus username and password. The role defaults to CSI."
+        },
+        "mountUser": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "MountUser is the body of POST /users for the identity machines mount with, minus username and password. The role defaults to Regular, which a mount token needs."
+        },
+        "tenant": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Tenant is the body of POST /tenants minus name, username and password."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaVolumeSection": {
+      "description": "WekaVolumeSection holds the documents that describe one volume, a filesystem on WEKA.",
+      "properties": {
+        "filesystem": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension",
+          "description": "Filesystem is the body of POST /fileSystems minus name."
+        },
+        "mount": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.WekaStorageMount",
+          "description": "Mount configures the wekafs mounts machines perform at boot. Platform side, not sent to WEKA."
         }
       },
       "type": "object"
@@ -39426,6 +40083,1737 @@
         }
       }
     },
+    "/apis/management.loft.sh/v1/storageaccounts": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of StorageAccount",
+        "operationId": "deleteManagementLoftShV1CollectionStorageAccount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind StorageAccount",
+        "operationId": "listManagementLoftShV1StorageAccount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccountList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a StorageAccount",
+        "operationId": "createManagementLoftShV1StorageAccount",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storageaccounts/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a StorageAccount",
+        "operationId": "deleteManagementLoftShV1StorageAccount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified StorageAccount",
+        "operationId": "readManagementLoftShV1StorageAccount",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the StorageAccount",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified StorageAccount",
+        "operationId": "patchManagementLoftShV1StorageAccount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified StorageAccount",
+        "operationId": "replaceManagementLoftShV1StorageAccount",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storageaccounts/{name}/status": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read status of the specified StorageAccount",
+        "operationId": "readManagementLoftShV1StorageAccountStatus",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the StorageAccount",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update status of the specified StorageAccount",
+        "operationId": "patchManagementLoftShV1StorageAccountStatus",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace status of the specified StorageAccount",
+        "operationId": "replaceManagementLoftShV1StorageAccountStatus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageAccount"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storageprofiles": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of StorageProfile",
+        "operationId": "deleteManagementLoftShV1CollectionStorageProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind StorageProfile",
+        "operationId": "listManagementLoftShV1StorageProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfileList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a StorageProfile",
+        "operationId": "createManagementLoftShV1StorageProfile",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storageprofiles/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a StorageProfile",
+        "operationId": "deleteManagementLoftShV1StorageProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified StorageProfile",
+        "operationId": "readManagementLoftShV1StorageProfile",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the StorageProfile",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified StorageProfile",
+        "operationId": "patchManagementLoftShV1StorageProfile",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified StorageProfile",
+        "operationId": "replaceManagementLoftShV1StorageProfile",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageProfile"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storagevolumes": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete collection of StorageVolume",
+        "operationId": "deleteManagementLoftShV1CollectionStorageVolume",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "list or watch objects of kind StorageVolume",
+        "operationId": "listManagementLoftShV1StorageVolume",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/shardSelector-Kgyki_3_"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolumeList"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "post": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "create a StorageVolume",
+        "operationId": "createManagementLoftShV1StorageVolume",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storagevolumes/{name}": {
+      "delete": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "delete a StorageVolume",
+        "operationId": "deleteManagementLoftShV1StorageVolume",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read the specified StorageVolume",
+        "operationId": "readManagementLoftShV1StorageVolume",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the StorageVolume",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update the specified StorageVolume",
+        "operationId": "patchManagementLoftShV1StorageVolume",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace the specified StorageVolume",
+        "operationId": "replaceManagementLoftShV1StorageVolume",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      }
+    },
+    "/apis/management.loft.sh/v1/storagevolumes/{name}/status": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "read status of the specified StorageVolume",
+        "operationId": "readManagementLoftShV1StorageVolumeStatus",
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "description": "name of the StorageVolume",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ],
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "description": "partially update status of the specified StorageVolume",
+        "operationId": "patchManagementLoftShV1StorageVolumeStatus",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "replace status of the specified StorageVolume",
+        "operationId": "replaceManagementLoftShV1StorageVolumeStatus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          {
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "in": "query",
+            "name": "dryRun",
+            "type": "string",
+            "uniqueItems": true
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "in": "query",
+            "name": "fieldValidation",
+            "type": "string",
+            "uniqueItems": true
+          }
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.StorageVolume"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      }
+    },
     "/apis/management.loft.sh/v1/subjectaccessreviews": {
       "parameters": [
         {
@@ -46798,6 +49186,462 @@
         },
         {
           "description": "name of the StackTemplate",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/storageaccounts": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of StorageAccount. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1StorageAccountList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/storageaccounts/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind StorageAccount. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1StorageAccount",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageAccount",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the StorageAccount",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/storageprofiles": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of StorageProfile. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1StorageProfileList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/storageprofiles/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind StorageProfile. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1StorageProfile",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageProfile",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the StorageProfile",
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "uniqueItems": true
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/storagevolumes": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch individual changes to a list of StorageVolume. deprecated: use the 'watch' parameter with a list operation instead.",
+        "operationId": "watchManagementLoftShV1StorageVolumeList",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/shardSelector-Kgyki_3_"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/management.loft.sh/v1/watch/storagevolumes/{name}": {
+      "get": {
+        "consumes": [
+          "*/*"
+        ],
+        "description": "watch changes to an object of kind StorageVolume. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "operationId": "watchManagementLoftShV1StorageVolume",
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/json;stream=watch"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "managementLoftSh_v1"
+        ],
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "management.loft.sh",
+          "kind": "StorageVolume",
+          "version": "v1"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "description": "name of the StorageVolume",
           "in": "path",
           "name": "name",
           "required": true,
