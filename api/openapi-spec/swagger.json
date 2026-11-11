@@ -7096,10 +7096,6 @@
           },
           "type": "array"
         },
-        "argoCD": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoIntegrationSpec",
-          "description": "ArgoIntegration holds information about ArgoCD Integration"
-        },
         "defaultNodeProfile": {
           "description": "DefaultNodeProfile is the default NodeProfile applied to nodes in this project when none is selected explicitly. It is overridden by the vCluster-level privateNodes.defaultProfile and by per-node/per-pool selection, and is validated against allowedNodeProfiles.",
           "type": "string"
@@ -12188,195 +12184,6 @@
         },
         "target": {
           "description": "Target of the tenant cluster",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoIntegrationSpec": {
-      "properties": {
-        "cluster": {
-          "description": "Cluster defines the name of the cluster that ArgoCD is deployed into -- if not provided this will default to 'loft-cluster'.",
-          "type": "string"
-        },
-        "enabled": {
-          "description": "Enabled indicates if the ArgoCD Integration is enabled for the project -- this knob only enables the syncing of virtualclusters, but does not enable SSO integration or project creation (see subsequent spec sections!).",
-          "type": "boolean"
-        },
-        "namespace": {
-          "description": "Namespace defines the namespace in which ArgoCD is running in the cluster.",
-          "type": "string"
-        },
-        "project": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectSpec",
-          "description": "Project defines project related values for the ArgoCD Integration. Enabling Project integration will cause Loft to generate and manage an ArgoCD appProject that corresponds to the Loft Project."
-        },
-        "sso": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoSSOSpec",
-          "description": "SSO defines single-sign-on related values for the ArgoCD Integration. Enabling SSO will allow users to authenticate to ArgoCD via Loft."
-        },
-        "virtualClusterInstance": {
-          "description": "VirtualClusterInstance defines the name of *tenant cluster* (instance) that ArgoCD is deployed into. If provided, Cluster will be ignored and Loft will assume that ArgoCD is running in the specified tenant cluster.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectPolicyRule": {
-      "properties": {
-        "action": {
-          "description": "Action is one of \"*\", \"get\", \"create\", \"update\", \"delete\", \"sync\", or \"override\".",
-          "type": "string"
-        },
-        "application": {
-          "description": "Application is the ArgoCD project/repository to apply the rule to. DEPRECATED: Wasn't used. Kind provides a more flexible way to specify the resource type.",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is the kind to apply the rule to",
-          "type": "string"
-        },
-        "permission": {
-          "description": "Allow applies the \"allow\" permission to the rule, if allow is not set, the permission will always be set to \"deny\".",
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectRole": {
-      "properties": {
-        "description": {
-          "description": "Description to add to the ArgoCD project.",
-          "type": "string"
-        },
-        "groups": {
-          "description": "Groups is a list of OIDC group names to bind to the role.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "name": {
-          "description": "Name of the ArgoCD role to attach to the project.",
-          "type": "string"
-        },
-        "rules": {
-          "description": "Rules ist a list of policy rules to attach to the role.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectPolicyRule"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectSpec": {
-      "properties": {
-        "clusterResourceBlacklist": {
-          "description": "ClusterResourceBlacklist contains a list of blacklisted cluster level resources",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ClusterResourceRestrictionItem"
-          },
-          "type": "array"
-        },
-        "clusterResourceWhitelist": {
-          "description": "ClusterResourceWhitelist contains a list of whitelisted cluster level resources If not specified or empty, deny all cluster-scope resources.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ClusterResourceRestrictionItem"
-          },
-          "type": "array"
-        },
-        "destinations": {
-          "description": "Destinations contains list of destinations available for deployment",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ApplicationDestination"
-          },
-          "type": "array"
-        },
-        "enabled": {
-          "description": "Enabled indicates if the ArgoCD Project Integration is enabled for this project. Enabling this will cause Loft to create an appProject in ArgoCD that is associated with the Loft Project. When Project integration is enabled Loft will override the default assigned role set in the SSO integration spec.",
-          "type": "boolean"
-        },
-        "metadata": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectSpecMetadata",
-          "description": "Metadata defines additional metadata to attach to the loft created project in ArgoCD."
-        },
-        "namespaceResourceBlacklist": {
-          "description": "NamespaceResourceBlacklist contains a list of blacklisted namespace level resources",
-          "items": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.GroupKind"
-          },
-          "type": "array"
-        },
-        "namespaceResourceWhitelist": {
-          "description": "NamespaceResourceWhitelist contains a list of whitelisted namespace level resources If not specified or empty, allow all namespace-scope resources.",
-          "items": {
-            "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.GroupKind"
-          },
-          "type": "array"
-        },
-        "roles": {
-          "description": "Roles is a list of roles that should be attached to the ArgoCD project. If roles are provided no loft default roles will be set. If no roles are provided *and* SSO is enabled, loft will configure sane default values.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectRole"
-          },
-          "type": "array"
-        },
-        "sourceNamespaces": {
-          "description": "SourceNamespaces defines the namespaces application resources are allowed to be created in",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "sourceRepos": {
-          "description": "SourceRepos is a list of source repositories to attach/allow on the project, if not specified will be \"*\" indicating all source repositories.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoProjectSpecMetadata": {
-      "properties": {
-        "description": {
-          "description": "Description to add to the ArgoCD project.",
-          "type": "string"
-        },
-        "extraAnnotations": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "ExtraAnnotations are optional annotations that can be attached to the project in ArgoCD.",
-          "type": "object"
-        },
-        "extraLabels": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "ExtraLabels are optional labels that can be attached to the project in ArgoCD.",
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ArgoSSOSpec": {
-      "properties": {
-        "assignedRoles": {
-          "description": "AssignedRoles is a list of roles to assign for users who authenticate via Loft -- by default this will be the `read-only` role. If any roles are provided this will override the default setting.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "enabled": {
-          "description": "Enabled indicates if the ArgoCD SSO Integration is enabled for this project. Enabling this will cause Loft to configure SSO authentication via Loft in ArgoCD. If Projects are *not* enabled, all users associated with this Project will be assigned either the 'read-only' (default) role, *or* the roles set under the AssignedRoles field.",
-          "type": "boolean"
-        },
-        "host": {
-          "description": "Host defines the ArgoCD host address that will be used for OIDC authentication between loft and ArgoCD. If not specified OIDC integration will be skipped, but vclusters/spaces will still be synced to ArgoCD.",
           "type": "string"
         }
       },
@@ -18196,26 +18003,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ClusterResourceRestrictionItem": {
-      "description": "ClusterResourceRestrictionItem is a cluster resource that is restricted by the project's whitelist or blacklist",
-      "properties": {
-        "group": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the name of the restricted resource. Glob patterns using Go's filepath.Match syntax are supported. Unlike the group and kind fields, if no name is specified, all resources of the specified group/kind are matched.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "group",
-        "kind"
-      ],
-      "type": "object"
-    },
     "com.github.loft-sh.external-types.argoproj.argo-cd.v2.pkg.apis.application.v1alpha1.ComparedTo": {
       "description": "ComparedTo contains application source and target which was used for resources comparison",
       "properties": {
@@ -20113,22 +19900,6 @@
     },
     "io.k8s.apimachinery.pkg.apis.meta.v1.FieldsV1": {
       "description": "FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format.\n\nEach key is either a '.' representing the field itself, and will always map to an empty set, or a string representing a sub-field or item. The string will follow one of these four formats: 'f:<name>', where <name> is the name of a field in a struct, or key in a map 'v:<value>', where <value> is the exact json formatted value of a list item 'i:<index>', where <index> is position of a item in a list 'k:<keys>', where <keys> is a map of  a list item's key fields to their unique values If a key maps to an empty Fields value, the field that key represents is part of the set.\n\nThe exact format is defined in sigs.k8s.io/structured-merge-diff",
-      "type": "object"
-    },
-    "io.k8s.apimachinery.pkg.apis.meta.v1.GroupKind": {
-      "description": "GroupKind specifies a Group and a Kind, but does not force a version.  This is useful for identifying concepts during lookup stages without having partially valid types",
-      "properties": {
-        "group": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "group",
-        "kind"
-      ],
       "type": "object"
     },
     "io.k8s.apimachinery.pkg.apis.meta.v1.GroupVersionForDiscovery": {
