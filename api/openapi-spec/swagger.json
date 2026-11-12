@@ -13562,7 +13562,7 @@
       "properties": {
         "inBand": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineInBandValidationStatus",
-          "description": "InBand is the machine's last in-band attempt, which runs the tests of its NodeProvider's validation tier on it. It gates assigning the machine to a tenant and using it for an instance."
+          "description": "InBand is the machine's last in-band attempt, which runs the Certification of its NodeProvider's validation tier on it. It gates assigning the machine to a tenant and using it for an instance."
         },
         "profiles": {
           "description": "Profiles holds one result per host validation profile the machine was checked against. A profile added to a node type after this check has no entry, and does not count as matched. They gate picking the machine for a node type.",
@@ -13582,8 +13582,12 @@
       "description": "MachineInBandValidationStatus is a machine's in-band attempt.",
       "properties": {
         "attemptID": {
-          "description": "AttemptID identifies the attempt. The Certifications and Jobs of any other attempt are ignored.",
+          "description": "AttemptID identifies the attempt. The Certifications of any other attempt are ignored.",
           "type": "string"
+        },
+        "certification": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationCertification",
+          "description": "Certification is the NVIDIA Cluster Readiness Engine Certification the attempt runs on the node, set once it is created. Its verdict is the attempt's result."
         },
         "clusterUID": {
           "description": "ClusterUID is the UID of the validation tenant cluster the attempt ran in.",
@@ -13595,7 +13599,7 @@
         },
         "joinTime": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
-          "description": "JoinTime is when the attempt's node joined the validation cluster. The setup of the first test counts from it. Unset while the node joins, and for an attempt that started on a node the machine already had there."
+          "description": "JoinTime is when the attempt's node joined the validation cluster. The setup of the Certification counts from it. Unset while the node joins, and for an attempt that started on a node the machine already had there."
         },
         "leavingSince": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
@@ -13611,10 +13615,10 @@
         },
         "rejoin": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationRejoin",
-          "description": "Rejoin tracks putting a machine that passed back into the validation cluster after it was released. A rejoin runs no tests."
+          "description": "Rejoin tracks putting a machine that passed back into the validation cluster after it was released. A rejoin runs no Certification."
         },
         "result": {
-          "description": "Result is where the attempt stands. Only Passed lets the machine be assigned to a tenant or used for an instance on a provider with a validation tier.\n\nPossible enum values:\n - `\"JoinFailed\"` is when the validation NodeClaim failed or the node did not join before the join deadline.\n - `\"Joining\"` is while the validation NodeClaim exists and its node has not joined the validation cluster.\n - `\"Passed\"` is once every test passed.\n - `\"Running\"` is while a test's Certification or Job runs on the node.\n - `\"SetupFailed\"` is when the tests could not run: the suite is missing or not understood, the Certification kind is not served in the validation cluster, a test's image cannot be pulled, a Certification failed without recording the node, the setup deadline passed, or a test pod was lost without an exit code.\n - `\"Starting\"` is once the node joined and before the first test runs.\n - `\"TestFailed\"` is when a test failed on the node: its Certification failed and recorded the node, or its Job exited non-zero or ran past its timeout. The message is the reason recorded for the node, or the last line the Job printed.",
+          "description": "Result is where the attempt stands. Only Passed lets the machine be assigned to a tenant or used for an instance on a provider with a validation tier.\n\nPossible enum values:\n - `\"JoinFailed\"` is when the validation NodeClaim failed or the node did not join before the join deadline.\n - `\"Joining\"` is while the validation NodeClaim exists and its node has not joined the validation cluster.\n - `\"Passed\"` is once the Certification passed.\n - `\"Running\"` is while the Certification runs on the node.\n - `\"SetupFailed\"` is when the Certification did not test the node: its ConfigMap is missing or not understood, the Certification kind is not served in the validation cluster, the setup deadline passed, or the Certification failed without recording the node, succeeded without testing it, was deleted, or did not finish within its timeouts and the setup timeout.\n - `\"Starting\"` is once the node joined and before the Certification runs.\n - `\"TestFailed\"` is when the Certification failed and recorded the node in the failed nodes of a category. The message lists the reasons recorded for the node.",
           "enum": [
             "JoinFailed",
             "Joining",
@@ -13629,17 +13633,6 @@
         "startTime": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "StartTime is when the attempt started."
-        },
-        "suiteHash": {
-          "description": "SuiteHash is the hash of the test suite the attempt ran. A changed suite does not invalidate a pass, so this says which suite a pass was for.",
-          "type": "string"
-        },
-        "tests": {
-          "description": "Tests holds the result of each test the attempt reached, in suite order.",
-          "items": {
-            "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationTestResult"
-          },
-          "type": "array"
         },
         "tier": {
           "description": "Tier is the validation tier the attempt ran for.",
@@ -13753,7 +13746,7 @@
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationArtifact": {
-      "description": "MachineValidationArtifact is a file a validation test produced.",
+      "description": "MachineValidationArtifact is a file an in-band attempt produced.",
       "properties": {
         "data": {
           "description": "Data is the artifact compressed with gzip, base64 encoded in JSON.",
@@ -13769,6 +13762,28 @@
         "type",
         "data"
       ],
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationCertification": {
+      "description": "MachineValidationCertification is the Certification of an in-band attempt.",
+      "properties": {
+        "name": {
+          "description": "Name is the Certification, in the namespace of its ConfigMap. It is cleared once the Certification is deleted, a day after the attempt finished.",
+          "type": "string"
+        },
+        "report": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationArtifact",
+          "description": "Report is the Certification's NCRE report, recorded with the attempt's result. It stays after the Certification is deleted."
+        },
+        "startTime": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "StartTime is when the Certification was created."
+        },
+        "templateHash": {
+          "description": "TemplateHash is the hash of the certificationTemplate the Certification was created from. It hashes the template's content, so neither its formatting nor the rest of its ConfigMap changes it. A changed template does not invalidate a pass, so this says which template a pass was for.",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationRejoin": {
@@ -13787,48 +13802,6 @@
           "description": "StartTime is when the running rejoin started, unset while none runs."
         }
       },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationTestResult": {
-      "description": "MachineValidationTestResult is the result of one test of a validation attempt.",
-      "properties": {
-        "finishTime": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
-          "description": "FinishTime is when the test's result was recorded, unset while it runs."
-        },
-        "kind": {
-          "description": "Kind is what the test ran as in the validation cluster, Certification or Job.",
-          "type": "string"
-        },
-        "message": {
-          "description": "Message is what the test found: the reason a failed Certification recorded for the node, or the last line a Job printed.",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the test's name in the suite.",
-          "type": "string"
-        },
-        "objectName": {
-          "description": "ObjectName is the test's Certification or Job, in the namespace of the suite. It is cleared once the object is deleted, a day after the attempt finished.",
-          "type": "string"
-        },
-        "report": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineValidationArtifact",
-          "description": "Report is the test's report, recorded with its result: a Certification's NCRE report, or how a Job's containers ended with the end of their logs. It stays after the Certification or Job is deleted."
-        },
-        "result": {
-          "description": "Result is Running, Passed or Failed.",
-          "type": "string"
-        },
-        "startTime": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
-          "description": "StartTime is when the test's Certification or Job was created."
-        }
-      },
-      "required": [
-        "name",
-        "result"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.Maintainer": {
@@ -14955,6 +14928,18 @@
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationTier": {
       "description": "NodeProviderValidationTier names the validation tenant cluster a tier joins machines to, and what a machine is provisioned with to join it.",
       "properties": {
+        "certificationConfigMapName": {
+          "description": "CertificationConfigMapName is the ConfigMap in the validation cluster that configures the Certification a machine runs there. Defaults to \"pre-ingestion-host-validation\".",
+          "type": "string"
+        },
+        "certificationConfigMapNamespace": {
+          "description": "CertificationConfigMapNamespace is the namespace of the Certification's ConfigMap in the validation cluster. The Certification runs in it too. Defaults to \"vcluster-platform\".",
+          "type": "string"
+        },
+        "certificationPollInterval": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
+          "description": "CertificationPollInterval is how often the platform checks the running Certification for its result. A Certification that runs for hours can be checked less often. Defaults to 1m."
+        },
         "joinTimeout": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
           "description": "JoinTimeout is how long a machine has to join the validation cluster once the platform starts joining it. Defaults to 1h."
@@ -14969,19 +14954,7 @@
         },
         "setupTimeout": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
-          "description": "SetupTimeout is how long the platform keeps trying to set up each test of the suite before it fails the attempt as SetupFailed: from the start of the attempt for the first test, and from the end of the test before it for a later one. How long a test may run is the suite's, set in the test itself. Defaults to 45m."
-        },
-        "suiteConfigMapName": {
-          "description": "SuiteConfigMapName is the ConfigMap in the validation cluster that holds the suite, the tests a machine runs there. Defaults to \"pre-ingestion-validation\".",
-          "type": "string"
-        },
-        "suiteConfigMapNamespace": {
-          "description": "SuiteConfigMapNamespace is the namespace of the suite's ConfigMap in the validation cluster. The tests run in it too. Defaults to \"vcluster-platform\".",
-          "type": "string"
-        },
-        "testPollInterval": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration",
-          "description": "TestPollInterval is how often the platform checks a running test for its result. A suite whose tests run for hours can be checked less often. Defaults to 1m."
+          "description": "SetupTimeout is how long the platform keeps trying to set up the Certification, from the join, or from the start of an attempt that did not join, before it fails the attempt as SetupFailed. A running Certification gets it on top of its own timeouts, set in its ConfigMap, for its workloads to schedule. Defaults to 45m."
         },
         "virtualClusterRef": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderValidationVirtualClusterRef",
