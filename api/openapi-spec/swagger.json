@@ -1351,16 +1351,8 @@
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.AgentCostControlConfig": {
       "properties": {
         "enabled": {
-          "description": "Enabled specifies whether the ROI dashboard should be available in the UI, and if the metrics infrastructure that provides dashboard data is deployed",
+          "description": "Enabled is always false.",
           "type": "boolean"
-        },
-        "metrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metrics",
-          "description": "Metrics are settings applied to metric infrastructure in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
-        },
-        "opencost": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.OpenCost",
-          "description": "OpenCost are settings applied to OpenCost deployments in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
         }
       },
       "type": "object"
@@ -2577,7 +2569,7 @@
         },
         "costControl": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.AgentCostControlConfig",
-          "description": "CostControl holds the settings related to the Cost Control ROI dashboard and its metrics gathering infrastructure"
+          "description": "CostControl is always disabled. Cost Control was removed, but agents from v4 treat a missing setting as enabled, so the platform sends enabled: false to make them uninstall their Cost Control releases."
         },
         "defaultImageRegistry": {
           "description": "DefaultImageRegistry is the image registry for control plane internal images.",
@@ -2945,17 +2937,9 @@
           "description": "The namespace where the cluster components will be installed in",
           "type": "string"
         },
-        "metrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metrics",
-          "description": "Metrics holds the cluster's metrics backend configuration"
-        },
         "networkPeer": {
           "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
           "type": "boolean"
-        },
-        "opencost": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.OpenCost",
-          "description": "OpenCost holds the cluster's OpenCost backend configuration"
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.UserOrTeam",
@@ -3053,10 +3037,6 @@
         "cloud": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.Cloud",
           "description": "Cloud holds the settings to be used exclusively in vCluster Cloud based environments and deployments."
-        },
-        "costControl": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControl",
-          "description": "CostControl holds the settings related to the Cost Control ROI dashboard and its metrics gathering infrastructure"
         },
         "database": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.DatabaseKine",
@@ -3676,101 +3656,6 @@
       "required": [
         "converted"
       ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControl": {
-      "properties": {
-        "cluster": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlClusterConfig",
-          "description": "Cluster are settings for each cluster's managed components. These settings apply to all connected clusters unless overridden by modifying the Cluster's spec"
-        },
-        "enabled": {
-          "description": "Enabled specifies whether the ROI dashboard should be available in the UI, and if the metrics infrastructure that provides dashboard data is deployed",
-          "type": "boolean"
-        },
-        "global": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlGlobalConfig",
-          "description": "Global are settings for globally managed components"
-        },
-        "settings": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlSettings",
-          "description": "Settings specify price-related settings that are taken into account for the ROI dashboard calculations."
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlClusterConfig": {
-      "properties": {
-        "metrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metrics",
-          "description": "Metrics are settings applied to metric infrastructure in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
-        },
-        "opencost": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.OpenCost",
-          "description": "OpenCost are settings applied to OpenCost deployments in each connected cluster. These can be overridden in individual clusters by modifying the Cluster's spec"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlGPUSettings": {
-      "properties": {
-        "averageGPUPrice": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlResourcePrice",
-          "description": "AvgGPUPrice specifies the average GPU price."
-        },
-        "enabled": {
-          "description": "Enabled specifies whether GPU settings should be available in the UI.",
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlGlobalConfig": {
-      "properties": {
-        "metrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metrics",
-          "description": "Metrics these settings apply to metric infrastructure used to aggregate metrics across all connected clusters"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlResourcePrice": {
-      "properties": {
-        "price": {
-          "description": "Price specifies the price.",
-          "format": "double",
-          "type": "number"
-        },
-        "timePeriod": {
-          "description": "TimePeriod specifies the time period for the price.",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlSettings": {
-      "properties": {
-        "averageCPUPricePerNode": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlResourcePrice",
-          "description": "AvgCPUPricePerNode specifies the average CPU price per node."
-        },
-        "averageRAMPricePerNode": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlResourcePrice",
-          "description": "AvgRAMPricePerNode specifies the average RAM price per node."
-        },
-        "controlPlanePricePerCluster": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlResourcePrice",
-          "description": "ControlPlanePricePerCluster specifies the price of one physical cluster."
-        },
-        "gpuSettings": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.management.v1.CostControlGPUSettings",
-          "description": "GPUSettings specifies GPU related settings."
-        },
-        "priceCurrency": {
-          "description": "PriceCurrency specifies the currency.",
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.management.v1.DatabaseConnector": {
@@ -12767,17 +12652,9 @@
           "description": "The namespace where the cluster components will be installed in",
           "type": "string"
         },
-        "metrics": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metrics",
-          "description": "Metrics holds the cluster's metrics backend configuration"
-        },
         "networkPeer": {
           "description": "NetworkPeer specifies if the cluster is connected via tailscale, when this is specified, config is optional",
           "type": "boolean"
-        },
-        "opencost": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.OpenCost",
-          "description": "OpenCost holds the cluster's OpenCost backend configuration"
         },
         "owner": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.UserOrTeam",
@@ -13914,28 +13791,6 @@
         "multus": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MultusDeployment",
           "description": "Multus configures the Multus CNI deployment."
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.Metrics": {
-      "properties": {
-        "replicas": {
-          "description": "Replicas is the number of desired replicas.",
-          "format": "int32",
-          "type": "integer"
-        },
-        "resources": {
-          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-          "description": "Resources are compute resource required by the metrics backend"
-        },
-        "retention": {
-          "description": "Retention is the metrics data retention period. Default is 1y",
-          "type": "string"
-        },
-        "storage": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.Storage",
-          "description": "Storage contains settings related to the metrics backend's persistent volume configuration"
         }
       },
       "type": "object"
@@ -15118,20 +14973,6 @@
       },
       "type": "object"
     },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.OpenCost": {
-      "properties": {
-        "replicas": {
-          "description": "Replicas is the number of desired replicas.",
-          "format": "int32",
-          "type": "integer"
-        },
-        "resources": {
-          "$ref": "#/definitions/io.k8s.api.core.v1.ResourceRequirements",
-          "description": "Resources are compute resource required by the OpenCost backend"
-        }
-      },
-      "type": "object"
-    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ProjectNamespaceTemplate": {
       "description": "ProjectNamespaceTemplate defines metadata to apply to the auto-created project namespace.",
       "properties": {
@@ -15871,19 +15712,6 @@
       "required": [
         "name"
       ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.Storage": {
-      "properties": {
-        "size": {
-          "description": "Size the size of the metrics backend's persistent volume",
-          "type": "string"
-        },
-        "storageClass": {
-          "description": "StorageClass the storage class to use when provisioning the metrics backend's persistent volume If set to \"-\" or \"\" dynamic provisioning is disabled If set to undefined or null (the default), the cluster's default storage class is used for provisioning",
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.StorageAccountIdentities": {
