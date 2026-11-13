@@ -10803,7 +10803,7 @@
     "com.github.loft-sh.api.v4.pkg.apis.storage.v1.ArgoProjectPolicyRule": {
       "properties": {
         "action": {
-          "description": "Action is one of \"*\", \"get\", \"create\", \"update\", \"delete\", \"sync\", or \"override\".",
+          "description": "Action is an ArgoCD action such as \"*\", \"get\", \"create\", \"update\", \"delete\", \"sync\", or \"override\". Required when creating or changing the ArgoCD configuration; there is no default. Must not contain commas, double quotes, whitespace, or control characters.",
           "type": "string"
         },
         "application": {
@@ -10811,7 +10811,11 @@
           "type": "string"
         },
         "kind": {
-          "description": "Kind is the kind to apply the rule to",
+          "description": "Kind is the kind to apply the rule to. Defaults to \"applications\". Must not contain commas, double quotes, whitespace, or control characters.",
+          "type": "string"
+        },
+        "object": {
+          "description": "Object is the complete ArgoCD RBAC object pattern, such as \"loft-myproject/team-a/*\". If omitted or empty, it defaults to \"loft-<project-name>/*\". The pattern must start with \"loft-<project-name>/\" followed by one application component or namespace/application. Each component must be non-empty and may contain only letters, digits, underscores, dots, hyphens, and \"*\". Commas, double quotes, whitespace, and control characters are not allowed. For applications outside the ArgoCD namespace, use \"loft-<project-name>/<namespace>/<application>\". DEPRECATED: Only available in 4.x releases; not carried into 5.0 and later.",
           "type": "string"
         },
         "permission": {
@@ -10835,11 +10839,11 @@
           "type": "array"
         },
         "name": {
-          "description": "Name of the ArgoCD role to attach to the project.",
+          "description": "Name of the ArgoCD role to attach to the project. Required when creating or changing the ArgoCD configuration. Must not contain commas, double quotes, whitespace, or control characters.",
           "type": "string"
         },
         "rules": {
-          "description": "Rules ist a list of policy rules to attach to the role.",
+          "description": "Rules is a list of policy rules to attach to the role.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v4.pkg.apis.storage.v1.ArgoProjectPolicyRule"
           },
