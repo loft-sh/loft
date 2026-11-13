@@ -5703,7 +5703,7 @@
           "type": "string"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "overhead": {
@@ -12036,7 +12036,7 @@
           "description": "InfrastructureMachineTemplate is a template for the infrastructure machine, e.g. AWSMachine"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "maxCapacity": {
@@ -12472,7 +12472,7 @@
           "type": "string"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "maxCapacity": {
@@ -12737,7 +12737,7 @@
           "type": "string"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "machines": {
@@ -12993,7 +12993,7 @@
           "type": "string"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "machines": {
@@ -13956,7 +13956,7 @@
           "type": "string"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "overhead": {
@@ -15418,7 +15418,7 @@
           "type": "string"
         },
         "machineAllocationPolicy": {
-          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned only those the tenant owns or was assigned exclusively, OnDemand also those no tenant owns or holds (never another tenant's or the platform's). Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
+          "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "maxCapacity": {
