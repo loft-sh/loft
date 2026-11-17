@@ -1,0 +1,763 @@
+suite: Host network proxy
+templates:
+  - hostnetwork-proxy.yaml
+  - apiservice.yaml
+  - webhook.yaml
+
+tests:
+  - it: renders nothing by default
+    template: hostnetwork-proxy.yaml
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when the hostNetworkProxy values are missing, as after a --reuse-values upgrade
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy: null
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: deploys Envoy on the host network with its config mounted read-only
+    template: hostnetwork-proxy.yaml
+    release:
+      name: loft
+      namespace: my-namespace
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 4
+      - equal:
+          path: metadata.name
+          value: loft-hostnetwork-proxy
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.hostNetwork
+          value: true
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.dnsPolicy
+          value: ClusterFirstWithHostNet
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.automountServiceAccountToken
+          value: false
+        documentSelector:
+          path: kind
+          value: Deployment
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ^docker\.io/envoyproxy/envoy:distroless-v[0-9.]+@sha256:[0-9a-f]{64}$
+        documentSelector:
+          path: kind
+          value: Deployment
+      - notExists:
+          path: spec.template.spec.containers[0].command
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.containers[0].args
+          value: ["-c", "/etc/envoy/envoy.yaml", "--concurrency", "2"]
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: apiservice
+              containerPort: 8443
+              hostPort: 8443
+            - name: agent-apisvc
+              containerPort: 9444
+              hostPort: 9444
+            - name: https-webhook
+              containerPort: 9443
+              hostPort: 9443
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.containers[0].readinessProbe.tcpSocket.port
+          value: apiservice
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts
+          value:
+            - name: envoy-config
+              mountPath: /etc/envoy
+              readOnly: true
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.volumes[0].configMap.name
+          value: loft-hostnetwork-proxy
+        documentSelector:
+          path: kind
+          value: Deployment
+      - exists:
+          path: spec.template.metadata.annotations["checksum/envoy-config"]
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: runs the proxy under its own service account, without the platform account's annotations
+    template: hostnetwork-proxy.yaml
+    release:
+      name: loft
+      namespace: my-namespace
+    set:
+      hostNetworkProxy:
+        enabled: true
+      serviceAccount:
+        annotations:
+          eks.amazonaws.com/role-arn: arn:aws:iam::111111111111:role/platform
+    asserts:
+      - equal:
+          path: metadata.name
+          value: loft-hostnetwork-proxy
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+      - equal:
+          path: automountServiceAccountToken
+          value: false
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+      - notExists:
+          path: metadata.annotations
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: loft-hostnetwork-proxy
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: creates the proxy's service account when the chart does not create the platform's
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      serviceAccount:
+        create: false
+        name: customer-managed
+    asserts:
+      - equal:
+          path: metadata.name
+          value: loft-hostnetwork-proxy
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: loft-hostnetwork-proxy
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: gives the proxy's service account the platform's image pull secrets by default
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      serviceAccount:
+        imagePullSecrets:
+          - name: platform-pull
+    asserts:
+      - equal:
+          path: imagePullSecrets
+          value:
+            - name: platform-pull
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+
+  - it: prefers the proxy's own image pull secrets
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+        imagePullSecrets:
+          - name: mirror-pull
+      serviceAccount:
+        imagePullSecrets:
+          - name: platform-pull
+    asserts:
+      - equal:
+          path: imagePullSecrets
+          value:
+            - name: mirror-pull
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+
+  - it: sets no image pull secrets on the proxy's service account when none are configured
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - notExists:
+          path: imagePullSecrets
+        documentSelector:
+          path: kind
+          value: ServiceAccount
+
+  - it: runs Envoy as non-root with a read-only root filesystem
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].securityContext
+          value:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: keeps the root filesystem read-only when securityContext is unset
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      securityContext: null
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].securityContext
+          value:
+            readOnlyRootFilesystem: true
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: configures an Envoy TCP proxy per port to the backend Service, with no admin listener
+    template: hostnetwork-proxy.yaml
+    release:
+      name: loft
+      namespace: my-namespace
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: '- name: apiservice\s+address:\s+socket_address:\s+address: 0\.0\.0\.0\s+port_value: 8443\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: '- name: agent-apisvc\s+address:\s+socket_address:\s+address: 0\.0\.0\.0\s+port_value: 9444\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: '- name: https-webhook\s+address:\s+socket_address:\s+address: 0\.0\.0\.0\s+port_value: 9443\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'address: loft-hostnetwork-backend\.my-namespace\.svc\.cluster\.local\s+port_value: 9444\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'envoy\.filters\.network\.tcp_proxy'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'idle_timeout: 0s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - notMatchRegex:
+          path: data["envoy.yaml"]
+          pattern: '(?m)^admin:'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+
+  - it: creates the backend Service that selects the platform pod
+    template: hostnetwork-proxy.yaml
+    release:
+      name: loft
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - equal:
+          path: metadata.name
+          value: loft-hostnetwork-backend
+        documentSelector:
+          path: kind
+          value: Service
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+      - equal:
+          path: spec.ports
+          value:
+            - name: apiservice
+              port: 8443
+              targetPort: 8443
+              protocol: TCP
+            - name: agent-apisvc
+              port: 9444
+              targetPort: 9444
+              protocol: TCP
+            - name: https-webhook
+              port: 9443
+              targetPort: 9443
+              protocol: TCP
+        documentSelector:
+          path: kind
+          value: Service
+
+  - it: skips the management APIService in agentOnly mode
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      agentOnly: true
+    asserts:
+      - equal:
+          path: spec.ports
+          value:
+            - name: agent-apisvc
+              port: 9444
+              targetPort: 9444
+              protocol: TCP
+            - name: https-webhook
+              port: 9443
+              targetPort: 9443
+              protocol: TCP
+        documentSelector:
+          path: kind
+          value: Service
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: agent-apisvc
+              containerPort: 9444
+              hostPort: 9444
+            - name: https-webhook
+              containerPort: 9443
+              hostPort: 9443
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.containers[0].readinessProbe.tcpSocket.port
+          value: agent-apisvc
+        documentSelector:
+          path: kind
+          value: Deployment
+      - notMatchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'name: apiservice\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+
+  - it: listens on the configured ports while the backend ports stay fixed
+    template: hostnetwork-proxy.yaml
+    release:
+      name: loft
+      namespace: my-namespace
+    set:
+      hostNetworkProxy:
+        enabled: true
+        ports:
+          apiService: 18443
+          agentAPIService: 19444
+          webhook: 19443
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: apiservice
+              containerPort: 18443
+              hostPort: 18443
+            - name: agent-apisvc
+              containerPort: 19444
+              hostPort: 19444
+            - name: https-webhook
+              containerPort: 19443
+              hostPort: 19443
+        documentSelector:
+          path: kind
+          value: Deployment
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: '- name: agent-apisvc\s+address:\s+socket_address:\s+address: 0\.0\.0\.0\s+port_value: 19444\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+      - matchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'address: loft-hostnetwork-backend\.my-namespace\.svc\.cluster\.local\s+port_value: 9444\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+
+  - it: uses the configured image
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+        image: mirror.example.com/envoyproxy/envoy:distroless-v1.40.2
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: mirror.example.com/envoyproxy/envoy:distroless-v1.40.2
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: applies the scheduling settings
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+        replicas: 2
+        nodeSelector:
+          role: edge
+        tolerations:
+          - key: edge
+            operator: Exists
+        podLabels:
+          team: platform
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 2
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.nodeSelector.role
+          value: edge
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.tolerations[0].key
+          value: edge
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.metadata.labels.team
+          value: platform
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: renders nothing when the platform runs an embedded API server through the database config
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      config:
+        database:
+          enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when the platform runs an embedded API server through the env var
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when the chart creates neither the APIService nor the webhook Services
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      apiservice:
+        create: false
+      webhook:
+        create: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: forwards only the webhook when the chart does not create the APIService Services
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      apiservice:
+        create: false
+    asserts:
+      - equal:
+          path: spec.ports
+          value:
+            - name: https-webhook
+              port: 9443
+              targetPort: 9443
+              protocol: TCP
+        documentSelector:
+          path: kind
+          value: Service
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: https-webhook
+              containerPort: 9443
+              hostPort: 9443
+        documentSelector:
+          path: kind
+          value: Deployment
+      - equal:
+          path: spec.template.spec.containers[0].readinessProbe.tcpSocket.port
+          value: https-webhook
+        documentSelector:
+          path: kind
+          value: Deployment
+      - notMatchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'name: (apiservice|agent-apisvc)\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+
+  - it: forwards only the APIServices when the chart does not create the webhook Service
+    template: hostnetwork-proxy.yaml
+    set:
+      hostNetworkProxy:
+        enabled: true
+      webhook:
+        create: false
+    asserts:
+      - notContains:
+          path: spec.ports
+          content:
+            name: https-webhook
+            port: 9443
+            targetPort: 9443
+            protocol: TCP
+        documentSelector:
+          path: kind
+          value: Service
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: apiservice
+              containerPort: 8443
+              hostPort: 8443
+            - name: agent-apisvc
+              containerPort: 9444
+              hostPort: 9444
+        documentSelector:
+          path: kind
+          value: Deployment
+      - notMatchRegex:
+          path: data["envoy.yaml"]
+          pattern: 'name: https-webhook\s'
+        documentSelector:
+          path: kind
+          value: ConfigMap
+
+  # The Services the API server calls select the proxy pod when it is enabled, so each one needs a
+  # proxy listener on its targetPort, and each listener needs a Service. These render both sides
+  # together in every mode where the proxy is deployed and the set of Services differs. Distinct
+  # listen ports make a mismatch visible. Embedded mode deploys no proxy, so the tests above and
+  # apiserver_services_test.yaml cover it.
+  - it: listens on every Service's port by default
+    set:
+      hostNetworkProxy:
+        enabled: true
+        ports:
+          apiService: 18443
+          agentAPIService: 19444
+          webhook: 19443
+    asserts:
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 18443
+        template: apiservice.yaml
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 19444
+        template: apiservice.yaml
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice-agent
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 19443
+        template: webhook.yaml
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: apiservice
+              containerPort: 18443
+              hostPort: 18443
+            - name: agent-apisvc
+              containerPort: 19444
+              hostPort: 19444
+            - name: https-webhook
+              containerPort: 19443
+              hostPort: 19443
+        template: hostnetwork-proxy.yaml
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: listens only on the agent APIService and webhook ports in agentOnly mode
+    set:
+      agentOnly: true
+      hostNetworkProxy:
+        enabled: true
+        ports:
+          apiService: 18443
+          agentAPIService: 19444
+          webhook: 19443
+    asserts:
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice
+          any: true
+        not: true
+        template: apiservice.yaml
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 19444
+        template: apiservice.yaml
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice-agent
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 19443
+        template: webhook.yaml
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: agent-apisvc
+              containerPort: 19444
+              hostPort: 19444
+            - name: https-webhook
+              containerPort: 19443
+              hostPort: 19443
+        template: hostnetwork-proxy.yaml
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: listens only on the webhook port when apiservice.create is false
+    set:
+      apiservice:
+        create: false
+      hostNetworkProxy:
+        enabled: true
+        ports:
+          apiService: 18443
+          agentAPIService: 19444
+          webhook: 19443
+    asserts:
+      - hasDocuments:
+          count: 0
+        template: apiservice.yaml
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 19443
+        template: webhook.yaml
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: https-webhook
+              containerPort: 19443
+              hostPort: 19443
+        template: hostnetwork-proxy.yaml
+        documentSelector:
+          path: kind
+          value: Deployment
+
+  - it: listens only on the APIService ports when webhook.create is false
+    set:
+      webhook:
+        create: false
+      hostNetworkProxy:
+        enabled: true
+        ports:
+          apiService: 18443
+          agentAPIService: 19444
+          webhook: 19443
+    asserts:
+      - hasDocuments:
+          count: 0
+        template: webhook.yaml
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 18443
+        template: apiservice.yaml
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 19444
+        template: apiservice.yaml
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice-agent
+      - equal:
+          path: spec.template.spec.containers[0].ports
+          value:
+            - name: apiservice
+              containerPort: 18443
+              hostPort: 18443
+            - name: agent-apisvc
+              containerPort: 19444
+              hostPort: 19444
+        template: hostnetwork-proxy.yaml
+        documentSelector:
+          path: kind
+          value: Deployment
