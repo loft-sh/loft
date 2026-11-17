@@ -1,9 +1,4 @@
-{{- $isEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
-
-{{- if .Values.apiservice }}
-{{- if .Values.apiservice.create }}
-{{- if not .Values.agentOnly }}
-{{- if not $isEmbedded }}
+{{- if include "loft.managementAPIServiceEnabled" . }}
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
@@ -31,14 +26,14 @@ spec:
   ports:
     - name: apiservice
       port: 443
-      targetPort: 8443
+      targetPort: {{ if include "loft.hostNetworkProxyEnabled" . }}{{ .Values.hostNetworkProxy.ports.apiService }}{{ else }}8443{{ end }}
       protocol: TCP
   selector:
-    app: {{ template "loft.fullname" . }}
+    app: {{ include "loft.apiServerBackendApp" . }}
     release: {{ .Release.Name }}
-{{- end }}
 ---
 {{- end }}
+{{- if include "loft.agentAPIServiceEnabled" . }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -53,10 +48,9 @@ spec:
   ports:
     - name: apiservice
       port: 443
-      targetPort: 9444
+      targetPort: {{ if include "loft.hostNetworkProxyEnabled" . }}{{ .Values.hostNetworkProxy.ports.agentAPIService }}{{ else }}9444{{ end }}
       protocol: TCP
   selector:
-    app: {{ template "loft.fullname" . }}
+    app: {{ include "loft.apiServerBackendApp" . }}
     release: {{ .Release.Name }}
-{{- end }}
 {{- end }}

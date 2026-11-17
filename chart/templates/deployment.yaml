@@ -1,4 +1,4 @@
-{{- $isEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
+{{- $isEmbedded := include "loft.embedded" . -}}
 
 {{- if and (include "loft.multiRegionEnabled" .) (not (include "loft.configDatabaseEnabled" .)) -}}
   {{ fail "config.database.enabled must be true when multiRegion.enabled is true" }}
