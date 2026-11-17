@@ -1,3 +1,5 @@
+{{- $skipForEmbedded := or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.multiRegionEnabled" .) (include "loft.configDatabaseEnabled" .) -}}
+{{- if and (not (and .Values.agentOnly (include "loft.isLeastPrivilegeModeEnabled" .))) (not $skipForEmbedded) }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -12,10 +14,11 @@ metadata:
     {{- toYaml .Values.commonAnnotations | nindent 4 }}
   {{- end }}
 subjects:
-- kind: ServiceAccount
-  name: {{ template "loft.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ template "loft.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: {{ .Values.serviceAccount.clusterRole }}
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
