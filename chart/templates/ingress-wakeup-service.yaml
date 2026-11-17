@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "loft.fullname" . }}
-    loft.sh/service: {{ template "loft.fullname" . }}
+    loft.sh/service: {{ template "loft.fullname" . }}-ingress-wakeup-agent
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -15,6 +15,10 @@ spec:
     - name: http-wakeup
       port: 9090
       targetPort: 9090
+      protocol: TCP
+    - name: http-mirror
+      port: 9091
+      targetPort: 9091
       protocol: TCP
   selector:
     app: {{ template "loft.fullname" . }}

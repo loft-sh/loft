@@ -1,0 +1,77 @@
+suite: rbac agent namespace-admin-role test
+templates:
+  - templates/rbac/agent/namespace-admin-role.yaml
+
+tests:
+  - it: does not generate a role with default values
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: does not generate a role with agentOnly set to true
+    set:
+      agentOnly: true
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: generates a role with agentOnly, leastPrivilegeMode.enabled and leastPrivilegeMode.namespaceAdminRole.enabled set to true
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        namespaceAdminRole:
+          enabled: true
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: Role
+      - equal:
+          path: metadata.name
+          value: vcluster-platform-agent-namespace-admin
+  - it: allows to override the role rules
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        namespaceAdminRole:
+          enabled: true
+          overwriteRules:
+            - apiGroups: [ "testgroup" ]
+              resources: [ "testresources" ]
+              verbs: [ "testverb" ]
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: Role
+      - equal:
+          path: rules
+          value:
+            - apiGroups: [ "testgroup" ]
+              resources: [ "testresources" ]
+              verbs: [ "testverb" ]
+  - it: allows adding extra rules
+    set:
+      agentOnly: true
+      leastPrivilegeMode:
+        enabled: true
+        namespaceAdminRole:
+          enabled: true
+          extraRules:
+            - apiGroups: [ "extragroup" ]
+              resources: [ "extraresources" ]
+              verbs: [ "extraverb" ]
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: kind
+          value: Role
+      - contains:
+          path: rules
+          content:
+            apiGroups: [ "extragroup" ]
+            resources: [ "extraresources" ]
+            verbs: [ "extraverb" ]
