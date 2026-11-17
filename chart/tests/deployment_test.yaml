@@ -1535,3 +1535,13 @@ tests:
               fieldRef:
                 fieldPath: status.podIP
           count: 1
+
+  - it: keeps the platform pod on the pod network when the host network proxy is enabled
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - notExists:
+          path: spec.template.spec.hostNetwork
+      - notExists:
+          path: spec.template.spec.dnsPolicy
