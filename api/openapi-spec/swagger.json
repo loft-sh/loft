@@ -7748,6 +7748,13 @@
         "resourceAttributes": {
           "$ref": "#/definitions/io.k8s.api.authorization.v1.ResourceAttributes",
           "description": "resourceAttributes describes information for a resource access request"
+        },
+        "reviews": {
+          "description": "Reviews evaluates many access checks in one request, at most 1024. Set either Reviews or ResourceAttributes and NonResourceAttributes, not both.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.authorization.v1.SelfSubjectAccessReviewSpec"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -7769,6 +7776,13 @@
         "reason": {
           "description": "reason is optional.  It indicates why a request was allowed or denied.",
           "type": "string"
+        },
+        "statuses": {
+          "description": "Statuses holds one result for each entry of spec.reviews, in the same order. When spec.reviews is set, only Statuses carries results.",
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.authorization.v1.SubjectAccessReviewStatus"
+          },
+          "type": "array"
         }
       },
       "required": [
@@ -19025,6 +19039,45 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "io.k8s.api.authorization.v1.SelfSubjectAccessReviewSpec": {
+      "description": "SelfSubjectAccessReviewSpec is a description of the access request.  Exactly one of resourceAttributes and nonResourceAttributes must be set",
+      "properties": {
+        "nonResourceAttributes": {
+          "$ref": "#/definitions/io.k8s.api.authorization.v1.NonResourceAttributes",
+          "description": "nonResourceAttributes describes information for a non-resource access request"
+        },
+        "resourceAttributes": {
+          "$ref": "#/definitions/io.k8s.api.authorization.v1.ResourceAttributes",
+          "description": "resourceAttributes describes information for a resource access request"
+        }
+      },
+      "type": "object"
+    },
+    "io.k8s.api.authorization.v1.SubjectAccessReviewStatus": {
+      "description": "SubjectAccessReviewStatus",
+      "properties": {
+        "allowed": {
+          "description": "allowed is required. True if the action would be allowed, false otherwise.",
+          "type": "boolean"
+        },
+        "denied": {
+          "description": "denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.",
+          "type": "boolean"
+        },
+        "evaluationError": {
+          "description": "evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "reason is optional.  It indicates why a request was allowed or denied.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowed"
+      ],
       "type": "object"
     },
     "io.k8s.api.core.v1.AppArmorProfile": {
