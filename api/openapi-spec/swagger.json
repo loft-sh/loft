@@ -12455,6 +12455,42 @@
       },
       "type": "object"
     },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartAuth": {
+      "description": "ChartAuth holds the credentials for a chart repository. The auth method is implied by which field is set.",
+      "properties": {
+        "aws": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartAuthAWS",
+          "description": "AWS fetches the registry credentials from AWS."
+        },
+        "basic": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartAuthBasic",
+          "description": "Basic logs in with a username and password."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartAuthAWS": {
+      "properties": {
+        "useWorkloadIdentity": {
+          "description": "UseWorkloadIdentity fetches an Amazon ECR authorization token with the AWS SDK's default credential chain: EKS Pod Identity, IRSA or the EC2 instance profile. The chart repo must be an Amazon ECR registry, and the identity is the platform's or the agent's, so its IAM policy decides which repositories every cluster can pull charts from.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartAuthBasic": {
+      "properties": {
+        "password": {
+          "description": "Password to log in with.",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username to log in with.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartSecretRef": {
       "properties": {
         "projectSecretRef": {
@@ -16609,6 +16645,10 @@
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.VirtualClusterHelmChart": {
       "properties": {
+        "auth": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ChartAuth",
+          "description": "Auth configures how helm authenticates to the chart repository. It takes precedence over Username and Password. Without either, the chart is pulled anonymously."
+        },
         "insecureSkipTlsVerify": {
           "description": "InsecureSkipTlsVerify skips the TLS verification for the helm chart",
           "type": "boolean"
@@ -16618,7 +16658,7 @@
           "type": "string"
         },
         "password": {
-          "description": "The password that is required for this repository",
+          "description": "The password that is required for this repository Deprecated: Use Auth.Basic, which takes precedence.",
           "type": "string"
         },
         "repo": {
@@ -16626,7 +16666,7 @@
           "type": "string"
         },
         "username": {
-          "description": "The username that is required for this repository",
+          "description": "The username that is required for this repository Deprecated: Use Auth.Basic, which takes precedence.",
           "type": "string"
         },
         "version": {
