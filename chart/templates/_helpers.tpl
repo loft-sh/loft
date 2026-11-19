@@ -129,6 +129,61 @@ Output is truthy when enabled, empty otherwise; use in {{ if include "loft.envEm
 {{- if eq (.Values.env.LOFT_EMBEDDED_K8S | toString) "true" }}{{ true }}{{ end -}}
 {{- end -}}
 
+{{/*
+True when the platform runs its own embedded Kubernetes API server, either set directly
+through env.LOFT_EMBEDDED_K8S or turned on by config.database.enabled.
+Output is truthy when embedded, empty otherwise; use in {{ if include "loft.embedded" . }}.
+*/}}
+{{- define "loft.embedded" -}}
+{{- if or (include "loft.envEmbeddedK8sEnabled" .) (include "loft.configDatabaseEnabled" .) }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when the chart renders the loft-apiservice Service for the management.loft.sh APIService.
+Output is truthy when rendered, empty otherwise; use in {{ if include "loft.managementAPIServiceEnabled" . }}.
+*/}}
+{{- define "loft.managementAPIServiceEnabled" -}}
+{{- if and .Values.apiservice .Values.apiservice.create (not .Values.agentOnly) (not (include "loft.embedded" .)) }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when the chart renders the loft-apiservice-agent Service for the cluster.loft.sh APIService.
+Output is truthy when rendered, empty otherwise; use in {{ if include "loft.agentAPIServiceEnabled" . }}.
+*/}}
+{{- define "loft.agentAPIServiceEnabled" -}}
+{{- if and .Values.apiservice .Values.apiservice.create }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when the chart renders the loft-webhook-agent Service for the admission webhook.
+Output is truthy when rendered, empty otherwise; use in {{ if include "loft.webhookServiceEnabled" . }}.
+*/}}
+{{- define "loft.webhookServiceEnabled" -}}
+{{- if and .Values.webhook .Values.webhook.create }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+True when the host networked proxy is deployed: hostNetworkProxy.enabled is set, the platform
+does not run an embedded API server (which reaches the platform on localhost and needs no
+proxy), and the chart renders at least one Service for the proxy to forward.
+Output is truthy when deployed, empty otherwise; use in {{ if include "loft.hostNetworkProxyEnabled" . }}.
+*/}}
+{{- define "loft.hostNetworkProxyEnabled" -}}
+{{- if and .Values.hostNetworkProxy .Values.hostNetworkProxy.enabled (not (include "loft.embedded" .)) (or (include "loft.agentAPIServiceEnabled" .) (include "loft.webhookServiceEnabled" .)) }}{{ true }}{{ end -}}
+{{- end -}}
+
+{{/*
+The app label that the loft-apiservice, loft-apiservice-agent and loft-webhook-agent Services
+select: the host networked proxy pod when the proxy is deployed, otherwise the platform pod.
+*/}}
+{{- define "loft.apiServerBackendApp" -}}
+{{- if include "loft.hostNetworkProxyEnabled" . -}}
+{{ template "loft.fullname" . }}-hostnetwork-proxy
+{{- else -}}
+{{ template "loft.fullname" . }}
+{{- end -}}
+{{- end -}}
+
 {{- define "loft.strategyType" -}}
   {{- if and .Values.strategy .Values.strategy.type -}}
     {{- .Values.strategy.type -}}

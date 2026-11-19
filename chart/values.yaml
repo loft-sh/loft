@@ -338,6 +338,79 @@ webhook:
 # host aliases to use for the deployment
 hostAliases: []
 
+# Deploys a host networked proxy for the endpoints the Kubernetes API server
+# connects to: the management and cluster APIServices and the webhook. The
+# platform pod stays on the pod network. The proxy pod runs in the node's
+# network namespace and forwards those ports to the platform pod through the
+# loft-hostnetwork-backend Service, so the API server reaches them on the node
+# IP. TLS is not terminated by the proxy.
+#
+# The proxy forwards only the ports whose Services the chart creates (see
+# apiservice.create, webhook.create and agentOnly). Ignored when the platform
+# runs an embedded Kubernetes API server (config.database.enabled or
+# env.LOFT_EMBEDDED_K8S), because that API server reaches the platform on
+# localhost.
+#
+# Enable the proxy only when the API server cannot reach pod IPs, for example on
+# EKS with an overlay CNI such as Calico, where pod IPs are only routable
+# between the nodes and not from the EKS control plane. For a connected cluster,
+# set hostNetworkProxy.enabled in that Cluster's loft.sh/agent-values
+# annotation, or in agentValues to enable it for every connected cluster.
+#
+# The proxy ports bind on the node, so they must be free on every node the proxy
+# runs on, and at most one replica runs per node. The API server must also be
+# able to reach them, so on EKS allow them from the control plane in the node
+# security group. The baseline and restricted Pod Security Standards reject host
+# networking, so the release namespace must allow the privileged standard.
+#
+# Security risk: the proxy runs on the host network, so it can reach the node's
+# instance metadata service whatever its service account. On AWS that includes
+# the node's IAM role credentials. Restrict that at the node level if needed.
+hostNetworkProxy:
+  enabled: false
+  # The proxy runs Envoy's distroless image, which has no shell and runs as a
+  # non-root user. Pinned by digest; override it to pull from a mirror.
+  image: docker.io/envoyproxy/envoy:distroless-v1.40.2@sha256:09ca6f2140a61ad8df11779a4a30d52b48433d444466328494f9188c9c35eded
+  # Image pull secrets for the proxy's own service account, for example when
+  # the image is pulled from a private mirror. Defaults to
+  # serviceAccount.imagePullSecrets.
+  imagePullSecrets: []
+  replicas: 1
+  # The ports the proxy listens on. Change them when they clash with other
+  # listeners on the node.
+  ports:
+    # Forwards to the management.loft.sh APIService. Not used when agentOnly
+    # is true or apiservice.create is false.
+    apiService: 8443
+    # Forwards to the cluster.loft.sh APIService. Not used when
+    # apiservice.create is false.
+    agentAPIService: 9444
+    # Forwards to the admission webhook. Not used when webhook.create is
+    # false.
+    webhook: 9443
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      memory: 128Mi
+  # A rollout starts the new pod before stopping the old one. The new pod
+  # needs a node where the proxy ports are free, so when no such node exists
+  # (a single node cluster, or as many replicas as nodes the proxy can run on)
+  # the new pod stays Pending and the rollout stalls while the old pod keeps
+  # serving. In that case use Recreate: it briefly disrupts the APIServices and
+  # webhook on each rollout, but allows the rollout to complete.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+
 # Configures structured logging within Loft
 logging:
   encoding: console # Can be either json or console

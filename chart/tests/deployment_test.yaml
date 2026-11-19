@@ -1536,6 +1536,16 @@ tests:
                 fieldPath: status.podIP
           count: 1
 
+  - it: keeps the platform pod on the pod network when the host network proxy is enabled
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - notExists:
+          path: spec.template.spec.hostNetwork
+      - notExists:
+          path: spec.template.spec.dnsPolicy
+
   - it: Head chart sentinel "0.0.0-latest" resolves the vcluster-platform image to the "head" tag
     chart:
       version: 0.0.0-latest
