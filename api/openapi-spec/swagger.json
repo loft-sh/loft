@@ -13069,6 +13069,19 @@
       ],
       "type": "object"
     },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NICoEndpoints": {
+      "description": "NICoEndpoints are the NICo services a provider talks to.",
+      "properties": {
+        "api": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ServiceEndpoint",
+          "description": "API is the NICo REST API. The /v2/org/{org}/nico path is appended by the client, and its URL is also the audience of the tokens the platform signs for it, which NICo matches exactly."
+        }
+      },
+      "required": [
+        "api"
+      ],
+      "type": "object"
+    },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NICoIdentity": {
       "description": "NICoIdentity selects the source of the tokens the platform uses to authenticate to the NICo REST API. Exactly one source is configured; today only platform-issued tokens are supported.",
       "properties": {
@@ -13741,15 +13754,19 @@
       "description": "NodeProviderNICo configures a node provider backed by the NVIDIA Infra Controller (NICo) REST API. Platform workloads use the provider org. Tenant workloads use an org named after their Tenant; the platform owns the tenant-org namespace of this NICo instance.",
       "properties": {
         "endpoint": {
-          "description": "Endpoint is the base URL (scheme + host + optional port) of the NICo REST API. The /v2/org/{org}/nico path is appended by the client.",
+          "description": "Deprecated: use endpoints.api.url. Read only while endpoints is unset.",
           "type": "string"
+        },
+        "endpoints": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NICoEndpoints",
+          "description": "Endpoints are the NICo services this provider talks to. Set this or the deprecated endpoint, not both."
         },
         "identity": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NICoIdentity",
           "description": "Identity selects how the platform authenticates to the NICo REST API. Platform-issued JWTs are currently the only supported source, so identity.platformIssued.enabled must be true. The block is structured so additional identity sources can be added later."
         },
         "insecureSkipTLSVerify": {
-          "description": "InsecureSkipTLSVerify disables TLS certificate verification against the NICo endpoint. Intended for development and test only.",
+          "description": "Deprecated: use endpoints.api.insecureSkipTLSVerify. Read only while endpoints is unset.",
           "type": "boolean"
         },
         "networkMode": {
@@ -13780,9 +13797,6 @@
           "type": "string"
         }
       },
-      "required": [
-        "endpoint"
-      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeProviderSpec": {
@@ -14410,6 +14424,23 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.ServiceEndpoint": {
+      "description": "ServiceEndpoint is how the platform reaches one HTTP service.",
+      "properties": {
+        "insecureSkipTLSVerify": {
+          "description": "InsecureSkipTLSVerify disables verification of the service's server certificate. Intended for development and test only.",
+          "type": "boolean"
+        },
+        "url": {
+          "description": "URL is the base URL of the service: a scheme, a host and an optional port.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.SpaceInstanceTemplateDefinition": {
@@ -15122,12 +15153,16 @@
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.TenantNICoStatus": {
       "description": "TenantNICoStatus reports the NICo tenant org materialized for a Tenant and the NICo provider it is bound to, and is set by the platform. A Tenant is bound to a single NICo provider, and so to a single NICo site.",
       "properties": {
+        "api": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ServiceEndpoint",
+          "description": "API is the NICo REST API endpoint taken from that NodeProvider. The Tenant is released through it, also after the NodeProvider is gone."
+        },
         "endpoint": {
-          "description": "Endpoint is the NICo REST API endpoint taken from that NodeProvider.",
+          "description": "Deprecated: use api.url. Read only while api is unset, and still written so a platform without api can release the Tenant.",
           "type": "string"
         },
         "insecureSkipTLSVerify": {
-          "description": "InsecureSkipTLSVerify reports whether TLS verification is skipped when reaching the NICo endpoint.",
+          "description": "Deprecated: use api.insecureSkipTLSVerify. Read only while api is unset, and still written so a platform without api can release the Tenant.",
           "type": "boolean"
         },
         "ipBlockId": {
