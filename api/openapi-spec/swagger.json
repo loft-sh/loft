@@ -4220,6 +4220,10 @@
           "description": "DisplayName is the name that should be displayed in the UI.",
           "type": "string"
         },
+        "machines": {
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineSelection",
+          "description": "Machines are the machines the profile applies to across all node providers. Unset selects no machine, and an empty selector selects every machine."
+        },
         "outOfBand": {
           "description": "OutOfBand holds the checks the controller reads from a BMC without running anything on the machine, such as firmware settings.",
           "items": {
@@ -13647,17 +13651,13 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
-        "hostValidationProfiles": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeHostValidationProfiles",
-          "description": "HostValidationProfiles selects the HostValidationProfiles a Machine has to match before this NodeType picks it."
-        },
         "machineAllocationPolicy": {
           "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "machines": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeMachines",
-          "description": "Machines selects the provider's Machines this NodeType draws from."
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineSelection",
+          "description": "Machines selects the provider's Machines this NodeType draws from. Unset or empty selects every Machine of the provider."
         },
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
@@ -13699,7 +13699,7 @@
       "description": "MachineOutOfBandValidationStatus is a machine's last check against its host validation profiles.",
       "properties": {
         "profiles": {
-          "description": "Profiles holds one result per host validation profile the machine was checked against, by profile name. A profile added to a node type after this check has no entry, and does not count as matched.",
+          "description": "Profiles holds one result per host validation profile the machine was checked against, by profile name. A profile that started selecting the machine after this check has no entry, and does not count as matched.",
           "items": {
             "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineHostValidationProfileResult"
           },
@@ -13712,6 +13712,16 @@
         "readTime": {
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",
           "description": "ReadTime is when the settings behind the profile results were read. The retry of a RebootRequired or ReadFailed profile counts from it."
+        }
+      },
+      "type": "object"
+    },
+    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineSelection": {
+      "description": "MachineSelection selects Machines by their labels.",
+      "properties": {
+        "selector": {
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
+          "description": "Selector is matched against Machine labels. A Machine carries its provider record's labels (BareMetalHost, NICo machine) except platform keys, plus labels set on the Machine itself."
         }
       },
       "type": "object"
@@ -13987,17 +13997,13 @@
           "description": "DisplayName is the name that should be displayed in the UI",
           "type": "string"
         },
-        "hostValidationProfiles": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeHostValidationProfiles",
-          "description": "HostValidationProfiles selects the HostValidationProfiles a Machine has to match before this NodeType picks it."
-        },
         "machineAllocationPolicy": {
           "description": "MachineAllocationPolicy selects the machines a tenant's NodeClaims of this type may use: Assigned uses only those the tenant owns or was assigned exclusively, OnDemand uses only those no tenant owns or holds, never the tenant's own or another tenant's. Claims no tenant owns reach unassigned machines either way. Honored by metal3 and nico; externalPlatform node types mirror the remote's value. kubevirt ignores it and runs every VM on the cluster's shared nodes. Empty falls back to the provider's spec.machineAllocationPolicy, then to OnDemand for kubevirt and Assigned for the rest.",
           "type": "string"
         },
         "machines": {
-          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeMachines",
-          "description": "Machines selects the provider's Machines this NodeType draws from."
+          "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.MachineSelection",
+          "description": "Machines selects the provider's Machines this NodeType draws from. Unset or empty selects every Machine of the provider."
         },
         "metadata": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ManagedNodeTypeObjectMeta",
@@ -14077,7 +14083,7 @@
         },
         "bmcProxy": {
           "$ref": "#/definitions/com.github.loft-sh.api.v5.pkg.apis.storage.v1.ServiceEndpoint",
-          "description": "BMCProxy is the nico-bmc-proxy this provider's machines are read through. It authenticates the platform by client certificate and forwards Redfish reads to a machine's BMC, so the platform never holds a BMC credential itself. Without it, a machine of this provider whose node type selects a host validation profile fails that profile as Unsupported rather than silently passing it."
+          "description": "BMCProxy is the nico-bmc-proxy this provider's machines are read through. It authenticates the platform by client certificate and forwards Redfish reads to a machine's BMC, so the platform never holds a BMC credential itself. Without it, a machine of this provider that a host validation profile selects reports Unsupported."
         }
       },
       "required": [
@@ -15042,26 +15048,6 @@
         "total",
         "claimed"
       ],
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeHostValidationProfiles": {
-      "description": "NodeTypeHostValidationProfiles selects the host validation profiles a node type requires.",
-      "properties": {
-        "selector": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
-          "description": "Selector is matched against the labels of the platform's HostValidationProfiles. Unset selects none, so the node type picks machines as it did before host validation existed; an empty selector selects every profile."
-        }
-      },
-      "type": "object"
-    },
-    "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeMachines": {
-      "description": "NodeTypeMachines selects the machines a node type draws from.",
-      "properties": {
-        "selector": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector",
-          "description": "Selector is matched against the labels of this provider's Machines. A Machine carries its provider record's labels (BareMetalHost, NICo machine) except platform keys, plus labels set on the Machine itself. Unset or empty selects every Machine of the provider."
-        }
-      },
       "type": "object"
     },
     "com.github.loft-sh.api.v5.pkg.apis.storage.v1.NodeTypeOverhead": {
