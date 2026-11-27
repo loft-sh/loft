@@ -1,5 +1,4 @@
-{{- if .Values.webhook }}
-{{- if .Values.webhook.create }}
+{{- if include "loft.webhookServiceEnabled" . }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -15,10 +14,9 @@ spec:
   ports:
     - name: https-webhook
       port: 443
-      targetPort: 9443
+      targetPort: {{ if include "loft.hostNetworkProxyEnabled" . }}{{ .Values.hostNetworkProxy.ports.webhook }}{{ else }}9443{{ end }}
       protocol: TCP
   selector:
-    app: {{ template "loft.fullname" . }}
+    app: {{ include "loft.apiServerBackendApp" . }}
     release: {{ .Release.Name }}
-{{- end }}
 {{- end }}

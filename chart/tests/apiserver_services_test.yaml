@@ -1,0 +1,233 @@
+suite: Services the Kubernetes API server connects to
+templates:
+  - apiservice.yaml
+  - webhook.yaml
+
+tests:
+  - it: selects the platform pod by default
+    release:
+      name: loft
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: selects the proxy pod when the host network proxy is enabled
+    release:
+      name: loft
+    set:
+      hostNetworkProxy:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft-hostnetwork-proxy
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: targets the platform ports by default
+    asserts:
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 8443
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 9444
+        documentSelector:
+          path: metadata.name
+          value: loft-apiservice-agent
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 9443
+        documentSelector:
+          path: metadata.name
+          value: loft-webhook-agent
+
+  - it: keeps selecting the platform pod when the host network proxy is enabled in embedded mode
+    release:
+      name: loft
+    set:
+      hostNetworkProxy:
+        enabled: true
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: selects the platform pod when the hostNetworkProxy values are missing, as after a --reuse-values upgrade
+    release:
+      name: loft
+    set:
+      hostNetworkProxy: null
+    asserts:
+      - equal:
+          path: spec.selector
+          value:
+            app: loft
+            release: loft
+        documentSelector:
+          path: kind
+          value: Service
+          matchMany: true
+
+  - it: renders the management APIService and all three Services by default
+    asserts:
+      - containsDocument:
+          kind: APIService
+          apiVersion: apiregistration.k8s.io/v1
+          name: v1.management.loft.sh
+          any: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice
+          any: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice-agent
+          any: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-webhook-agent
+          any: true
+        template: webhook.yaml
+
+  - it: skips the management APIService and its Service in agentOnly mode
+    set:
+      agentOnly: true
+    asserts:
+      - containsDocument:
+          kind: APIService
+          apiVersion: apiregistration.k8s.io/v1
+          name: v1.management.loft.sh
+          any: true
+        not: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice
+          any: true
+        not: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice-agent
+          any: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-webhook-agent
+          any: true
+        template: webhook.yaml
+
+  - it: skips the management APIService and its Service when the database config enables embedded mode
+    set:
+      config:
+        database:
+          enabled: true
+    asserts:
+      - containsDocument:
+          kind: APIService
+          apiVersion: apiregistration.k8s.io/v1
+          name: v1.management.loft.sh
+          any: true
+        not: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice
+          any: true
+        not: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice-agent
+          any: true
+        template: apiservice.yaml
+
+  - it: skips the management APIService and its Service when the env var enables embedded mode
+    set:
+      env:
+        LOFT_EMBEDDED_K8S: "true"
+    asserts:
+      - containsDocument:
+          kind: APIService
+          apiVersion: apiregistration.k8s.io/v1
+          name: v1.management.loft.sh
+          any: true
+        not: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice
+          any: true
+        not: true
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice-agent
+          any: true
+        template: apiservice.yaml
+
+  - it: renders no APIService Services when apiservice.create is false
+    set:
+      apiservice:
+        create: false
+    asserts:
+      - hasDocuments:
+          count: 0
+        template: apiservice.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-webhook-agent
+          any: true
+        template: webhook.yaml
+
+  - it: renders no webhook Service when webhook.create is false
+    set:
+      webhook:
+        create: false
+    asserts:
+      - hasDocuments:
+          count: 0
+        template: webhook.yaml
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: loft-apiservice-agent
+          any: true
+        template: apiservice.yaml
