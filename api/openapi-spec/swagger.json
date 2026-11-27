@@ -12386,7 +12386,7 @@
           "type": "array"
         },
         "type": {
-          "description": "Type of the OIDC to show in the UI. Only for displaying purposes",
+          "description": "Type of the OIDC provider. Enables provider-specific behavior for supported providers, for example \"cognito\" for Amazon Cognito.",
           "type": "string"
         },
         "usernameClaim": {
